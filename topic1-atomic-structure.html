@@ -1,0 +1,661 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Topic 1 — Atomic Structure | Edexcel 9CH0</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#161b22;
+    --panel-2:#1c2330;
+    --border:#2a3140;
+    --text:#e6edf3;
+    --muted:#8b96a5;
+    --accent:#4fd1c5;
+    --accent-2:#a78bfa;
+    --amber:#f2c94c;
+    --danger:#ff6b6b;
+    --good:#6fcf97;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:radial-gradient(circle at 20% -10%, #17202e 0%, var(--bg) 45%);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+    padding-bottom:60px;
+  }
+  header.hero{
+    padding:34px 20px 26px;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(79,209,197,0.08), transparent 70%);
+  }
+  .eyebrow{
+    color:var(--accent);
+    font-size:12.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:700;
+    margin:0 0 8px;
+  }
+  h1{
+    margin:0 0 6px;
+    font-size:26px;
+    line-height:1.25;
+  }
+  .subtitle{color:var(--muted); font-size:14.5px; max-width:620px;}
+  .progress-wrap{
+    max-width:900px; margin:22px auto 0; padding:0 20px;
+  }
+  .progress-bar-track{
+    height:9px; border-radius:99px; background:var(--panel-2); overflow:hidden; border:1px solid var(--border);
+  }
+  .progress-bar-fill{
+    height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    transition:width .35s ease;
+  }
+  .progress-label{
+    display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-top:6px;
+  }
+  main{max-width:900px; margin:26px auto; padding:0 20px;}
+
+  nav.toc{
+    display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;
+  }
+  nav.toc a{
+    color:var(--text); text-decoration:none; font-size:13px; padding:7px 12px;
+    background:var(--panel); border:1px solid var(--border); border-radius:99px;
+  }
+  nav.toc a:hover{border-color:var(--accent); color:var(--accent);}
+
+  section.topic{
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:var(--radius);
+    margin-bottom:18px;
+    overflow:hidden;
+  }
+  .topic-head{
+    display:flex; align-items:center; gap:12px; padding:16px 18px;
+    cursor:pointer; user-select:none;
+  }
+  .topic-num{
+    flex:0 0 auto; width:34px; height:34px; border-radius:9px;
+    background:var(--panel-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; color:var(--accent); font-size:14px;
+  }
+  .topic-title{flex:1; font-size:16.5px; font-weight:700;}
+  .topic-meta{font-size:12px; color:var(--muted);}
+  .chevron{
+    transition:transform .25s ease; color:var(--muted); flex:0 0 auto;
+  }
+  section.topic.open .chevron{transform:rotate(180deg);}
+  .topic-body{
+    max-height:0; overflow:hidden; transition:max-height .35s ease;
+    padding:0 18px;
+  }
+  section.topic.open .topic-body{padding:0 18px 20px;}
+
+  .note-block{
+    background:var(--panel-2); border:1px solid var(--border); border-radius:10px;
+    padding:14px 16px; margin:12px 0; font-size:14.5px;
+  }
+  .note-block h4{margin:0 0 8px; font-size:13.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  .note-block ul{margin:6px 0; padding-left:20px;}
+  .note-block li{margin-bottom:6px;}
+  .note-block p{margin:6px 0;}
+  .eq{
+    display:inline-block; background:#0f1420; border:1px solid var(--border); border-radius:6px;
+    padding:2px 8px; font-family:"SF Mono",Consolas,monospace; font-size:13.5px; color:var(--amber);
+  }
+  .warn{
+    border-left:3px solid var(--danger); padding-left:12px; margin:10px 0; font-size:13.5px; color:#ffb4b4;
+  }
+  .tip{
+    border-left:3px solid var(--good); padding-left:12px; margin:10px 0; font-size:13.5px; color:#b7f0c9;
+  }
+
+  .flash-grid{
+    display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px;
+  }
+  @media(min-width:640px){ .flash-grid{grid-template-columns:1fr 1fr;} }
+
+  .flash{
+    background:#0f1420; border:1px solid var(--border); border-radius:12px;
+    padding:14px 16px; cursor:pointer; position:relative; min-height:78px;
+    display:flex; align-items:center;
+  }
+  .flash .q, .flash .a{width:100%;}
+  .flash .a{display:none; color:var(--accent);}
+  .flash.flipped .q{display:none;}
+  .flash.flipped .a{display:block;}
+  .flash .tag{
+    position:absolute; top:8px; right:10px; font-size:10px; letter-spacing:.08em;
+    color:var(--muted); text-transform:uppercase;
+  }
+  .flash:active{border-color:var(--accent);}
+
+  .checklist{margin-top:10px;}
+  .check-item{
+    display:flex; align-items:flex-start; gap:10px; padding:8px 0;
+    border-bottom:1px dashed var(--border); font-size:14px;
+  }
+  .check-item:last-child{border-bottom:none;}
+  .check-item input{
+    margin-top:3px; width:18px; height:18px; accent-color:var(--accent); flex:0 0 auto;
+  }
+  .check-item label{flex:1;}
+  .check-item.done label{color:var(--muted); text-decoration:line-through;}
+
+  .section-progress{
+    font-size:11.5px; color:var(--muted); margin-left:auto; flex:0 0 auto;
+  }
+
+  .reset-row{
+    display:flex; justify-content:flex-end; margin-top:18px;
+  }
+  .reset-btn{
+    background:none; border:1px solid var(--border); color:var(--muted);
+    padding:8px 14px; border-radius:99px; font-size:12.5px; cursor:pointer;
+  }
+  .reset-btn:hover{color:var(--danger); border-color:var(--danger);}
+
+  table.datatable{width:100%; border-collapse:collapse; margin:10px 0; font-size:13.5px;}
+  table.datatable th, table.datatable td{border:1px solid var(--border); padding:6px 10px; text-align:left;}
+  table.datatable th{background:var(--panel); color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">Edexcel A Level Chemistry · 9CH0</p>
+  <h1>Topic 1 — Atomic Structure &amp; the Periodic Table</h1>
+  <p class="subtitle">Super detailed notes + flip flashcards + checklist. Tap any section to expand, tap a flashcard to reveal the answer. Progress is saved on this device.</p>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 checkpoints complete</span><span>Topic 1</span></div>
+</div>
+
+<main>
+  <nav class="toc">
+    <a href="#t1">1.1 Fundamental Particles &amp; Isotopes</a>
+    <a href="#t2">1.2 Mass Spectrometry (TOF)</a>
+    <a href="#t3">1.3 Electron Structure</a>
+    <a href="#t4">1.4 Ionisation Energy</a>
+    <a href="#t5">1.5 Periodicity (Period 3)</a>
+  </nav>
+
+  <!-- 1.1 -->
+  <section class="topic open" id="t1">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">1.1</div>
+      <div class="topic-title">Fundamental Particles &amp; Isotopes</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+
+      <div class="note-block">
+        <h4>Sub-atomic particles</h4>
+        <table class="datatable">
+          <tr><th>Particle</th><th>Relative mass</th><th>Relative charge</th><th>Location</th></tr>
+          <tr><td>Proton</td><td>1</td><td>+1</td><td>Nucleus</td></tr>
+          <tr><td>Neutron</td><td>1</td><td>0</td><td>Nucleus</td></tr>
+          <tr><td>Electron</td><td>1/1840 (≈0.0005)</td><td>−1</td><td>Shells around nucleus</td></tr>
+        </table>
+        <p class="tip">Learning tip: the electron's mass is so small it's usually treated as negligible when calculating the mass of an atom — but never treat its charge as negligible.</p>
+      </div>
+
+      <div class="note-block">
+        <h4>Key numbers</h4>
+        <ul>
+          <li><strong>Atomic number (Z)</strong> = number of protons = number of electrons in a neutral atom. Defines the element.</li>
+          <li><strong>Mass number (A)</strong> = number of protons + number of neutrons.</li>
+          <li>Number of neutrons = A − Z.</li>
+        </ul>
+      </div>
+
+      <div class="note-block">
+        <h4>Isotopes</h4>
+        <p>Isotopes are atoms of the <strong>same element</strong> (same number of protons/atomic number) with a <strong>different number of neutrons</strong> (different mass number).</p>
+        <ul>
+          <li>Same chemical properties — chemical behaviour is governed by electron configuration, which is identical between isotopes.</li>
+          <li>Slightly different physical properties that depend on mass — e.g. density, rate of diffusion, rate of effusion.</li>
+        </ul>
+        <div class="warn">Common slip: don't say isotopes have "the same properties" without qualifying chemical vs physical — examiners want the distinction stated explicitly.</div>
+      </div>
+
+      <div class="note-block">
+        <h4>Relative atomic mass (A<sub>r</sub>)</h4>
+        <p>Definition: the <strong>weighted mean mass</strong> of an atom of an element, relative to 1/12th the mass of an atom of carbon-12, taking into account the relative abundances of its isotopes.</p>
+        <p class="eq">A_r = Σ(isotopic mass × % abundance) ÷ 100</p>
+        <p class="tip">Worked example: Chlorine is 75% ³⁵Cl and 25% ³⁷Cl.<br>
+        A_r = (35 × 75 + 37 × 25) ÷ 100 = (2625 + 925) ÷ 100 = 35.5</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define relative atomic mass, A<sub>r</sub>.</div>
+          <div class="a">The weighted mean mass of an atom of an element relative to 1/12 the mass of a carbon-12 atom, taking isotopic abundance into account.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define isotopes.</div>
+          <div class="a">Atoms of the same element (same number of protons) with different numbers of neutrons (different mass numbers).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">Relative mass and charge of a proton, neutron, electron?</div>
+          <div class="a">Proton: 1, +1. Neutron: 1, 0. Electron: ≈1/1840, −1.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Calculation</span>
+          <div class="q">Bromine is 50% ⁷⁹Br and 50% ⁸¹Br. Find A<sub>r</sub>.</div>
+          <div class="a">(79 × 50 + 81 × 50) ÷ 100 = 80</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t1">
+        <div class="check-item"><input type="checkbox" id="c1-1"><label for="c1-1">I can state the relative mass and charge of protons, neutrons and electrons</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-2"><label for="c1-2">I can define atomic number, mass number and isotopes</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-3"><label for="c1-3">I can define and calculate relative atomic mass from isotopic abundances</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-4"><label for="c1-4">I can explain why isotopes have identical chemical but different physical properties</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1.2 -->
+  <section class="topic" id="t2">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">1.2</div>
+      <div class="topic-title">Mass Spectrometry (Time-of-Flight)</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+
+      <div class="note-block">
+        <h4>The four stages — in order</h4>
+        <ul>
+          <li><strong>1. Ionisation</strong> — the sample is vaporised then ionised, most commonly by:
+            <ul>
+              <li><em>Electrospray ionisation</em>: sample dissolved in a volatile solvent, pushed through a fine needle at high voltage; each molecule gains a proton (H⁺) to form a molecular ion, M + H⁺ → MH⁺</li>
+              <li><em>Electron impact ionisation</em>: sample vaporised, bombarded with high-energy electrons, knocking out an electron to form a positive ion (X → X⁺ + e⁻); can also cause fragmentation</li>
+            </ul>
+          </li>
+          <li><strong>2. Acceleration</strong> — positive ions are accelerated by an electric field so that all ions leaving this stage have the <strong>same kinetic energy</strong>.</li>
+          <li><strong>3. Ion drift (flight tube)</strong> — ions travel down a tube with no electric/magnetic field. Because KE is equal for all ions, <span class="eq">½mv² = constant</span>, so lighter ions (smaller m/z) travel faster and arrive first.</li>
+          <li><strong>4. Detection</strong> — ions hit a detector, are neutralised by gaining an electron, and the resulting current is proportional to the abundance of ions arriving. This builds the mass spectrum (m/z on x-axis, relative abundance on y-axis).</li>
+        </ul>
+      </div>
+
+      <div class="note-block">
+        <h4>Reading the spectrum</h4>
+        <ul>
+          <li>Each peak's m/z corresponds to the mass of an isotope/fragment (since most ions formed are singly charged, m/z ≈ mass).</li>
+          <li>Peak height/intensity = relative abundance of that isotope or fragment.</li>
+          <li><strong>Molecular ion peak (M peak)</strong> = the peak with the highest m/z value (aside from minor isotope peaks) — gives the relative molecular mass, M<sub>r</sub>.</li>
+          <li><strong>M+1 peak</strong>: a small peak one mass unit higher than the M peak, caused by the natural ~1.1% abundance of carbon-13 in organic molecules. Becomes more significant (relatively taller) in larger molecules with more carbon atoms.</li>
+        </ul>
+      </div>
+
+      <div class="note-block">
+        <h4>Calculating A<sub>r</sub> or M<sub>r</sub> from spectrum data</h4>
+        <p class="eq">A_r = Σ(m/z of isotope × relative abundance) ÷ Σ(relative abundances)</p>
+        <div class="tip">For compounds, you're usually just asked to add up the A_r values of all atoms present — full isotopic-composition calculations for molecules (like Cl₂) are only needed for the trickier questions.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Sequence</span>
+          <div class="q">State the 4 stages of TOF mass spectrometry in order.</div>
+          <div class="a">Ionisation → Acceleration → Ion drift (flight tube) → Detection</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why do lighter ions reach the detector faster?</div>
+          <div class="a">All ions are given the same kinetic energy during acceleration. Since KE=½mv², for a fixed KE, smaller mass (m) means larger velocity (v), so lighter ions travel faster through the flight tube.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">What causes the M+1 peak in an organic mass spectrum?</div>
+          <div class="a">The natural presence of a small percentage of carbon-13 isotope in the molecule, adding 1 mass unit.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">Name two methods of ionisation used in mass spectrometry.</div>
+          <div class="a">Electrospray ionisation and electron impact ionisation.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t2">
+        <div class="check-item"><input type="checkbox" id="c2-1"><label for="c2-1">I can name and order the four stages of TOF mass spectrometry</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-2"><label for="c2-2">I can explain why time in the flight tube depends on m/z</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-3"><label for="c2-3">I can identify the M peak and explain the M+1 peak</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-4"><label for="c2-4">I can calculate A_r/M_r from given spectrum data</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1.3 -->
+  <section class="topic" id="t3">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">1.3</div>
+      <div class="topic-title">Electron Structure: Shells, Subshells &amp; Orbitals</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+
+      <div class="note-block">
+        <h4>Shells</h4>
+        <p>Electrons occupy quantum shells (principal quantum number, n = 1, 2, 3…) at increasing distance and energy from the nucleus. Maximum electrons in shell n = <span class="eq">2n²</span>.</p>
+      </div>
+
+      <div class="note-block">
+        <h4>Subshells</h4>
+        <p>Each shell (except shell 1) splits into subshells of slightly different energy, labelled s, p, d, f.</p>
+        <table class="datatable">
+          <tr><th>Shell (n)</th><th>Subshells present</th></tr>
+          <tr><td>1</td><td>1s</td></tr>
+          <tr><td>2</td><td>2s, 2p</td></tr>
+          <tr><td>3</td><td>3s, 3p, 3d</td></tr>
+          <tr><td>4</td><td>4s, 4p, 4d, 4f</td></tr>
+        </table>
+        <p>Max electrons per subshell: s = 2, p = 6, d = 10, f = 14.</p>
+      </div>
+
+      <div class="note-block">
+        <h4>Orbitals</h4>
+        <p>An orbital is a region of space with a 90% (or greater) probability of containing an electron. Each orbital holds a <strong>maximum of 2 electrons</strong>, which must have opposite spins.</p>
+        <ul>
+          <li><strong>s orbital</strong> — spherical; 1 per s subshell.</li>
+          <li><strong>p orbital</strong> — dumbbell-shaped; 3 per p subshell (p<sub>x</sub>, p<sub>y</sub>, p<sub>z</sub>), oriented at right angles to each other.</li>
+          <li><strong>d orbital</strong> — 5 per d subshell; shapes not required at this level.</li>
+        </ul>
+        <div class="tip">Hund's rule: electrons fill separate orbitals within a subshell singly (same spin) before any pairing occurs — minimises electron-electron repulsion.</div>
+      </div>
+
+      <div class="note-block">
+        <h4>Writing electron configurations</h4>
+        <p>Filling order (Aufbau principle, lowest energy first):</p>
+        <p class="eq">1s → 2s → 2p → 3s → 3p → 4s → 3d → 4p → 5s → 4d…</p>
+        <p>Example — sodium (Z=11): <span class="eq">1s² 2s² 2p⁶ 3s¹</span>, shorthand <span class="eq">[Ne] 3s¹</span></p>
+        <div class="warn">Key exception #1 — 4s fills <strong>before</strong> 3d (4s is lower energy in the neutral atom) but empties <strong>first</strong> when forming a positive ion (once occupied, 3d drops below 4s in energy). E.g. Fe is [Ar]3d⁶4s², but Fe²⁺ is [Ar]3d⁶ (not 3d⁴4s²).</div>
+        <div class="warn">Key exception #2 — Chromium and Copper: Cr is [Ar]3d⁵4s¹ (not 3d⁴4s²) and Cu is [Ar]3d¹⁰4s¹ (not 3d⁹4s²). A half-filled or fully-filled d subshell gives extra stability, so one 4s electron moves into the 3d subshell.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">Max electrons in s, p and d subshells?</div>
+          <div class="a">s = 2, p = 6, d = 10</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Exception</span>
+          <div class="q">Write the electron configuration of chromium (Z=24) and explain the anomaly.</div>
+          <div class="a">[Ar]3d⁵4s¹ (not 3d⁴4s²) — a half-filled d subshell (5 unpaired electrons) is more stable, so one 4s electron shifts into 3d.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define an atomic orbital.</div>
+          <div class="a">A region of space around the nucleus with a 90% (or greater) probability of containing an electron, holding a maximum of 2 electrons with opposite spins.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Ion</span>
+          <div class="q">Give the electron configuration of Fe²⁺ (Fe, Z=26).</div>
+          <div class="a">[Ar]3d⁶ — the two electrons lost come from 4s, not 3d, since 3d is lower energy once occupied.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Rule</span>
+          <div class="q">State Hund's rule.</div>
+          <div class="a">Electrons occupy separate orbitals of the same subshell singly, with parallel spin, before any pairing occurs.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Shape</span>
+          <div class="q">How many p orbitals are there per p subshell, and what shape are they?</div>
+          <div class="a">Three (p_x, p_y, p_z), each dumbbell-shaped, oriented at right angles to each other.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t3">
+        <div class="check-item"><input type="checkbox" id="c3-1"><label for="c3-1">I can state the number of subshells in shells 1–4 and electrons each can hold</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-2"><label for="c3-2">I can write full electron configurations for elements up to Z=36</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-3"><label for="c3-3">I can explain the Cr and Cu exceptions</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-4"><label for="c3-4">I can write electron configurations for transition metal ions (4s empties first)</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-5"><label for="c3-5">I can describe the shapes of s and p orbitals</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1.4 -->
+  <section class="topic" id="t4">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">1.4</div>
+      <div class="topic-title">Ionisation Energy</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+
+      <div class="note-block">
+        <h4>Definition — first ionisation energy</h4>
+        <p>The energy required to remove <strong>one electron from each atom in one mole of gaseous atoms</strong>, to form one mole of gaseous 1+ ions.</p>
+        <p class="eq">X(g) → X⁺(g) + e⁻</p>
+        <div class="warn">Every word in the definition is markable: "one electron", "each atom", "one mole", "gaseous atoms" (not solid/liquid), "gaseous 1+ ions". Missing "gaseous" is one of the most common lost marks.</div>
+      </div>
+
+      <div class="note-block">
+        <h4>Three factors that affect ionisation energy</h4>
+        <ul>
+          <li><strong>Nuclear charge</strong> — more protons → stronger attraction on outer electrons → higher IE.</li>
+          <li><strong>Atomic radius (distance)</strong> — electron further from the nucleus → weaker attraction → lower IE.</li>
+          <li><strong>Shielding</strong> — inner shell electrons repel/shield outer electrons from the full nuclear charge; more inner shells → more shielding → lower IE.</li>
+        </ul>
+        <div class="tip">Full-mark explanations must weigh up which factor dominates, not just list all three. E.g. down a group, radius and shielding effects outweigh the increase in nuclear charge.</div>
+      </div>
+
+      <div class="note-block">
+        <h4>Trend across a period (left to right)</h4>
+        <p>Generally <strong>increases</strong>: nuclear charge increases, shielding stays roughly constant (same shell), atomic radius decreases — so attraction on outer electron gets stronger.</p>
+        <p>Two anomalies (dips), e.g. across Period 2/3:</p>
+        <ul>
+          <li><strong>Group 2 → Group 3 dip</strong> (e.g. Mg→Al, Be→B): the outer electron in Group 3 is in a <strong>p</strong> subshell, which is higher energy and slightly further out/more shielded than the s subshell — easier to remove.</li>
+          <li><strong>Group 5 → Group 6 dip</strong> (e.g. P→S, N→O): Group 6 has its first paired p electron. Electron-electron repulsion in the paired orbital makes that electron easier to remove than a lone unpaired electron in Group 5.</li>
+        </ul>
+      </div>
+
+      <div class="note-block">
+        <h4>Trend down a group</h4>
+        <p><strong>Decreases</strong>: atomic radius and shielding both increase down a group, and these effects outweigh the increase in nuclear charge — so the outer electron is easier to remove.</p>
+      </div>
+
+      <div class="note-block">
+        <h4>Successive ionisation energies</h4>
+        <ul>
+          <li>Each successive IE is always <strong>higher</strong> than the last — removing an electron from an increasingly positive ion requires more energy (stronger electrostatic attraction, and fewer electrons repelling each other).</li>
+          <li><strong>Big jumps</strong> between successive IEs occur when the next electron removed comes from a shell closer to the nucleus (a new inner shell) — this is direct evidence for the existence of quantum shells.</li>
+          <li>Smaller step-changes within a shell's IEs can give evidence for subshells (e.g. a small jump when moving from removing p electrons to removing s electrons).</li>
+          <li>The position of a big jump tells you the number of outer-shell electrons, and therefore which group the element is in.</li>
+        </ul>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define first ionisation energy.</div>
+          <div class="a">The energy required to remove one electron from each atom in one mole of gaseous atoms, to form one mole of gaseous 1+ ions.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is there a drop in first IE from Mg to Al?</div>
+          <div class="a">Al's outer electron is in a 3p subshell, which is higher in energy (and slightly further out) than the 3s subshell in Mg, so it's easier to remove despite Al having a greater nuclear charge.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why does first IE decrease down a group?</div>
+          <div class="a">Atomic radius and shielding both increase down the group, and these effects outweigh the increased nuclear charge, so the outer electron is less strongly attracted and easier to remove.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Evidence</span>
+          <div class="q">What does a big jump in successive ionisation energies indicate?</div>
+          <div class="a">That the next electron is being removed from a shell closer to the nucleus (a new, lower shell) — evidence for the existence of quantum shells.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is there a drop in first IE from P to S?</div>
+          <div class="a">S has its first paired electron in a 3p orbital; the extra repulsion between paired electrons makes it easier to remove than P's unpaired outer electron.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t4">
+        <div class="check-item"><input type="checkbox" id="c4-1"><label for="c4-1">I can state the full definition of first ionisation energy with correct wording</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-2"><label for="c4-2">I can name and apply the 3 factors affecting ionisation energy</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-3"><label for="c4-3">I can explain both anomalies in the Period 2/3 IE trend</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-4"><label for="c4-4">I can explain the down-a-group trend</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-5"><label for="c4-5">I can interpret a successive ionisation energy graph to deduce group number</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 1.5 -->
+  <section class="topic" id="t5">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">1.5</div>
+      <div class="topic-title">Periodicity: Period 3 Physical Properties</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+
+      <div class="note-block">
+        <h4>Atomic radius across Period 3</h4>
+        <p><strong>Decreases</strong> from Na to Ar. Nuclear charge increases while shielding stays roughly constant (same number of shells), so the outer electrons are pulled in more tightly — smaller radius.</p>
+      </div>
+
+      <div class="note-block">
+        <h4>First ionisation energy across Period 3</h4>
+        <p>General <strong>increase</strong> from Na to Ar, with the same two anomalies as in 1.4 (dip at Al, dip at S) — same reasoning applies.</p>
+      </div>
+
+      <div class="note-block">
+        <h4>Melting point across Period 3</h4>
+        <table class="datatable">
+          <tr><th>Element</th><th>Na</th><th>Mg</th><th>Al</th><th>Si</th><th>P</th><th>S</th><th>Cl</th><th>Ar</th></tr>
+          <tr><td>Structure</td><td colspan="3">Giant metallic</td><td>Giant covalent</td><td colspan="4">Simple molecular / monatomic</td></tr>
+        </table>
+        <ul>
+          <li><strong>Na → Al:</strong> melting point rises. All are giant metallic lattices; going Na→Mg→Al, the number of delocalised electrons per atom increases (1, 2, 3) and ionic radius decreases, so metallic bonding gets stronger, requiring more energy to melt.</li>
+          <li><strong>Si:</strong> huge peak — giant covalent (macromolecular) structure where every atom is joined by strong covalent bonds throughout the lattice; a large amount of energy is needed to break these bonds.</li>
+          <li><strong>P, S, Cl, Ar:</strong> melting points are much lower and drop off — these exist as simple molecules (P₄, S₈, Cl₂) or monatomic (Ar), held together in the solid by weak London (van der Waals) forces between molecules. Melting only needs to overcome these weak intermolecular forces, not any covalent bonds.</li>
+          <li>Within this last group, S₈ &gt; P₄ &gt; Cl₂ &gt; Ar because larger/more electrons in the molecule = stronger London forces (S₈ has the most electrons and the largest molecule of the four).</li>
+        </ul>
+        <div class="warn">Common error: saying Si has a low melting point "because it's non-metal" — Si is a giant covalent structure with one of the highest melting points in the period. Don't confuse "non-metal" with "simple molecular."</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why does atomic radius decrease across Period 3?</div>
+          <div class="a">Nuclear charge increases while shielding stays about the same (same shell), so outer electrons are pulled closer to the nucleus.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why does melting point rise from Na to Al?</div>
+          <div class="a">Number of delocalised electrons per atom increases (1→2→3) and ionic radius decreases, strengthening the metallic bonding, so more energy is needed to melt.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why does silicon have the highest melting point in Period 3?</div>
+          <div class="a">Silicon is a giant covalent (macromolecular) structure — every atom is bonded to its neighbours by strong covalent bonds throughout the lattice, requiring a large amount of energy to break.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why do P, S, Cl and Ar have much lower melting points than Na–Si?</div>
+          <div class="a">They exist as simple molecules or monatomic atoms held together only by weak London (van der Waals) forces, which take much less energy to overcome than breaking covalent or metallic bonds.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t5">
+        <div class="check-item"><input type="checkbox" id="c5-1"><label for="c5-1">I can explain the atomic radius trend across Period 3</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-2"><label for="c5-2">I can explain the melting point trend Na→Al (metallic bonding)</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-3"><label for="c5-3">I can explain why Si has the highest melting point (giant covalent)</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-4"><label for="c5-4">I can explain the drop and relative order for P, S, Cl, Ar</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetProgress()">Reset checklist progress</button>
+  </div>
+</main>
+
+<script>
+  function toggleTopic(headEl){
+    const section = headEl.parentElement;
+    document.querySelectorAll('section.topic').forEach(s=>{
+      if(s!==section){ s.classList.remove('open'); s.querySelector('.topic-body').style.maxHeight=null; }
+    });
+    section.classList.toggle('open');
+    const body = section.querySelector('.topic-body');
+    body.style.maxHeight = section.classList.contains('open') ? body.scrollHeight + 'px' : null;
+  }
+
+  const STORAGE_KEY = 'chem-topic1-checklist';
+
+  function loadProgress(){
+    let saved = {};
+    try{ saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ saved = {}; }
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      if(saved[box.id]){ box.checked = true; box.closest('.check-item').classList.add('done'); }
+      box.addEventListener('change', ()=>{
+        box.closest('.check-item').classList.toggle('done', box.checked);
+        saveProgress();
+        updateProgressBar();
+      });
+    });
+    updateProgressBar();
+  }
+
+  function saveProgress(){
+    const state = {};
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      state[box.id] = box.checked;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateProgressBar(){
+    const boxes = document.querySelectorAll('.check-item input[type=checkbox]');
+    const total = boxes.length;
+    const done = Array.from(boxes).filter(b=>b.checked).length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total + ' checkpoints complete';
+  }
+
+  function resetProgress(){
+    if(!confirm('Clear all checklist progress for Topic 1?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      box.checked = false;
+      box.closest('.check-item').classList.remove('done');
+    });
+    updateProgressBar();
+  }
+
+  // open first section by default and set its max-height correctly after layout
+  window.addEventListener('DOMContentLoaded', ()=>{
+    loadProgress();
+    const openSection = document.querySelector('section.topic.open');
+    if(openSection){
+      const body = openSection.querySelector('.topic-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>
