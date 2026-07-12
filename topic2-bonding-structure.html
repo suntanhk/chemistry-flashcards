@@ -1,0 +1,706 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Topic 2 — Bonding & Structure | Edexcel 9CH0</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#161b22;
+    --panel-2:#1c2330;
+    --border:#2a3140;
+    --text:#e6edf3;
+    --muted:#8b96a5;
+    --accent:#4fd1c5;
+    --accent-2:#a78bfa;
+    --amber:#f2c94c;
+    --danger:#ff6b6b;
+    --good:#6fcf97;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:radial-gradient(circle at 20% -10%, #17202e 0%, var(--bg) 45%);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+    padding-bottom:60px;
+  }
+  header.hero{
+    padding:34px 20px 26px;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(79,209,197,0.08), transparent 70%);
+  }
+  .eyebrow{
+    color:var(--accent);
+    font-size:12.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:700;
+    margin:0 0 8px;
+  }
+  h1{margin:0 0 6px; font-size:26px; line-height:1.25;}
+  .subtitle{color:var(--muted); font-size:14.5px; max-width:620px;}
+  .progress-wrap{max-width:900px; margin:22px auto 0; padding:0 20px;}
+  .progress-bar-track{
+    height:9px; border-radius:99px; background:var(--panel-2); overflow:hidden; border:1px solid var(--border);
+  }
+  .progress-bar-fill{
+    height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    transition:width .35s ease;
+  }
+  .progress-label{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-top:6px;}
+  main{max-width:900px; margin:26px auto; padding:0 20px;}
+  nav.toc{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  nav.toc a{
+    color:var(--text); text-decoration:none; font-size:13px; padding:7px 12px;
+    background:var(--panel); border:1px solid var(--border); border-radius:99px;
+  }
+  nav.toc a:hover{border-color:var(--accent); color:var(--accent);}
+  section.topic{
+    background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
+    margin-bottom:18px; overflow:hidden;
+  }
+  .topic-head{display:flex; align-items:center; gap:12px; padding:16px 18px; cursor:pointer; user-select:none;}
+  .topic-num{
+    flex:0 0 auto; width:34px; height:34px; border-radius:9px;
+    background:var(--panel-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; color:var(--accent); font-size:13px;
+  }
+  .topic-title{flex:1; font-size:16.5px; font-weight:700;}
+  .chevron{transition:transform .25s ease; color:var(--muted); flex:0 0 auto;}
+  section.topic.open .chevron{transform:rotate(180deg);}
+  .topic-body{max-height:0; overflow:hidden; transition:max-height .35s ease; padding:0 18px;}
+  section.topic.open .topic-body{padding:0 18px 20px;}
+  .note-block{
+    background:var(--panel-2); border:1px solid var(--border); border-radius:10px;
+    padding:14px 16px; margin:12px 0; font-size:14.5px;
+  }
+  .note-block h4{margin:0 0 8px; font-size:13.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  .note-block ul{margin:6px 0; padding-left:20px;}
+  .note-block li{margin-bottom:6px;}
+  .note-block p{margin:6px 0;}
+  .eq{
+    display:inline-block; background:#0f1420; border:1px solid var(--border); border-radius:6px;
+    padding:2px 8px; font-family:"SF Mono",Consolas,monospace; font-size:13.5px; color:var(--amber);
+  }
+  .warn{border-left:3px solid var(--danger); padding-left:12px; margin:10px 0; font-size:13.5px; color:#ffb4b4;}
+  .tip{border-left:3px solid var(--good); padding-left:12px; margin:10px 0; font-size:13.5px; color:#b7f0c9;}
+  .flash-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px;}
+  @media(min-width:640px){ .flash-grid{grid-template-columns:1fr 1fr;} }
+  .flash{
+    background:#0f1420; border:1px solid var(--border); border-radius:12px;
+    padding:14px 16px; cursor:pointer; position:relative; min-height:78px;
+    display:flex; align-items:center;
+  }
+  .flash .q, .flash .a{width:100%;}
+  .flash .a{display:none; color:var(--accent);}
+  .flash.flipped .q{display:none;}
+  .flash.flipped .a{display:block;}
+  .flash .tag{
+    position:absolute; top:8px; right:10px; font-size:10px; letter-spacing:.08em;
+    color:var(--muted); text-transform:uppercase;
+  }
+  .flash:active{border-color:var(--accent);}
+  .checklist{margin-top:10px;}
+  .check-item{
+    display:flex; align-items:flex-start; gap:10px; padding:8px 0;
+    border-bottom:1px dashed var(--border); font-size:14px;
+  }
+  .check-item:last-child{border-bottom:none;}
+  .check-item input{margin-top:3px; width:18px; height:18px; accent-color:var(--accent); flex:0 0 auto;}
+  .check-item label{flex:1;}
+  .check-item.done label{color:var(--muted); text-decoration:line-through;}
+  .reset-row{display:flex; justify-content:flex-end; margin-top:18px;}
+  .reset-btn{
+    background:none; border:1px solid var(--border); color:var(--muted);
+    padding:8px 14px; border-radius:99px; font-size:12.5px; cursor:pointer;
+  }
+  .reset-btn:hover{color:var(--danger); border-color:var(--danger);}
+  table.datatable{width:100%; border-collapse:collapse; margin:10px 0; font-size:13px;}
+  table.datatable th, table.datatable td{border:1px solid var(--border); padding:7px 9px; text-align:left; vertical-align:top;}
+  table.datatable th{background:var(--panel); color:var(--accent); font-size:11.5px; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">Edexcel A Level Chemistry · 9CH0</p>
+  <h1>Topic 2 — Bonding &amp; Structure</h1>
+  <p class="subtitle">Super detailed notes + flip flashcards + checklist. Tap any section to expand, tap a flashcard to reveal the answer. Progress is saved on this device.</p>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 checkpoints complete</span><span>Topic 2</span></div>
+</div>
+
+<main>
+  <nav class="toc">
+    <a href="#t1">2.1 Metallic Bonding</a>
+    <a href="#t2">2.2 Ionic Bonding</a>
+    <a href="#t3">2.3 Covalent Bonding</a>
+    <a href="#t4">2.4 Electronegativity &amp; Polarity</a>
+    <a href="#t5">2.5 Dative Covalent Bonding</a>
+    <a href="#t6">2.6 Shapes of Molecules</a>
+    <a href="#t7">2.7 Intermolecular Forces</a>
+    <a href="#t8">2.8 Giant Structures &amp; Properties</a>
+  </nav>
+
+  <!-- 2.1 -->
+  <section class="topic open" id="t1">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">2.1</div>
+      <div class="topic-title">Metallic Bonding</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Definition</h4>
+        <p>Metallic bonding is the <strong>strong electrostatic attraction between the nuclei of metal cations and the delocalised electrons</strong> surrounding them, extending throughout a giant lattice.</p>
+        <p>Delocalised electrons are outer-shell electrons that are not associated with any single atom or single bond — they are free to move throughout the whole structure (the "sea of electrons" model).</p>
+      </div>
+      <div class="note-block">
+        <h4>What affects the strength of metallic bonding</h4>
+        <ul>
+          <li><strong>Number of delocalised electrons per atom</strong> (related to the charge on the cation) — more delocalised electrons means stronger attraction.</li>
+          <li><strong>Size of the cation</strong> — a smaller cation lets the delocalised electrons get closer to the nuclei, increasing attraction.</li>
+        </ul>
+        <p>This is why melting temperature and electrical conductivity increase in the order <strong>Na &lt; Mg &lt; Al</strong>: each step adds another delocalised electron per atom and the cation gets smaller, both strengthening the metallic bond.</p>
+      </div>
+      <div class="note-block">
+        <h4>Explaining metal properties from structure</h4>
+        <ul>
+          <li><strong>Electrical conductivity</strong> — delocalised electrons are free to move towards the positive terminal when a potential difference is applied, carrying charge (works in both solid and molten states).</li>
+          <li><strong>Thermal conductivity</strong> — free-moving delocalised electrons transfer kinetic energy through the structure, and the closely packed cations also pass on vibrational energy.</li>
+          <li><strong>Malleability &amp; ductility</strong> — when stress is applied, layers of cations can slide over one another; the delocalised electrons move with them, continuing to shield the cations from each other, so no strong repulsion builds up and the metal bends/reshapes rather than shattering.</li>
+        </ul>
+        <div class="warn">Common slip: explaining malleability by saying "the ions can move" — be precise, it's the <em>layers of cations sliding</em>, with delocalised electrons moving to maintain the attraction as they do.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define metallic bonding.</div>
+          <div class="a">The strong electrostatic attraction between the nuclei of metal cations and the delocalised electrons surrounding them, throughout a giant lattice.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why does melting point increase Na &lt; Mg &lt; Al?</div>
+          <div class="a">Each element has more delocalised electrons per atom and a smaller cation size going Na→Mg→Al, both increasing the strength of metallic bonding.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why are metals malleable?</div>
+          <div class="a">Layers of cations can slide over each other under stress; delocalised electrons move with them, preventing strong repulsion between cation layers.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why do metals conduct electricity?</div>
+          <div class="a">Delocalised electrons are free to move through the structure and carry charge towards the positive terminal when a potential difference is applied.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t1">
+        <div class="check-item"><input type="checkbox" id="c1-1"><label for="c1-1">I can define metallic bonding precisely</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-2"><label for="c1-2">I can explain the Na&lt;Mg&lt;Al melting point trend</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-3"><label for="c1-3">I can explain electrical/thermal conductivity from structure</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-4"><label for="c1-4">I can explain malleability and ductility from structure</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.2 -->
+  <section class="topic" id="t2">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">2.2</div>
+      <div class="topic-title">Ionic Bonding</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Definition</h4>
+        <p>Ionic bonding is the <strong>strong electrostatic attraction between oppositely charged ions</strong>, extending throughout a giant lattice in all directions (not a single "bond" between two atoms).</p>
+        <p>Formed by transfer of electrons: e.g. Na → Na⁺ + e⁻, and Cl + e⁻ → Cl⁻. Shown using dot-and-cross diagrams to represent the electron transfer.</p>
+      </div>
+      <div class="note-block">
+        <h4>What affects the strength of ionic bonding</h4>
+        <ul>
+          <li><strong>Ionic radius</strong> — smaller ions can get closer together, increasing the electrostatic attraction and strengthening the bond.</li>
+          <li><strong>Ionic charge</strong> — greater charge on the ions increases the electrostatic attraction. E.g. CaO (2+/2−) has a much stronger ionic bond than NaCl (1+/1−).</li>
+        </ul>
+      </div>
+      <div class="note-block">
+        <h4>Properties of ionic lattices</h4>
+        <ul>
+          <li><strong>High melting/boiling points</strong> — the electrostatic forces extend throughout the giant lattice, so a large amount of energy is needed to break them all.</li>
+          <li><strong>Conduct electricity only when molten or dissolved</strong> — ions must be free to move to carry charge; in the solid lattice, ions are fixed in position.</li>
+          <li><strong>Often soluble in water</strong> — polar water molecules can surround and separate the ions (hydration).</li>
+          <li><strong>Often brittle</strong> — if a layer shifts slightly, ions of the same charge can be brought next to each other, causing repulsion that shatters the lattice.</li>
+        </ul>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define ionic bonding.</div>
+          <div class="a">The strong electrostatic attraction between oppositely charged ions, extending throughout a giant lattice.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Compare</span>
+          <div class="q">Why is the ionic bond in CaO stronger than in NaCl?</div>
+          <div class="a">CaO has 2+ and 2− ions (compared to NaCl's 1+ and 1−), so the electrostatic attraction is greater — ionic charge has a big effect on bond strength.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why can't solid ionic compounds conduct electricity?</div>
+          <div class="a">The ions are fixed in position in the lattice and cannot move to carry charge; only when molten or dissolved are the ions free to move.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why are ionic compounds often brittle?</div>
+          <div class="a">A small shift of one layer can bring ions of the same charge next to each other; the resulting repulsion causes the lattice to shatter.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t2">
+        <div class="check-item"><input type="checkbox" id="c2-1"><label for="c2-1">I can define ionic bonding precisely (giant lattice, not "atom to atom")</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-2"><label for="c2-2">I can explain how ionic radius and charge affect bond strength</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-3"><label for="c2-3">I can draw dot-and-cross diagrams for ionic compound formation</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-4"><label for="c2-4">I can explain conductivity, solubility and brittleness from structure</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.3 -->
+  <section class="topic" id="t3">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">2.3</div>
+      <div class="topic-title">Covalent Bonding</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Formation &amp; definition</h4>
+        <p>A covalent bond forms when an atomic orbital containing a single electron on one atom overlaps with an atomic orbital containing a single electron on another atom, creating a shared pair of electrons between the two nuclei.</p>
+        <p>A covalent bond is the <strong>strong electrostatic attraction between the nuclei of two atoms and the shared pair of electrons</strong> between them.</p>
+      </div>
+      <div class="note-block">
+        <h4>Bond length vs bond strength</h4>
+        <p>Shorter covalent bonds are stronger — the shared electron density is held more tightly between the two nuclei. Double and triple bonds between the same two atoms are shorter and stronger than the equivalent single bond.</p>
+      </div>
+      <div class="note-block">
+        <h4>Dot-and-cross diagrams</h4>
+        <p>Represent shared electron pairs using a dot from one atom and a cross from the other. Used for discrete (simple) molecules, including those with multiple bonds and lone pairs, e.g. H₂O, NH₃, CH₄, O₂, N₂.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define a covalent bond.</div>
+          <div class="a">The strong electrostatic attraction between the nuclei of two atoms and a shared pair of electrons between them.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Compare</span>
+          <div class="q">Which is stronger: a C=C double bond or a C–C single bond?</div>
+          <div class="a">The C=C double bond — it is shorter and stronger than the single bond between the same two atoms.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t3">
+        <div class="check-item"><input type="checkbox" id="c3-1"><label for="c3-1">I can define a covalent bond precisely</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-2"><label for="c3-2">I can relate bond length to bond strength</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-3"><label for="c3-3">I can draw dot-and-cross diagrams for simple molecules including multiple bonds</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.4 -->
+  <section class="topic" id="t4">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">2.4</div>
+      <div class="topic-title">Electronegativity &amp; Bond Polarity</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Electronegativity</h4>
+        <p>Electronegativity is the <strong>ability of an atom to attract the bonding pair of electrons</strong> in a covalent bond.</p>
+        <ul>
+          <li>Increases across a period — more protons, similar shielding, smaller atomic radius, so a stronger pull on the bonding pair.</li>
+          <li>Decreases down a group — increased shielding and atomic radius outweigh the increased nuclear charge.</li>
+          <li>Fluorine is the most electronegative element.</li>
+        </ul>
+      </div>
+      <div class="note-block">
+        <h4>Polar vs non-polar covalent bonds</h4>
+        <p>When two bonded atoms have <strong>different electronegativities</strong>, the shared electron density sits unevenly between them, creating partial charges: δ+ on the less electronegative atom, δ− on the more electronegative atom. This is a <strong>polar covalent bond</strong>.</p>
+        <p>When the two atoms have the same (or very similar) electronegativity, electron density is shared symmetrically — a <strong>non-polar (pure) covalent bond</strong>.</p>
+        <div class="tip">Ionic and covalent bonding are two extremes of a continuum. A polar covalent bond can be thought of as having "some ionic character" — the more different the electronegativities, the more ionic the bond becomes.</div>
+      </div>
+      <div class="note-block">
+        <h4>Polar bonds vs polar molecules — don't confuse these!</h4>
+        <p>Whether an overall <strong>molecule</strong> is polar depends on both (a) whether it has polar bonds, and (b) its <strong>shape/symmetry</strong>.</p>
+        <ul>
+          <li>If a molecule is symmetrical, the individual bond dipoles can cancel out, giving a non-polar molecule overall — even though the bonds themselves are polar (e.g. CO₂, CCl₄, BF₃).</li>
+          <li>If the molecule is not symmetrical, or the dipoles don't fully cancel, the molecule is polar overall (e.g. H₂O, NH₃, CHCl₃).</li>
+        </ul>
+        <div class="warn">This is a very common exam trap: "does molecule X have polar bonds?" and "is molecule X polar overall?" are two different questions — always check the shape before answering the second one.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define electronegativity.</div>
+          <div class="a">The ability of an atom to attract the bonding pair of electrons in a covalent bond.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why does electronegativity increase across a period?</div>
+          <div class="a">Nuclear charge increases while shielding stays roughly constant, and atomic radius decreases, so there's a stronger pull on the bonding electron pair.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Apply</span>
+          <div class="q">CCl₄ has polar C–Cl bonds. Is the molecule polar overall? Why?</div>
+          <div class="a">No — CCl₄ is tetrahedral and symmetrical, so the four bond dipoles cancel out, making the molecule non-polar overall.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">Which element is the most electronegative?</div>
+          <div class="a">Fluorine.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t4">
+        <div class="check-item"><input type="checkbox" id="c4-1"><label for="c4-1">I can define electronegativity and explain its periodic trends</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-2"><label for="c4-2">I can identify polar vs non-polar bonds from electronegativity differences</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-3"><label for="c4-3">I can determine whether a whole molecule is polar, using shape/symmetry</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.5 -->
+  <section class="topic" id="t5">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">2.5</div>
+      <div class="topic-title">Dative Covalent Bonding</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Definition</h4>
+        <p>A dative covalent (coordinate) bond is a covalent bond in which <strong>both electrons in the shared pair come from the same atom</strong> (the donor), rather than one from each atom.</p>
+      </div>
+      <div class="note-block">
+        <h4>Examples</h4>
+        <ul>
+          <li>NH₃ + H⁺ → NH₄⁺ — the lone pair on nitrogen forms the dative bond to H⁺.</li>
+          <li>NH₃ + BF₃ → NH₃BF₃ — the nitrogen lone pair is donated to boron.</li>
+          <li>AlCl₃ dimerisation to Al₂Cl₆ — a lone pair on a Cl atom of one AlCl₃ unit forms a dative bond to the Al of the other.</li>
+        </ul>
+        <div class="tip">Once formed, a dative covalent bond is identical to a normal covalent bond in length and strength — only its origin (both electrons from one atom) is different. In displayed formulae, it's often shown with an arrow (→) from donor to acceptor.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define a dative covalent bond.</div>
+          <div class="a">A covalent bond in which both electrons of the shared pair come from the same atom (the donor).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Example</span>
+          <div class="q">Which atom donates the lone pair when NH₃ reacts with H⁺ to form NH₄⁺?</div>
+          <div class="a">Nitrogen — its lone pair forms the dative bond to H⁺.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t5">
+        <div class="check-item"><input type="checkbox" id="c5-1"><label for="c5-1">I can define a dative covalent bond</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-2"><label for="c5-2">I can identify the donor atom and draw dot-and-cross diagrams for NH₄⁺, NH₃BF₃, Al₂Cl₆</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.6 -->
+  <section class="topic" id="t6">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">2.6</div>
+      <div class="topic-title">Shapes of Molecules (Electron Pair Repulsion Theory)</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>The basic idea</h4>
+        <p>Electron pairs (bonding pairs and lone pairs) around a central atom repel each other and arrange themselves as far apart in space as possible, to minimise repulsion. This arrangement determines the molecule's 3D shape.</p>
+        <p><strong>Repulsion strength order:</strong> lone pair–lone pair &gt; lone pair–bond pair &gt; bond pair–bond pair.</p>
+        <p>Each lone pair present slightly compresses the bond angles compared to the "ideal" shape, because lone pairs repel more strongly than bonding pairs.</p>
+        <div class="tip">A double or triple bond is treated as a single "electron group" for shape purposes — it still only counts as one region of electron density around the central atom.</div>
+      </div>
+
+      <div class="note-block">
+        <h4>Shapes and bond angles — the core set</h4>
+        <table class="datatable">
+          <tr><th>Bond pairs</th><th>Lone pairs</th><th>Shape</th><th>Bond angle</th><th>Example</th></tr>
+          <tr><td>2</td><td>0</td><td>Linear</td><td>180°</td><td>BeCl₂, CO₂</td></tr>
+          <tr><td>3</td><td>0</td><td>Trigonal planar</td><td>120°</td><td>BCl₃</td></tr>
+          <tr><td>4</td><td>0</td><td>Tetrahedral</td><td>109.5°</td><td>CH₄, NH₄⁺</td></tr>
+          <tr><td>3</td><td>1</td><td>Trigonal pyramidal</td><td>107°</td><td>NH₃</td></tr>
+          <tr><td>2</td><td>2</td><td>Bent / V-shaped (non-linear)</td><td>104.5°</td><td>H₂O</td></tr>
+          <tr><td>5</td><td>0</td><td>Trigonal bipyramidal</td><td>90° &amp; 120°</td><td>PCl₅</td></tr>
+          <tr><td>6</td><td>0</td><td>Octahedral</td><td>90°</td><td>SF₆</td></tr>
+        </table>
+        <div class="warn">Notice the trend: CH₄ (109.5°) → NH₃ (107°) → H₂O (104.5°). Each extra lone pair reduces the bond angle by roughly 2–3° due to stronger lone pair repulsion — a favourite examiner question.</div>
+      </div>
+
+      <div class="note-block">
+        <h4>Working out a shape from scratch</h4>
+        <ol style="margin:6px 0; padding-left:20px;">
+          <li>Draw the dot-and-cross diagram to find the number of bonding pairs and lone pairs on the central atom.</li>
+          <li>Count total electron pairs (treating multiple bonds as one group) to find the basic arrangement.</li>
+          <li>Identify how many of those pairs are lone pairs, and apply the extra repulsion/angle compression.</li>
+          <li>Name the shape based on the positions of the atoms only (lone pairs affect angles but aren't "seen" in the shape name).</li>
+        </ol>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">State the repulsion strength order for electron pairs.</div>
+          <div class="a">Lone pair–lone pair &gt; lone pair–bond pair &gt; bond pair–bond pair.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Shape</span>
+          <div class="q">What shape and bond angle does NH₃ have?</div>
+          <div class="a">Trigonal pyramidal, 107° (3 bond pairs, 1 lone pair on nitrogen).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is the bond angle in H₂O (104.5°) smaller than in NH₃ (107°)?</div>
+          <div class="a">H₂O has two lone pairs (vs one in NH₃). Two lone pairs cause more repulsion on the bonding pairs than one, compressing the bond angle further.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Shape</span>
+          <div class="q">What shape is PCl₅ and what are its bond angles?</div>
+          <div class="a">Trigonal bipyramidal — 90° between axial and equatorial chlorines, 120° between the three equatorial chlorines.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Shape</span>
+          <div class="q">What shape is CO₂ and why (despite carbon having 4 bonds)?</div>
+          <div class="a">Linear, 180° — the two C=O double bonds each count as one electron group, giving 2 groups around carbon with no lone pairs.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t6">
+        <div class="check-item"><input type="checkbox" id="c6-1"><label for="c6-1">I know the repulsion strength order and why lone pairs compress bond angles</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-2"><label for="c6-2">I can name and draw all 7 shapes in the table with correct bond angles</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-3"><label for="c6-3">I can work out a shape from a dot-and-cross diagram for an unfamiliar molecule/ion</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-4"><label for="c6-4">I can handle multiple bonds correctly (counted as one electron group)</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.7 -->
+  <section class="topic" id="t7">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">2.7</div>
+      <div class="topic-title">Intermolecular Forces</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Three types (weakest concept to strongest, roughly)</h4>
+        <ol style="margin:6px 0; padding-left:20px;">
+          <li>London (dispersion) forces</li>
+          <li>Permanent dipole–dipole forces</li>
+          <li>Hydrogen bonding</li>
+        </ol>
+        <p><strong>Van der Waals forces</strong> is the umbrella term for London forces + permanent dipole–dipole interactions combined.</p>
+      </div>
+
+      <div class="note-block">
+        <h4>London (dispersion) forces</h4>
+        <p>Caused by the constant, random movement of electrons, which at any instant creates a temporary (instantaneous) dipole in a molecule. This instantaneous dipole induces a corresponding dipole in a neighbouring molecule, and the two attract.</p>
+        <ul>
+          <li>Present between <strong>all</strong> molecules and atoms, whether polar or non-polar — it's the only intermolecular force between non-polar molecules (e.g. noble gases, I₂, CH₄).</li>
+          <li>Strength increases with more electrons in the molecule (larger molecular size/surface area) — this is why boiling points increase down Group 0 and Group 7.</li>
+        </ul>
+      </div>
+
+      <div class="note-block">
+        <h4>Permanent dipole–dipole forces</h4>
+        <p>Occur between molecules that have a permanent dipole (polar molecules whose bond dipoles don't cancel out). The δ+ end of one molecule is attracted to the δ− end of a neighbouring molecule.</p>
+        <p>This is an <strong>additional</strong> force on top of the London forces that are always present.</p>
+      </div>
+
+      <div class="note-block">
+        <h4>Hydrogen bonding</h4>
+        <p>A particularly strong type of permanent dipole–dipole interaction. Occurs when a hydrogen atom is <strong>covalently bonded directly to a very small, highly electronegative atom</strong> — nitrogen, oxygen or fluorine (N, O, F) — which has a lone pair of electrons.</p>
+        <ul>
+          <li>The δ+ hydrogen on one molecule is attracted to a lone pair on the N/O/F of a neighbouring molecule.</li>
+          <li>Any molecule with an O–H or N–H group can hydrogen bond (e.g. water, alcohols, ammonia, amines).</li>
+          <li>Hydrogen bonds are directional — the preferred bond angle is close to 180° (roughly linear), unlike the more random orientation of ordinary dipole–dipole attractions.</li>
+          <li>Hydrogen bonding is the strongest of the three intermolecular forces (though still much weaker than a covalent bond).</li>
+        </ul>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">Name the three types of intermolecular force.</div>
+          <div class="a">London (dispersion) forces, permanent dipole–dipole forces, and hydrogen bonding.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why does boiling point increase down Group 7 (F₂ to I₂)?</div>
+          <div class="a">Molecules have more electrons going down the group, increasing the strength of London forces between molecules, so more energy is needed to separate them.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Condition</span>
+          <div class="q">What three conditions are needed for hydrogen bonding?</div>
+          <div class="a">A hydrogen atom covalently bonded directly to a small, highly electronegative atom (N, O or F) that has a lone pair of electrons available.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Do non-polar molecules like CH₄ have any intermolecular forces?</div>
+          <div class="a">Yes — London forces are present between all molecules regardless of polarity, caused by instantaneous dipoles from moving electrons.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t7">
+        <div class="check-item"><input type="checkbox" id="c7-1"><label for="c7-1">I can name and describe all three intermolecular forces</label></div>
+        <div class="check-item"><input type="checkbox" id="c7-2"><label for="c7-2">I can explain why London forces increase with molecular size/electron number</label></div>
+        <div class="check-item"><input type="checkbox" id="c7-3"><label for="c7-3">I can state the 3 conditions needed for hydrogen bonding and identify it in unfamiliar molecules</label></div>
+        <div class="check-item"><input type="checkbox" id="c7-4"><label for="c7-4">I can rank intermolecular forces by relative strength</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2.8 -->
+  <section class="topic" id="t8">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">2.8</div>
+      <div class="topic-title">Giant Structures &amp; Properties Summary</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Giant covalent (macromolecular) structures</h4>
+        <ul>
+          <li><strong>Diamond</strong> — each carbon atom is covalently bonded to 4 others in a tetrahedral arrangement, extending throughout the crystal. Extremely hard; very high melting point (many strong covalent bonds to break); does not conduct electricity (all electrons are held in localised covalent bonds, none delocalised).</li>
+          <li><strong>Graphite</strong> — each carbon is covalently bonded to only 3 others, forming flat hexagonal layers. Within a layer, bonding is strong (giant covalent); between layers there are only weak London forces. The layers can slide over each other, making graphite soft and slippery (used as a lubricant). Each carbon has one electron not used in bonding, delocalised across each layer — this allows graphite to conduct electricity along the layers.</li>
+          <li><strong>Graphene</strong> — a single isolated layer of graphite. Extremely strong (in-plane) and an excellent electrical conductor due to its delocalised electrons.</li>
+        </ul>
+      </div>
+      <div class="note-block">
+        <h4>Quick property comparison</h4>
+        <table class="datatable">
+          <tr><th>Structure type</th><th>Melting point</th><th>Conducts electricity?</th><th>Example</th></tr>
+          <tr><td>Giant metallic</td><td>High (varies)</td><td>Yes — solid &amp; molten</td><td>Na, Mg, Al</td></tr>
+          <tr><td>Giant ionic</td><td>High</td><td>Only molten/aqueous</td><td>NaCl, CaO</td></tr>
+          <tr><td>Giant covalent</td><td>Very high</td><td>Diamond: no. Graphite: yes (along layers)</td><td>Diamond, graphite</td></tr>
+          <tr><td>Simple molecular</td><td>Low</td><td>No (no free ions/electrons)</td><td>I₂, CO₂, H₂O(s)</td></tr>
+        </table>
+        <div class="warn">Common error: assuming all covalent structures have low melting points because "covalent = weak". Giant covalent structures (diamond, SiO₂) have very high melting points — it's <em>simple molecular</em> structures that are low-melting, because it's the weak intermolecular forces between molecules that break on melting, not the strong covalent bonds within them.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is graphite able to conduct electricity but diamond cannot?</div>
+          <div class="a">In graphite, each carbon has one electron not used in bonding, which becomes delocalised across each layer and can carry charge. In diamond, all four outer electrons of each carbon are used in localised covalent bonds, so there are no free/delocalised electrons.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is graphite soft and slippery despite being a giant covalent structure?</div>
+          <div class="a">The layers of graphite are held together only by weak London forces, so they can slide over each other easily, even though the covalent bonding within each layer is strong.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why do simple molecular substances like I₂ have low melting points, despite having strong covalent bonds?</div>
+          <div class="a">Melting only requires overcoming the weak intermolecular forces between molecules (London forces here) — the strong covalent bonds within each molecule are not broken.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t8">
+        <div class="check-item"><input type="checkbox" id="c8-1"><label for="c8-1">I can describe the structures of diamond, graphite and graphene</label></div>
+        <div class="check-item"><input type="checkbox" id="c8-2"><label for="c8-2">I can explain the conductivity difference between diamond and graphite</label></div>
+        <div class="check-item"><input type="checkbox" id="c8-3"><label for="c8-3">I can explain why graphite is soft/slippery</label></div>
+        <div class="check-item"><input type="checkbox" id="c8-4"><label for="c8-4">I can compare melting points/conductivity across all 4 structure types (metallic, ionic, giant covalent, simple molecular)</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetProgress()">Reset checklist progress</button>
+  </div>
+</main>
+
+<script>
+  function toggleTopic(headEl){
+    const section = headEl.parentElement;
+    document.querySelectorAll('section.topic').forEach(s=>{
+      if(s!==section){ s.classList.remove('open'); s.querySelector('.topic-body').style.maxHeight=null; }
+    });
+    section.classList.toggle('open');
+    const body = section.querySelector('.topic-body');
+    body.style.maxHeight = section.classList.contains('open') ? body.scrollHeight + 'px' : null;
+  }
+
+  const STORAGE_KEY = 'chem-topic2-checklist';
+
+  function loadProgress(){
+    let saved = {};
+    try{ saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ saved = {}; }
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      if(saved[box.id]){ box.checked = true; box.closest('.check-item').classList.add('done'); }
+      box.addEventListener('change', ()=>{
+        box.closest('.check-item').classList.toggle('done', box.checked);
+        saveProgress();
+        updateProgressBar();
+      });
+    });
+    updateProgressBar();
+  }
+
+  function saveProgress(){
+    const state = {};
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      state[box.id] = box.checked;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateProgressBar(){
+    const boxes = document.querySelectorAll('.check-item input[type=checkbox]');
+    const total = boxes.length;
+    const done = Array.from(boxes).filter(b=>b.checked).length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total + ' checkpoints complete';
+  }
+
+  function resetProgress(){
+    if(!confirm('Clear all checklist progress for Topic 2?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      box.checked = false;
+      box.closest('.check-item').classList.remove('done');
+    });
+    updateProgressBar();
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    loadProgress();
+    const openSection = document.querySelector('section.topic.open');
+    if(openSection){
+      const body = openSection.querySelector('.topic-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>
