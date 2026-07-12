@@ -1,0 +1,447 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Chemistry 9CH0 — September Resit Study Plan</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#161b22;
+    --panel-2:#1c2330;
+    --border:#2a3140;
+    --text:#e6edf3;
+    --muted:#8b96a5;
+    --accent:#4fd1c5;
+    --accent-2:#a78bfa;
+    --amber:#f2c94c;
+    --danger:#ff6b6b;
+    --good:#6fcf97;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:radial-gradient(circle at 20% -10%, #17202e 0%, var(--bg) 45%);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+    padding-bottom:60px;
+  }
+  header.hero{
+    padding:34px 20px 26px;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(79,209,197,0.08), transparent 70%);
+  }
+  .eyebrow{
+    color:var(--accent);
+    font-size:12.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:700;
+    margin:0 0 8px;
+  }
+  h1{margin:0 0 6px; font-size:26px; line-height:1.25;}
+  .subtitle{color:var(--muted); font-size:14.5px; max-width:640px;}
+
+  .progress-wrap{max-width:900px; margin:22px auto 0; padding:0 20px;}
+  .progress-bar-track{
+    height:9px; border-radius:99px; background:var(--panel-2); overflow:hidden; border:1px solid var(--border);
+  }
+  .progress-bar-fill{
+    height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    transition:width .35s ease;
+  }
+  .progress-label{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-top:6px;}
+
+  main{max-width:900px; margin:26px auto; padding:0 20px;}
+
+  nav.toc{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  nav.toc a{
+    color:var(--text); text-decoration:none; font-size:13px; padding:7px 12px;
+    background:var(--panel); border:1px solid var(--border); border-radius:99px;
+  }
+  nav.toc a:hover{border-color:var(--accent); color:var(--accent);}
+
+  section.topic{
+    background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
+    margin-bottom:18px; overflow:hidden;
+  }
+  .topic-head{display:flex; align-items:center; gap:12px; padding:16px 18px; cursor:pointer; user-select:none;}
+  .topic-num{
+    flex:0 0 auto; width:34px; height:34px; border-radius:9px;
+    background:var(--panel-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; color:var(--accent); font-size:14px;
+  }
+  .topic-title{flex:1; font-size:16.5px; font-weight:700;}
+  .chevron{transition:transform .25s ease; color:var(--muted); flex:0 0 auto;}
+  section.topic.open .chevron{transform:rotate(180deg);}
+  .topic-body{max-height:0; overflow:hidden; transition:max-height .35s ease; padding:0 18px;}
+  section.topic.open .topic-body{padding:0 18px 20px;}
+
+  .note-block{
+    background:var(--panel-2); border:1px solid var(--border); border-radius:10px;
+    padding:14px 16px; margin:12px 0; font-size:14.5px;
+  }
+  .note-block h4{margin:0 0 8px; font-size:13.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  .note-block ul{margin:6px 0; padding-left:20px;}
+  .note-block li{margin-bottom:6px;}
+  .note-block p{margin:6px 0;}
+  .warn{border-left:3px solid var(--danger); padding-left:12px; margin:10px 0; font-size:13.5px; color:#ffb4b4;}
+  .tip{border-left:3px solid var(--good); padding-left:12px; margin:10px 0; font-size:13.5px; color:#b7f0c9;}
+
+  table.datatable{width:100%; border-collapse:collapse; margin:10px 0; font-size:13px;}
+  table.datatable th, table.datatable td{border:1px solid var(--border); padding:8px 10px; text-align:left; vertical-align:top;}
+  table.datatable th{background:var(--panel); color:var(--accent); font-size:11.5px; text-transform:uppercase; letter-spacing:.04em;}
+  table.datatable td{color:var(--text);}
+
+  .pill{
+    display:inline-block; padding:2px 9px; border-radius:99px; font-size:11px; font-weight:700;
+    letter-spacing:.03em;
+  }
+  .pill-H{background:#3a1f22; color:var(--danger); border:1px solid #5a2a2e;}
+  .pill-M{background:#3a3320; color:var(--amber); border:1px solid #5a4d2a;}
+
+  .week-card{
+    background:var(--panel-2); border:1px solid var(--border); border-radius:10px;
+    padding:14px 16px; margin:10px 0; display:flex; gap:14px; align-items:flex-start;
+  }
+  .week-card input[type=checkbox]{
+    margin-top:4px; width:20px; height:20px; accent-color:var(--accent); flex:0 0 auto;
+  }
+  .week-card .week-content{flex:1;}
+  .week-card .week-top{display:flex; justify-content:space-between; gap:10px; flex-wrap:wrap; margin-bottom:4px;}
+  .week-card .week-name{font-weight:700; color:var(--accent-2); font-size:14px;}
+  .week-card .week-dates{font-size:12px; color:var(--muted);}
+  .week-card .week-focus{font-size:14px; margin:4px 0;}
+  .week-card .week-practice{font-size:12.5px; color:var(--muted); font-style:italic;}
+  .week-card.done{opacity:.55;}
+  .week-card.done .week-name{text-decoration:line-through;}
+
+  .checklist{margin-top:10px;}
+  .check-item{display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px dashed var(--border); font-size:14px;}
+  .check-item:last-child{border-bottom:none;}
+  .check-item input{margin-top:3px; width:18px; height:18px; accent-color:var(--accent); flex:0 0 auto;}
+  .check-item label{flex:1;}
+  .check-item.done label{color:var(--muted); text-decoration:line-through;}
+
+  .reset-row{display:flex; justify-content:flex-end; margin-top:18px;}
+  .reset-btn{
+    background:none; border:1px solid var(--border); color:var(--muted);
+    padding:8px 14px; border-radius:99px; font-size:12.5px; cursor:pointer;
+  }
+  .reset-btn:hover{color:var(--danger); border-color:var(--danger);}
+
+  .gap-card{
+    background:#241f14; border:1px solid #4a3d1e; border-radius:10px;
+    padding:14px 16px; margin:10px 0; font-size:14px;
+  }
+  .gap-card h4{margin:0 0 6px; color:var(--amber); font-size:14px;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">Edexcel A Level Chemistry · 9CH0</p>
+  <h1>Year 12 September Resit — C-to-A Study Plan</h1>
+  <p class="subtitle">Prepared for Jody, cross-referencing the school's Year 12 curriculum map against Curtis/Murgatroyd/Scott Student Book 1. Tap a section to expand, tick off weeks and checkpoints as you go — progress saves on this device.</p>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 checkpoints complete</span><span>Overall plan</span></div>
+</div>
+
+<main>
+  <nav class="toc">
+    <a href="#s1">Coverage Check</a>
+    <a href="#s2">Topic Priority Map</a>
+    <a href="#s3">8-Week Schedule</a>
+    <a href="#s4">Summer 2 Gaps</a>
+    <a href="#s5">Exam Technique</a>
+    <a href="#s6">Final Week</a>
+  </nav>
+
+  <!-- Section 1 -->
+  <section class="topic open" id="s1">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">1</div>
+      <div class="topic-title">Coverage Check — Textbook vs Curriculum</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <p>Student Book 1 covers Topics 1–10 in full (Autumn 1 through Spring/Summer 1).</p>
+        <div class="warn">It does <strong>NOT</strong> contain NMR spectroscopy, chromatography, or chirality/optical isomerism — these are Summer 2 topics that sit in Book 2. See the "Summer 2 Gaps" section below for supplementary notes so Jody isn't left with a blind spot going into the resit.</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 2 -->
+  <section class="topic" id="s2">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">2</div>
+      <div class="topic-title">Topic-by-Topic Priority Map</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <p>Priority is based on (a) typical A-grade discriminating power in Edexcel 9CH0 papers and (b) how easily marks are lost through imprecise wording rather than lack of knowledge — this is usually where a B becomes an A.</p>
+      </div>
+      <table class="datatable">
+        <tr><th>Topic</th><th>Pages</th><th>Priority</th><th>Where A-grade marks are typically lost</th></tr>
+        <tr><td>1 Atomic Structure</td><td>p.8–19</td><td><span class="pill pill-M">M</span></td><td>Electron config exceptions (Cr, Cu); reading successive ionisation-energy graphs to deduce group number</td></tr>
+        <tr><td>2 Bonding &amp; Structure</td><td>p.34–65</td><td><span class="pill pill-H">H</span></td><td>VSEPR shapes/bond angles; separating "bonding" from "intermolecular force" in property explanations</td></tr>
+        <tr><td>4.1 Group 2</td><td>p.90–103</td><td><span class="pill pill-M">M</span></td><td>Solubility trend of sulfates vs hydroxides runs in OPPOSITE directions — easy to mix up</td></tr>
+        <tr><td>4.2 Group 7</td><td>p.104–117</td><td><span class="pill pill-H">H</span></td><td>Explaining reactivity trend via shielding/atomic radius, not vague "more reactive"; disproportionation equations; silver halide + ammonia test detail</td></tr>
+        <tr><td>3 Redox I</td><td>p.144–163</td><td><span class="pill pill-M">M</span></td><td>Oxidation number rules in complex/polyatomic ions; balancing half-equations with H⁺/OH⁻ and electrons</td></tr>
+        <tr><td>5 Formulae, Equations, Amount of Substance</td><td>p.118–143</td><td><span class="pill pill-H">H</span></td><td>Titration calculations; % uncertainty propagation; making standard solutions — apparatus + technique detail</td></tr>
+        <tr><td>6.1 Organic Intro &amp; Isomerism</td><td>p.164–177</td><td><span class="pill pill-M">M</span></td><td>IUPAC nomenclature precision (locants, alphabetical order); structural vs stereoisomerism distinction</td></tr>
+        <tr><td>6.2 Hydrocarbons (Alkanes/Alkenes)</td><td>p.178–197</td><td><span class="pill pill-H">H</span></td><td>Electrophilic addition mechanism — curly arrows must start from bond/lone pair, correct end point</td></tr>
+        <tr><td>6.3 Halogenoalkanes</td><td>p.198–203</td><td><span class="pill pill-H">H</span></td><td>Nucleophilic substitution mechanism; explaining rate of hydrolysis via C–X bond enthalpy, not electronegativity alone</td></tr>
+        <tr><td>6.4 Alcohols</td><td>p.204–215</td><td><span class="pill pill-M">M</span></td><td>Primary/secondary/tertiary oxidation outcomes; distillation vs reflux apparatus choice and reasoning</td></tr>
+        <tr><td>7 Analytical: Mass Spec &amp; IR</td><td>p.216–229</td><td><span class="pill pill-M">M</span></td><td>Assigning m/z fragment peaks to structures; IR functional-group wavenumber recall</td></tr>
+        <tr><td>8 Energetics</td><td>p.230–249</td><td><span class="pill pill-H">H</span></td><td>Hess cycle arrow direction; formation vs combustion data use; limitations of mean bond enthalpy</td></tr>
+        <tr><td>9 Kinetics</td><td>p.250–263</td><td><span class="pill pill-H">H</span></td><td>Maxwell–Boltzmann curve changes (area under curve, not just shifting the peak); catalyst lowers Ea, doesn't "add energy"</td></tr>
+        <tr><td>10 Equilibrium</td><td>p.264–279</td><td><span class="pill pill-H">H</span></td><td>Kc expression + units; Le Chatelier explanations need to reference position AND reasoning, not just direction</td></tr>
+      </table>
+      <p style="font-size:12.5px;color:var(--muted);"><span class="pill pill-H">H</span> = high priority (heavily weighted / consistently discriminates A from B) &nbsp; <span class="pill pill-M">M</span> = moderate priority (solid marks, fewer traps)</p>
+    </div>
+  </section>
+
+  <!-- Section 3 -->
+  <section class="topic" id="s3">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">3</div>
+      <div class="topic-title">Eight-Week Schedule (13 Jul – 5 Sep)</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <p>Assumes the resit falls in the first week of September. Each week: ~2 topics of content review using the book, followed by targeted past-paper practice on that content before moving on — don't stack all practice at the end.</p>
+      </div>
+
+      <div id="weekList">
+        <div class="week-card" data-id="wk1">
+          <input type="checkbox" id="wk1">
+          <div class="week-content">
+            <div class="week-top"><span class="week-name">Week 1</span><span class="week-dates">13–19 Jul</span></div>
+            <div class="week-focus">Topic 1 Atomic Structure + Topic 2 Bonding &amp; Structure</div>
+            <div class="week-practice">Practice: past-paper Qs on shapes/polarity + ionisation energy graphs</div>
+          </div>
+        </div>
+        <div class="week-card" data-id="wk2">
+          <input type="checkbox" id="wk2">
+          <div class="week-content">
+            <div class="week-top"><span class="week-name">Week 2</span><span class="week-dates">20–26 Jul</span></div>
+            <div class="week-focus">Topic 4.1 Group 2 + 4.2 Group 7 + Topic 3 Redox I</div>
+            <div class="week-practice">Practice: trend-explanation practice (write full-sentence answers, not one-liners)</div>
+          </div>
+        </div>
+        <div class="week-card" data-id="wk3">
+          <input type="checkbox" id="wk3">
+          <div class="week-content">
+            <div class="week-top"><span class="week-name">Week 3</span><span class="week-dates">27 Jul–2 Aug</span></div>
+            <div class="week-focus">Topic 5 Formulae, Equations, Amount of Substance</div>
+            <div class="week-practice">Practice: titration + atom economy + uncertainty calculation drills daily</div>
+          </div>
+        </div>
+        <div class="week-card" data-id="wk4">
+          <input type="checkbox" id="wk4">
+          <div class="week-content">
+            <div class="week-top"><span class="week-name">Week 4</span><span class="week-dates">3–9 Aug</span></div>
+            <div class="week-focus">Topic 6.1–6.4 Organic (Intro, Hydrocarbons, Halogenoalkanes, Alcohols)</div>
+            <div class="week-practice">Practice: mechanism drawing — timed, from memory, then self-mark against mark scheme</div>
+          </div>
+        </div>
+        <div class="week-card" data-id="wk5">
+          <input type="checkbox" id="wk5">
+          <div class="week-content">
+            <div class="week-top"><span class="week-name">Week 5</span><span class="week-dates">10–16 Aug</span></div>
+            <div class="week-focus">Topic 8 Energetics + Topic 9 Kinetics</div>
+            <div class="week-practice">Practice: Hess cycle construction + Maxwell–Boltzmann graph-labelling</div>
+          </div>
+        </div>
+        <div class="week-card" data-id="wk6">
+          <input type="checkbox" id="wk6">
+          <div class="week-content">
+            <div class="week-top"><span class="week-name">Week 6</span><span class="week-dates">17–23 Aug</span></div>
+            <div class="week-focus">Topic 10 Equilibrium + Topic 7 Analytical (MS/IR)</div>
+            <div class="week-practice">Practice: Kc calculation set + spectrum-interpretation past questions</div>
+          </div>
+        </div>
+        <div class="week-card" data-id="wk7">
+          <input type="checkbox" id="wk7">
+          <div class="week-content">
+            <div class="week-top"><span class="week-name">Week 7</span><span class="week-dates">24–30 Aug</span></div>
+            <div class="week-focus">Summer 2 gap-fill: NMR, Chromatography, Chirality (supplementary notes — book does not cover)</div>
+            <div class="week-practice">Practice: first full past paper, timed, under exam conditions</div>
+          </div>
+        </div>
+        <div class="week-card" data-id="wk8">
+          <input type="checkbox" id="wk8">
+          <div class="week-content">
+            <div class="week-top"><span class="week-name">Week 8</span><span class="week-dates">31 Aug–5 Sep</span></div>
+            <div class="week-focus">Mixed-topic review driven by error log from Week 7 paper</div>
+            <div class="week-practice">Practice: second full past paper + final gap-filling on weakest 3 topics</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="tip" style="margin-top:14px;">Week 7 and 8 include full timed past papers deliberately early enough that the error log from Week 7's paper can shape Week 8 — mirrors the approach used for Jody's Biology C-to-A plan.</div>
+    </div>
+  </section>
+
+  <!-- Section 4 -->
+  <section class="topic" id="s4">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">4</div>
+      <div class="topic-title">Summer 2 Supplementary Notes (not in Book 1)</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <p>These three areas need to be taught/revised from other resources since Book 1 doesn't include them. Outline below to guide what to look for.</p>
+      </div>
+
+      <div class="gap-card">
+        <h4>NMR Spectroscopy</h4>
+        <p>Chemical shift (δ, ppm) and reference to TMS; splitting patterns via the n+1 rule; integration ratio = relative proton count; use of D₂O shake to identify O–H/N–H exchangeable protons; distinguishing environments in ¹³C NMR.</p>
+      </div>
+      <div class="gap-card">
+        <h4>Chromatography</h4>
+        <p>TLC and paper chromatography set-up; R<sub>f</sub> value calculation (distance run by spot ÷ distance run by solvent front); using R<sub>f</sub> and co-spotting to confirm/rule out identity; assessing purity from number of spots.</p>
+      </div>
+      <div class="gap-card">
+        <h4>Chirality &amp; Optical Isomerism</h4>
+        <p>Chiral centre = carbon with four different groups attached; enantiomers rotate plane-polarised light in opposite directions; racemic mixture = no net rotation; link to E/Z geometric isomerism already met in Topic 6.1.</p>
+      </div>
+
+      <div class="tip">Recommend sourcing: school's own Summer 2 class notes, Book 2 (if accessible), or Pearson ActiveLearn — the school's Chemistry department already provides comprehensive class notes per the curriculum map, which should cover this.</div>
+
+      <div class="checklist" data-section="s4">
+        <div class="check-item"><input type="checkbox" id="g-1"><label for="g-1">NMR notes sourced and reviewed</label></div>
+        <div class="check-item"><input type="checkbox" id="g-2"><label for="g-2">Chromatography notes sourced and reviewed</label></div>
+        <div class="check-item"><input type="checkbox" id="g-3"><label for="g-3">Chirality/optical isomerism notes sourced and reviewed</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 5 -->
+  <section class="topic" id="s5">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">5</div>
+      <div class="topic-title">Exam-Technique Checklist for A-Grade Answers</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="checklist" data-section="s5">
+        <div class="check-item"><input type="checkbox" id="e-1"><label for="e-1">Calculations: always show working line-by-line and give final answer to the correct significant figures (usually matching the least precise data given)</label></div>
+        <div class="check-item"><input type="checkbox" id="e-2"><label for="e-2">Explain/describe questions: write in full sentences with a mechanism, not a one-word answer</label></div>
+        <div class="check-item"><input type="checkbox" id="e-3"><label for="e-3">Mechanism questions: curly arrows start from a bond or lone pair, end precisely on the atom/bond being formed</label></div>
+        <div class="check-item"><input type="checkbox" id="e-4"><label for="e-4">Command word discipline: State = short answer; Explain = reasoning required; Deduce = use the data given</label></div>
+        <div class="check-item"><input type="checkbox" id="e-5"><label for="e-5">Practical questions: know apparatus names, reasons for each step, and common error sources</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Section 6 -->
+  <section class="topic" id="s6">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">6</div>
+      <div class="topic-title">Final Week Priorities</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="checklist" data-section="s6">
+        <div class="check-item"><input type="checkbox" id="f-1"><label for="f-1">Review the error log built from Weeks 7–8 past papers — focus revision time on repeat mistakes, not just weak topics</label></div>
+        <div class="check-item"><input type="checkbox" id="f-2"><label for="f-2">Redo one past paper from the H-priority topics only, under timed conditions</label></div>
+        <div class="check-item"><input type="checkbox" id="f-3"><label for="f-3">Quick-fire recall session on definitions/equations most likely to appear as 1-mark "state" questions</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+  </div>
+</main>
+
+<script>
+  function toggleTopic(headEl){
+    const section = headEl.parentElement;
+    document.querySelectorAll('section.topic').forEach(s=>{
+      if(s!==section){ s.classList.remove('open'); s.querySelector('.topic-body').style.maxHeight=null; }
+    });
+    section.classList.toggle('open');
+    const body = section.querySelector('.topic-body');
+    body.style.maxHeight = section.classList.contains('open') ? body.scrollHeight + 'px' : null;
+  }
+
+  const STORAGE_KEY = 'chem-study-plan-progress';
+
+  function allTrackedInputs(){
+    return document.querySelectorAll('.week-card input[type=checkbox], .check-item input[type=checkbox]');
+  }
+
+  function loadProgress(){
+    let saved = {};
+    try{ saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ saved = {}; }
+    allTrackedInputs().forEach(box=>{
+      if(saved[box.id]){
+        box.checked = true;
+        markDone(box);
+      }
+      box.addEventListener('change', ()=>{
+        markDone(box);
+        saveProgress();
+        updateProgressBar();
+      });
+    });
+    updateProgressBar();
+  }
+
+  function markDone(box){
+    const weekCard = box.closest('.week-card');
+    if(weekCard){ weekCard.classList.toggle('done', box.checked); }
+    const checkItem = box.closest('.check-item');
+    if(checkItem){ checkItem.classList.toggle('done', box.checked); }
+  }
+
+  function saveProgress(){
+    const state = {};
+    allTrackedInputs().forEach(box=>{ state[box.id] = box.checked; });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateProgressBar(){
+    const boxes = allTrackedInputs();
+    const total = boxes.length;
+    const done = Array.from(boxes).filter(b=>b.checked).length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total + ' checkpoints complete';
+  }
+
+  function resetProgress(){
+    if(!confirm('Clear all progress on the study plan?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    allTrackedInputs().forEach(box=>{
+      box.checked = false;
+      markDone(box);
+    });
+    updateProgressBar();
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    loadProgress();
+    const openSection = document.querySelector('section.topic.open');
+    if(openSection){
+      const body = openSection.querySelector('.topic-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>
