@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Topic 3 — Redox I | Edexcel 9CH0</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#161b22;
+    --panel-2:#1c2330;
+    --border:#2a3140;
+    --text:#e6edf3;
+    --muted:#8b96a5;
+    --accent:#4fd1c5;
+    --accent-2:#a78bfa;
+    --amber:#f2c94c;
+    --danger:#ff6b6b;
+    --good:#6fcf97;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:radial-gradient(circle at 20% -10%, #17202e 0%, var(--bg) 45%);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+    padding-bottom:60px;
+  }
+  header.hero{
+    padding:34px 20px 26px;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(79,209,197,0.08), transparent 70%);
+  }
+  .eyebrow{
+    color:var(--accent);
+    font-size:12.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:700;
+    margin:0 0 8px;
+  }
+  h1{margin:0 0 6px; font-size:26px; line-height:1.25;}
+  .subtitle{color:var(--muted); font-size:14.5px; max-width:620px;}
+  .progress-wrap{max-width:900px; margin:22px auto 0; padding:0 20px;}
+  .progress-bar-track{
+    height:9px; border-radius:99px; background:var(--panel-2); overflow:hidden; border:1px solid var(--border);
+  }
+  .progress-bar-fill{
+    height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    transition:width .35s ease;
+  }
+  .progress-label{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-top:6px;}
+  main{max-width:900px; margin:26px auto; padding:0 20px;}
+  nav.toc{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  nav.toc a{
+    color:var(--text); text-decoration:none; font-size:13px; padding:7px 12px;
+    background:var(--panel); border:1px solid var(--border); border-radius:99px;
+  }
+  nav.toc a:hover{border-color:var(--accent); color:var(--accent);}
+  section.topic{
+    background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
+    margin-bottom:18px; overflow:hidden;
+  }
+  .topic-head{display:flex; align-items:center; gap:12px; padding:16px 18px; cursor:pointer; user-select:none;}
+  .topic-num{
+    flex:0 0 auto; width:34px; height:34px; border-radius:9px;
+    background:var(--panel-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; color:var(--accent); font-size:13px;
+  }
+  .topic-title{flex:1; font-size:16.5px; font-weight:700;}
+  .chevron{transition:transform .25s ease; color:var(--muted); flex:0 0 auto;}
+  section.topic.open .chevron{transform:rotate(180deg);}
+  .topic-body{max-height:0; overflow:hidden; transition:max-height .35s ease; padding:0 18px;}
+  section.topic.open .topic-body{padding:0 18px 20px;}
+  .note-block{
+    background:var(--panel-2); border:1px solid var(--border); border-radius:10px;
+    padding:14px 16px; margin:12px 0; font-size:14.5px;
+  }
+  .note-block h4{margin:0 0 8px; font-size:13.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  .note-block ul, .note-block ol{margin:6px 0; padding-left:20px;}
+  .note-block li{margin-bottom:6px;}
+  .note-block p{margin:6px 0;}
+  .eq{
+    display:inline-block; background:#0f1420; border:1px solid var(--border); border-radius:6px;
+    padding:2px 8px; font-family:"SF Mono",Consolas,monospace; font-size:13.5px; color:var(--amber);
+  }
+  .eqblock{
+    background:#0f1420; border:1px solid var(--border); border-radius:8px;
+    padding:10px 14px; font-family:"SF Mono",Consolas,monospace; font-size:13px; color:var(--amber);
+    margin:8px 0; overflow-x:auto; white-space:pre;
+  }
+  .warn{border-left:3px solid var(--danger); padding-left:12px; margin:10px 0; font-size:13.5px; color:#ffb4b4;}
+  .tip{border-left:3px solid var(--good); padding-left:12px; margin:10px 0; font-size:13.5px; color:#b7f0c9;}
+  .flash-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px;}
+  @media(min-width:640px){ .flash-grid{grid-template-columns:1fr 1fr;} }
+  .flash{
+    background:#0f1420; border:1px solid var(--border); border-radius:12px;
+    padding:14px 16px; cursor:pointer; position:relative; min-height:78px;
+    display:flex; align-items:center;
+  }
+  .flash .q, .flash .a{width:100%;}
+  .flash .a{display:none; color:var(--accent);}
+  .flash.flipped .q{display:none;}
+  .flash.flipped .a{display:block;}
+  .flash .tag{
+    position:absolute; top:8px; right:10px; font-size:10px; letter-spacing:.08em;
+    color:var(--muted); text-transform:uppercase;
+  }
+  .flash:active{border-color:var(--accent);}
+  .checklist{margin-top:10px;}
+  .check-item{
+    display:flex; align-items:flex-start; gap:10px; padding:8px 0;
+    border-bottom:1px dashed var(--border); font-size:14px;
+  }
+  .check-item:last-child{border-bottom:none;}
+  .check-item input{margin-top:3px; width:18px; height:18px; accent-color:var(--accent); flex:0 0 auto;}
+  .check-item label{flex:1;}
+  .check-item.done label{color:var(--muted); text-decoration:line-through;}
+  .reset-row{display:flex; justify-content:flex-end; margin-top:18px;}
+  .reset-btn{
+    background:none; border:1px solid var(--border); color:var(--muted);
+    padding:8px 14px; border-radius:99px; font-size:12.5px; cursor:pointer;
+  }
+  .reset-btn:hover{color:var(--danger); border-color:var(--danger);}
+  table.datatable{width:100%; border-collapse:collapse; margin:10px 0; font-size:13px;}
+  table.datatable th, table.datatable td{border:1px solid var(--border); padding:7px 9px; text-align:left; vertical-align:top;}
+  table.datatable th{background:var(--panel); color:var(--accent); font-size:11.5px; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">Edexcel A Level Chemistry · 9CH0</p>
+  <h1>Topic 3 — Redox I</h1>
+  <p class="subtitle">Super detailed notes + flip flashcards + checklist. Tap any section to expand, tap a flashcard to reveal the answer. Progress is saved on this device.</p>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 checkpoints complete</span><span>Topic 3</span></div>
+</div>
+
+<main>
+  <nav class="toc">
+    <a href="#t1">3.1 Electron Loss &amp; Gain</a>
+    <a href="#t2">3.2 Oxidation Numbers</a>
+    <a href="#t3">3.3 Classifying Reactions</a>
+    <a href="#t4">3.4 Systematic Naming</a>
+    <a href="#t5">3.5 Half-Equations</a>
+  </nav>
+
+  <!-- 3.1 -->
+  <section class="topic open" id="t1">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">3.1</div>
+      <div class="topic-title">Electron Loss &amp; Gain</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Modern definitions (electron transfer)</h4>
+        <p>A redox reaction is a reaction that involves <strong>both</strong> reduction and oxidation happening at the same time.</p>
+        <ul>
+          <li><strong>Oxidation is the loss of electrons.</strong></li>
+          <li><strong>Reduction is the gain of electrons.</strong></li>
+        </ul>
+        <p>Remember using the mnemonic: <span class="eq">OIL RIG</span> — Oxidation Is Loss, Reduction Is Gain (of electrons).</p>
+        <div class="tip">Older definitions (oxidation = gain of oxygen/loss of hydrogen; reduction = loss of oxygen/gain of hydrogen) still work for simple cases, but the electron-transfer definition is the one you must use and quote at A level, since it also applies to reactions with no oxygen or hydrogen involved at all.</div>
+      </div>
+
+      <div class="note-block">
+        <h4>Oxidising agents and reducing agents</h4>
+        <ul>
+          <li><strong>Oxidising agent</strong> — a species that oxidises another species by removing electrons from it. In doing so, the oxidising agent itself <strong>gains</strong> electrons and is therefore reduced.</li>
+          <li><strong>Reducing agent</strong> — a species that reduces another species by adding electrons to it. In doing so, the reducing agent itself <strong>loses</strong> electrons and is therefore oxidised.</li>
+        </ul>
+        <div class="warn">Classic trap: "oxidising agents gain electrons" and "reducing agents lose electrons" — this describes what happens to the <em>agent itself</em>, which is the opposite of what it does to the other species. Read the question carefully to see which species you're being asked about.</div>
+      </div>
+
+      <div class="note-block">
+        <h4>Disproportionation — a first look</h4>
+        <p>Disproportionation is a special type of redox reaction where the <strong>same element</strong>, in the same starting species, is <strong>simultaneously oxidised and reduced</strong>.</p>
+        <p>Example: <span class="eq">2Cu⁺(aq) → Cu²⁺(aq) + Cu(s)</span> — one Cu⁺ ion loses an electron (oxidised to Cu²⁺) while another Cu⁺ ion gains an electron (reduced to Cu). Both changes happen to the same element, copper, in the same reaction.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">State the electron-transfer definitions of oxidation and reduction.</div>
+          <div class="a">Oxidation is the loss of electrons. Reduction is the gain of electrons. (OIL RIG)</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Careful!</span>
+          <div class="q">What happens to an oxidising agent itself during a reaction?</div>
+          <div class="a">It gains electrons and is therefore reduced (even though it oxidises the other species).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define disproportionation.</div>
+          <div class="a">A redox reaction in which the same element, in the same species, is simultaneously oxidised and reduced.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Apply</span>
+          <div class="q">In Zn(s) + CuSO₄(aq) → ZnSO₄(aq) + Cu(s), which species is the reducing agent?</div>
+          <div class="a">Zinc — it loses electrons (is oxidised) and in doing so reduces the Cu²⁺ ions, so Zn is the reducing agent.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t1">
+        <div class="check-item"><input type="checkbox" id="c1-1"><label for="c1-1">I can state oxidation and reduction in terms of electron loss/gain</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-2"><label for="c1-2">I can correctly identify oxidising agents and reducing agents (careful with the "opposite" trap)</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-3"><label for="c1-3">I can define and give an example of disproportionation</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.2 -->
+  <section class="topic" id="t2">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">3.2</div>
+      <div class="topic-title">Oxidation Numbers</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>What is oxidation number?</h4>
+        <p>Oxidation number is the charge that an atom/ion has, or <strong>would have if the species were fully ionic</strong>. It lets us track electron transfer even in covalent compounds, where a simple ionic picture doesn't apply.</p>
+      </div>
+
+      <div class="note-block">
+        <h4>Rules for determining oxidation number</h4>
+        <ul>
+          <li>The oxidation number of an <strong>uncombined element</strong> is 0 (e.g. Cl₂, Fe, O₂).</li>
+          <li>The oxidation numbers of all elements in a <strong>neutral compound</strong> sum to 0.</li>
+          <li>The oxidation numbers of all elements in an <strong>ion</strong> sum to the charge on that ion.</li>
+          <li>The more electronegative element in a substance is given the negative oxidation number.</li>
+          <li><strong>Fluorine</strong> is always −1.</li>
+          <li><strong>Hydrogen</strong> is +1, except when bonded to a less electronegative element (e.g. metal hydrides like NaH), where it is −1.</li>
+          <li><strong>Oxygen</strong> is −2, except in peroxides (e.g. H₂O₂) where it is −1, and when combined with fluorine, where it is positive.</li>
+        </ul>
+      </div>
+
+      <div class="note-block">
+        <h4>Worked examples</h4>
+        <p><strong>Chlorine in NaClO₃:</strong> Na is +1, O is −2 (×3 = −6). Sum must be 0, so Cl = 0 − 1 − (−6) = +5.</p>
+        <p class="eqblock">+1 + Cl + (3 × −2) = 0  →  Cl = +5</p>
+        <p><strong>Nitrogen in NO₂⁻:</strong> O is −2 (×2 = −4). Sum must equal the ion charge, −1, so N = −1 − (−4) = +3.</p>
+        <p class="eqblock">N + (2 × −2) = −1  →  N = +3</p>
+        <div class="tip">Method: assign the elements you already know (usually O and H first, using the exceptions list), then use the "sum = 0 (compound) or sum = charge (ion)" rule to solve for the unknown element.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define oxidation number.</div>
+          <div class="a">The charge an atom/ion has, or would have if the species were fully ionic.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Calculate</span>
+          <div class="q">What is the oxidation number of Cr in Cr₂O₇²⁻?</div>
+          <div class="a">O is −2 (×7 = −14). Sum = −2 (ion charge). 2Cr + (−14) = −2, so 2Cr = +12, Cr = +6.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Exception</span>
+          <div class="q">What is the oxidation number of oxygen in H₂O₂, and why is it different from usual?</div>
+          <div class="a">−1. H₂O₂ is a peroxide, and oxygen is −1 (not the usual −2) in peroxides.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Exception</span>
+          <div class="q">What is the oxidation number of hydrogen in NaH, and why?</div>
+          <div class="a">−1. Hydrogen is bonded to sodium, which is less electronegative than hydrogen, so H takes the negative oxidation number here (reversing the usual +1).</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t2">
+        <div class="check-item"><input type="checkbox" id="c2-1"><label for="c2-1">I can state the oxidation number rules including all exceptions (F, H, O)</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-2"><label for="c2-2">I can calculate oxidation numbers in compounds and polyatomic ions</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-3"><label for="c2-3">I can spot and apply the peroxide/metal hydride exceptions correctly</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.3 -->
+  <section class="topic" id="t3">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">3.3</div>
+      <div class="topic-title">Using Oxidation Numbers to Classify Reactions</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Redox definition using oxidation numbers</h4>
+        <ul>
+          <li>An element is <strong>oxidised</strong> when its oxidation number <strong>increases</strong>.</li>
+          <li>An element is <strong>reduced</strong> when its oxidation number <strong>decreases</strong>.</li>
+        </ul>
+        <p>This gives a quick, general way to spot a redox reaction: work out the oxidation number of every element on both sides of the equation. If any element's oxidation number changes, the reaction is redox.</p>
+      </div>
+
+      <div class="note-block">
+        <h4>Worked example — is this reaction redox?</h4>
+        <p><span class="eq">H₂S(g) + Cl₂(g) → 2HCl(g) + S(s)</span></p>
+        <p>S goes from −2 (in H₂S) to 0 (uncombined) — oxidation number increases, so sulfur is <strong>oxidised</strong>.</p>
+        <p>Cl goes from 0 (in Cl₂) to −1 (in HCl) — oxidation number decreases, so chlorine is <strong>reduced</strong>.</p>
+        <p>Both oxidation and reduction occur → this <strong>is</strong> a redox reaction.</p>
+        <div class="tip">By contrast, NaOH(aq) + HCl(aq) → NaCl(aq) + H₂O(l) has no oxidation number changes for any element — it is an acid-base neutralisation, not a redox reaction.</div>
+      </div>
+
+      <div class="note-block">
+        <h4>Spotting disproportionation from oxidation numbers</h4>
+        <p><span class="eq">2NaOH(aq) + Cl₂(aq) → NaCl(aq) + NaClO(aq) + H₂O(l)</span></p>
+        <p>Chlorine starts at 0 in Cl₂. In the products, it is −1 in NaCl (reduced) <strong>and</strong> +1 in NaClO (oxidised) — the same element, chlorine, has been both oxidised and reduced in the same reaction. This is disproportionation.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Rule</span>
+          <div class="q">In terms of oxidation number, when is an element oxidised?</div>
+          <div class="a">When its oxidation number increases.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Classify</span>
+          <div class="q">Is CaO + H₂O → Ca(OH)₂ a redox reaction? Explain.</div>
+          <div class="a">No — Ca stays +2, O stays −2, H stays +1 throughout. No oxidation numbers change, so it is not a redox reaction.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Classify</span>
+          <div class="q">Is 2H₂O₂ → 2H₂O + O₂ a disproportionation reaction?</div>
+          <div class="a">Yes — oxygen goes from −1 in H₂O₂ to −2 in H₂O (reduced) and to 0 in O₂ (oxidised). The same element (oxygen, from the same compound) is both oxidised and reduced.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t3">
+        <div class="check-item"><input type="checkbox" id="c3-1"><label for="c3-1">I can identify oxidation/reduction from oxidation number changes</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-2"><label for="c3-2">I can classify an equation as redox or non-redox by checking all elements</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-3"><label for="c3-3">I can identify disproportionation reactions using oxidation numbers</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.4 -->
+  <section class="topic" id="t4">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">3.4</div>
+      <div class="topic-title">Systematic Naming &amp; Writing Formulae</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Systematic (Roman numeral) names</h4>
+        <p>When an element can exist in more than one oxidation state, its oxidation number is shown as a Roman numeral in brackets straight after the element's name.</p>
+        <table class="datatable">
+          <tr><th>Formula</th><th>Oxidation number</th><th>Systematic name</th></tr>
+          <tr><td>FeCl₂</td><td>Fe = +2</td><td>iron(II) chloride</td></tr>
+          <tr><td>KMnO₄</td><td>Mn = +7</td><td>potassium manganate(VII)</td></tr>
+          <tr><td>K₂MnO₄</td><td>Mn = +6</td><td>potassium manganate(VI)</td></tr>
+          <tr><td>Na₂SO₄</td><td>S = +6</td><td>sodium sulfate(VI)</td></tr>
+          <tr><td>Na₂SO₃</td><td>S = +4</td><td>sodium sulfate(IV)</td></tr>
+        </table>
+        <div class="tip">You don't need a Roman numeral if the element only ever has one oxidation state in its compounds — e.g. "sodium chloride" (Na is always +1) not "sodium(I) chloride", and "magnesium oxide" not "magnesium(II) oxide".</div>
+      </div>
+
+      <div class="note-block">
+        <h4>Working backwards: formula from oxidation number/ion charge</h4>
+        <p>Example — deduce the formula for iron(III) sulfate:</p>
+        <ul>
+          <li>Iron(III) ion = Fe³⁺</li>
+          <li>Sulfate ion = SO₄²⁻</li>
+          <li>Combine in a ratio that balances charge: 2 Fe³⁺ (+6 total) with 3 SO₄²⁻ (−6 total)</li>
+          <li>Formula: Fe₂(SO₄)₃</li>
+        </ul>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Naming</span>
+          <div class="q">Give the systematic name for KMnO₄.</div>
+          <div class="a">Potassium manganate(VII) — Mn has oxidation number +7.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Formula</span>
+          <div class="q">Deduce the formula for chromium(III) sulfate(VI).</div>
+          <div class="a">Cr³⁺ and SO₄²⁻ combine in a 2:3 ratio to balance charge: Cr₂(SO₄)₃.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why don't we need to say "sodium(I) chloride"?</div>
+          <div class="a">Sodium only ever exists as +1 in its compounds, so there's no ambiguity to resolve — the Roman numeral is only needed when an element has more than one possible oxidation state.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t4">
+        <div class="check-item"><input type="checkbox" id="c4-1"><label for="c4-1">I can give systematic (Roman numeral) names from a formula</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-2"><label for="c4-2">I can deduce a formula from a systematic name / oxidation number</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-3"><label for="c4-3">I know when a Roman numeral is/isn't needed</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3.5 -->
+  <section class="topic" id="t5">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">3.5</div>
+      <div class="topic-title">Half-Equations &amp; Constructing Full Redox Equations</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Straightforward case — electrons already match</h4>
+        <p>If both half-equations contain the same number of electrons, just add them together and cancel the electrons:</p>
+        <p class="eqblock">Zn(s) → Zn²⁺(aq) + 2e⁻
+Cu²⁺(aq) + 2e⁻ → Cu(s)
+─────────────────────────────
+Zn(s) + Cu²⁺(aq) → Zn²⁺(aq) + Cu(s)</p>
+      </div>
+
+      <div class="note-block">
+        <h4>Unequal electrons — scale up first</h4>
+        <p>If the two half-equations have different numbers of electrons, multiply each equation by whatever factor makes the electron counts match (usually the lowest common multiple) before adding and cancelling.</p>
+        <p class="eqblock">5Fe²⁺(aq) → 5Fe³⁺(aq) + 5e⁻      (×5)
+MnO4⁻(aq) + 8H⁺(aq) + 5e⁻ → Mn²⁺(aq) + 4H₂O(l)
+─────────────────────────────────────────────
+5Fe²⁺(aq) + MnO4⁻(aq) + 8H⁺(aq) → 5Fe³⁺(aq) + Mn²⁺(aq) + 4H₂O(l)</p>
+      </div>
+
+      <div class="note-block">
+        <h4>Full method for combining half-equations</h4>
+        <ol>
+          <li>Write both ionic half-equations (or identify which elements change oxidation number, and by how much).</li>
+          <li>Find the lowest common multiple of the electron numbers in each half-equation.</li>
+          <li>Multiply each half-equation so both have that same number of electrons.</li>
+          <li>Add the two half-equations together and cancel the electrons.</li>
+          <li>Balance any remaining H and O atoms (usually with H⁺ and H₂O, in acidic conditions).</li>
+          <li>Check the equation balances for charge on both sides — total charge on the left must equal total charge on the right.</li>
+        </ol>
+        <div class="warn">Step 6 (checking charge balance) is the step most students skip — but it's a fast, reliable way to catch an error before you submit an answer. If the charges don't match, you've made a mistake somewhere.</div>
+      </div>
+
+      <div class="note-block">
+        <h4>Worked example — using oxidation number change ratios directly</h4>
+        <p>For Fe²⁺ + ClO₃⁻ → Fe³⁺ + Cl⁻ (in acid): Fe changes +2→+3 (a 1-electron change); Cl changes +5→−1 (a 6-electron change). Ratio of Fe : ClO₃⁻ = 6 : 1.</p>
+        <p class="eqblock">6Fe²⁺ + ClO₃⁻ + 6H⁺ → 6Fe³⁺ + Cl⁻ + 3H₂O</p>
+        <p><strong>Charge check:</strong> LHS = (6×+2) + (−1) + (6×+1) = +17. RHS = (6×+3) + (−1) = +17. Balanced ✓</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Method</span>
+          <div class="q">What do you do first if two half-equations have a different number of electrons?</div>
+          <div class="a">Multiply each half-equation by whatever factor is needed so both have the same (lowest common multiple) number of electrons, before adding them together.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Method</span>
+          <div class="q">After adding half-equations and cancelling electrons, what should you always check?</div>
+          <div class="a">That the total charge on the left-hand side equals the total charge on the right-hand side of the final equation.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Apply</span>
+          <div class="q">Combine Zn(s) → Zn²⁺(aq) + 2e⁻ and Fe³⁺(aq) + e⁻ → Fe²⁺(aq) into one full equation.</div>
+          <div class="a">Multiply the iron equation by 2: 2Fe³⁺(aq) + 2e⁻ → 2Fe²⁺(aq). Add: Zn(s) + 2Fe³⁺(aq) → Zn²⁺(aq) + 2Fe²⁺(aq).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Balance</span>
+          <div class="q">In acidic conditions, what two species are usually used to balance leftover H and O atoms?</div>
+          <div class="a">H⁺ ions and H₂O molecules.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t5">
+        <div class="check-item"><input type="checkbox" id="c5-1"><label for="c5-1">I can combine two half-equations with equal electron numbers</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-2"><label for="c5-2">I can scale half-equations to match electron numbers using the LCM before combining</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-3"><label for="c5-3">I can balance remaining H/O atoms using H⁺ and H₂O</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-4"><label for="c5-4">I always check the final equation balances for charge</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetProgress()">Reset checklist progress</button>
+  </div>
+</main>
+
+<script>
+  function toggleTopic(headEl){
+    const section = headEl.parentElement;
+    document.querySelectorAll('section.topic').forEach(s=>{
+      if(s!==section){ s.classList.remove('open'); s.querySelector('.topic-body').style.maxHeight=null; }
+    });
+    section.classList.toggle('open');
+    const body = section.querySelector('.topic-body');
+    body.style.maxHeight = section.classList.contains('open') ? body.scrollHeight + 'px' : null;
+  }
+
+  const STORAGE_KEY = 'chem-topic3-checklist';
+
+  function loadProgress(){
+    let saved = {};
+    try{ saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ saved = {}; }
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      if(saved[box.id]){ box.checked = true; box.closest('.check-item').classList.add('done'); }
+      box.addEventListener('change', ()=>{
+        box.closest('.check-item').classList.toggle('done', box.checked);
+        saveProgress();
+        updateProgressBar();
+      });
+    });
+    updateProgressBar();
+  }
+
+  function saveProgress(){
+    const state = {};
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      state[box.id] = box.checked;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateProgressBar(){
+    const boxes = document.querySelectorAll('.check-item input[type=checkbox]');
+    const total = boxes.length;
+    const done = Array.from(boxes).filter(b=>b.checked).length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total + ' checkpoints complete';
+  }
+
+  function resetProgress(){
+    if(!confirm('Clear all checklist progress for Topic 3?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      box.checked = false;
+      box.closest('.check-item').classList.remove('done');
+    });
+    updateProgressBar();
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    loadProgress();
+    const openSection = document.querySelector('section.topic.open');
+    if(openSection){
+      const body = openSection.querySelector('.topic-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>
