@@ -1,0 +1,713 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Topic 4 — Group 2 & Group 7 | Edexcel 9CH0</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#161b22;
+    --panel-2:#1c2330;
+    --border:#2a3140;
+    --text:#e6edf3;
+    --muted:#8b96a5;
+    --accent:#4fd1c5;
+    --accent-2:#a78bfa;
+    --amber:#f2c94c;
+    --danger:#ff6b6b;
+    --good:#6fcf97;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:radial-gradient(circle at 20% -10%, #17202e 0%, var(--bg) 45%);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+    padding-bottom:60px;
+  }
+  header.hero{
+    padding:34px 20px 26px;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(79,209,197,0.08), transparent 70%);
+  }
+  .eyebrow{
+    color:var(--accent);
+    font-size:12.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:700;
+    margin:0 0 8px;
+  }
+  h1{margin:0 0 6px; font-size:26px; line-height:1.25;}
+  .subtitle{color:var(--muted); font-size:14.5px; max-width:620px;}
+  .progress-wrap{max-width:900px; margin:22px auto 0; padding:0 20px;}
+  .progress-bar-track{
+    height:9px; border-radius:99px; background:var(--panel-2); overflow:hidden; border:1px solid var(--border);
+  }
+  .progress-bar-fill{
+    height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    transition:width .35s ease;
+  }
+  .progress-label{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-top:6px;}
+  main{max-width:900px; margin:26px auto; padding:0 20px;}
+  .group-divider{
+    display:flex; align-items:center; gap:12px; margin:30px 0 14px;
+    color:var(--accent-2); font-weight:700; font-size:14px; text-transform:uppercase; letter-spacing:.08em;
+  }
+  .group-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+  nav.toc{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  nav.toc a{
+    color:var(--text); text-decoration:none; font-size:13px; padding:7px 12px;
+    background:var(--panel); border:1px solid var(--border); border-radius:99px;
+  }
+  nav.toc a:hover{border-color:var(--accent); color:var(--accent);}
+  section.topic{
+    background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
+    margin-bottom:18px; overflow:hidden;
+  }
+  .topic-head{display:flex; align-items:center; gap:12px; padding:16px 18px; cursor:pointer; user-select:none;}
+  .topic-num{
+    flex:0 0 auto; width:34px; height:34px; border-radius:9px;
+    background:var(--panel-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; color:var(--accent); font-size:12px;
+  }
+  .topic-title{flex:1; font-size:16.5px; font-weight:700;}
+  .chevron{transition:transform .25s ease; color:var(--muted); flex:0 0 auto;}
+  section.topic.open .chevron{transform:rotate(180deg);}
+  .topic-body{max-height:0; overflow:hidden; transition:max-height .35s ease; padding:0 18px;}
+  section.topic.open .topic-body{padding:0 18px 20px;}
+  .note-block{
+    background:var(--panel-2); border:1px solid var(--border); border-radius:10px;
+    padding:14px 16px; margin:12px 0; font-size:14.5px;
+  }
+  .note-block h4{margin:0 0 8px; font-size:13.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  .note-block ul, .note-block ol{margin:6px 0; padding-left:20px;}
+  .note-block li{margin-bottom:6px;}
+  .note-block p{margin:6px 0;}
+  .eq{
+    display:inline-block; background:#0f1420; border:1px solid var(--border); border-radius:6px;
+    padding:2px 8px; font-family:"SF Mono",Consolas,monospace; font-size:13.5px; color:var(--amber);
+  }
+  .eqblock{
+    background:#0f1420; border:1px solid var(--border); border-radius:8px;
+    padding:10px 14px; font-family:"SF Mono",Consolas,monospace; font-size:13px; color:var(--amber);
+    margin:8px 0; overflow-x:auto; white-space:pre;
+  }
+  .warn{border-left:3px solid var(--danger); padding-left:12px; margin:10px 0; font-size:13.5px; color:#ffb4b4;}
+  .tip{border-left:3px solid var(--good); padding-left:12px; margin:10px 0; font-size:13.5px; color:#b7f0c9;}
+  .flash-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px;}
+  @media(min-width:640px){ .flash-grid{grid-template-columns:1fr 1fr;} }
+  .flash{
+    background:#0f1420; border:1px solid var(--border); border-radius:12px;
+    padding:14px 16px; cursor:pointer; position:relative; min-height:78px;
+    display:flex; align-items:center;
+  }
+  .flash .q, .flash .a{width:100%;}
+  .flash .a{display:none; color:var(--accent);}
+  .flash.flipped .q{display:none;}
+  .flash.flipped .a{display:block;}
+  .flash .tag{
+    position:absolute; top:8px; right:10px; font-size:10px; letter-spacing:.08em;
+    color:var(--muted); text-transform:uppercase;
+  }
+  .flash:active{border-color:var(--accent);}
+  .checklist{margin-top:10px;}
+  .check-item{
+    display:flex; align-items:flex-start; gap:10px; padding:8px 0;
+    border-bottom:1px dashed var(--border); font-size:14px;
+  }
+  .check-item:last-child{border-bottom:none;}
+  .check-item input{margin-top:3px; width:18px; height:18px; accent-color:var(--accent); flex:0 0 auto;}
+  .check-item label{flex:1;}
+  .check-item.done label{color:var(--muted); text-decoration:line-through;}
+  .reset-row{display:flex; justify-content:flex-end; margin-top:18px;}
+  .reset-btn{
+    background:none; border:1px solid var(--border); color:var(--muted);
+    padding:8px 14px; border-radius:99px; font-size:12.5px; cursor:pointer;
+  }
+  .reset-btn:hover{color:var(--danger); border-color:var(--danger);}
+  table.datatable{width:100%; border-collapse:collapse; margin:10px 0; font-size:13px;}
+  table.datatable th, table.datatable td{border:1px solid var(--border); padding:7px 9px; text-align:left; vertical-align:top;}
+  table.datatable th{background:var(--panel); color:var(--accent); font-size:11.5px; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">Edexcel A Level Chemistry · 9CH0</p>
+  <h1>Topic 4 — Group 2 &amp; Group 7</h1>
+  <p class="subtitle">Super detailed notes + flip flashcards + checklist. Tap any section to expand, tap a flashcard to reveal the answer. Progress is saved on this device.</p>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 checkpoints complete</span><span>Topic 4</span></div>
+</div>
+
+<main>
+  <nav class="toc">
+    <a href="#t1">4.1a Trends: IE &amp; Reactivity</a>
+    <a href="#t2">4.1b Reactions with O₂, Cl₂, H₂O</a>
+    <a href="#t3">4.1c Oxides/Hydroxides &amp; Solubility</a>
+    <a href="#t4">4.1d Thermal Stability</a>
+    <a href="#t5">4.2a Trends: mp/bp &amp; Electronegativity</a>
+    <a href="#t6">4.2b Redox &amp; Displacement</a>
+    <a href="#t7">4.2c Disproportionation of Cl₂</a>
+    <a href="#t8">4.2d Halide Ion Tests</a>
+  </nav>
+
+  <div class="group-divider">Group 2 — The Alkaline Earth Metals</div>
+
+  <!-- 4.1a -->
+  <section class="topic open" id="t1">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">4.1a</div>
+      <div class="topic-title">Trends: Ionisation Energy &amp; Reactivity</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>First and second ionisation energy</h4>
+        <p><strong>First IE:</strong> the energy required to remove one electron from each atom in one mole of gaseous atoms. <span class="eq">M(g) → M⁺(g) + e⁻</span></p>
+        <p><strong>Second IE:</strong> the energy required to remove one electron from each ion in one mole of gaseous 1+ ions. <span class="eq">M⁺(g) → M²⁺(g) + e⁻</span></p>
+        <p>Group 2 elements always lose <strong>2</strong> electrons in reactions to form M²⁺ ions, so both first and second IE are relevant to their reactivity.</p>
+      </div>
+      <div class="note-block">
+        <h4>Trend down the group: both IEs decrease</h4>
+        <p>Three factors are in play:</p>
+        <ul>
+          <li>Nuclear charge increases down the group → would <strong>increase</strong> IE.</li>
+          <li>Atomic/ionic radius increases (extra quantum shells) → <strong>decreases</strong> IE.</li>
+          <li>Shielding from complete inner shells increases → <strong>decreases</strong> IE.</li>
+        </ul>
+        <p>The combined effect of increasing radius and shielding <strong>outweighs</strong> the effect of increasing nuclear charge, so ionisation energy decreases down Group 2.</p>
+      </div>
+      <div class="note-block">
+        <h4>Trend in reactivity</h4>
+        <p>Reactivity <strong>increases</strong> down Group 2. In every reaction, the Group 2 element forms an M²⁺ ion, and less energy is needed to remove the two electrons as you go down the group (lower combined 1st+2nd IE) — so the element reacts more readily.</p>
+        <div class="warn">Always link reactivity back to ionisation energy explicitly in your answer — "more reactive because it's lower down" with no reasoning given will not score full marks.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define second ionisation energy.</div>
+          <div class="a">The energy required to remove one electron from each ion in one mole of gaseous 1+ ions, forming one mole of gaseous 2+ ions.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why does ionisation energy decrease down Group 2 despite increasing nuclear charge?</div>
+          <div class="a">The increase in atomic radius and shielding from additional inner shells outweighs the increase in nuclear charge, so the outer electrons are less strongly held.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is barium more reactive than magnesium?</div>
+          <div class="a">Barium has a lower combined first and second ionisation energy than magnesium (larger radius, more shielding), so its outer electrons are removed more easily, making it react more readily to form Ba²⁺.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t1">
+        <div class="check-item"><input type="checkbox" id="c1-1"><label for="c1-1">I can define first and second ionisation energy precisely</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-2"><label for="c1-2">I can explain the down-group decrease in IE using all 3 factors</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-3"><label for="c1-3">I can link the reactivity trend back to ionisation energy</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4.1b -->
+  <section class="topic" id="t2">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">4.1b</div>
+      <div class="topic-title">Reactions with Oxygen, Chlorine &amp; Water</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>With oxygen</h4>
+        <p class="eq">2M(s) + O₂(g) → 2MO(s)</p>
+        <p>Forms a white oxide solid containing M²⁺ and O²⁻ ions. Reactions become more vigorous down the group. All Group 2 metals form a dull oxide surface coating even without heating, from slow reaction with air.</p>
+      </div>
+      <div class="note-block">
+        <h4>With chlorine</h4>
+        <p class="eq">M(s) + Cl₂(g) → MCl₂(s)</p>
+        <p>Forms a white chloride solid containing M²⁺ and Cl⁻ ions. Also becomes more vigorous down the group.</p>
+      </div>
+      <div class="note-block">
+        <h4>With water</h4>
+        <p class="eq">M(s) + 2H₂O(l) → M(OH)₂(aq/s) + H₂(g)</p>
+        <ul>
+          <li>Magnesium reacts very slowly and incompletely with cold water.</li>
+          <li>Magnesium reacts vigorously with <strong>steam</strong> instead, forming MgO and H₂: <span class="eq">Mg(s) + H₂O(g) → MgO(s) + H₂(g)</span></li>
+          <li>Calcium, strontium and barium react with increasing vigour down the group with cold water (seen as increasing effervescence).</li>
+          <li>Calcium hydroxide is only slightly soluble — the mixture goes <strong>cloudy</strong> as a precipitate forms: <span class="eq">Ca(s) + 2H₂O(l) → Ca(OH)₂(s) + H₂(g)</span></li>
+          <li>Barium hydroxide is soluble, giving a colourless solution: <span class="eq">Ba(s) + 2H₂O(l) → Ba(OH)₂(aq) + H₂(g)</span></li>
+        </ul>
+        <div class="warn">Watch the state symbol for the hydroxide product — it changes from (s) for calcium (low solubility, precipitate forms) to (aq) for barium (soluble) — a common place to drop a mark.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Equation</span>
+          <div class="q">Write the equation for magnesium reacting with steam.</div>
+          <div class="a">Mg(s) + H₂O(g) → MgO(s) + H₂(g)</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Observation</span>
+          <div class="q">Why does the reaction of calcium with water go cloudy, but barium with water stays clear?</div>
+          <div class="a">Calcium hydroxide has low solubility and forms a precipitate (cloudy), while barium hydroxide is soluble and dissolves fully (clear solution).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">Write the general equation for a Group 2 metal reacting with chlorine.</div>
+          <div class="a">M(s) + Cl₂(g) → MCl₂(s)</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t2">
+        <div class="check-item"><input type="checkbox" id="c2-1"><label for="c2-1">I can write balanced equations for Group 2 + O₂, Cl₂ and H₂O</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-2"><label for="c2-2">I know magnesium's special behaviour with cold water vs steam</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-3"><label for="c2-3">I can explain the cloudy vs clear observation using solubility of the hydroxide</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4.1c -->
+  <section class="topic" id="t3">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">4.1c</div>
+      <div class="topic-title">Oxides, Hydroxides &amp; Solubility Trends</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Oxides react with water to form alkaline hydroxides</h4>
+        <p class="eq">MO(s) + H₂O(l) → M(OH)₂(aq)</p>
+        <p>Group 2 oxides are <strong>basic oxides</strong>. The ionic version, O²⁻ + H₂O → 2OH⁻, shows why the resulting solution is alkaline.</p>
+      </div>
+      <div class="note-block">
+        <h4>⚠️ Two opposite solubility trends — do not mix these up</h4>
+        <ul>
+          <li><strong>Hydroxides: solubility INCREASES down the group.</strong> Mg(OH)₂ has very low solubility; Ba(OH)₂ is soluble. This means maximum alkalinity (pH) of the solution formed also increases down the group.</li>
+          <li><strong>Sulfates: solubility DECREASES down the group.</strong> MgSO₄ is soluble; CaSO₄ is slightly soluble; SrSO₄ and BaSO₄ are insoluble.</li>
+        </ul>
+        <div class="warn">This is one of the single most common Group 2 exam errors — hydroxide solubility goes up the group as you go down it, sulfate solubility goes down. Learn them as a contrasting pair, not in isolation.</div>
+      </div>
+      <div class="note-block">
+        <h4>Reactions with acids (neutralisation)</h4>
+        <p>All Group 2 oxides and hydroxides react with acids to form a salt and water, e.g.:</p>
+        <p class="eqblock">MgO + H2SO4 → MgSO4 + H2O
+Ca(OH)2 + 2HNO3 → Ca(NO3)2 + 2H2O</p>
+      </div>
+      <div class="note-block">
+        <h4>Real-world applications</h4>
+        <ul>
+          <li><strong>Limewater test for CO₂:</strong> CO₂ + Ca(OH)₂ → CaCO₃ + H₂O — white precipitate of insoluble calcium carbonate causes the "milky/cloudy" result.</li>
+          <li><strong>Milk of magnesia:</strong> Mg(OH)₂ neutralises excess stomach HCl as an antacid: Mg(OH)₂ + 2HCl → MgCl₂ + 2H₂O. Safe because Mg(OH)₂'s low solubility keeps the OH⁻ concentration low.</li>
+          <li><strong>Agricultural lime:</strong> Ca(OH)₂ neutralises excess acidity in soil.</li>
+          <li><strong>Barium meal (medical imaging):</strong> BaSO₄ is used despite Ba²⁺ being toxic, because BaSO₄'s extremely low solubility means the ions are never free to be absorbed — it shows up soft tissue on X-rays.</li>
+          <li><strong>Test for sulfate ions:</strong> add dilute acid (to remove interference from carbonate ions) then BaCl₂ or Ba(NO₃)₂ — a white precipitate of BaSO₄ confirms sulfate: Ba²⁺(aq) + SO₄²⁻(aq) → BaSO₄(s)</li>
+        </ul>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Trend</span>
+          <div class="q">How does hydroxide solubility change down Group 2?</div>
+          <div class="a">It increases down the group (Mg(OH)₂ almost insoluble → Ba(OH)₂ soluble).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Trend</span>
+          <div class="q">How does sulfate solubility change down Group 2?</div>
+          <div class="a">It decreases down the group (MgSO₄ soluble → BaSO₄ insoluble) — the opposite direction to hydroxides.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is barium sulfate safe to use in a barium meal despite Ba²⁺ being toxic?</div>
+          <div class="a">BaSO₄ has extremely low solubility, so the Ba²⁺ ions are not free to be absorbed by the body — they pass through the digestive system without being released.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Test</span>
+          <div class="q">Describe the test for sulfate ions in solution, including why acid is added first.</div>
+          <div class="a">Add dilute acid (to remove carbonate ions, which would also give a false-positive white precipitate), then add barium chloride or barium nitrate solution — a white precipitate of BaSO₄ confirms sulfate ions are present.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t3">
+        <div class="check-item"><input type="checkbox" id="c3-1"><label for="c3-1">I can write the equation for oxide + water → hydroxide</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-2"><label for="c3-2">I know hydroxide solubility increases and sulfate solubility decreases down the group (not mixed up)</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-3"><label for="c3-3">I can write neutralisation equations for oxides/hydroxides + acids</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-4"><label for="c3-4">I can explain limewater, milk of magnesia, barium meal and the sulfate test</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4.1d -->
+  <section class="topic" id="t4">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">4.1d</div>
+      <div class="topic-title">Thermal Stability of Nitrates &amp; Carbonates</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Why Group 2 compounds decompose instead of just melting</h4>
+        <p>Compared to a Group 1 chloride like NaCl (which simply melts with no decomposition), Group 2 nitrates and carbonates decompose on heating because:</p>
+        <ul>
+          <li>The cation charge is <strong>higher</strong> (2+ vs 1+).</li>
+          <li>The cation is <strong>smaller</strong> (for elements in the same period).</li>
+          <li>The nitrate (NO₃⁻) and carbonate (CO₃²⁻) anions are large and more complex than a simple Cl⁻ ion.</li>
+        </ul>
+        <p>A cation with a <strong>greater charge density</strong> (small size + high charge) distorts/polarises the large anion more strongly, making it easier for the anion to break down into a smaller, more stable ion (releasing a gas).</p>
+      </div>
+      <div class="note-block">
+        <h4>General trend across Group 1 and Group 2</h4>
+        <p>Thermal stability <strong>increases down a group</strong> (bigger cation, lower charge density, less distortion of the anion) and is <strong>lower for Group 2 than Group 1</strong> overall (higher charge, smaller radius for a given period).</p>
+      </div>
+      <div class="note-block">
+        <h4>Nitrates</h4>
+        <p>All Group 2 nitrates undergo <strong>greater decomposition</strong> to the oxide, releasing brown NO₂ fumes and oxygen:</p>
+        <p class="eq">2M(NO₃)₂ → 2MO + 4NO₂ + O₂</p>
+        <p>Most Group 1 nitrates only undergo <strong>lesser decomposition</strong> to the nitrite (no brown fumes): <span class="eq">2NaNO₃ → 2NaNO₂ + O₂</span> — except lithium nitrate, which (like Group 2) decomposes fully to the oxide with brown fumes, because Li⁺ is unusually small for Group 1.</p>
+      </div>
+      <div class="note-block">
+        <h4>Carbonates</h4>
+        <p>Group 2 carbonates decompose to the oxide and CO₂ (colourless gas, no visible fumes):</p>
+        <p class="eq">MCO₃ → MO + CO₂</p>
+        <p>Most Group 1 carbonates do <strong>not</strong> decompose when heated with a standard Bunsen flame (their thermal stability is much higher due to the 1+ charge) — again, lithium carbonate is the exception and does decompose.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why do Group 2 nitrates/carbonates decompose on heating instead of just melting like NaCl?</div>
+          <div class="a">Group 2 cations have a higher charge (2+) and smaller radius than Group 1 cations, giving them a higher charge density. This more strongly polarises/distorts the large nitrate or carbonate anion, making it break down into a smaller, more stable ion and release a gas.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Trend</span>
+          <div class="q">Does thermal stability of Group 2 carbonates increase or decrease down the group?</div>
+          <div class="a">Increases down the group — larger cations have lower charge density, so they distort the carbonate ion less, making it harder to decompose.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Exception</span>
+          <div class="q">Which Group 1 nitrate behaves like a Group 2 nitrate on heating, and why?</div>
+          <div class="a">Lithium nitrate — it decomposes fully to the oxide with brown NO₂ fumes, because Li⁺ is unusually small, giving it a higher charge density than the other Group 1 cations.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Equation</span>
+          <div class="q">Write the general equation for thermal decomposition of a Group 2 carbonate.</div>
+          <div class="a">MCO₃(s) → MO(s) + CO₂(g)</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t4">
+        <div class="check-item"><input type="checkbox" id="c4-1"><label for="c4-1">I can explain thermal decomposition using cation charge density/polarisation of the anion</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-2"><label for="c4-2">I know the Group 2 nitrate and carbonate decomposition products and equations</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-3"><label for="c4-3">I know lithium is the Group 1 exception and why</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-4"><label for="c4-4">I can predict brown fumes (NO₂) vs no visible change (CO₂) from experimental observations</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="group-divider">Group 7 — The Halogens</div>
+
+  <!-- 4.2a -->
+  <section class="topic" id="t5">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">4.2a</div>
+      <div class="topic-title">Trends: Melting/Boiling Point &amp; Electronegativity</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Melting and boiling point trend — increases down the group</h4>
+        <p>Halogens exist as non-polar diatomic molecules (X₂). The only intermolecular force between them is <strong>London (dispersion) forces</strong>, arising from instantaneous dipole–induced dipole interactions.</p>
+        <p>Down the group, molecules have more electrons and a larger electron cloud, so London forces get stronger, requiring more energy to separate the molecules — hence increasing melting/boiling point.</p>
+        <p>This explains the change in physical state at room temperature: F₂ and Cl₂ are gases, Br₂ is a liquid, I₂ is a solid.</p>
+      </div>
+      <div class="note-block">
+        <h4>Electronegativity trend — decreases down the group</h4>
+        <p>Electronegativity depends on nuclear charge, distance to the bonding pair (atomic radius), and shielding. Down Group 7, increasing atomic radius and shielding outweigh the increasing nuclear charge, so electronegativity decreases.</p>
+        <ul>
+          <li>Group 7 has the highest electronegativity values of any group.</li>
+          <li>Fluorine is the most electronegative element of all.</li>
+        </ul>
+      </div>
+      <div class="note-block">
+        <h4>Reactivity trend — decreases down the group</h4>
+        <p>Halogens react mainly as <strong>oxidising agents</strong>, gaining electrons to form X⁻ ions. This ability is directly linked to electronegativity, so reactivity decreases down the group for the same reasons electronegativity decreases.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why does boiling point increase down Group 7?</div>
+          <div class="a">More electrons and a larger electron cloud down the group strengthen the London (instantaneous dipole–induced dipole) forces between molecules, needing more energy to separate them.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">State the physical states of F₂, Cl₂, Br₂ and I₂ at room temperature.</div>
+          <div class="a">F₂ and Cl₂: gases. Br₂: liquid. I₂: solid.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why does reactivity decrease down Group 7?</div>
+          <div class="a">Halogens react by gaining an electron (acting as oxidising agents); down the group, increasing atomic radius and shielding reduce the attraction for an incoming electron, so electronegativity — and reactivity — decrease.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t5">
+        <div class="check-item"><input type="checkbox" id="c5-1"><label for="c5-1">I can explain the melting/boiling point trend using London forces</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-2"><label for="c5-2">I can explain the electronegativity trend using the 3 standard factors</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-3"><label for="c5-3">I can link reactivity trend to electronegativity trend</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4.2b -->
+  <section class="topic" id="t6">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">4.2b</div>
+      <div class="topic-title">Redox Reactions with Metals &amp; Halide Displacement</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Reactions with Group 1 and 2 metals</h4>
+        <p>All involve electron transfer <strong>to</strong> the halogen — the halogen is reduced (oxidation number 0 → −1) and acts as the oxidising agent; the metal is oxidised (0 → +1 or +2).</p>
+        <p class="eqblock">2Li + Cl2 → 2LiCl
+Ba + Br2 → BaBr2</p>
+        <p>Most vigorous reaction: elements at the <strong>bottom</strong> of Groups 1/2 with elements at the <strong>top</strong> of Group 7 (e.g. caesium + fluorine).</p>
+      </div>
+      <div class="note-block">
+        <h4>Halogen/halide displacement reactions</h4>
+        <p>A more reactive halogen displaces a less reactive halide from solution:</p>
+        <ul>
+          <li>Chlorine displaces bromide and iodide.</li>
+          <li>Bromine displaces iodide, but NOT chloride.</li>
+          <li>Iodine cannot displace either chloride or bromide.</li>
+        </ul>
+        <p class="eqblock">Cl2 + 2NaBr → 2NaCl + Br2
+Br2 + 2NaI → 2NaBr + I2</p>
+        <p>These are redox reactions: the halogen's oxidation number decreases 0 → −1 (reduced), while the halide's oxidation number increases −1 → 0 (oxidised).</p>
+      </div>
+      <div class="note-block">
+        <h4>Explaining decreasing reactivity (Cl > Br > I)</h4>
+        <ul>
+          <li>Chlorine is the smallest atom, so an incoming electron gets closer to (and more attracted by) the nucleus.</li>
+          <li>Chlorine has the fewest complete inner shells, so an incoming electron experiences the least shielding/repulsion.</li>
+        </ul>
+      </div>
+      <div class="note-block">
+        <h4>Observing the reactions — practical tip</h4>
+        <p>Halogens dissolved in water can look similar in colour and vary with concentration, making results ambiguous. Adding an organic solvent (e.g. cyclohexane) and shaking makes the halogen dissolve preferentially into the upper organic layer, where its distinctive colour is much easier to identify (chlorine: very pale/colourless, bromine: orange, iodine: purple/violet).</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">Can bromine displace chlorine from a chloride solution?</div>
+          <div class="a">No — bromine is less reactive than chlorine and can only displace less reactive halides (iodide), not more reactive ones (chloride).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is chlorine more reactive than bromine in displacement reactions?</div>
+          <div class="a">Chlorine is a smaller atom with fewer complete inner shells, so an incoming electron is more strongly attracted to the nucleus and experiences less shielding, making chlorine gain an electron more readily.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Practical</span>
+          <div class="q">Why is an organic solvent like cyclohexane added when observing halogen displacement reactions?</div>
+          <div class="a">Halogens are more soluble in cyclohexane than water; shaking with it concentrates the halogen in the upper organic layer, making its characteristic colour much easier to identify than in the aqueous layer.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t6">
+        <div class="check-item"><input type="checkbox" id="c6-1"><label for="c6-1">I can write equations for Group 1/2 metals reacting with halogens</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-2"><label for="c6-2">I know which halogens displace which halides (Cl>Br>I)</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-3"><label for="c6-3">I can explain the reactivity order using atomic size and shielding</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-4"><label for="c6-4">I know why cyclohexane is used to observe these reactions</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4.2c -->
+  <section class="topic" id="t7">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">4.2c</div>
+      <div class="topic-title">Disproportionation Reactions of Chlorine</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Chlorine with water</h4>
+        <p class="eq">Cl₂ + H₂O → HCl + HClO</p>
+        <p>Chlorine goes from 0 → −1 (reduced, in HCl) and 0 → +1 (oxidised, in HClO, chloric(I) acid/hypochlorous acid) simultaneously — a disproportionation reaction. This reaction is the basis for using chlorine to disinfect drinking water and swimming pools (kills pathogens).</p>
+      </div>
+      <div class="note-block">
+        <h4>Chlorine with cold dilute NaOH</h4>
+        <p class="eq">Cl₂ + 2NaOH → NaCl + NaClO + H₂O</p>
+        <p>Chlorine: 0 → −1 (reduced, NaCl) and 0 → +1 (oxidised, NaClO, sodium chlorate(I)). Sodium chlorate(I) is the active bleaching ingredient in household bleach.</p>
+      </div>
+      <div class="note-block">
+        <h4>Chlorine with hot concentrated NaOH</h4>
+        <p class="eq">3Cl₂ + 6NaOH → 5NaCl + NaClO₃ + 3H₂O</p>
+        <p>Chlorine: 0 → −1 (reduced, NaCl, ×5) and 0 → +5 (oxidised, NaClO₃, sodium chlorate(V), ×1). Sodium chlorate(V) is used in bleaching and as a weedkiller.</p>
+        <div class="warn">Note the different products depending on conditions: cold + dilute NaOH gives chlorate(I) (+1); hot + concentrated NaOH gives chlorate(V) (+5). Mixing these up is a very common error.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Equation</span>
+          <div class="q">Write the equation for chlorine reacting with water, and name the products.</div>
+          <div class="a">Cl₂ + H₂O → HCl + HClO. Products: hydrochloric acid and chloric(I) acid (hypochlorous acid).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Conditions</span>
+          <div class="q">What product forms when chlorine reacts with cold dilute NaOH, vs hot concentrated NaOH?</div>
+          <div class="a">Cold dilute: sodium chlorate(I), NaClO (Cl at +1). Hot concentrated: sodium chlorate(V), NaClO₃ (Cl at +5).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is the reaction of chlorine with NaOH classed as disproportionation?</div>
+          <div class="a">Chlorine (oxidation number 0) is simultaneously reduced to −1 (in NaCl) and oxidised to +1 or +5 (in NaClO or NaClO₃) — the same element undergoes both oxidation and reduction in the same reaction.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t7">
+        <div class="check-item"><input type="checkbox" id="c7-1"><label for="c7-1">I can write all three chlorine disproportionation equations from memory</label></div>
+        <div class="check-item"><input type="checkbox" id="c7-2"><label for="c7-2">I can identify the oxidation number changes in each reaction</label></div>
+        <div class="check-item"><input type="checkbox" id="c7-3"><label for="c7-3">I know which conditions (cold/dilute vs hot/concentrated) give which chlorate product</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4.2d -->
+  <section class="topic" id="t8">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">4.2d</div>
+      <div class="topic-title">Testing for Halide Ions</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Method</h4>
+        <p>Add dilute nitric acid first (removes carbonate ions, which would also give a false-positive precipitate), then add aqueous silver nitrate. A precipitate of the silver halide forms — its colour identifies the halide. Then add ammonia solution to distinguish between precipitates of similar colour.</p>
+        <p class="eq">Ag⁺(aq) + X⁻(aq) → AgX(s)</p>
+      </div>
+      <div class="note-block">
+        <h4>Results table</h4>
+        <table class="datatable">
+          <tr><th>Halide</th><th>+ AgNO₃</th><th>+ dilute NH₃</th><th>+ concentrated NH₃</th></tr>
+          <tr><td>Chloride (Cl⁻)</td><td>White precipitate</td><td>Dissolves (soluble)</td><td>Dissolves (soluble)</td></tr>
+          <tr><td>Bromide (Br⁻)</td><td>Cream precipitate</td><td>Insoluble</td><td>Dissolves (soluble)</td></tr>
+          <tr><td>Iodide (I⁻)</td><td>Yellow precipitate</td><td>Insoluble</td><td>Insoluble</td></tr>
+        </table>
+        <div class="warn">This test cannot be used for fluoride ions — silver fluoride is soluble in water, so no precipitate ever forms.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">What colour precipitate does bromide give with silver nitrate?</div>
+          <div class="a">Cream.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is dilute nitric acid added before the silver nitrate test?</div>
+          <div class="a">To remove/prevent interference from carbonate ions, which would also form a precipitate with silver ions and give a false positive.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Distinguish</span>
+          <div class="q">How does ammonia help distinguish between the three silver halide precipitates?</div>
+          <div class="a">AgCl dissolves in dilute ammonia; AgBr is insoluble in dilute but dissolves in concentrated ammonia; AgI is insoluble in both dilute and concentrated ammonia.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Limitation</span>
+          <div class="q">Why can't this test detect fluoride ions?</div>
+          <div class="a">Silver fluoride is soluble in water, so no precipitate forms even when fluoride ions are present.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t8">
+        <div class="check-item"><input type="checkbox" id="c8-1"><label for="c8-1">I know the precipitate colours for Cl⁻, Br⁻, I⁻ with AgNO₃</label></div>
+        <div class="check-item"><input type="checkbox" id="c8-2"><label for="c8-2">I know the solubility results with dilute vs concentrated ammonia</label></div>
+        <div class="check-item"><input type="checkbox" id="c8-3"><label for="c8-3">I can explain why dilute nitric acid is added first</label></div>
+        <div class="check-item"><input type="checkbox" id="c8-4"><label for="c8-4">I know this test cannot detect fluoride and why</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetProgress()">Reset checklist progress</button>
+  </div>
+</main>
+
+<script>
+  function toggleTopic(headEl){
+    const section = headEl.parentElement;
+    document.querySelectorAll('section.topic').forEach(s=>{
+      if(s!==section){ s.classList.remove('open'); s.querySelector('.topic-body').style.maxHeight=null; }
+    });
+    section.classList.toggle('open');
+    const body = section.querySelector('.topic-body');
+    body.style.maxHeight = section.classList.contains('open') ? body.scrollHeight + 'px' : null;
+  }
+
+  const STORAGE_KEY = 'chem-topic4-checklist';
+
+  function loadProgress(){
+    let saved = {};
+    try{ saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ saved = {}; }
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      if(saved[box.id]){ box.checked = true; box.closest('.check-item').classList.add('done'); }
+      box.addEventListener('change', ()=>{
+        box.closest('.check-item').classList.toggle('done', box.checked);
+        saveProgress();
+        updateProgressBar();
+      });
+    });
+    updateProgressBar();
+  }
+
+  function saveProgress(){
+    const state = {};
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      state[box.id] = box.checked;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateProgressBar(){
+    const boxes = document.querySelectorAll('.check-item input[type=checkbox]');
+    const total = boxes.length;
+    const done = Array.from(boxes).filter(b=>b.checked).length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total + ' checkpoints complete';
+  }
+
+  function resetProgress(){
+    if(!confirm('Clear all checklist progress for Topic 4?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      box.checked = false;
+      box.closest('.check-item').classList.remove('done');
+    });
+    updateProgressBar();
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    loadProgress();
+    const openSection = document.querySelector('section.topic.open');
+    if(openSection){
+      const body = openSection.querySelector('.topic-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>
