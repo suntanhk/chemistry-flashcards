@@ -1,0 +1,668 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Topic 5 — Formulae, Equations & Amount of Substance | Edexcel 9CH0</title>
+<style>
+  :root{
+    --bg:#0d1117;
+    --panel:#161b22;
+    --panel-2:#1c2330;
+    --border:#2a3140;
+    --text:#e6edf3;
+    --muted:#8b96a5;
+    --accent:#4fd1c5;
+    --accent-2:#a78bfa;
+    --amber:#f2c94c;
+    --danger:#ff6b6b;
+    --good:#6fcf97;
+    --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    background:radial-gradient(circle at 20% -10%, #17202e 0%, var(--bg) 45%);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55;
+    padding-bottom:60px;
+  }
+  header.hero{
+    padding:34px 20px 26px;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(79,209,197,0.08), transparent 70%);
+  }
+  .eyebrow{
+    color:var(--accent);
+    font-size:12.5px;
+    letter-spacing:.14em;
+    text-transform:uppercase;
+    font-weight:700;
+    margin:0 0 8px;
+  }
+  h1{margin:0 0 6px; font-size:26px; line-height:1.25;}
+  .subtitle{color:var(--muted); font-size:14.5px; max-width:620px;}
+  .progress-wrap{max-width:900px; margin:22px auto 0; padding:0 20px;}
+  .progress-bar-track{
+    height:9px; border-radius:99px; background:var(--panel-2); overflow:hidden; border:1px solid var(--border);
+  }
+  .progress-bar-fill{
+    height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2));
+    transition:width .35s ease;
+  }
+  .progress-label{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-top:6px;}
+  main{max-width:900px; margin:26px auto; padding:0 20px;}
+  nav.toc{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  nav.toc a{
+    color:var(--text); text-decoration:none; font-size:13px; padding:7px 12px;
+    background:var(--panel); border:1px solid var(--border); border-radius:99px;
+  }
+  nav.toc a:hover{border-color:var(--accent); color:var(--accent);}
+  section.topic{
+    background:var(--panel); border:1px solid var(--border); border-radius:var(--radius);
+    margin-bottom:18px; overflow:hidden;
+  }
+  .topic-head{display:flex; align-items:center; gap:12px; padding:16px 18px; cursor:pointer; user-select:none;}
+  .topic-num{
+    flex:0 0 auto; width:34px; height:34px; border-radius:9px;
+    background:var(--panel-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center;
+    font-weight:700; color:var(--accent); font-size:13px;
+  }
+  .topic-title{flex:1; font-size:16.5px; font-weight:700;}
+  .chevron{transition:transform .25s ease; color:var(--muted); flex:0 0 auto;}
+  section.topic.open .chevron{transform:rotate(180deg);}
+  .topic-body{max-height:0; overflow:hidden; transition:max-height .35s ease; padding:0 18px;}
+  section.topic.open .topic-body{padding:0 18px 20px;}
+  .note-block{
+    background:var(--panel-2); border:1px solid var(--border); border-radius:10px;
+    padding:14px 16px; margin:12px 0; font-size:14.5px;
+  }
+  .note-block h4{margin:0 0 8px; font-size:13.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  .note-block ul, .note-block ol{margin:6px 0; padding-left:20px;}
+  .note-block li{margin-bottom:6px;}
+  .note-block p{margin:6px 0;}
+  .eq{
+    display:inline-block; background:#0f1420; border:1px solid var(--border); border-radius:6px;
+    padding:2px 8px; font-family:"SF Mono",Consolas,monospace; font-size:13.5px; color:var(--amber);
+  }
+  .eqblock{
+    background:#0f1420; border:1px solid var(--border); border-radius:8px;
+    padding:10px 14px; font-family:"SF Mono",Consolas,monospace; font-size:13px; color:var(--amber);
+    margin:8px 0; overflow-x:auto; white-space:pre;
+  }
+  .warn{border-left:3px solid var(--danger); padding-left:12px; margin:10px 0; font-size:13.5px; color:#ffb4b4;}
+  .tip{border-left:3px solid var(--good); padding-left:12px; margin:10px 0; font-size:13.5px; color:#b7f0c9;}
+  .flash-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px;}
+  @media(min-width:640px){ .flash-grid{grid-template-columns:1fr 1fr;} }
+  .flash{
+    background:#0f1420; border:1px solid var(--border); border-radius:12px;
+    padding:14px 16px; cursor:pointer; position:relative; min-height:78px;
+    display:flex; align-items:center;
+  }
+  .flash .q, .flash .a{width:100%;}
+  .flash .a{display:none; color:var(--accent);}
+  .flash.flipped .q{display:none;}
+  .flash.flipped .a{display:block;}
+  .flash .tag{
+    position:absolute; top:8px; right:10px; font-size:10px; letter-spacing:.08em;
+    color:var(--muted); text-transform:uppercase;
+  }
+  .flash:active{border-color:var(--accent);}
+  .checklist{margin-top:10px;}
+  .check-item{
+    display:flex; align-items:flex-start; gap:10px; padding:8px 0;
+    border-bottom:1px dashed var(--border); font-size:14px;
+  }
+  .check-item:last-child{border-bottom:none;}
+  .check-item input{margin-top:3px; width:18px; height:18px; accent-color:var(--accent); flex:0 0 auto;}
+  .check-item label{flex:1;}
+  .check-item.done label{color:var(--muted); text-decoration:line-through;}
+  .reset-row{display:flex; justify-content:flex-end; margin-top:18px;}
+  .reset-btn{
+    background:none; border:1px solid var(--border); color:var(--muted);
+    padding:8px 14px; border-radius:99px; font-size:12.5px; cursor:pointer;
+  }
+  .reset-btn:hover{color:var(--danger); border-color:var(--danger);}
+  table.datatable{width:100%; border-collapse:collapse; margin:10px 0; font-size:13px;}
+  table.datatable th, table.datatable td{border:1px solid var(--border); padding:7px 9px; text-align:left; vertical-align:top;}
+  table.datatable th{background:var(--panel); color:var(--accent); font-size:11.5px; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">Edexcel A Level Chemistry · 9CH0</p>
+  <h1>Topic 5 — Formulae, Equations &amp; Amount of Substance</h1>
+  <p class="subtitle">Super detailed notes + flip flashcards + checklist. Tap any section to expand, tap a flashcard to reveal the answer. Progress is saved on this device.</p>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 checkpoints complete</span><span>Topic 5</span></div>
+</div>
+
+<main>
+  <nav class="toc">
+    <a href="#t1">5.1 Moles &amp; Molar Mass</a>
+    <a href="#t2">5.2 Empirical &amp; Molecular Formulae</a>
+    <a href="#t3">5.3 Writing &amp; Balancing Equations</a>
+    <a href="#t4">5.4 Reacting Mass Calculations</a>
+    <a href="#t5">5.5 Gas Volume Calculations</a>
+    <a href="#t6">5.6 Concentration &amp; Titrations</a>
+    <a href="#t7">5.7 Percentage Uncertainty</a>
+    <a href="#t8">5.8 Yield &amp; Atom Economy</a>
+  </nav>
+
+  <!-- 5.1 -->
+  <section class="topic open" id="t1">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">5.1</div>
+      <div class="topic-title">The Mole, Avogadro Constant &amp; Molar Mass</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Definitions</h4>
+        <p><strong>Mole:</strong> the amount of substance that contains the same number of particles as the number of carbon atoms in exactly 12 g of the carbon-12 isotope.</p>
+        <p><strong>Avogadro constant (Lₐ or Nₐ):</strong> the number of atoms of ¹²C in exactly 12 g of ¹²C — approximately 6.02 × 10²³ mol⁻¹.</p>
+        <p><strong>Molar mass (M):</strong> the mass per mole of a substance, units g mol⁻¹. Unlike "relative molecular mass" (which only applies to molecules), molar mass and "relative formula mass" can be used for ionic compounds too.</p>
+      </div>
+      <div class="note-block">
+        <h4>Core equation</h4>
+        <p class="eq">n = m ÷ M</p>
+        <p>Rearranged forms: <span class="eq">m = n × M</span> and <span class="eq">M = m ÷ n</span></p>
+        <p><strong>Example:</strong> Amount of substance in 6.51 g of NaCl (M = 58.5): n = 6.51 ÷ 58.5 = 0.111 mol</p>
+      </div>
+      <div class="tip">Watch out for questions about "particles" (atoms, molecules or ions) — once you have moles, multiply by the Avogadro constant to get the actual number of particles: number of particles = n × Nₐ.</div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define the mole.</div>
+          <div class="a">The amount of substance that contains the same number of particles as the number of carbon atoms in exactly 12 g of carbon-12.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Calculate</span>
+          <div class="q">What is the mass of 0.263 mol of hydrogen iodide, HI (M = 127.9)?</div>
+          <div class="a">m = n × M = 0.263 × 127.9 = 33.6 g</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Terminology</span>
+          <div class="q">Why can't we say the "relative molecular mass" of NaOH is 40.0?</div>
+          <div class="a">Relative molecular mass only applies to molecules (covalent compounds). NaOH is ionic, so we should use "relative formula mass" or "molar mass" instead.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t1">
+        <div class="check-item"><input type="checkbox" id="c1-1"><label for="c1-1">I can define mole, Avogadro constant and molar mass precisely</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-2"><label for="c1-2">I can use n=m/M and its rearrangements confidently</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-3"><label for="c1-3">I know the difference between relative molecular mass and relative formula mass</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5.2 -->
+  <section class="topic" id="t2">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">5.2</div>
+      <div class="topic-title">Empirical &amp; Molecular Formulae</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Empirical vs molecular formula</h4>
+        <p><strong>Empirical formula:</strong> the simplest whole-number ratio of atoms of each element in a compound.</p>
+        <p><strong>Molecular formula:</strong> the actual number of atoms of each element in a molecule.</p>
+        <p>Example: hydrogen peroxide — empirical formula HO, molecular formula H₂O₂. Butane — empirical formula C₂H₅, molecular formula C₄H₁₀.</p>
+      </div>
+      <div class="note-block">
+        <h4>Finding molecular formula from empirical formula</h4>
+        <p>You need the empirical formula AND the relative molecular mass (Mr). Compare Mr of the empirical formula to the actual Mr — the molecular formula is a whole-number multiple of the empirical formula.</p>
+        <div class="tip">Example: empirical formula is HO (Mr = 17); actual Mr = 34. Since 34 ÷ 17 = 2, the molecular formula is (HO)₂ = H₂O₂.</div>
+      </div>
+      <div class="note-block">
+        <h4>Determining Mr for a molecular formula calculation</h4>
+        <p>Two common sources: mass spectrometry (the M peak gives Mr directly), or the ideal gas equation pV = nRT for a gas or volatile liquid (rearranged to find n, then M = m/n).</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define empirical formula.</div>
+          <div class="a">The simplest whole-number ratio of atoms of each element present in a compound.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Apply</span>
+          <div class="q">A compound has empirical formula CH₂ (Mr of empirical unit = 14) and actual Mr = 42. Find the molecular formula.</div>
+          <div class="a">42 ÷ 14 = 3, so molecular formula is (CH₂)₃ = C₃H₆.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t2">
+        <div class="check-item"><input type="checkbox" id="c2-1"><label for="c2-1">I can distinguish empirical formula from molecular formula</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-2"><label for="c2-2">I can calculate empirical formula from mass/percentage composition data</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-3"><label for="c2-3">I can find molecular formula from empirical formula + Mr</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5.3 -->
+  <section class="topic" id="t3">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">5.3</div>
+      <div class="topic-title">Writing &amp; Balancing Equations</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Formulae to remember</h4>
+        <p>Diatomic elements exist as molecules, not single atoms: O₂, H₂, N₂, Cl₂, Br₂, I₂ (not O, H, N, Cl...). Also remember: water = H₂O, sodium hydroxide = NaOH, nitric acid = HNO₃, iron(II) sulfate = FeSO₄, iron(III) oxide = Fe₂O₃, calcium carbonate = CaCO₃.</p>
+      </div>
+      <div class="note-block">
+        <h4>Balancing method</h4>
+        <ol>
+          <li>Write the (unbalanced) formulae for reactants and products.</li>
+          <li>Add coefficients (whole numbers, or fractions in organic chemistry) in front of species until each element has equal totals on both sides.</li>
+        </ol>
+        <p class="eqblock">2C4H10 + 13O2 → 8CO2 + 10H2O</p>
+      </div>
+      <div class="note-block">
+        <h4>State symbols</h4>
+        <p>(s) = solid, (l) = liquid, (g) = gas, (aq) = aqueous (dissolved in water).</p>
+        <div class="warn">A very common error: writing H₂O(aq) instead of H₂O(l) — water itself is never "(aq)"; that label is for substances dissolved IN water.</div>
+      </div>
+      <div class="note-block">
+        <h4>Ionic equations</h4>
+        <p>Show only the species that actually change — remove "spectator ions" that appear unchanged on both sides.</p>
+        <p><strong>Method:</strong> (1) write the full equation, (2) split soluble ionic compounds into their separate ions, (3) cross out anything appearing identically on both sides.</p>
+        <p class="eqblock">Full: NaOH(aq) + HNO3(aq) → NaNO3(aq) + H2O(l)
+Ionic: H⁺(aq) + OH⁻(aq) → H2O(l)</p>
+        <div class="tip">Molecules and solids/precipitates are NOT split into ions — only aqueous ionic compounds are. In the precipitation example Pb²⁺ + SO₄²⁻ → PbSO₄(s), the solid product stays as a full formula because it's no longer free ions in solution.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">Name the diatomic elements you must write as X₂, not X.</div>
+          <div class="a">H₂, N₂, O₂, F₂, Cl₂, Br₂, I₂ (the classic "HOFBrINCl" list, minus astatine at this level).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Method</span>
+          <div class="q">What are the three steps for writing a simplified ionic equation?</div>
+          <div class="a">1) Write the full balanced equation. 2) Split soluble ionic compounds into separate ions. 3) Cancel any ions that appear identically on both sides (spectator ions).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is it possible to write a "convincing" ionic equation for two soluble salts mixing that actually represents no reaction?</div>
+          <div class="a">If all ions cancel out as spectator ions, there is nothing left — this shows no reaction actually occurs, even though a full equation with state symbols might look plausible.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t3">
+        <div class="check-item"><input type="checkbox" id="c3-1"><label for="c3-1">I know the formulae of diatomic elements and common named compounds</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-2"><label for="c3-2">I can balance an equation using whole-number (or fractional) coefficients</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-3"><label for="c3-3">I use state symbols correctly, especially H₂O(l) vs (aq)</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-4"><label for="c3-4">I can construct a simplified ionic equation and identify spectator ions</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5.4 -->
+  <section class="topic" id="t4">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">5.4</div>
+      <div class="topic-title">Reacting Mass Calculations</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Core idea</h4>
+        <p>A balanced equation gives the mole ratio between any two species. Convert the given mass to moles, use the equation's ratio to find moles of the target species, then convert back to mass.</p>
+        <p class="eqblock">Step 1: n(given) = m ÷ M
+Step 2: use mole ratio from the equation to find n(target)
+Step 3: m(target) = n(target) × M(target)</p>
+      </div>
+      <div class="note-block">
+        <h4>Worked example</h4>
+        <p>SO₃ + H₂O → H₂SO₄. What mass of SO₃ is needed to form 75.0 g of H₂SO₄?</p>
+        <p class="eqblock">n(H2SO4) = 75.0 ÷ 98.1 = 0.765 mol
+n(SO3) = 0.765 mol (1:1 ratio)
+m(SO3) = 0.765 × 80.1 = 61.3 g</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Method</span>
+          <div class="q">What are the three steps of a reacting-mass calculation?</div>
+          <div class="a">1) Convert the given mass to moles (n=m/M). 2) Use the mole ratio from the balanced equation to find moles of the target species. 3) Convert moles of the target back to mass (m=n×M).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Apply</span>
+          <div class="q">For N₂ + 3H₂ → 2NH₃, how many moles of H₂ are needed to react with 1 mol of N₂?</div>
+          <div class="a">3 moles, following the 1:3 ratio in the balanced equation.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t4">
+        <div class="check-item"><input type="checkbox" id="c4-1"><label for="c4-1">I can calculate reacting masses using the equation and mole ratios</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-2"><label for="c4-2">I always double-check I've used the correct mole ratio from the balanced equation</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5.5 -->
+  <section class="topic" id="t5">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">5.5</div>
+      <div class="topic-title">Gas Volume Calculations</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Molar volume (Vm)</h4>
+        <p>The volume occupied by 1 mole of any gas, at a given temperature and pressure. At RTP (room temperature and pressure, 298 K / 101 325 Pa):</p>
+        <p class="eq">Vm = 24.0 dm³ mol⁻¹ = 24 000 cm³ mol⁻¹</p>
+        <p class="eqblock">Vm = volume ÷ amount (mol)
+→ amount = volume ÷ Vm
+→ volume = amount × Vm</p>
+        <div class="warn">Always check whether the question wants dm³ or cm³ — mixing the two units (using 24.0 with a cm³ volume, or 24000 with a dm³ volume) is a very common error.</div>
+      </div>
+      <div class="note-block">
+        <h4>Ideal gas equation</h4>
+        <p>Used for any gas (or volatile liquid above its boiling point) to find amount, and hence molar mass if the mass is also known:</p>
+        <p class="eq">pV = nRT</p>
+        <p>SI units are essential: p in Pa, V in m³, n in mol, R = 8.31 J K⁻¹ mol⁻¹, T in K (°C + 273).</p>
+      </div>
+      <div class="note-block">
+        <h4>Avogadro's law</h4>
+        <p>Equal volumes of different gases, at the same temperature and pressure, contain equal numbers of molecules. This means the volumes of gases that react together (or are produced) are in the same simple whole-number ratio as their mole ratio in the balanced equation, provided conditions are constant.</p>
+        <p><strong>Example:</strong> N₂ + 3H₂ → 2NH₃ means 1 volume of N₂ reacts with 3 volumes of H₂ to give 2 volumes of NH₃, at the same temperature and pressure.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">State the molar volume of a gas at RTP.</div>
+          <div class="a">24.0 dm³ mol⁻¹ (24 000 cm³ mol⁻¹).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Calculate</span>
+          <div class="q">What volume (in dm³) does 0.356 mol of hydrogen occupy at RTP?</div>
+          <div class="a">V = 24.0 × 0.356 = 8.54 dm³</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Units</span>
+          <div class="q">In the ideal gas equation pV=nRT, what SI units must p, V and T be in?</div>
+          <div class="a">p in Pa, V in m³, T in Kelvin (with R = 8.31 J K⁻¹ mol⁻¹).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">State</span>
+          <div class="q">State Avogadro's law.</div>
+          <div class="a">Equal volumes of gases, measured at the same temperature and pressure, contain equal numbers of molecules.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t5">
+        <div class="check-item"><input type="checkbox" id="c5-1"><label for="c5-1">I can use Vm=24.0 dm³/mol confidently, being careful with dm³ vs cm³</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-2"><label for="c5-2">I can use pV=nRT with correct SI units, including finding molar mass</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-3"><label for="c5-3">I can state and apply Avogadro's law to reacting gas volumes</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5.6 -->
+  <section class="topic" id="t6">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">5.6</div>
+      <div class="topic-title">Concentration, Standard Solutions &amp; Titrations</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Concentration</h4>
+        <p class="eq">c = n ÷ V</p>
+        <p>Concentration (mol dm⁻³) = amount (mol) ÷ volume (dm³). Remember: 1000 cm³ = 1 dm³, so a volume in cm³ must be divided by 1000 to convert to dm³ before use.</p>
+      </div>
+      <div class="note-block">
+        <h4>Standard solutions &amp; primary standards</h4>
+        <p>A <strong>standard solution</strong> is one whose concentration is accurately known. It's made from a <strong>primary standard</strong> — a substance that should be: high molar mass, high purity, chemically stable (doesn't decompose/react with air), doesn't absorb water from the air, soluble, and reacts rapidly/completely in titrations.</p>
+        <div class="warn">NaOH and HCl are NOT suitable primary standards — NaOH absorbs water and CO₂ from the air, and HCl only exists as a gas or already-dissolved solution (no solid form to weigh accurately).</div>
+      </div>
+      <div class="note-block">
+        <h4>Method: making a standard solution</h4>
+        <ol>
+          <li>Weigh the primary standard accurately (weighing bottle, weighing by difference).</li>
+          <li>Transfer to a beaker and dissolve completely in a small volume of deionised water.</li>
+          <li>Transfer the solution to a volumetric flask via a funnel, rinsing the beaker/rod thoroughly and adding rinsings to the flask (this ensures none of the solid is lost).</li>
+          <li>Make up to the graduation mark with deionised water, ensuring the bottom of the meniscus sits exactly on the line.</li>
+          <li>Stopper and invert several times to mix uniformly.</li>
+        </ol>
+      </div>
+      <div class="note-block">
+        <h4>Titration apparatus &amp; method</h4>
+        <p>Apparatus: conical flask, burette (usually 50 cm³), pipette (usually 25 cm³) + filler, funnel, white tile, indicator.</p>
+        <p>A titration measures the volume of one solution needed to exactly react with a known volume of another, allowing the unknown concentration to be calculated.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Formula</span>
+          <div class="q">State the concentration equation and its units.</div>
+          <div class="a">c = n ÷ V, where c is in mol dm⁻³, n in mol, V in dm³.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is sodium hydroxide not suitable as a primary standard?</div>
+          <div class="a">It absorbs water vapour and carbon dioxide from the air, so an accurately weighed sample doesn't have a reliably known composition of pure NaOH.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Method</span>
+          <div class="q">Why must you rinse the beaker and stirring rod into the volumetric flask when making a standard solution?</div>
+          <div class="a">To ensure that all of the weighed solid is transferred into the flask — any left behind would make the true concentration lower than calculated.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t6">
+        <div class="check-item"><input type="checkbox" id="c6-1"><label for="c6-1">I can use c=n/V, converting cm³ to dm³ correctly</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-2"><label for="c6-2">I know the properties required of a primary standard</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-3"><label for="c6-3">I can describe the full method for making a standard solution, in order</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-4"><label for="c6-4">I know the titration apparatus and can describe the method</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5.7 -->
+  <section class="topic" id="t7">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">5.7</div>
+      <div class="topic-title">Percentage Measurement Uncertainty</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Core formula</h4>
+        <p class="eq">% uncertainty = (measurement uncertainty ÷ value recorded) × 100</p>
+      </div>
+      <div class="note-block">
+        <h4>Key rule: count the uncertainty once per reading taken</h4>
+        <ul>
+          <li><strong>Burette:</strong> uncertainty ±0.05 cm³ per reading, but a titre needs TWO readings (start and end), so total = ±0.10 cm³.</li>
+          <li><strong>Balance:</strong> if weighing "by difference" (two separate weighings, e.g. before and after), count the balance's uncertainty <strong>twice per weighing</strong> (once for taring/zeroing, once for the reading) and <strong>twice again</strong> if two weighings are taken — i.e. up to ×4 total for a "weigh, then re-weigh" method.</li>
+          <li><strong>Pipette/volumetric flask:</strong> used once for a fixed volume, so the uncertainty is applied once.</li>
+        </ul>
+        <div class="tip">Worked example: burette titre = 22.50 cm³, uncertainty = ±0.10 cm³ (two readings). % uncertainty = (0.10 ÷ 22.50) × 100 = 0.44%.</div>
+      </div>
+      <div class="note-block">
+        <h4>Minimising percentage uncertainty</h4>
+        <ul>
+          <li>Use larger measured values where possible — the same absolute uncertainty becomes a smaller percentage of a bigger reading (e.g. titre of 30 cm³ has lower % uncertainty than 10 cm³; weighing 5 g has lower % uncertainty than 0.5 g).</li>
+          <li>Total percentage uncertainty for a calculated result (e.g. concentration from a titration) = the SUM of the individual percentage uncertainties of every piece of apparatus used.</li>
+        </ul>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Rule</span>
+          <div class="q">Why is a burette's total uncertainty in a titration ±0.10 cm³, not ±0.05 cm³?</div>
+          <div class="a">A titre requires two readings (initial and final volume), so the ±0.05 cm³ uncertainty is counted twice, giving ±0.10 cm³ total.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why does using a larger titre volume reduce percentage uncertainty?</div>
+          <div class="a">The absolute uncertainty of the burette stays fixed (±0.10 cm³), but dividing this fixed amount by a larger titre volume gives a smaller percentage.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Method</span>
+          <div class="q">How do you find the total percentage uncertainty in a value calculated from several measurements?</div>
+          <div class="a">Add together the percentage uncertainties of every piece of apparatus used in the calculation.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t7">
+        <div class="check-item"><input type="checkbox" id="c7-1"><label for="c7-1">I can calculate percentage uncertainty for a single measurement</label></div>
+        <div class="check-item"><input type="checkbox" id="c7-2"><label for="c7-2">I know to double the burette uncertainty for a titre (two readings)</label></div>
+        <div class="check-item"><input type="checkbox" id="c7-3"><label for="c7-3">I can explain how to minimise percentage uncertainty using larger values</label></div>
+        <div class="check-item"><input type="checkbox" id="c7-4"><label for="c7-4">I can add uncertainties from multiple apparatus to find total % uncertainty</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5.8 -->
+  <section class="topic" id="t8">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">5.8</div>
+      <div class="topic-title">Percentage Yield &amp; Atom Economy</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Yield definitions</h4>
+        <ul>
+          <li><strong>Theoretical yield:</strong> the maximum possible mass of product, calculated from the equation, assuming the reaction goes to completion with no losses.</li>
+          <li><strong>Actual yield:</strong> the mass actually obtained by weighing in practice.</li>
+          <li><strong>Percentage yield:</strong> <span class="eq">(actual yield ÷ theoretical yield) × 100</span></li>
+        </ul>
+        <p>Reasons actual yield is less than theoretical: the reaction may be reversible/incomplete, side reactions may form unwanted products, and purification steps can lose product.</p>
+      </div>
+      <div class="note-block">
+        <h4>Atom economy</h4>
+        <p class="eq">atom economy = (molar mass of desired product ÷ sum of molar masses of ALL products) × 100</p>
+        <p>Developed by Barry Trost as a way to assess how "wasteful" a reaction is — a reaction with only one product automatically has 100% atom economy, since every atom from the reactants ends up in the desired product.</p>
+        <div class="tip">Atom economy and percentage yield are DIFFERENT and independent measures. A reaction could have 100% yield but low atom economy (if lots of atoms end up in an unwanted by-product), or vice versa. Both matter for evaluating a "green" industrial process.</div>
+      </div>
+      <div class="note-block">
+        <h4>Worked example — atom economy</h4>
+        <p>Ca₃(PO₄)₂ + 3H₂SO₄ → 2H₃PO₄ + 3CaSO₄ (desired product: H₃PO₄, M=98.0; by-product CaSO₄, M=136.1)</p>
+        <p class="eqblock">atom economy = (98.0×2) ÷ [(98.0×2)+(136.1×3)] × 100 = 32.4%</p>
+        <p>Even with a 100% yield, less than a third of the reactant mass ends up as the desired product here — the rest becomes CaSO₄, which only "counts" economically if it can be sold or reused.</p>
+      </div>
+      <div class="note-block">
+        <h4>Reaction type and atom economy — a quick rule of thumb</h4>
+        <p>Addition reactions (only one product, e.g. C₂H₄ + Cl₂ → C₂H₄Cl₂) always have 100% atom economy. Reactions that produce a second product (substitution, elimination with a small molecule leaving) will have atom economy below 100%.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Formula</span>
+          <div class="q">State the percentage yield formula.</div>
+          <div class="a">Percentage yield = (actual yield ÷ theoretical yield) × 100</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Formula</span>
+          <div class="q">State the atom economy formula.</div>
+          <div class="a">Atom economy = (molar mass of desired product ÷ sum of molar masses of all products) × 100</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Can a reaction have 100% percentage yield but low atom economy? Explain.</div>
+          <div class="a">Yes — percentage yield only compares how much of the theoretically possible desired product was actually obtained, while atom economy measures what fraction of ALL the reactant atoms end up in the desired product versus by-products. They are independent measures.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Apply</span>
+          <div class="q">Without calculating, explain why an addition reaction with only one product has 100% atom economy.</div>
+          <div class="a">Since there is only one product, every atom from the reactants must end up in it — there's no by-product to "lose" mass to.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t8">
+        <div class="check-item"><input type="checkbox" id="c8-1"><label for="c8-1">I can define theoretical, actual and percentage yield</label></div>
+        <div class="check-item"><input type="checkbox" id="c8-2"><label for="c8-2">I can calculate theoretical yield from an equation and mass data</label></div>
+        <div class="check-item"><input type="checkbox" id="c8-3"><label for="c8-3">I can calculate atom economy from an equation</label></div>
+        <div class="check-item"><input type="checkbox" id="c8-4"><label for="c8-4">I understand that yield and atom economy are independent measures</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetProgress()">Reset checklist progress</button>
+  </div>
+</main>
+
+<script>
+  function toggleTopic(headEl){
+    const section = headEl.parentElement;
+    document.querySelectorAll('section.topic').forEach(s=>{
+      if(s!==section){ s.classList.remove('open'); s.querySelector('.topic-body').style.maxHeight=null; }
+    });
+    section.classList.toggle('open');
+    const body = section.querySelector('.topic-body');
+    body.style.maxHeight = section.classList.contains('open') ? body.scrollHeight + 'px' : null;
+  }
+
+  const STORAGE_KEY = 'chem-topic5-checklist';
+
+  function loadProgress(){
+    let saved = {};
+    try{ saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ saved = {}; }
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      if(saved[box.id]){ box.checked = true; box.closest('.check-item').classList.add('done'); }
+      box.addEventListener('change', ()=>{
+        box.closest('.check-item').classList.toggle('done', box.checked);
+        saveProgress();
+        updateProgressBar();
+      });
+    });
+    updateProgressBar();
+  }
+
+  function saveProgress(){
+    const state = {};
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      state[box.id] = box.checked;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateProgressBar(){
+    const boxes = document.querySelectorAll('.check-item input[type=checkbox]');
+    const total = boxes.length;
+    const done = Array.from(boxes).filter(b=>b.checked).length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total + ' checkpoints complete';
+  }
+
+  function resetProgress(){
+    if(!confirm('Clear all checklist progress for Topic 5?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      box.checked = false;
+      box.closest('.check-item').classList.remove('done');
+    });
+    updateProgressBar();
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    loadProgress();
+    const openSection = document.querySelector('section.topic.open');
+    if(openSection){
+      const body = openSection.querySelector('.topic-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>
