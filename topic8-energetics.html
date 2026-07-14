@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Topic 8 — Energetics | Edexcel 9CH0</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel-2:#1c2330; --border:#2a3140;
+    --text:#e6edf3; --muted:#8b96a5; --accent:#4fd1c5; --accent-2:#a78bfa;
+    --amber:#f2c94c; --danger:#ff6b6b; --good:#6fcf97; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:radial-gradient(circle at 20% -10%, #17202e 0%, var(--bg) 45%);
+    color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; padding-bottom:60px;
+  }
+  header.hero{ padding:34px 20px 26px; border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(79,209,197,0.08), transparent 70%); }
+  .eyebrow{ color:var(--accent); font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; margin:0 0 8px; }
+  h1{margin:0 0 6px; font-size:26px; line-height:1.25;}
+  .subtitle{color:var(--muted); font-size:14.5px; max-width:620px;}
+  .progress-wrap{max-width:900px; margin:22px auto 0; padding:0 20px;}
+  .progress-bar-track{ height:9px; border-radius:99px; background:var(--panel-2); overflow:hidden; border:1px solid var(--border); }
+  .progress-bar-fill{ height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); transition:width .35s ease; }
+  .progress-label{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-top:6px;}
+  main{max-width:900px; margin:26px auto; padding:0 20px;}
+  nav.toc{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  nav.toc a{ color:var(--text); text-decoration:none; font-size:13px; padding:7px 12px;
+    background:var(--panel); border:1px solid var(--border); border-radius:99px; }
+  nav.toc a:hover{border-color:var(--accent); color:var(--accent);}
+  section.topic{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:18px; overflow:hidden; }
+  .topic-head{display:flex; align-items:center; gap:12px; padding:16px 18px; cursor:pointer; user-select:none;}
+  .topic-num{ flex:0 0 auto; width:34px; height:34px; border-radius:9px; background:var(--panel-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent); font-size:13px; }
+  .topic-title{flex:1; font-size:16.5px; font-weight:700;}
+  .chevron{transition:transform .25s ease; color:var(--muted); flex:0 0 auto;}
+  section.topic.open .chevron{transform:rotate(180deg);}
+  .topic-body{max-height:0; overflow:hidden; transition:max-height .35s ease; padding:0 18px;}
+  section.topic.open .topic-body{padding:0 18px 20px;}
+  .note-block{ background:var(--panel-2); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin:12px 0; font-size:14.5px; }
+  .note-block h4{margin:0 0 8px; font-size:13.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  .note-block ul, .note-block ol{margin:6px 0; padding-left:20px;}
+  .note-block li{margin-bottom:6px;}
+  .note-block p{margin:6px 0;}
+  .eq{ display:inline-block; background:#0f1420; border:1px solid var(--border); border-radius:6px;
+    padding:2px 8px; font-family:"SF Mono",Consolas,monospace; font-size:13.5px; color:var(--amber); }
+  .eqblock{ background:#0f1420; border:1px solid var(--border); border-radius:8px; padding:10px 14px;
+    font-family:"SF Mono",Consolas,monospace; font-size:13px; color:var(--amber); margin:8px 0; overflow-x:auto; white-space:pre; }
+  .warn{border-left:3px solid var(--danger); padding-left:12px; margin:10px 0; font-size:13.5px; color:#ffb4b4;}
+  .tip{border-left:3px solid var(--good); padding-left:12px; margin:10px 0; font-size:13.5px; color:#b7f0c9;}
+  .flash-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px;}
+  @media(min-width:640px){ .flash-grid{grid-template-columns:1fr 1fr;} }
+  .flash{ background:#0f1420; border:1px solid var(--border); border-radius:12px; padding:14px 16px;
+    cursor:pointer; position:relative; min-height:78px; display:flex; align-items:center; }
+  .flash .q, .flash .a{width:100%;}
+  .flash .a{display:none; color:var(--accent);}
+  .flash.flipped .q{display:none;}
+  .flash.flipped .a{display:block;}
+  .flash .tag{ position:absolute; top:8px; right:10px; font-size:10px; letter-spacing:.08em; color:var(--muted); text-transform:uppercase; }
+  .flash:active{border-color:var(--accent);}
+  .checklist{margin-top:10px;}
+  .check-item{ display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px dashed var(--border); font-size:14px; }
+  .check-item:last-child{border-bottom:none;}
+  .check-item input{margin-top:3px; width:18px; height:18px; accent-color:var(--accent); flex:0 0 auto;}
+  .check-item label{flex:1;}
+  .check-item.done label{color:var(--muted); text-decoration:line-through;}
+  .reset-row{display:flex; justify-content:flex-end; margin-top:18px;}
+  .reset-btn{ background:none; border:1px solid var(--border); color:var(--muted); padding:8px 14px; border-radius:99px; font-size:12.5px; cursor:pointer; }
+  .reset-btn:hover{color:var(--danger); border-color:var(--danger);}
+  table.datatable{width:100%; border-collapse:collapse; margin:10px 0; font-size:13px;}
+  table.datatable th, table.datatable td{border:1px solid var(--border); padding:7px 9px; text-align:left; vertical-align:top;}
+  table.datatable th{background:var(--panel); color:var(--accent); font-size:11.5px; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">Edexcel A Level Chemistry · 9CH0</p>
+  <h1>Topic 8 — Energetics</h1>
+  <p class="subtitle">Super detailed notes + flip flashcards + checklist. Tap a section to expand, tap a flashcard to reveal the answer. Progress saves on this device.</p>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 checkpoints complete</span><span>Topic 8</span></div>
+</div>
+
+<main>
+  <nav class="toc">
+    <a href="#t1">8.1 Enthalpy Basics</a>
+    <a href="#t2">8.2 Standard Enthalpy Changes</a>
+    <a href="#t3">8.3 Calorimetry</a>
+    <a href="#t4">8.4 Hess's Law &amp; Cycles</a>
+    <a href="#t5">8.5 Bond Enthalpy</a>
+  </nav>
+
+  <!-- 8.1 -->
+  <section class="topic open" id="t1">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">8.1</div>
+      <div class="topic-title">Enthalpy, Exothermic &amp; Endothermic Processes</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Key definitions</h4>
+        <p><strong>Enthalpy (H):</strong> a measure of the total energy of a system. You cannot measure enthalpy directly — only the <strong>enthalpy change (ΔH)</strong> during a process.</p>
+        <p><strong>Enthalpy change:</strong> the heat energy transferred between the system and surroundings, measured at constant pressure.</p>
+        <ul>
+          <li><strong>Exothermic:</strong> heat energy is transferred from the system to the surroundings (ΔH is negative). Usually seen as a temperature increase.</li>
+          <li><strong>Endothermic:</strong> heat energy is transferred from the surroundings to the system (ΔH is positive). Usually seen as a temperature decrease, or the need for continuous heating.</li>
+        </ul>
+        <div class="tip">"System" = the reaction mixture itself. "Surroundings" = everything else (in practice, usually the air/water around the reaction vessel).</div>
+      </div>
+      <div class="note-block">
+        <h4>Enthalpy level diagrams</h4>
+        <ul>
+          <li>Vertical axis: enthalpy, H (labelled; the horizontal axis does not need a label, or can be "extent of reaction").</li>
+          <li>Exothermic: products drawn LOWER than reactants (H_products &lt; H_reactants), arrow points down to products, ΔH negative.</li>
+          <li>Endothermic: products drawn HIGHER than reactants, arrow points up to products, ΔH positive.</li>
+          <li>Always include full formulae with state symbols for reactants/products, and the ΔH value with its correct sign.</li>
+        </ul>
+        <p class="eq">ΔH = H(products) − H(reactants)</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define exothermic and endothermic.</div>
+          <div class="a">Exothermic: heat energy is transferred from the system to the surroundings. Endothermic: heat energy is transferred from the surroundings to the system.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">In an enthalpy level diagram, where are the products drawn for an exothermic reaction, and why?</div>
+          <div class="a">Lower than the reactants — because H(products) is less than H(reactants), so ΔH = H(products) − H(reactants) is negative.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Apply</span>
+          <div class="q">The thermal decomposition of calcium carbonate has ΔH = +178 kJ mol⁻¹. Is it exo- or endothermic, and what practical clue confirms this?</div>
+          <div class="a">Endothermic (positive ΔH) — confirmed by the fact that it requires continuous heating to proceed, a typical sign of an endothermic reaction.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t1">
+        <div class="check-item"><input type="checkbox" id="c1-1"><label for="c1-1">I can define enthalpy, enthalpy change, exothermic and endothermic precisely</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-2"><label for="c1-2">I can draw and label an enthalpy level diagram with correct ΔH sign and direction</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8.2 -->
+  <section class="topic" id="t2">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">8.2</div>
+      <div class="topic-title">Standard Enthalpy Changes — Definitions</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Standard conditions</h4>
+        <p>100 kPa pressure and a stated temperature (usually 298 K). Symbol: ΔH⦵ (or ΔH°).</p>
+      </div>
+      <div class="note-block">
+        <h4>Standard enthalpy change of reaction, Δ<sub>r</sub>H⦵</h4>
+        <p>The enthalpy change when the reaction occurs in the molar quantities shown in the equation, under standard conditions. Important: "per mole" refers to one mole of the equation as written, not one mole of any particular reactant.</p>
+      </div>
+      <div class="note-block">
+        <h4>Standard enthalpy change of combustion, Δ<sub>c</sub>H⦵</h4>
+        <p>The enthalpy change when <strong>one mole</strong> of a substance is completely burned in oxygen, under standard conditions.</p>
+      </div>
+      <div class="note-block">
+        <h4>Standard enthalpy change of formation, Δ<sub>f</sub>H⦵</h4>
+        <p>The enthalpy change when <strong>one mole</strong> of a compound is formed from its <strong>elements in their standard states</strong>, under standard conditions.</p>
+        <p class="eq">C(s, graphite) + O2(g) → CO2(g)     ΔfH⦵ = −394 kJ mol⁻¹</p>
+        <div class="warn">By definition, the standard enthalpy change of formation of any element in its standard state is always zero — you're "forming" the element from itself.</div>
+      </div>
+      <div class="note-block">
+        <h4>Standard enthalpy change of neutralisation, Δ<sub>neut</sub>H⦵</h4>
+        <p>The enthalpy change when <strong>one mole of water</strong> is produced by the neutralisation of an acid with an alkali, under standard conditions.</p>
+        <p>For strong acid + strong alkali, the ionic equation is essentially always the same: <span class="eq">H⁺(aq) + OH⁻(aq) → H₂O(l)</span> — this is why the standard enthalpy of neutralisation is remarkably constant (~−57 kJ mol⁻¹) across different strong acid/alkali combinations.</p>
+      </div>
+      <div class="note-block">
+        <h4>State symbols matter</h4>
+        <p>ΔfH⦵ of liquid ethanol (−278 kJ mol⁻¹) is different from ΔfH⦵ of gaseous ethanol (−235 kJ mol⁻¹) — always check and state the correct physical state.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define standard enthalpy change of formation.</div>
+          <div class="a">The enthalpy change when one mole of a compound is formed from its elements in their standard states, under standard conditions (100 kPa, usually 298 K).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">What is the standard enthalpy change of formation of an element in its standard state?</div>
+          <div class="a">Zero, by definition.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is the standard enthalpy change of neutralisation so similar across different strong acid/alkali pairs?</div>
+          <div class="a">Because strong acids and alkalis are fully ionised in solution, so the reaction is essentially always the same: H⁺(aq) + OH⁻(aq) → H₂O(l).</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t2">
+        <div class="check-item"><input type="checkbox" id="c2-1"><label for="c2-1">I can state all four standard enthalpy change definitions precisely, including "one mole" and standard conditions</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-2"><label for="c2-2">I know an element's ΔfH⦵ in its standard state is zero</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-3"><label for="c2-3">I can explain why neutralisation enthalpy is constant for strong acid/alkali pairs</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8.3 -->
+  <section class="topic" id="t3">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">8.3</div>
+      <div class="topic-title">Calorimetry — Experimental Determination</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Core equation</h4>
+        <p class="eq">Q = mcΔT</p>
+        <p>Q = heat energy transferred (J), m = mass of water/solution heated (g), c = specific heat capacity (4.18 J g⁻¹ K⁻¹ for water/dilute aqueous solutions), ΔT = temperature change (K, numerically the same as °C).</p>
+      </div>
+      <div class="note-block">
+        <h4>Three-stage method (e.g. combustion of a liquid fuel)</h4>
+        <ol>
+          <li><strong>Stage 1:</strong> calculate Q = mcΔT using the mass and temperature change of the water heated.</li>
+          <li><strong>Stage 2:</strong> calculate n, the amount (mol) of fuel burned, using n = mass burned ÷ molar mass.</li>
+          <li><strong>Stage 3:</strong> calculate ΔH = −Q ÷ n (the negative sign reflects that heat leaving the fuel/system, Q, corresponds to an exothermic, negative ΔH for the fuel).</li>
+        </ol>
+        <div class="tip">Sign check: if temperature increases, ΔT and Q are positive, but ΔH comes out negative — consistent with an exothermic reaction. If temperature decreases, ΔT and Q are negative, giving a positive ΔH — consistent with endothermic.</div>
+      </div>
+      <div class="note-block">
+        <h4>Worked example — combustion of ethanol</h4>
+        <p>0.42 g of ethanol (M = 46.0) burned, heating 100.0 g of water by 24.5 °C.</p>
+        <p class="eqblock">Q = 100.0 × 4.18 × 24.5 = 10 241 J = 10.24 kJ
+n(ethanol) = 0.42 ÷ 46.0 = 9.13 × 10⁻³ mol
+ΔcH = −10.24 ÷ (9.13×10⁻³) = −1120 kJ mol⁻¹ (3 s.f.)</p>
+      </div>
+      <div class="note-block">
+        <h4>Sources of error / why experimental values differ from data-book values</h4>
+        <ul>
+          <li>Heat energy lost to the surrounding air, not all transferred to the water.</li>
+          <li>Heat energy transferred to the container (e.g. copper can) rather than the water.</li>
+          <li>Incomplete combustion (soot forming) means not all the fuel's energy is released as heat.</li>
+          <li>Non-standard conditions — e.g. water vapour rather than liquid water may be produced.</li>
+          <li>Evaporation of the fuel before/during combustion, so not all the "missing mass" was actually combusted.</li>
+        </ul>
+        <div class="tip">Most of these errors mean the experimental (measured) value for an exothermic ΔH is LESS negative (a smaller magnitude) than the true/data-book value, because some heat never reaches the water being measured.</div>
+      </div>
+      <div class="note-block">
+        <h4>Neutralisation calorimetry — set-up specifics</h4>
+        <p>Use an expanded polystyrene cup (good insulator, minimises heat loss) rather than a metal or glass container. Measure initial temperatures of acid and alkali separately, mix, stir, and record the maximum temperature reached. Assume the density and specific heat capacity of the mixed solution are the same as pure water (1 g cm⁻³ and 4.18 J g⁻¹ K⁻¹).</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Formula</span>
+          <div class="q">State the equation used to calculate heat energy transferred to water, with units.</div>
+          <div class="a">Q = mcΔT, where m is in g, c = 4.18 J g⁻¹ K⁻¹, and ΔT is in K (or °C).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is the experimental enthalpy of combustion usually less exothermic (smaller magnitude) than the data-book value?</div>
+          <div class="a">Heat is lost to the surrounding air and to the container itself, rather than all being transferred to the water, and combustion may be incomplete — all leading to an underestimate of the true heat released.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is an expanded polystyrene cup used for neutralisation calorimetry rather than a glass beaker?</div>
+          <div class="a">Polystyrene is a much better thermal insulator, reducing heat loss to the surroundings and giving a more accurate maximum temperature reading.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t3">
+        <div class="check-item"><input type="checkbox" id="c3-1"><label for="c3-1">I can use Q=mcΔT and the 3-stage method to calculate an enthalpy change from experimental data</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-2"><label for="c3-2">I can explain the sign of ΔH from the direction of temperature change</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-3"><label for="c3-3">I can list and explain sources of error in calorimetry experiments</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-4"><label for="c3-4">I know the specific set-up for neutralisation calorimetry (polystyrene cup, etc.)</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8.4 -->
+  <section class="topic" id="t4">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">8.4</div>
+      <div class="topic-title">Hess's Law &amp; Enthalpy Cycles</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Hess's Law</h4>
+        <p><strong>Hess's Law states that the enthalpy change of a reaction is independent of the path taken</strong> in converting reactants into products, provided the initial and final conditions are the same. It's a consequence of the law of conservation of energy.</p>
+        <p>Hess's Law lets us calculate enthalpy changes that <strong>cannot be measured directly</strong> — e.g. the formation of CO(g) from carbon and oxygen can't be isolated experimentally (carbon always tends to burn to CO₂), so we use combustion data instead via a cycle.</p>
+      </div>
+      <div class="note-block">
+        <h4>General method for any Hess cycle</h4>
+        <ol>
+          <li>Write the target equation (reactants → products) across the top of the cycle, with the unknown ΔH labelled.</li>
+          <li>Choose a common set of species to route both reactants and products through — usually either their combustion products (CO₂ + H₂O) or their elements.</li>
+          <li>Draw arrows from reactants down to this common set, and from products down to the same common set (or vice versa for elements).</li>
+          <li>Follow the arrows: going the "same way" as the top arrow uses a + sign; going "against" an arrow uses a − sign.</li>
+        </ol>
+      </div>
+      <div class="note-block">
+        <h4>Route via combustion data</h4>
+        <p>Used when you're given Δ<sub>c</sub>H values for reactants and products (typical for calculating a Δ<sub>f</sub>H). Both reactants and products are routed DOWN to their combustion products, since burning is what the data represents.</p>
+        <p class="eq">ΔfH⦵ = Σ ΔcH⦵(elements) − ΔcH⦵(compound)</p>
+        <p><strong>Worked example — formation of methanol, CH₃OH:</strong></p>
+        <p class="eqblock">ΔcH[C(s)] = -394, ΔcH[H2(g)] = -286, ΔcH[CH3OH(l)] = -726 (all kJ/mol)
+
+ΔfH = (-394) + (2 × -286) - (-726) = -240 kJ mol⁻¹</p>
+      </div>
+      <div class="note-block">
+        <h4>Route via formation data</h4>
+        <p>Used when you're given Δ<sub>f</sub>H values for everything in an equation (typical for calculating a Δ<sub>r</sub>H for some other reaction). Both reactants and products are routed UP from their elements, since formation data represents building compounds from elements.</p>
+        <p class="eq">ΔrH⦵ = Σ ΔfH⦵(products) − Σ ΔfH⦵(reactants)</p>
+      </div>
+      <div class="note-block">
+        <h4>Applying Hess's Law to any given data (general reactions)</h4>
+        <p>Not every Hess cycle question uses combustion or formation data specifically — sometimes you're given a set of arbitrary reaction equations and enthalpies, and must add/subtract/reverse/scale them (like simultaneous equations) so they sum to the target equation. Reversing an equation flips the sign of its ΔH; multiplying an equation by a factor multiplies its ΔH by the same factor.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Statement</span>
+          <div class="q">State Hess's Law.</div>
+          <div class="a">The enthalpy change of a reaction is independent of the path taken in converting reactants into products, provided the initial and final conditions are the same.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Formula</span>
+          <div class="q">Give the general formula for finding ΔfH from combustion data.</div>
+          <div class="a">ΔfH⦵ = Σ ΔcH⦵(elements) − ΔcH⦵(compound)</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Formula</span>
+          <div class="q">Give the general formula for finding ΔrH from formation data.</div>
+          <div class="a">ΔrH⦵ = Σ ΔfH⦵(products) − Σ ΔfH⦵(reactants)</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why can't the formation enthalpy of CO(g) be measured directly?</div>
+          <div class="a">Burning carbon in oxygen cannot be controlled to stop cleanly at CO — it's very difficult to prevent some of it going on to form CO₂, so a Hess cycle using combustion data must be used instead.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Rule</span>
+          <div class="q">If you reverse an equation to make it fit a Hess cycle, what happens to its ΔH value?</div>
+          <div class="a">The sign of ΔH flips (positive becomes negative, or vice versa).</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t4">
+        <div class="check-item"><input type="checkbox" id="c4-1"><label for="c4-1">I can state Hess's Law precisely</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-2"><label for="c4-2">I can construct and correctly orient a Hess cycle using combustion data</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-3"><label for="c4-3">I can construct and correctly orient a Hess cycle using formation data</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-4"><label for="c4-4">I can combine arbitrary given equations (reversing/scaling) to reach a target equation</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8.5 -->
+  <section class="topic" id="t5">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">8.5</div>
+      <div class="topic-title">Bond Enthalpy &amp; Mean Bond Enthalpy</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Definitions</h4>
+        <p><strong>Bond enthalpy:</strong> the enthalpy change when one mole of a specific bond, in the gaseous state, is broken.</p>
+        <p><strong>Mean bond enthalpy, E(bond):</strong> the enthalpy change when one mole of a given bond, averaged out over many different molecules/environments, is broken.</p>
+        <div class="tip">The exact bond enthalpy of, say, a C–H bond varies slightly depending on which molecule it's in and which C–H bond in that molecule (successive bonds broken from the same molecule have different values) — the "mean" bond enthalpy averages over all these variations, which is why it gives only an approximate answer when used in calculations.</div>
+      </div>
+      <div class="note-block">
+        <h4>Bond breaking vs bond forming — sign convention</h4>
+        <ul>
+          <li><strong>Breaking</strong> a bond always requires energy input — <strong>endothermic</strong>, positive.</li>
+          <li><strong>Forming</strong> a bond always releases energy — <strong>exothermic</strong>, negative.</li>
+        </ul>
+      </div>
+      <div class="note-block">
+        <h4>Calculating ΔrH from mean bond enthalpies</h4>
+        <p class="eq">ΔrH = Σ E(bonds broken) − Σ E(bonds made)</p>
+        <p><strong>Worked example:</strong> H₂(g) + Cl₂(g) → 2HCl(g), using E(H–H)=436, E(Cl–Cl)=244, E(H–Cl)=432 (kJ mol⁻¹)</p>
+        <p class="eqblock">Bonds broken: 436 + 244 = 680
+Bonds made: 2 × 432 = 864
+ΔrH = 680 − 864 = −184 kJ mol⁻¹</p>
+        <div class="tip">Tip for a molecule like H₂O₂ → H₂O + ½O₂: any bond that is IDENTICAL and present in both reactants and products (e.g. the two O–H bonds in H₂O₂, also present in H₂O) can simply be ignored/cancelled — you only need to consider the bonds that actually change.</div>
+      </div>
+      <div class="note-block">
+        <h4>Limitations of the mean bond enthalpy method</h4>
+        <ul>
+          <li>Mean bond enthalpies are <strong>averages</strong> across many compounds, so a calculated ΔH using them is only an <strong>estimate</strong> — it will usually differ from the experimentally measured value.</li>
+          <li>Mean bond enthalpy data applies to species in the <strong>gaseous state</strong>. If any reactant or product in the real reaction is actually a solid or liquid, the calculation ignores the extra enthalpy changes needed to convert between states (e.g. sublimation, vaporisation), introducing further error.</li>
+        </ul>
+        <div class="warn">A very common exam answer that scores well: "the calculated value differs from the real value because mean bond enthalpies are average values taken across many different compounds, and/or because the reaction doesn't actually occur entirely in the gaseous state as the data assumes."</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define mean bond enthalpy.</div>
+          <div class="a">The enthalpy change when one mole of a given bond, averaged over many different molecules, is broken (in the gaseous state).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">Is bond breaking exothermic or endothermic? What about bond forming?</div>
+          <div class="a">Bond breaking is always endothermic (requires energy input). Bond forming is always exothermic (releases energy).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Formula</span>
+          <div class="q">State the equation for calculating ΔrH from mean bond enthalpies.</div>
+          <div class="a">ΔrH = Σ E(bonds broken) − Σ E(bonds made)</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Give two reasons why a ΔH calculated from mean bond enthalpies often differs from the experimental value.</div>
+          <div class="a">1) Mean bond enthalpies are averaged across many different compounds, not specific to the exact molecule in the reaction. 2) The data assumes all species are gaseous, ignoring any additional enthalpy changes if a reactant/product is actually solid or liquid in reality.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t5">
+        <div class="check-item"><input type="checkbox" id="c5-1"><label for="c5-1">I can define bond enthalpy and mean bond enthalpy, and explain the difference</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-2"><label for="c5-2">I know bond breaking is endothermic and bond forming is exothermic</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-3"><label for="c5-3">I can calculate ΔrH from mean bond enthalpy data, including cancelling identical bonds</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-4"><label for="c5-4">I can explain the limitations of this method (averaging + gaseous-state assumption)</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetProgress()">Reset checklist progress</button>
+  </div>
+</main>
+
+<script>
+  function toggleTopic(headEl){
+    const section = headEl.parentElement;
+    document.querySelectorAll('section.topic').forEach(s=>{
+      if(s!==section){ s.classList.remove('open'); s.querySelector('.topic-body').style.maxHeight=null; }
+    });
+    section.classList.toggle('open');
+    const body = section.querySelector('.topic-body');
+    body.style.maxHeight = section.classList.contains('open') ? body.scrollHeight + 'px' : null;
+  }
+
+  const STORAGE_KEY = 'chem-topic8-checklist';
+
+  function loadProgress(){
+    let saved = {};
+    try{ saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ saved = {}; }
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      if(saved[box.id]){ box.checked = true; box.closest('.check-item').classList.add('done'); }
+      box.addEventListener('change', ()=>{
+        box.closest('.check-item').classList.toggle('done', box.checked);
+        saveProgress();
+        updateProgressBar();
+      });
+    });
+    updateProgressBar();
+  }
+
+  function saveProgress(){
+    const state = {};
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      state[box.id] = box.checked;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateProgressBar(){
+    const boxes = document.querySelectorAll('.check-item input[type=checkbox]');
+    const total = boxes.length;
+    const done = Array.from(boxes).filter(b=>b.checked).length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total + ' checkpoints complete';
+  }
+
+  function resetProgress(){
+    if(!confirm('Clear all checklist progress for Topic 8?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      box.checked = false;
+      box.closest('.check-item').classList.remove('done');
+    });
+    updateProgressBar();
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    loadProgress();
+    const openSection = document.querySelector('section.topic.open');
+    if(openSection){
+      const body = openSection.querySelector('.topic-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>
