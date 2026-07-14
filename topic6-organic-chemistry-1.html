@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Topic 6 — Organic Chemistry I | Edexcel 9CH0</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel-2:#1c2330; --border:#2a3140;
+    --text:#e6edf3; --muted:#8b96a5; --accent:#4fd1c5; --accent-2:#a78bfa;
+    --amber:#f2c94c; --danger:#ff6b6b; --good:#6fcf97; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:radial-gradient(circle at 20% -10%, #17202e 0%, var(--bg) 45%);
+    color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; padding-bottom:60px;
+  }
+  header.hero{ padding:34px 20px 26px; border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(79,209,197,0.08), transparent 70%); }
+  .eyebrow{ color:var(--accent); font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; margin:0 0 8px; }
+  h1{margin:0 0 6px; font-size:26px; line-height:1.25;}
+  .subtitle{color:var(--muted); font-size:14.5px; max-width:620px;}
+  .progress-wrap{max-width:900px; margin:22px auto 0; padding:0 20px;}
+  .progress-bar-track{ height:9px; border-radius:99px; background:var(--panel-2); overflow:hidden; border:1px solid var(--border); }
+  .progress-bar-fill{ height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); transition:width .35s ease; }
+  .progress-label{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-top:6px;}
+  main{max-width:900px; margin:26px auto; padding:0 20px;}
+  .group-divider{
+    display:flex; align-items:center; gap:12px; margin:30px 0 14px;
+    color:var(--accent-2); font-weight:700; font-size:14px; text-transform:uppercase; letter-spacing:.08em;
+  }
+  .group-divider::after{content:""; flex:1; height:1px; background:var(--border);}
+  nav.toc{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  nav.toc a{ color:var(--text); text-decoration:none; font-size:13px; padding:7px 12px;
+    background:var(--panel); border:1px solid var(--border); border-radius:99px; }
+  nav.toc a:hover{border-color:var(--accent); color:var(--accent);}
+  section.topic{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:18px; overflow:hidden; }
+  .topic-head{display:flex; align-items:center; gap:12px; padding:16px 18px; cursor:pointer; user-select:none;}
+  .topic-num{ flex:0 0 auto; width:34px; height:34px; border-radius:9px; background:var(--panel-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent); font-size:12px; }
+  .topic-title{flex:1; font-size:16.5px; font-weight:700;}
+  .chevron{transition:transform .25s ease; color:var(--muted); flex:0 0 auto;}
+  section.topic.open .chevron{transform:rotate(180deg);}
+  .topic-body{max-height:0; overflow:hidden; transition:max-height .35s ease; padding:0 18px;}
+  section.topic.open .topic-body{padding:0 18px 20px;}
+  .note-block{ background:var(--panel-2); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin:12px 0; font-size:14.5px; }
+  .note-block h4{margin:0 0 8px; font-size:13.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  .note-block ul, .note-block ol{margin:6px 0; padding-left:20px;}
+  .note-block li{margin-bottom:6px;}
+  .note-block p{margin:6px 0;}
+  .eq{ display:inline-block; background:#0f1420; border:1px solid var(--border); border-radius:6px;
+    padding:2px 8px; font-family:"SF Mono",Consolas,monospace; font-size:13.5px; color:var(--amber); }
+  .eqblock{ background:#0f1420; border:1px solid var(--border); border-radius:8px; padding:10px 14px;
+    font-family:"SF Mono",Consolas,monospace; font-size:13px; color:var(--amber); margin:8px 0; overflow-x:auto; white-space:pre; }
+  .warn{border-left:3px solid var(--danger); padding-left:12px; margin:10px 0; font-size:13.5px; color:#ffb4b4;}
+  .tip{border-left:3px solid var(--good); padding-left:12px; margin:10px 0; font-size:13.5px; color:#b7f0c9;}
+  .flash-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px;}
+  @media(min-width:640px){ .flash-grid{grid-template-columns:1fr 1fr;} }
+  .flash{ background:#0f1420; border:1px solid var(--border); border-radius:12px; padding:14px 16px;
+    cursor:pointer; position:relative; min-height:78px; display:flex; align-items:center; }
+  .flash .q, .flash .a{width:100%;}
+  .flash .a{display:none; color:var(--accent);}
+  .flash.flipped .q{display:none;}
+  .flash.flipped .a{display:block;}
+  .flash .tag{ position:absolute; top:8px; right:10px; font-size:10px; letter-spacing:.08em; color:var(--muted); text-transform:uppercase; }
+  .flash:active{border-color:var(--accent);}
+  .checklist{margin-top:10px;}
+  .check-item{ display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px dashed var(--border); font-size:14px; }
+  .check-item:last-child{border-bottom:none;}
+  .check-item input{margin-top:3px; width:18px; height:18px; accent-color:var(--accent); flex:0 0 auto;}
+  .check-item label{flex:1;}
+  .check-item.done label{color:var(--muted); text-decoration:line-through;}
+  .reset-row{display:flex; justify-content:flex-end; margin-top:18px;}
+  .reset-btn{ background:none; border:1px solid var(--border); color:var(--muted); padding:8px 14px; border-radius:99px; font-size:12.5px; cursor:pointer; }
+  .reset-btn:hover{color:var(--danger); border-color:var(--danger);}
+  table.datatable{width:100%; border-collapse:collapse; margin:10px 0; font-size:13px;}
+  table.datatable th, table.datatable td{border:1px solid var(--border); padding:7px 9px; text-align:left; vertical-align:top;}
+  table.datatable th{background:var(--panel); color:var(--accent); font-size:11.5px; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">Edexcel A Level Chemistry · 9CH0</p>
+  <h1>Topic 6 — Organic Chemistry I</h1>
+  <p class="subtitle">Intro &amp; Isomerism, Hydrocarbons, Halogenoalkanes, Alcohols — super detailed notes + flip flashcards + checklist. Tap a section to expand, tap a flashcard to reveal the answer. Progress saves on this device.</p>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 checkpoints complete</span><span>Topic 6</span></div>
+</div>
+
+<main>
+  <nav class="toc">
+    <a href="#t1">6.1a Formulae &amp; Naming</a>
+    <a href="#t2">6.1b Isomerism</a>
+    <a href="#t3">6.2a Alkanes</a>
+    <a href="#t4">6.2b Alkenes</a>
+    <a href="#t5">6.3 Halogenoalkanes</a>
+    <a href="#t6">6.4 Alcohols</a>
+  </nav>
+
+  <div class="group-divider">6.1 — Introduction to Organic Chemistry &amp; Isomerism</div>
+
+  <!-- 6.1a -->
+  <section class="topic open" id="t1">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">6.1a</div>
+      <div class="topic-title">Representing &amp; Naming Organic Molecules</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Key terms</h4>
+        <ul>
+          <li><strong>Functional group:</strong> an atom or group of atoms that gives a molecule its characteristic chemical reactions.</li>
+          <li><strong>Homologous series:</strong> a family of compounds with the same functional group and general formula, where each member differs from the next by CH₂, and which show a gradual change in physical properties (e.g. increasing boiling point) but similar chemical properties.</li>
+          <li><strong>General formula:</strong> the simplest algebraic formula for a homologous series, e.g. alkanes CₙH₂ₙ₊₂, alcohols CₙH₂ₙ₊₁OH.</li>
+        </ul>
+      </div>
+      <div class="note-block">
+        <h4>Ways of representing a molecule</h4>
+        <ul>
+          <li><strong>Molecular formula:</strong> actual number of each atom, e.g. C₄H₁₀ (no structural detail).</li>
+          <li><strong>Displayed (full structural) formula:</strong> shows every atom and every bond individually.</li>
+          <li><strong>Structural formula:</strong> shows atoms grouped by carbon, e.g. CH₃CH₂CH₂CH₃ — enough detail to identify the structure without drawing every bond.</li>
+          <li><strong>Skeletal formula:</strong> a zig-zag line showing only the carbon skeleton — each line-end/vertex represents a carbon atom, hydrogens are not shown, and only functional groups are drawn explicitly.</li>
+        </ul>
+      </div>
+      <div class="note-block">
+        <h4>IUPAC nomenclature — key rules</h4>
+        <ol>
+          <li>Find the longest continuous carbon chain that includes the principal (senior) functional group — this gives the stem name (meth-, eth-, prop-, but-, pent-...).</li>
+          <li>Number the chain to give the lowest possible locants (position numbers) to the principal functional group first, then to substituents.</li>
+          <li>Name and number all substituents/side chains, using di-, tri-, tetra- for repeats.</li>
+          <li>List substituent prefixes in <strong>alphabetical order</strong> (not numerical), e.g. "4-chloro-3-methylhexane", not "3-methyl-4-chlorohexane" reversed.</li>
+          <li>Use commas between numbers and hyphens between numbers and letters, e.g. "2,3-dichloro..."</li>
+        </ol>
+        <div class="warn">Common error: numbering the chain to give the lowest locant to a substituent instead of the principal functional group — the functional group's position always takes priority when assigning the lowest number.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define homologous series.</div>
+          <div class="a">A family of compounds with the same functional group and general formula, where successive members differ by CH₂, showing a gradual change in physical properties but similar chemical properties.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">What does a skeletal formula NOT show explicitly?</div>
+          <div class="a">Hydrogen atoms and C–H bonds — only the carbon skeleton (as a zig-zag line) and functional groups are drawn.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Rule</span>
+          <div class="q">In what order must multiple substituent prefixes be listed in an IUPAC name?</div>
+          <div class="a">Alphabetical order, regardless of their position numbers.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t1">
+        <div class="check-item"><input type="checkbox" id="c1-1"><label for="c1-1">I can define functional group, homologous series and general formula</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-2"><label for="c1-2">I can convert between molecular, displayed, structural and skeletal formulae</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-3"><label for="c1-3">I can apply IUPAC naming rules including lowest locants and alphabetical order</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6.1b -->
+  <section class="topic" id="t2">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">6.1b</div>
+      <div class="topic-title">Isomerism</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Isomers — the overall definition</h4>
+        <p>Isomers are molecules with the <strong>same molecular formula</strong> but a <strong>different arrangement of atoms</strong> in space.</p>
+      </div>
+      <div class="note-block">
+        <h4>Structural isomerism (three types)</h4>
+        <ul>
+          <li><strong>Chain isomerism:</strong> different arrangement of the carbon skeleton (straight chain vs branched), e.g. butane and 2-methylpropane.</li>
+          <li><strong>Positional isomerism:</strong> same carbon skeleton and same functional group, but the functional group is attached at a different position, e.g. butan-1-ol and butan-2-ol.</li>
+          <li><strong>Functional group isomerism:</strong> same molecular formula but a completely different functional group, e.g. an alcohol (C₂H₆O, ethanol) and an ether (C₂H₆O, methoxymethane).</li>
+        </ul>
+      </div>
+      <div class="note-block">
+        <h4>Stereoisomerism — E/Z (geometric) isomerism</h4>
+        <p>Stereoisomers have the same structural formula but a <strong>different arrangement in space</strong>. E/Z isomerism arises because rotation around a C=C double bond is restricted (unlike a C–C single bond).</p>
+        <p><strong>Conditions needed:</strong> (1) a C=C double bond restricting rotation, and (2) each carbon of the double bond must have two <strong>different</strong> groups attached.</p>
+        <ul>
+          <li><strong>Z-isomer</strong> ("zusammen", together): the two higher-priority groups (by atomic number, CIP priority rules) are on the same side of the double bond.</li>
+          <li><strong>E-isomer</strong> ("entgegen", opposite): the two higher-priority groups are on opposite sides.</li>
+        </ul>
+        <div class="tip">Cis-trans notation (an older, simpler system) only works when each carbon has one H and one other identical-type group — it breaks down when there are three or four different substituents on the double bond. E/Z notation, based on CIP priority, works for every case, so it's the system to default to.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define isomers.</div>
+          <div class="a">Molecules with the same molecular formula but a different arrangement of atoms in space.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Classify</span>
+          <div class="q">Are propan-1-ol and propan-2-ol positional or chain isomers?</div>
+          <div class="a">Positional isomers — same carbon skeleton and functional group, but the OH group is in a different position.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Condition</span>
+          <div class="q">State the two conditions required for E/Z isomerism.</div>
+          <div class="a">A C=C double bond (restricting rotation), and each carbon of the double bond must have two different groups attached.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why does cis-trans notation sometimes fail, but E/Z notation always works?</div>
+          <div class="a">Cis-trans only works cleanly when there's one hydrogen and one other group on each carbon of the double bond; with three or four different substituents, "same side as what?" becomes ambiguous. E/Z uses CIP priority rules to rank every substituent, so it always gives an unambiguous answer.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t2">
+        <div class="check-item"><input type="checkbox" id="c2-1"><label for="c2-1">I can identify and give examples of chain, positional and functional group isomerism</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-2"><label for="c2-2">I know the two conditions needed for E/Z isomerism</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-3"><label for="c2-3">I can assign E/Z using CIP priority rules</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-4"><label for="c2-4">I know when cis-trans notation breaks down and why E/Z is preferred</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="group-divider">6.2 — Hydrocarbons</div>
+
+  <!-- 6.2a -->
+  <section class="topic" id="t3">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">6.2a</div>
+      <div class="topic-title">Alkanes — Combustion &amp; Free Radical Substitution</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Alkanes overview</h4>
+        <p>Saturated hydrocarbons (only C–C and C–H single bonds), general formula <span class="eq">CₙH₂ₙ₊₂</span>. Relatively unreactive due to strong, non-polar C–C and C–H bonds.</p>
+      </div>
+      <div class="note-block">
+        <h4>Combustion</h4>
+        <p><strong>Complete combustion</strong> (excess oxygen): <span class="eq">CₙH₂ₙ₊₂ + O₂ → CO₂ + H₂O</span></p>
+        <p><strong>Incomplete combustion</strong> (limited oxygen) produces carbon monoxide and/or soot (carbon) instead of some or all of the CO₂ — a safety hazard in poorly ventilated gas appliances since CO is toxic and colourless/odourless.</p>
+      </div>
+      <div class="note-block">
+        <h4>Free radical substitution with halogens (e.g. CH₄ + Cl₂)</h4>
+        <p>Requires UV light to start the reaction. Proceeds via three stages:</p>
+        <ol>
+          <li><strong>Initiation:</strong> UV light provides enough energy to break the Cl–Cl bond by <strong>homolytic fission</strong> (each atom keeps one electron from the bonding pair), forming two chlorine radicals (Cl•).
+            <p class="eqblock">Cl2 → 2Cl•</p>
+          </li>
+          <li><strong>Propagation</strong> (two steps, repeated many times):
+            <p class="eqblock">Cl• + CH4 → •CH3 + HCl
+•CH3 + Cl2 → CH3Cl + Cl•</p>
+          </li>
+          <li><strong>Termination:</strong> two radicals combine to form a molecule, removing radicals from the system and ending the chain.
+            <p class="eqblock">Cl• + Cl• → Cl2
+•CH3 + Cl• → CH3Cl
+•CH3 + •CH3 → C2H6</p>
+          </li>
+        </ol>
+        <div class="warn">A radical (•) is a species with an unpaired electron. Homolytic fission is bond breaking where each atom takes one electron — this always produces two radicals, unlike heterolytic fission which produces ions.</div>
+        <p class="tip">Limitation of this reaction as a synthesis method: multiple substitution and substitution at different carbons produce a mixture of products, making it a poor method for making a single pure organic compound.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define homolytic fission.</div>
+          <div class="a">The breaking of a covalent bond so that each atom takes one electron from the bonding pair, forming two radicals.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Sequence</span>
+          <div class="q">Name the three stages of free radical substitution, in order.</div>
+          <div class="a">Initiation, propagation, termination.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is UV light needed to start the reaction between methane and chlorine?</div>
+          <div class="a">UV light provides enough energy to break the Cl–Cl bond by homolytic fission, generating the chlorine radicals needed to start the chain reaction.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Limitation</span>
+          <div class="q">Why is free radical substitution a poor method for preparing a single pure product?</div>
+          <div class="a">Substitution can occur at any C–H bond and can happen more than once per molecule, producing a mixture of different substituted products that then need separating.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t3">
+        <div class="check-item"><input type="checkbox" id="c3-1"><label for="c3-1">I can write complete and incomplete combustion equations for alkanes</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-2"><label for="c3-2">I can write all three stages of free radical substitution with correct equations</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-3"><label for="c3-3">I can define homolytic fission and identify radicals</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-4"><label for="c3-4">I can explain why this reaction gives a mixture of products</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6.2b -->
+  <section class="topic" id="t4">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">6.2b</div>
+      <div class="topic-title">Alkenes — Electrophilic Addition</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Alkenes overview</h4>
+        <p>Unsaturated hydrocarbons containing at least one C=C double bond, general formula <span class="eq">CₙH₂ₙ</span>. More reactive than alkanes because the C=C double bond has a region of high electron density (the π bond) that attracts electrophiles.</p>
+      </div>
+      <div class="note-block">
+        <h4>Electrophilic addition — key definitions</h4>
+        <p><strong>Electrophile:</strong> an electron-pair acceptor — a species attracted to areas of high electron density.</p>
+        <p><strong>Heterolytic fission:</strong> the breaking of a covalent bond so that BOTH electrons from the bonding pair go to one atom, forming two oppositely charged ions.</p>
+        <p><strong>Electrophilic addition:</strong> a reaction in which two molecules combine to form a single product, and the attacking species is an electrophile.</p>
+      </div>
+      <div class="note-block">
+        <h4>Mechanism — addition of Br₂ to ethene</h4>
+        <ol>
+          <li>The π bond electrons of the alkene are attracted to the slightly δ+ bromine atom of Br₂ (induced dipole, since the alkene's electron density polarises the approaching Br₂ molecule).</li>
+          <li>A curly arrow goes from the C=C π bond to the nearer Br atom of Br₂; a second curly arrow goes from the Br–Br bond to the far bromine atom, causing heterolytic fission and forming Br⁻.</li>
+          <li>This forms a positively charged intermediate — a <strong>carbocation</strong> — with the C now bonded to Br, plus a Br⁻ ion.</li>
+          <li>The Br⁻ ion's lone pair then forms a new bond to the carbocation, with a curly arrow from the lone pair on Br⁻ to the positive carbon.</li>
+        </ol>
+        <div class="warn">Mechanism-drawing marks depend on precision: curly arrows must start exactly from a bond or a lone pair (never from an atom or a "+" charge symbol) and point exactly to the atom/bond being formed.</div>
+      </div>
+      <div class="note-block">
+        <h4>Addition of hydrogen halides (e.g. HBr) — Markovnikov's rule</h4>
+        <p>With an unsymmetrical alkene, a hydrogen halide can add in two possible orientations, forming different carbocation intermediates. The <strong>major product</strong> forms via the more stable carbocation.</p>
+        <p><strong>Carbocation stability order:</strong> tertiary &gt; secondary &gt; primary — more alkyl groups attached to the positive carbon donate electron density (positive inductive effect), stabilising the charge.</p>
+      </div>
+      <div class="note-block">
+        <h4>Test for unsaturation</h4>
+        <p>Shake the sample with orange <strong>bromine water</strong>. An alkene decolourises it rapidly (orange → colourless) via electrophilic addition, forming a colourless dibromo product. An alkane shows no colour change (no reaction) under normal conditions.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define an electrophile.</div>
+          <div class="a">An electron-pair acceptor, attracted to regions of high electron density.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define heterolytic fission.</div>
+          <div class="a">The breaking of a covalent bond so that both electrons of the bonding pair are taken by one of the two atoms, forming two oppositely charged ions.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Test</span>
+          <div class="q">Describe the test to distinguish an alkene from an alkane.</div>
+          <div class="a">Shake with orange bromine water. An alkene rapidly decolourises it (orange to colourless) via electrophilic addition; an alkane shows no colour change.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is a tertiary carbocation more stable than a primary one?</div>
+          <div class="a">More alkyl groups are attached directly to the positively charged carbon; these donate electron density towards the positive charge (positive inductive effect), spreading out and stabilising the charge.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t4">
+        <div class="check-item"><input type="checkbox" id="c4-1"><label for="c4-1">I can define electrophile and heterolytic fission</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-2"><label for="c4-2">I can draw the full electrophilic addition mechanism with correct curly arrows</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-3"><label for="c4-3">I can predict the major product using carbocation stability</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-4"><label for="c4-4">I can describe and explain the bromine water test</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="group-divider">6.3 — Halogenoalkanes</div>
+
+  <!-- 6.3 -->
+  <section class="topic" id="t5">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">6.3</div>
+      <div class="topic-title">Halogenoalkanes — Nucleophilic Substitution &amp; Elimination</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Nucleophilic substitution — key definitions</h4>
+        <p><strong>Nucleophile:</strong> an electron-pair donor — attracted to regions of low electron density (positive/partially positive centres).</p>
+        <p><strong>Nucleophilic substitution:</strong> a reaction in which an attacking nucleophile donates a lone pair to form a new bond, displacing another group (the halogen, as a halide ion, in halogenoalkanes).</p>
+      </div>
+      <div class="note-block">
+        <h4>Mechanism — hydrolysis of a halogenoalkane by OH⁻</h4>
+        <ol>
+          <li>The carbon bonded to the halogen is δ+ (halogen is more electronegative), attracting the lone pair of the OH⁻ nucleophile.</li>
+          <li>A curly arrow goes from a lone pair on the oxygen of OH⁻ to the δ+ carbon.</li>
+          <li>Simultaneously, a curly arrow goes from the C–halogen bond to the halogen atom, forming a halide ion (heterolytic fission) as the halogen leaves.</li>
+          <li>Product: an alcohol, plus a halide ion.</li>
+        </ol>
+        <p class="eq">R–X + OH⁻ → R–OH + X⁻</p>
+      </div>
+      <div class="note-block">
+        <h4>Rate of hydrolysis — the C–X bond enthalpy trend</h4>
+        <p>Rate of hydrolysis: <strong>R–I &gt; R–Br &gt; R–Cl &gt; R–F</strong> (iodoalkanes react fastest, fluoroalkanes slowest/not at all under normal conditions).</p>
+        <div class="warn">The explanation is bond enthalpy, NOT electronegativity. C–I has the lowest bond enthalpy (weakest bond, longer/more diffuse orbital overlap going down the group), so it breaks most easily — even though iodine is the least electronegative of the halogens here. Electronegativity affects which atom becomes δ+/δ−, but bond strength (which is broken in the rate-determining step) is what controls the rate.</div>
+      </div>
+      <div class="note-block">
+        <h4>Elimination reactions</h4>
+        <p>An <strong>elimination reaction</strong> is one in which a small molecule is removed from a larger molecule, without anything being substituted in its place, typically forming a C=C double bond.</p>
+        <p>Halogenoalkane + <strong>hot ethanolic</strong> KOH/NaOH (as a base, not a nucleophile here) → alkene + H₂O + halide ion (via loss of HX).</p>
+        <p class="eq">CH₃CH₂Br + OH⁻ → CH₂=CH₂ + H₂O + Br⁻</p>
+        <div class="tip">Same reagent (KOH), different conditions and different outcome: <strong>aqueous</strong> KOH/NaOH favours substitution (OH⁻ acts as a nucleophile, forming an alcohol); <strong>ethanolic</strong> KOH/NaOH favours elimination (OH⁻ acts as a base, forming an alkene). This contrast is a favourite exam question.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define a nucleophile.</div>
+          <div class="a">An electron-pair donor, attracted to regions of low electron density (positive or δ+ centres).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why do iodoalkanes hydrolyse faster than chloroalkanes?</div>
+          <div class="a">The C–I bond has a lower bond enthalpy (is weaker) than the C–Cl bond, so it breaks more easily — this is a bond enthalpy effect, not an electronegativity effect.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Contrast</span>
+          <div class="q">What's the key difference between using aqueous KOH and ethanolic KOH with a halogenoalkane?</div>
+          <div class="a">Aqueous KOH favours nucleophilic substitution (forms an alcohol); ethanolic KOH (usually with heat) favours elimination (forms an alkene), because OH⁻ acts as a base rather than a nucleophile in ethanol.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define an elimination reaction.</div>
+          <div class="a">A reaction in which a small molecule is removed from a larger molecule (without substitution), typically forming a double bond.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t5">
+        <div class="check-item"><input type="checkbox" id="c5-1"><label for="c5-1">I can define nucleophile and describe the nucleophilic substitution mechanism precisely</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-2"><label for="c5-2">I can explain the hydrolysis rate trend using C–X bond enthalpy (not electronegativity)</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-3"><label for="c5-3">I can distinguish aqueous (substitution) vs ethanolic (elimination) KOH conditions</label></div>
+        <div class="check-item"><input type="checkbox" id="c5-4"><label for="c5-4">I can write the elimination equation and mechanism</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="group-divider">6.4 — Alcohols</div>
+
+  <!-- 6.4 -->
+  <section class="topic" id="t6">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">6.4</div>
+      <div class="topic-title">Alcohols — Classification, Oxidation &amp; Practical Techniques</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Overview</h4>
+        <p>Alcohols are a homologous series with the –OH functional group, general formula <span class="eq">CₙH₂ₙ₊₁OH</span>. They can hydrogen bond (via the O–H group), giving them higher boiling points and greater water solubility (for smaller alcohols) than alkanes of similar size.</p>
+      </div>
+      <div class="note-block">
+        <h4>Classifying alcohols</h4>
+        <ul>
+          <li><strong>Primary (1°):</strong> the carbon bonded to –OH is attached to only one other alkyl group (or none, as in methanol).</li>
+          <li><strong>Secondary (2°):</strong> the carbon bonded to –OH is attached to two other alkyl groups.</li>
+          <li><strong>Tertiary (3°):</strong> the carbon bonded to –OH is attached to three other alkyl groups.</li>
+        </ul>
+      </div>
+      <div class="note-block">
+        <h4>Oxidation of alcohols — the key A-grade distinction</h4>
+        <p>Oxidising agent used: acidified potassium dichromate(VI), K₂Cr₂O₇/H⁺ — colour change orange → green as Cr(VI) is reduced to Cr(III).</p>
+        <ul>
+          <li><strong>Primary alcohols</strong> can be oxidised in two stages, controlled by technique:
+            <ul>
+              <li><strong>Distillation</strong> (product removed as it forms, using limited oxidant) → stops at the <strong>aldehyde</strong> stage (partial oxidation).</li>
+              <li><strong>Reflux</strong> (heating under a condenser that returns vapour to the flask, with excess oxidant) → continues to the <strong>carboxylic acid</strong> stage (complete oxidation).</li>
+            </ul>
+          </li>
+          <li><strong>Secondary alcohols</strong> are oxidised (under reflux) to <strong>ketones</strong> only — there is no further oxidation possible, since a ketone has no hydrogen left on the carbonyl carbon to remove.</li>
+          <li><strong>Tertiary alcohols cannot be oxidised</strong> by acidified dichromate at all — there is no hydrogen atom on the carbon bonded to the –OH group for the oxidising agent to remove.</li>
+        </ul>
+        <div class="warn">A very common exam trap: explaining why tertiary alcohols resist oxidation. The correct reason is structural (no H on the C–OH carbon to remove), not about "tertiary alcohols being unreactive" in general.</div>
+      </div>
+      <div class="note-block">
+        <h4>Distillation vs reflux — apparatus reasoning</h4>
+        <table class="datatable">
+          <tr><th>Technique</th><th>Purpose</th><th>Key apparatus feature</th></tr>
+          <tr><td>Reflux</td><td>Heat a reaction mixture for a long time without losing volatile reactants/products</td><td>Vertical condenser — vapour condenses and drips back into the flask</td></tr>
+          <tr><td>Distillation</td><td>Heat and continuously remove/collect a volatile product as it forms</td><td>Condenser angled downward — vapour is collected in a separate receiving flask</td></tr>
+        </table>
+      </div>
+      <div class="note-block">
+        <h4>Other alcohol reactions</h4>
+        <ul>
+          <li><strong>Combustion:</strong> alcohols burn in oxygen (often with a cleaner/less smoky flame than the equivalent hydrocarbon, since they already contain some oxygen).</li>
+          <li><strong>Dehydration (elimination of water):</strong> heating an alcohol with an acid catalyst (e.g. concentrated H₃PO₄ or H₂SO₄) removes H₂O to form an alkene.</li>
+        </ul>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Classify</span>
+          <div class="q">Is (CH₃)₃C-OH a primary, secondary or tertiary alcohol?</div>
+          <div class="a">Tertiary — the carbon bonded to OH is attached to three other alkyl (methyl) groups.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Technique</span>
+          <div class="q">Which technique — reflux or distillation — stops the oxidation of a primary alcohol at the aldehyde stage?</div>
+          <div class="a">Distillation — the aldehyde is removed from the reaction mixture as soon as it forms, before it can be oxidised further to the carboxylic acid.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why can't tertiary alcohols be oxidised by acidified dichromate?</div>
+          <div class="a">There is no hydrogen atom attached to the carbon bearing the –OH group, so there is no hydrogen for the oxidising agent to remove.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Observation</span>
+          <div class="q">Describe the colour change when a primary or secondary alcohol is oxidised by acidified potassium dichromate(VI).</div>
+          <div class="a">Orange to green, as Cr(VI) (orange, in Cr₂O₇²⁻) is reduced to Cr(III) (green).</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t6">
+        <div class="check-item"><input type="checkbox" id="c6-1"><label for="c6-1">I can classify alcohols as primary, secondary or tertiary</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-2"><label for="c6-2">I know the oxidation products for each class of alcohol and why tertiary alcohols resist oxidation</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-3"><label for="c6-3">I can explain reflux vs distillation and choose the right one for a given product</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-4"><label for="c6-4">I know the colour change for the dichromate oxidising agent</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-5"><label for="c6-5">I can write the dehydration (elimination) equation for an alcohol</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetProgress()">Reset checklist progress</button>
+  </div>
+</main>
+
+<script>
+  function toggleTopic(headEl){
+    const section = headEl.parentElement;
+    document.querySelectorAll('section.topic').forEach(s=>{
+      if(s!==section){ s.classList.remove('open'); s.querySelector('.topic-body').style.maxHeight=null; }
+    });
+    section.classList.toggle('open');
+    const body = section.querySelector('.topic-body');
+    body.style.maxHeight = section.classList.contains('open') ? body.scrollHeight + 'px' : null;
+  }
+
+  const STORAGE_KEY = 'chem-topic6-checklist';
+
+  function loadProgress(){
+    let saved = {};
+    try{ saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ saved = {}; }
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      if(saved[box.id]){ box.checked = true; box.closest('.check-item').classList.add('done'); }
+      box.addEventListener('change', ()=>{
+        box.closest('.check-item').classList.toggle('done', box.checked);
+        saveProgress();
+        updateProgressBar();
+      });
+    });
+    updateProgressBar();
+  }
+
+  function saveProgress(){
+    const state = {};
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      state[box.id] = box.checked;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateProgressBar(){
+    const boxes = document.querySelectorAll('.check-item input[type=checkbox]');
+    const total = boxes.length;
+    const done = Array.from(boxes).filter(b=>b.checked).length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total + ' checkpoints complete';
+  }
+
+  function resetProgress(){
+    if(!confirm('Clear all checklist progress for Topic 6?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      box.checked = false;
+      box.closest('.check-item').classList.remove('done');
+    });
+    updateProgressBar();
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    loadProgress();
+    const openSection = document.querySelector('section.topic.open');
+    if(openSection){
+      const body = openSection.querySelector('.topic-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>
