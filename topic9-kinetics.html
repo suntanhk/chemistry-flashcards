@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Topic 9 — Kinetics | Edexcel 9CH0</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel-2:#1c2330; --border:#2a3140;
+    --text:#e6edf3; --muted:#8b96a5; --accent:#4fd1c5; --accent-2:#a78bfa;
+    --amber:#f2c94c; --danger:#ff6b6b; --good:#6fcf97; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:radial-gradient(circle at 20% -10%, #17202e 0%, var(--bg) 45%);
+    color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; padding-bottom:60px;
+  }
+  header.hero{ padding:34px 20px 26px; border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(79,209,197,0.08), transparent 70%); }
+  .eyebrow{ color:var(--accent); font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; margin:0 0 8px; }
+  h1{margin:0 0 6px; font-size:26px; line-height:1.25;}
+  .subtitle{color:var(--muted); font-size:14.5px; max-width:620px;}
+  .progress-wrap{max-width:900px; margin:22px auto 0; padding:0 20px;}
+  .progress-bar-track{ height:9px; border-radius:99px; background:var(--panel-2); overflow:hidden; border:1px solid var(--border); }
+  .progress-bar-fill{ height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); transition:width .35s ease; }
+  .progress-label{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-top:6px;}
+  main{max-width:900px; margin:26px auto; padding:0 20px;}
+  nav.toc{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  nav.toc a{ color:var(--text); text-decoration:none; font-size:13px; padding:7px 12px;
+    background:var(--panel); border:1px solid var(--border); border-radius:99px; }
+  nav.toc a:hover{border-color:var(--accent); color:var(--accent);}
+  section.topic{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:18px; overflow:hidden; }
+  .topic-head{display:flex; align-items:center; gap:12px; padding:16px 18px; cursor:pointer; user-select:none;}
+  .topic-num{ flex:0 0 auto; width:34px; height:34px; border-radius:9px; background:var(--panel-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent); font-size:13px; }
+  .topic-title{flex:1; font-size:16.5px; font-weight:700;}
+  .chevron{transition:transform .25s ease; color:var(--muted); flex:0 0 auto;}
+  section.topic.open .chevron{transform:rotate(180deg);}
+  .topic-body{max-height:0; overflow:hidden; transition:max-height .35s ease; padding:0 18px;}
+  section.topic.open .topic-body{padding:0 18px 20px;}
+  .note-block{ background:var(--panel-2); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin:12px 0; font-size:14.5px; }
+  .note-block h4{margin:0 0 8px; font-size:13.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  .note-block ul, .note-block ol{margin:6px 0; padding-left:20px;}
+  .note-block li{margin-bottom:6px;}
+  .note-block p{margin:6px 0;}
+  .eq{ display:inline-block; background:#0f1420; border:1px solid var(--border); border-radius:6px;
+    padding:2px 8px; font-family:"SF Mono",Consolas,monospace; font-size:13.5px; color:var(--amber); }
+  .eqblock{ background:#0f1420; border:1px solid var(--border); border-radius:8px; padding:10px 14px;
+    font-family:"SF Mono",Consolas,monospace; font-size:13px; color:var(--amber); margin:8px 0; overflow-x:auto; white-space:pre; }
+  .warn{border-left:3px solid var(--danger); padding-left:12px; margin:10px 0; font-size:13.5px; color:#ffb4b4;}
+  .tip{border-left:3px solid var(--good); padding-left:12px; margin:10px 0; font-size:13.5px; color:#b7f0c9;}
+  .flash-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px;}
+  @media(min-width:640px){ .flash-grid{grid-template-columns:1fr 1fr;} }
+  .flash{ background:#0f1420; border:1px solid var(--border); border-radius:12px; padding:14px 16px;
+    cursor:pointer; position:relative; min-height:78px; display:flex; align-items:center; }
+  .flash .q, .flash .a{width:100%;}
+  .flash .a{display:none; color:var(--accent);}
+  .flash.flipped .q{display:none;}
+  .flash.flipped .a{display:block;}
+  .flash .tag{ position:absolute; top:8px; right:10px; font-size:10px; letter-spacing:.08em; color:var(--muted); text-transform:uppercase; }
+  .flash:active{border-color:var(--accent);}
+  .checklist{margin-top:10px;}
+  .check-item{ display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px dashed var(--border); font-size:14px; }
+  .check-item:last-child{border-bottom:none;}
+  .check-item input{margin-top:3px; width:18px; height:18px; accent-color:var(--accent); flex:0 0 auto;}
+  .check-item label{flex:1;}
+  .check-item.done label{color:var(--muted); text-decoration:line-through;}
+  .reset-row{display:flex; justify-content:flex-end; margin-top:18px;}
+  .reset-btn{ background:none; border:1px solid var(--border); color:var(--muted); padding:8px 14px; border-radius:99px; font-size:12.5px; cursor:pointer; }
+  .reset-btn:hover{color:var(--danger); border-color:var(--danger);}
+  table.datatable{width:100%; border-collapse:collapse; margin:10px 0; font-size:13px;}
+  table.datatable th, table.datatable td{border:1px solid var(--border); padding:7px 9px; text-align:left; vertical-align:top;}
+  table.datatable th{background:var(--panel); color:var(--accent); font-size:11.5px; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">Edexcel A Level Chemistry · 9CH0</p>
+  <h1>Topic 9 — Kinetics</h1>
+  <p class="subtitle">Super detailed notes + flip flashcards + checklist. Tap a section to expand, tap a flashcard to reveal the answer. Progress saves on this device.</p>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 checkpoints complete</span><span>Topic 9</span></div>
+</div>
+
+<main>
+  <nav class="toc">
+    <a href="#t1">9.1 Measuring Rate</a>
+    <a href="#t2">9.2 Collision Theory</a>
+    <a href="#t3">9.3 Maxwell–Boltzmann</a>
+    <a href="#t4">9.4 Catalysts</a>
+  </nav>
+
+  <!-- 9.1 -->
+  <section class="topic open" id="t1">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">9.1</div>
+      <div class="topic-title">Rate of Reaction &amp; How to Measure It</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Definition</h4>
+        <p>The rate of a chemical reaction is the <strong>change in concentration of a reactant or product per unit time</strong>.</p>
+        <p class="eq">rate = Δ[concentration] ÷ time</p>
+        <p>Units: if concentration is in mol dm⁻³ and time in seconds, rate is in mol dm⁻³ s⁻¹.</p>
+      </div>
+      <div class="note-block">
+        <h4>Reading rate from a graph</h4>
+        <ul>
+          <li><strong>Concentration of reactant vs time:</strong> starts high, decreases, curve flattens to a gradient of zero once the reaction is complete.</li>
+          <li><strong>Concentration/volume of product vs time:</strong> starts at zero, increases, levels off (flattens) once the reaction is complete.</li>
+          <li>The <strong>gradient</strong> of the curve at any point gives the rate of reaction at that instant. To find the rate at a specific point (not just the average over the whole reaction), draw a <strong>tangent</strong> to the curve at that point and calculate its gradient.</li>
+        </ul>
+        <div class="tip">The steepest part of either curve is always at the very start (t=0) — this is the initial rate, since reactant concentration (and therefore collision frequency) is at its highest at the beginning.</div>
+      </div>
+      <div class="note-block">
+        <h4>Practical methods for measuring rate</h4>
+        <ul>
+          <li><strong>Volume of gas produced</strong> over time (e.g. using a gas syringe) — rate = volume collected ÷ time taken.</li>
+          <li><strong>Mass loss</strong> over time (e.g. CO₂ escaping from a reaction on a mass balance).</li>
+          <li><strong>Colorimetry</strong> — tracking colour change/absorbance if a coloured species is a reactant or product.</li>
+          <li><strong>Titration (sampling)</strong> — removing small samples at intervals and titrating to find remaining reactant concentration (usually with the reaction "quenched" first to stop it during the titration).</li>
+        </ul>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define rate of reaction.</div>
+          <div class="a">The change in concentration of a reactant or product per unit time.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Method</span>
+          <div class="q">How do you find the rate of reaction at a specific point on a concentration-time curve (not just the average rate)?</div>
+          <div class="a">Draw a tangent to the curve at that point, then calculate the gradient of the tangent.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is the rate of reaction fastest at the very start of a reaction?</div>
+          <div class="a">Reactant concentration is at its highest at the start, giving the greatest frequency of collisions between reacting particles, so the gradient of the concentration-time graph is steepest there.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t1">
+        <div class="check-item"><input type="checkbox" id="c1-1"><label for="c1-1">I can define rate of reaction with correct units</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-2"><label for="c1-2">I can find rate from a graph using tangents/gradients</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-3"><label for="c1-3">I know several practical methods for measuring rate</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9.2 -->
+  <section class="topic" id="t2">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">9.2</div>
+      <div class="topic-title">Collision Theory &amp; Activation Energy</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>The two requirements for a successful reaction</h4>
+        <p>Particles must collide, but not every collision leads to a reaction. For a collision to be successful:</p>
+        <ol>
+          <li>The particles must collide with <strong>energy ≥ activation energy (Ea)</strong> — the minimum energy needed to start breaking bonds.</li>
+          <li>The particles must collide with the <strong>correct orientation</strong> — the reactive parts of each molecule must meet.</li>
+        </ol>
+        <div class="warn">Gas molecules collide extremely frequently (~10²⁸–10³⁰ collisions per second per dm³ at room temperature/pressure), yet most reactions take far longer than a fraction of a second — this is powerful evidence that only a tiny fraction of collisions are actually successful.</div>
+      </div>
+      <div class="note-block">
+        <h4>Activation energy — definition and role</h4>
+        <p><strong>Activation energy:</strong> the minimum energy required for a collision between particles to result in a reaction. Collisions with energy below Ea simply bounce apart with no reaction.</p>
+        <p>Every reaction involves some bond breaking (needs energy) before new bonds can form (releases energy) — activation energy corresponds to the energy needed to start this initial bond-breaking process.</p>
+      </div>
+      <div class="note-block">
+        <h4>Orientation — a worked example</h4>
+        <p>In the reaction between ethene and HBr, only a collision where the H atom of H–Br approaches the C=C bond can lead to reaction — any other orientation (e.g. Br end approaching first) just results in the molecules bouncing apart, regardless of energy.</p>
+      </div>
+      <div class="note-block">
+        <h4>Collisions in solution vs gas phase</h4>
+        <p>In solution, solute molecules are surrounded by solvent molecules ("trapped in a solvent cage"). Reaction in solution happens in two stages: (1) the molecules must first diffuse together into the same solvent cage, then (2) they must collide successfully within it. Despite this different picture, the same underlying kinetics apply — reaction rate is still proportional to the concentrations of the reacting species.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define activation energy.</div>
+          <div class="a">The minimum energy required for a collision between particles to result in a reaction.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">State the two requirements for a successful collision.</div>
+          <div class="a">The particles must collide with energy ≥ the activation energy, and with the correct orientation.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Given how frequently gas molecules collide, why don't gas-phase reactions finish almost instantly?</div>
+          <div class="a">Only a very small fraction of the enormous number of collisions have both sufficient energy (≥ Ea) and the correct orientation to actually result in a reaction — most collisions are unsuccessful.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t2">
+        <div class="check-item"><input type="checkbox" id="c2-1"><label for="c2-1">I can state the two requirements for a successful collision</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-2"><label for="c2-2">I can define activation energy and explain its physical meaning</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-3"><label for="c2-3">I can explain the "solvent cage" model for reactions in solution</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9.3 -->
+  <section class="topic" id="t3">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">9.3</div>
+      <div class="topic-title">Maxwell–Boltzmann Distribution &amp; Temperature</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Shape of the Maxwell–Boltzmann curve — four key features</h4>
+        <ol>
+          <li>The curve is <strong>not symmetrical</strong> — it has a longer "tail" at higher energies.</li>
+          <li>It starts at the <strong>origin</strong> (no molecules have zero energy) and approaches the x-axis asymptotically at high energy (never quite reaching zero — a few molecules always have very high energy).</li>
+          <li>The <strong>area under the curve</strong> represents the total number of molecules, and stays constant regardless of temperature (since the number of molecules hasn't changed).</li>
+          <li>At a <strong>higher temperature</strong>, the peak shifts to the <strong>right</strong> (higher average energy) and becomes <strong>lower/broader</strong> (same area spread over a wider energy range).</li>
+        </ol>
+        <div class="warn">A very common exam mistake: drawing the higher-temperature curve with a taller peak. It must be LOWER and shifted right/broader than the lower-temperature curve — because the total area (total number of molecules) must stay the same.</div>
+      </div>
+      <div class="note-block">
+        <h4>Using the curve to explain the effect of temperature on rate</h4>
+        <p>Mark the activation energy, Ea, as a vertical line on the graph. The area under the curve to the <strong>right</strong> of this line represents the fraction of molecules with energy ≥ Ea (i.e. able to react successfully on collision).</p>
+        <p>At a higher temperature, this shaded area (fraction of molecules with E ≥ Ea) is <strong>larger</strong> — so a greater <strong>fraction</strong> of collisions are successful, and the frequency of successful collisions per second increases. This is why increasing temperature increases the rate of reaction.</p>
+        <div class="warn">Full-mark answers must say the number/frequency of <strong>successful</strong> collisions increases — not just that "more collisions happen". The overall collision frequency does increase slightly with temperature too, but this effect is small compared to the much larger increase in the fraction of collisions exceeding Ea, which is the dominant reason for the large rate increase.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">Why does the area under a Maxwell–Boltzmann curve stay the same at different temperatures?</div>
+          <div class="a">The area represents the total number of molecules in the sample, which doesn't change with temperature.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Draw</span>
+          <div class="q">How does the peak of the curve change when temperature increases?</div>
+          <div class="a">It shifts to the right (higher energy) and becomes lower/broader — since the same total area is now spread across a wider range of higher energies.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Using the Maxwell–Boltzmann model, explain why increasing temperature increases reaction rate.</div>
+          <div class="a">A greater fraction of molecules now have energy ≥ the activation energy (shown by the larger area under the curve to the right of the Ea line), so the frequency of successful collisions per second increases.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Careful!</span>
+          <div class="q">What's wrong with the explanation "rate increases because there are more collisions at higher temperature"?</div>
+          <div class="a">It's incomplete/misleading — the key reason is that more collisions are SUCCESSFUL (have energy ≥ Ea), not simply that there are more collisions overall. The increase in total collision frequency with temperature is a much smaller effect.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t3">
+        <div class="check-item"><input type="checkbox" id="c3-1"><label for="c3-1">I can draw a Maxwell–Boltzmann curve with all 4 key features correct</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-2"><label for="c3-2">I can draw two curves at different temperatures with correct relative peak height/position</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-3"><label for="c3-3">I can explain the temperature effect on rate using "area under the curve" language</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-4"><label for="c3-4">I always say "successful collisions increase", not just "collisions increase"</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9.4 -->
+  <section class="topic" id="t4">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">9.4</div>
+      <div class="topic-title">Catalysts</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>How a catalyst works</h4>
+        <p>A catalyst provides an <strong>alternative reaction route/mechanism with a lower activation energy</strong>. It is chemically unchanged at the end of the reaction.</p>
+      </div>
+      <div class="note-block">
+        <h4>Maxwell–Boltzmann diagram for a catalyst — do not confuse with the temperature diagram!</h4>
+        <p>The catalyst version has <strong>ONE curve</strong> (temperature is unchanged) but <strong>TWO activation energy lines</strong> — one for the uncatalysed route (Ea) and one for the catalysed route (Ea, catalysed), which is further to the left (lower energy).</p>
+        <p>Since Ea(catalysed) is lower, a much larger area of the same curve now lies to the right of this new, lower Ea line — so a greater fraction of molecules have enough energy to react via the catalysed route, increasing the rate.</p>
+        <div class="warn">Exam trap: the temperature diagram has TWO curves and ONE Ea line; the catalyst diagram has ONE curve and TWO Ea lines. Mixing these two diagrams up is a very common error.</div>
+      </div>
+      <div class="note-block">
+        <h4>Reaction profile (enthalpy profile) diagrams</h4>
+        <p>An extension of the enthalpy level diagram that also shows activation energy as a "hump" between reactants and products.</p>
+        <ul>
+          <li>The catalysed pathway is drawn as a lower hump than the uncatalysed pathway.</li>
+          <li>Crucially, <strong>ΔH is the same</strong> for both the catalysed and uncatalysed routes — a catalyst changes the pathway (and thus Ea), but does NOT change the overall enthalpy change of the reaction.</li>
+          <li>For an endothermic reaction, the same idea applies, just with products drawn above reactants.</li>
+        </ul>
+      </div>
+      <div class="note-block">
+        <h4>Homogeneous vs heterogeneous catalysts</h4>
+        <ul>
+          <li><strong>Homogeneous catalyst:</strong> in the <strong>same phase</strong> as the reactants (e.g. a catalyst dissolved in the same solution as aqueous reactants).</li>
+          <li><strong>Heterogeneous catalyst:</strong> in a <strong>different phase</strong> to the reactants (e.g. a solid catalyst used with gaseous reactants) — most industrial catalysts are heterogeneous. The reaction occurs at the catalyst's surface, so increasing the surface area (e.g. using a fine mesh, pellets or powder) increases the rate of the catalysed reaction.</li>
+        </ul>
+      </div>
+      <div class="note-block">
+        <h4>Economic and environmental importance of catalysts</h4>
+        <ul>
+          <li>Lower activation energy means reactions can be run at a <strong>lower temperature</strong>, saving significant energy costs in industrial processes.</li>
+          <li>Catalysts are not used up, so (in principle) can be reused many times, unlike a reactant.</li>
+          <li>Using catalysts to allow lower-temperature/lower-energy routes reduces fuel consumption and associated CO₂ emissions — an environmental as well as economic benefit.</li>
+        </ul>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">How does a catalyst increase the rate of a reaction?</div>
+          <div class="a">It provides an alternative reaction pathway with a lower activation energy, so a greater fraction of collisions have enough energy to react successfully.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Contrast</span>
+          <div class="q">How many curves and how many activation energy lines are on the Maxwell–Boltzmann diagram showing the effect of a catalyst?</div>
+          <div class="a">One curve (temperature unchanged) and two activation energy lines (one for the catalysed route, one for the uncatalysed route).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">Does a catalyst change the overall enthalpy change (ΔH) of a reaction?</div>
+          <div class="a">No — a catalyst only lowers the activation energy (changing the pathway); ΔH is the same with or without a catalyst.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define a heterogeneous catalyst.</div>
+          <div class="a">A catalyst that is in a different physical phase to the reactants (e.g. a solid catalyst with gaseous reactants).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why does increasing the surface area of a heterogeneous catalyst increase the rate of reaction?</div>
+          <div class="a">The reaction occurs at the catalyst's surface, so a greater surface area provides more sites for reactant molecules to adsorb and react, increasing the rate.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t4">
+        <div class="check-item"><input type="checkbox" id="c4-1"><label for="c4-1">I can explain how a catalyst works via lowering activation energy</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-2"><label for="c4-2">I can draw the correct Maxwell–Boltzmann diagram for a catalyst (1 curve, 2 Ea lines) without confusing it with the temperature diagram</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-3"><label for="c4-3">I can draw a reaction profile showing catalysed vs uncatalysed pathways with the same ΔH</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-4"><label for="c4-4">I can distinguish homogeneous and heterogeneous catalysts</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-5"><label for="c4-5">I can explain the economic/environmental benefits of catalysts in industry</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetProgress()">Reset checklist progress</button>
+  </div>
+</main>
+
+<script>
+  function toggleTopic(headEl){
+    const section = headEl.parentElement;
+    document.querySelectorAll('section.topic').forEach(s=>{
+      if(s!==section){ s.classList.remove('open'); s.querySelector('.topic-body').style.maxHeight=null; }
+    });
+    section.classList.toggle('open');
+    const body = section.querySelector('.topic-body');
+    body.style.maxHeight = section.classList.contains('open') ? body.scrollHeight + 'px' : null;
+  }
+
+  const STORAGE_KEY = 'chem-topic9-checklist';
+
+  function loadProgress(){
+    let saved = {};
+    try{ saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ saved = {}; }
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      if(saved[box.id]){ box.checked = true; box.closest('.check-item').classList.add('done'); }
+      box.addEventListener('change', ()=>{
+        box.closest('.check-item').classList.toggle('done', box.checked);
+        saveProgress();
+        updateProgressBar();
+      });
+    });
+    updateProgressBar();
+  }
+
+  function saveProgress(){
+    const state = {};
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      state[box.id] = box.checked;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateProgressBar(){
+    const boxes = document.querySelectorAll('.check-item input[type=checkbox]');
+    const total = boxes.length;
+    const done = Array.from(boxes).filter(b=>b.checked).length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total + ' checkpoints complete';
+  }
+
+  function resetProgress(){
+    if(!confirm('Clear all checklist progress for Topic 9?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      box.checked = false;
+      box.closest('.check-item').classList.remove('done');
+    });
+    updateProgressBar();
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    loadProgress();
+    const openSection = document.querySelector('section.topic.open');
+    if(openSection){
+      const body = openSection.querySelector('.topic-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>
