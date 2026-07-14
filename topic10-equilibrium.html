@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Topic 10 — Equilibrium | Edexcel 9CH0</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel-2:#1c2330; --border:#2a3140;
+    --text:#e6edf3; --muted:#8b96a5; --accent:#4fd1c5; --accent-2:#a78bfa;
+    --amber:#f2c94c; --danger:#ff6b6b; --good:#6fcf97; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:radial-gradient(circle at 20% -10%, #17202e 0%, var(--bg) 45%);
+    color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; padding-bottom:60px;
+  }
+  header.hero{ padding:34px 20px 26px; border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(79,209,197,0.08), transparent 70%); }
+  .eyebrow{ color:var(--accent); font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; margin:0 0 8px; }
+  h1{margin:0 0 6px; font-size:26px; line-height:1.25;}
+  .subtitle{color:var(--muted); font-size:14.5px; max-width:620px;}
+  .progress-wrap{max-width:900px; margin:22px auto 0; padding:0 20px;}
+  .progress-bar-track{ height:9px; border-radius:99px; background:var(--panel-2); overflow:hidden; border:1px solid var(--border); }
+  .progress-bar-fill{ height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); transition:width .35s ease; }
+  .progress-label{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-top:6px;}
+  main{max-width:900px; margin:26px auto; padding:0 20px;}
+  nav.toc{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  nav.toc a{ color:var(--text); text-decoration:none; font-size:13px; padding:7px 12px;
+    background:var(--panel); border:1px solid var(--border); border-radius:99px; }
+  nav.toc a:hover{border-color:var(--accent); color:var(--accent);}
+  section.topic{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:18px; overflow:hidden; }
+  .topic-head{display:flex; align-items:center; gap:12px; padding:16px 18px; cursor:pointer; user-select:none;}
+  .topic-num{ flex:0 0 auto; width:34px; height:34px; border-radius:9px; background:var(--panel-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent); font-size:13px; }
+  .topic-title{flex:1; font-size:16.5px; font-weight:700;}
+  .chevron{transition:transform .25s ease; color:var(--muted); flex:0 0 auto;}
+  section.topic.open .chevron{transform:rotate(180deg);}
+  .topic-body{max-height:0; overflow:hidden; transition:max-height .35s ease; padding:0 18px;}
+  section.topic.open .topic-body{padding:0 18px 20px;}
+  .note-block{ background:var(--panel-2); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin:12px 0; font-size:14.5px; }
+  .note-block h4{margin:0 0 8px; font-size:13.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  .note-block ul, .note-block ol{margin:6px 0; padding-left:20px;}
+  .note-block li{margin-bottom:6px;}
+  .note-block p{margin:6px 0;}
+  .eq{ display:inline-block; background:#0f1420; border:1px solid var(--border); border-radius:6px;
+    padding:2px 8px; font-family:"SF Mono",Consolas,monospace; font-size:13.5px; color:var(--amber); }
+  .eqblock{ background:#0f1420; border:1px solid var(--border); border-radius:8px; padding:10px 14px;
+    font-family:"SF Mono",Consolas,monospace; font-size:13px; color:var(--amber); margin:8px 0; overflow-x:auto; white-space:pre; }
+  .warn{border-left:3px solid var(--danger); padding-left:12px; margin:10px 0; font-size:13.5px; color:#ffb4b4;}
+  .tip{border-left:3px solid var(--good); padding-left:12px; margin:10px 0; font-size:13.5px; color:#b7f0c9;}
+  .flash-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px;}
+  @media(min-width:640px){ .flash-grid{grid-template-columns:1fr 1fr;} }
+  .flash{ background:#0f1420; border:1px solid var(--border); border-radius:12px; padding:14px 16px;
+    cursor:pointer; position:relative; min-height:78px; display:flex; align-items:center; }
+  .flash .q, .flash .a{width:100%;}
+  .flash .a{display:none; color:var(--accent);}
+  .flash.flipped .q{display:none;}
+  .flash.flipped .a{display:block;}
+  .flash .tag{ position:absolute; top:8px; right:10px; font-size:10px; letter-spacing:.08em; color:var(--muted); text-transform:uppercase; }
+  .flash:active{border-color:var(--accent);}
+  .checklist{margin-top:10px;}
+  .check-item{ display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px dashed var(--border); font-size:14px; }
+  .check-item:last-child{border-bottom:none;}
+  .check-item input{margin-top:3px; width:18px; height:18px; accent-color:var(--accent); flex:0 0 auto;}
+  .check-item label{flex:1;}
+  .check-item.done label{color:var(--muted); text-decoration:line-through;}
+  .reset-row{display:flex; justify-content:flex-end; margin-top:18px;}
+  .reset-btn{ background:none; border:1px solid var(--border); color:var(--muted); padding:8px 14px; border-radius:99px; font-size:12.5px; cursor:pointer; }
+  .reset-btn:hover{color:var(--danger); border-color:var(--danger);}
+  table.datatable{width:100%; border-collapse:collapse; margin:10px 0; font-size:13px;}
+  table.datatable th, table.datatable td{border:1px solid var(--border); padding:7px 9px; text-align:left; vertical-align:top;}
+  table.datatable th{background:var(--panel); color:var(--accent); font-size:11.5px; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">Edexcel A Level Chemistry · 9CH0</p>
+  <h1>Topic 10 — Equilibrium</h1>
+  <p class="subtitle">Super detailed notes + flip flashcards + checklist. Tap a section to expand, tap a flashcard to reveal the answer. Progress saves on this device.</p>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 checkpoints complete</span><span>Topic 10</span></div>
+</div>
+
+<main>
+  <nav class="toc">
+    <a href="#t1">10.1 Dynamic Equilibrium</a>
+    <a href="#t2">10.2 Concentration &amp; Pressure</a>
+    <a href="#t3">10.3 Temperature &amp; Catalysts</a>
+    <a href="#t4">10.4 The Equilibrium Constant, Kc</a>
+  </nav>
+
+  <!-- 10.1 -->
+  <section class="topic open" id="t1">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">10.1</div>
+      <div class="topic-title">Reversible Reactions &amp; Dynamic Equilibrium</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Conditions needed for dynamic equilibrium</h4>
+        <ol>
+          <li>The reaction must be <strong>reversible</strong>.</li>
+          <li>The reaction mixture must be in a <strong>closed container</strong> (nothing can enter or leave).</li>
+        </ol>
+      </div>
+      <div class="note-block">
+        <h4>Definition — three key features</h4>
+        <p>Dynamic equilibrium is a state in which:</p>
+        <ul>
+          <li>Both the forward and backward reactions are <strong>continuously occurring</strong> (it isn't "stopped" — reactants and products keep interconverting).</li>
+          <li>The <strong>rate of the forward reaction equals the rate of the backward reaction</strong>.</li>
+          <li>The <strong>concentrations</strong> of all reactants and products remain <strong>constant</strong> (but not necessarily equal to each other).</li>
+        </ul>
+        <div class="warn">A very common wrong answer: describing equilibrium as a state where "the reaction has stopped" or "reactants = products in amount". Neither is correct — both reactions are still happening, and concentrations being constant does NOT mean they are equal to each other.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">State the two conditions needed for dynamic equilibrium to be established.</div>
+          <div class="a">The reaction must be reversible, and it must take place in a closed container.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">State the three features of a system at dynamic equilibrium.</div>
+          <div class="a">Both forward and backward reactions occur continuously; the rate of the forward reaction equals the rate of the backward reaction; the concentrations of reactants and products remain constant.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Careful!</span>
+          <div class="q">Does "concentrations remain constant" mean reactant and product concentrations are equal at equilibrium?</div>
+          <div class="a">No — the concentrations of reactants and products each stay constant over time, but they are not necessarily equal to one another.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t1">
+        <div class="check-item"><input type="checkbox" id="c1-1"><label for="c1-1">I can state the two conditions needed for dynamic equilibrium</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-2"><label for="c1-2">I can state the three defining features of dynamic equilibrium precisely</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-3"><label for="c1-3">I avoid saying the reaction "has stopped" or that concentrations are equal</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10.2 -->
+  <section class="topic" id="t2">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">10.2</div>
+      <div class="topic-title">Effect of Concentration &amp; Pressure on Equilibrium Position</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Effect of concentration</h4>
+        <table class="datatable">
+          <tr><th>Change made</th><th>Position of equilibrium shifts</th></tr>
+          <tr><td>Increase reactant concentration</td><td>To the right</td></tr>
+          <tr><td>Decrease reactant concentration</td><td>To the left</td></tr>
+          <tr><td>Increase product concentration</td><td>To the left</td></tr>
+          <tr><td>Decrease product concentration</td><td>To the right</td></tr>
+        </table>
+        <p><strong>Explanation:</strong> increasing a reactant's concentration increases the rate of the forward reaction; more product forms until the rate of the backward reaction increases enough to match it again, at a new equilibrium with slightly more product present.</p>
+        <p><strong>Colour example:</strong> 2CrO₄²⁻(aq) [yellow] + 2H⁺(aq) ⇌ Cr₂O₇²⁻(aq) [orange] + H₂O(l). Adding acid (H⁺) shifts the position to the right (solution turns orange); adding alkali removes H⁺, shifting the position left (solution turns yellow).</p>
+      </div>
+      <div class="note-block">
+        <h4>Effect of pressure — gaseous equilibria only</h4>
+        <p>Pressure only affects equilibria involving gases, and depends on the <strong>total number of gas moles on each side</strong> of the equation.</p>
+        <table class="datatable">
+          <tr><th>Moles of gas: reactants vs products</th><th>Effect of INCREASING pressure</th></tr>
+          <tr><td>More reactant moles than product moles</td><td>Shifts to the right (towards fewer moles)</td></tr>
+          <tr><td>Fewer reactant moles than product moles</td><td>Shifts to the left (towards fewer moles)</td></tr>
+          <tr><td>Equal moles on both sides</td><td>No change in position</td></tr>
+        </table>
+        <p><strong>Rule of thumb:</strong> increasing pressure always shifts the equilibrium position towards the side with <strong>fewer</strong> gas moles (reduces the "crowding"); the reverse is true for a decrease in pressure.</p>
+        <div class="tip">Worked example: N₂(g) + 3H₂(g) ⇌ 2NH₃(g) has 4 mol gas on the left, 2 mol gas on the right. Increasing pressure shifts the position to the right, increasing the percentage of ammonia in the equilibrium mixture — this is confirmed experimentally.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Apply</span>
+          <div class="q">For 2SO₂(g) + O₂(g) ⇌ 2SO₃(g), what happens to the equilibrium position if pressure is increased?</div>
+          <div class="a">Shifts to the right — there are 3 mol of gas on the left and 2 mol on the right, and increasing pressure favours the side with fewer gas moles.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Apply</span>
+          <div class="q">For H₂(g) + I₂(g) ⇌ 2HI(g), what happens to the equilibrium position if pressure is increased?</div>
+          <div class="a">No change — there are 2 mol of gas on both sides of the equation.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Explain why increasing the concentration of a reactant shifts the position of equilibrium to the right.</div>
+          <div class="a">It increases the rate of the forward reaction; product concentration rises until the rate of the backward reaction increases enough to match it again, giving a new equilibrium with more product present.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t2">
+        <div class="check-item"><input type="checkbox" id="c2-1"><label for="c2-1">I know the effect of increasing/decreasing reactant or product concentration</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-2"><label for="c2-2">I can predict the effect of pressure by comparing gas moles on each side</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-3"><label for="c2-3">I remember pressure effects only apply to gaseous equilibria</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10.3 -->
+  <section class="topic" id="t3">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">10.3</div>
+      <div class="topic-title">Effect of Temperature &amp; Catalysts</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Effect of temperature</h4>
+        <p>Raising the temperature increases the rate of BOTH the forward and backward reactions, but increases the rate of the <strong>endothermic direction more</strong> than the exothermic direction. This shifts the equilibrium position towards the endothermic side.</p>
+        <table class="datatable">
+          <tr><th>Temperature change</th><th>Thermicity of forward reaction</th><th>Position shifts</th></tr>
+          <tr><td>Increased</td><td>Exothermic (ΔH negative)</td><td>To the left</td></tr>
+          <tr><td>Decreased</td><td>Exothermic (ΔH negative)</td><td>To the right</td></tr>
+          <tr><td>Increased</td><td>Endothermic (ΔH positive)</td><td>To the right</td></tr>
+          <tr><td>Decreased</td><td>Endothermic (ΔH positive)</td><td>To the left</td></tr>
+        </table>
+        <div class="warn">Precise wording matters: don't just say "temperature favours the endothermic direction" without explanation — both reactions speed up, but the endothermic one speeds up MORE, which is what actually shifts the position.</div>
+      </div>
+      <div class="note-block">
+        <h4>Effect of a catalyst on equilibrium</h4>
+        <p>A catalyst increases the rate of <strong>both</strong> the forward and backward reactions <strong>by the same amount</strong> — so the position of equilibrium is <strong>NOT altered</strong>.</p>
+        <p>The benefit of a catalyst here is purely kinetic: it reduces the <strong>time</strong> needed to reach equilibrium, without changing the equilibrium composition itself.</p>
+      </div>
+      <div class="note-block">
+        <h4>Limitations of qualitative predictions</h4>
+        <p>These concentration/pressure/temperature rules are useful predictions, but not full explanations, and can sometimes conflict — e.g. heating a sealed equilibrium mixture of brown NO₂(g) and colourless N₂O₄(g) raises BOTH temperature and pressure at once (since it's a fixed, closed container), and these two factors predict opposite shifts (exothermic forward reaction → temperature rise shifts left; fewer moles on the right → pressure rise shifts right). Only experimental observation (or calculation using the equilibrium constant) can resolve which effect wins in a specific case.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Apply</span>
+          <div class="q">A forward reaction is exothermic. What happens to the equilibrium position if temperature is increased?</div>
+          <div class="a">It shifts to the left (favouring the endothermic, backward reaction).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Careful!</span>
+          <div class="q">Why is it inaccurate to say "increasing temperature favours the endothermic reaction and does nothing to the exothermic one"?</div>
+          <div class="a">Increasing temperature increases the RATE of both the endothermic and exothermic reactions — it just increases the endothermic one's rate by more, which is what shifts the position.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">Does adding a catalyst change the position of an equilibrium?</div>
+          <div class="a">No — it speeds up the forward and backward reactions equally, reducing the time to reach equilibrium but not changing its composition.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t3">
+        <div class="check-item"><input type="checkbox" id="c3-1"><label for="c3-1">I can predict the effect of temperature change using the exo/endothermic direction</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-2"><label for="c3-2">I always mention BOTH rates increasing, with the endothermic one increasing more</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-3"><label for="c3-3">I know a catalyst does not shift equilibrium position, only reaches it faster</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-4"><label for="c3-4">I understand qualitative predictions can conflict and have limitations</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10.4 -->
+  <section class="topic" id="t4">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">10.4</div>
+      <div class="topic-title">The Equilibrium Constant, Kc</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>The Equilibrium Law</h4>
+        <p>For a general equilibrium <span class="eq">aA + bB ⇌ cC + dD</span>, the equilibrium constant is:</p>
+        <p class="eq">Kc = [C]ᶜ[D]ᵈ ÷ [A]ᵃ[B]ᵇ</p>
+        <p>Products (right-hand side) go in the numerator (top); reactants (left-hand side) go in the denominator (bottom) — always matching the equation as written, with each concentration raised to the power of its stoichiometric coefficient.</p>
+        <div class="warn">A Kc value is meaningless without stating which equation it refers to — the same reaction written with different coefficients (e.g. doubled) gives a different Kc value (specifically, squared), so always quote the equation alongside any Kc value.</div>
+      </div>
+      <div class="note-block">
+        <h4>Homogeneous vs heterogeneous equilibria</h4>
+        <ul>
+          <li><strong>Homogeneous:</strong> all species are in the <strong>same phase</strong> (e.g. all gases, or all aqueous).</li>
+          <li><strong>Heterogeneous:</strong> species are present in <strong>more than one phase</strong> (e.g. a solid in equilibrium with a gas).</li>
+        </ul>
+      </div>
+      <div class="note-block">
+        <h4>Heterogeneous equilibria — omitting solids and pure liquids</h4>
+        <p>The concentration of a pure solid or pure liquid is effectively constant (it doesn't change no matter how much is present, since concentration = mass ÷ volume, and both density and molar mass are fixed) — so these terms are <strong>left out</strong> of the Kc expression entirely (their constant value is absorbed into Kc itself).</p>
+        <p class="eqblock">CaCO3(s) ⇌ CaO(s) + CO2(g)
+Kc = [CO2(g)]        (solids omitted)</p>
+        <div class="tip">Only aqueous species and gases appear as terms in a Kc expression — pure solids and pure liquids (including water as a solvent, or as a product/reactant in its pure liquid form) are omitted.</div>
+      </div>
+      <div class="note-block">
+        <h4>Using Kc to explain (not just predict) a shift in position</h4>
+        <p>Kc has a fixed value at a given temperature. If a concentration is suddenly changed, the reaction quotient no longer equals Kc — the system must then shift in whichever direction restores the ratio to Kc's value.</p>
+        <p><strong>Worked example:</strong> for 2NO₂(g) ⇌ N₂O₄(g), Kc = [N₂O₄] ÷ [NO₂]². If [NO₂] suddenly increases, the denominator increases, making the ratio momentarily less than Kc. To restore the ratio to Kc, [N₂O₄] must increase — meaning the position of equilibrium shifts to the right, until a new equilibrium is reached where the ratio again equals Kc.</p>
+        <div class="tip">This is the real explanation behind Le Chatelier-style predictions — Kc is what actually controls and explains the shift, whereas "position of equilibrium" language is just a convenient shorthand for describing the outcome.</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Apply</span>
+          <div class="q">Write the Kc expression for N₂(g) + 3H₂(g) ⇌ 2NH₃(g).</div>
+          <div class="a">Kc = [NH₃]² ÷ ([N₂][H₂]³)</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Apply</span>
+          <div class="q">Write the Kc expression for CaCO₃(s) ⇌ CaO(s) + CO₂(g).</div>
+          <div class="a">Kc = [CO₂(g)] — the two solids, CaCO₃ and CaO, are omitted since their concentrations are constant.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why are pure solids and pure liquids left out of a Kc expression?</div>
+          <div class="a">Their concentration (mass ÷ volume) is fixed by their constant density and molar mass, regardless of how much is present — so this constant value is simply absorbed into Kc rather than written as a separate term.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Classify</span>
+          <div class="q">Is PbCl₂(s) ⇌ Pb²⁺(aq) + 2Cl⁻(aq) a homogeneous or heterogeneous equilibrium?</div>
+          <div class="a">Heterogeneous — it involves both a solid phase (PbCl₂) and an aqueous phase (the ions).</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Using Kc, explain why increasing [NO₂] in 2NO₂(g) ⇌ N₂O₄(g) shifts the equilibrium to the right.</div>
+          <div class="a">Kc = [N₂O₄]÷[NO₂]² is fixed at a given temperature. Increasing [NO₂] makes the ratio momentarily smaller than Kc; [N₂O₄] must then increase to restore the ratio to Kc, meaning the position shifts to the right.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t4">
+        <div class="check-item"><input type="checkbox" id="c4-1"><label for="c4-1">I can write a correct Kc expression from a balanced equation</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-2"><label for="c4-2">I can distinguish homogeneous and heterogeneous equilibria</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-3"><label for="c4-3">I know to omit pure solids and pure liquids from Kc, and why</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-4"><label for="c4-4">I can use Kc to explain (not just state) why an equilibrium shifts when concentration changes</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetProgress()">Reset checklist progress</button>
+  </div>
+</main>
+
+<script>
+  function toggleTopic(headEl){
+    const section = headEl.parentElement;
+    document.querySelectorAll('section.topic').forEach(s=>{
+      if(s!==section){ s.classList.remove('open'); s.querySelector('.topic-body').style.maxHeight=null; }
+    });
+    section.classList.toggle('open');
+    const body = section.querySelector('.topic-body');
+    body.style.maxHeight = section.classList.contains('open') ? body.scrollHeight + 'px' : null;
+  }
+
+  const STORAGE_KEY = 'chem-topic10-checklist';
+
+  function loadProgress(){
+    let saved = {};
+    try{ saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ saved = {}; }
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      if(saved[box.id]){ box.checked = true; box.closest('.check-item').classList.add('done'); }
+      box.addEventListener('change', ()=>{
+        box.closest('.check-item').classList.toggle('done', box.checked);
+        saveProgress();
+        updateProgressBar();
+      });
+    });
+    updateProgressBar();
+  }
+
+  function saveProgress(){
+    const state = {};
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      state[box.id] = box.checked;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateProgressBar(){
+    const boxes = document.querySelectorAll('.check-item input[type=checkbox]');
+    const total = boxes.length;
+    const done = Array.from(boxes).filter(b=>b.checked).length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total + ' checkpoints complete';
+  }
+
+  function resetProgress(){
+    if(!confirm('Clear all checklist progress for Topic 10?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      box.checked = false;
+      box.closest('.check-item').classList.remove('done');
+    });
+    updateProgressBar();
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    loadProgress();
+    const openSection = document.querySelector('section.topic.open');
+    if(openSection){
+      const body = openSection.querySelector('.topic-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>
