@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Topic 7 — Mass Spectrometry &amp; IR Spectroscopy | Edexcel 9CH0</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel-2:#1c2330; --border:#2a3140;
+    --text:#e6edf3; --muted:#8b96a5; --accent:#4fd1c5; --accent-2:#a78bfa;
+    --amber:#f2c94c; --danger:#ff6b6b; --good:#6fcf97; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:radial-gradient(circle at 20% -10%, #17202e 0%, var(--bg) 45%);
+    color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; padding-bottom:60px;
+  }
+  header.hero{ padding:34px 20px 26px; border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(79,209,197,0.08), transparent 70%); }
+  .eyebrow{ color:var(--accent); font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; margin:0 0 8px; }
+  h1{margin:0 0 6px; font-size:26px; line-height:1.25;}
+  .subtitle{color:var(--muted); font-size:14.5px; max-width:620px;}
+  .progress-wrap{max-width:900px; margin:22px auto 0; padding:0 20px;}
+  .progress-bar-track{ height:9px; border-radius:99px; background:var(--panel-2); overflow:hidden; border:1px solid var(--border); }
+  .progress-bar-fill{ height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); transition:width .35s ease; }
+  .progress-label{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-top:6px;}
+  main{max-width:900px; margin:26px auto; padding:0 20px;}
+  nav.toc{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  nav.toc a{ color:var(--text); text-decoration:none; font-size:13px; padding:7px 12px;
+    background:var(--panel); border:1px solid var(--border); border-radius:99px; }
+  nav.toc a:hover{border-color:var(--accent); color:var(--accent);}
+  section.topic{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:18px; overflow:hidden; }
+  .topic-head{display:flex; align-items:center; gap:12px; padding:16px 18px; cursor:pointer; user-select:none;}
+  .topic-num{ flex:0 0 auto; width:34px; height:34px; border-radius:9px; background:var(--panel-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent); font-size:13px; }
+  .topic-title{flex:1; font-size:16.5px; font-weight:700;}
+  .chevron{transition:transform .25s ease; color:var(--muted); flex:0 0 auto;}
+  section.topic.open .chevron{transform:rotate(180deg);}
+  .topic-body{max-height:0; overflow:hidden; transition:max-height .35s ease; padding:0 18px;}
+  section.topic.open .topic-body{padding:0 18px 20px;}
+  .note-block{ background:var(--panel-2); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin:12px 0; font-size:14.5px; }
+  .note-block h4{margin:0 0 8px; font-size:13.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  .note-block ul, .note-block ol{margin:6px 0; padding-left:20px;}
+  .note-block li{margin-bottom:6px;}
+  .note-block p{margin:6px 0;}
+  .eq{ display:inline-block; background:#0f1420; border:1px solid var(--border); border-radius:6px;
+    padding:2px 8px; font-family:"SF Mono",Consolas,monospace; font-size:13.5px; color:var(--amber); }
+  .eqblock{ background:#0f1420; border:1px solid var(--border); border-radius:8px; padding:10px 14px;
+    font-family:"SF Mono",Consolas,monospace; font-size:13px; color:var(--amber); margin:8px 0; overflow-x:auto; white-space:pre; }
+  .warn{border-left:3px solid var(--danger); padding-left:12px; margin:10px 0; font-size:13.5px; color:#ffb4b4;}
+  .tip{border-left:3px solid var(--good); padding-left:12px; margin:10px 0; font-size:13.5px; color:#b7f0c9;}
+  .flash-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px;}
+  @media(min-width:640px){ .flash-grid{grid-template-columns:1fr 1fr;} }
+  .flash{ background:#0f1420; border:1px solid var(--border); border-radius:12px; padding:14px 16px;
+    cursor:pointer; position:relative; min-height:78px; display:flex; align-items:center; }
+  .flash .q, .flash .a{width:100%;}
+  .flash .a{display:none; color:var(--accent);}
+  .flash.flipped .q{display:none;}
+  .flash.flipped .a{display:block;}
+  .flash .tag{ position:absolute; top:8px; right:10px; font-size:10px; letter-spacing:.08em; color:var(--muted); text-transform:uppercase; }
+  .flash:active{border-color:var(--accent);}
+  .checklist{margin-top:10px;}
+  .check-item{ display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px dashed var(--border); font-size:14px; }
+  .check-item:last-child{border-bottom:none;}
+  .check-item input{margin-top:3px; width:18px; height:18px; accent-color:var(--accent); flex:0 0 auto;}
+  .check-item label{flex:1;}
+  .check-item.done label{color:var(--muted); text-decoration:line-through;}
+  .reset-row{display:flex; justify-content:flex-end; margin-top:18px;}
+  .reset-btn{ background:none; border:1px solid var(--border); color:var(--muted); padding:8px 14px; border-radius:99px; font-size:12.5px; cursor:pointer; }
+  .reset-btn:hover{color:var(--danger); border-color:var(--danger);}
+  table.datatable{width:100%; border-collapse:collapse; margin:10px 0; font-size:13px;}
+  table.datatable th, table.datatable td{border:1px solid var(--border); padding:7px 9px; text-align:left; vertical-align:top;}
+  table.datatable th{background:var(--panel); color:var(--accent); font-size:11.5px; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">Edexcel A Level Chemistry · 9CH0</p>
+  <h1>Topic 7 — Modern Analytical Techniques I</h1>
+  <p class="subtitle">Mass Spectrometry &amp; Infrared Spectroscopy — super detailed notes + flip flashcards + checklist. Tap a section to expand, tap a flashcard to reveal the answer. Progress saves on this device.</p>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 checkpoints complete</span><span>Topic 7</span></div>
+</div>
+
+<main>
+  <nav class="toc">
+    <a href="#t1">7.1a Mass Spec Recap</a>
+    <a href="#t2">7.1b Fragmentation</a>
+    <a href="#t3">7.2a IR Theory</a>
+    <a href="#t4">7.2b Interpreting Spectra</a>
+  </nav>
+
+  <!-- 7.1a -->
+  <section class="topic open" id="t1">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">7.1a</div>
+      <div class="topic-title">Mass Spectrometry — Recap &amp; Key Definitions</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Quick recap from Topic 1</h4>
+        <p>Stages: Ionisation → Acceleration → Ion drift (flight tube) → Detection. The molecular ion (M⁺) forms by loss of one electron from the molecule, giving a peak whose m/z equals the relative molecular mass, Mr.</p>
+      </div>
+      <div class="note-block">
+        <h4>Key definitions for this topic</h4>
+        <ul>
+          <li><strong>Molecular ion peak:</strong> the species formed from the molecule by the loss of one electron; its m/z gives the Mr of the compound.</li>
+          <li><strong>Fragmentation:</strong> occurs when the molecular ion breaks apart into smaller pieces inside the mass spectrometer.</li>
+          <li><strong>Base peak:</strong> the peak with the greatest abundance (tallest peak, set at 100% relative intensity) — represents the most stable fragment ion formed.</li>
+        </ul>
+        <div class="warn">Don't confuse a peak's m/z value (which ion it is) with its height/abundance (how much of that ion is present) — they answer two completely different questions.</div>
+      </div>
+      <div class="note-block">
+        <h4>Reading a typical mass spectrum</h4>
+        <p>Vertical axis: relative intensity (%), from 0–100. Horizontal axis: m/z (no units), usually from 0 up to just past the molecular ion peak.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define the molecular ion peak.</div>
+          <div class="a">The peak representing the species formed from the molecule by the loss of one electron; its m/z value equals the relative molecular mass of the compound.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Definition</span>
+          <div class="q">Define the base peak.</div>
+          <div class="a">The peak with the greatest abundance in the spectrum, representing the most stable fragment ion.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t1">
+        <div class="check-item"><input type="checkbox" id="c1-1"><label for="c1-1">I can define molecular ion peak, fragmentation and base peak</label></div>
+        <div class="check-item"><input type="checkbox" id="c1-2"><label for="c1-2">I know the axes and general shape of a mass spectrum</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7.1b -->
+  <section class="topic" id="t2">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">7.1b</div>
+      <div class="topic-title">Fragmentation &amp; Deducing Structures</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>What happens during fragmentation</h4>
+        <p>When a carbon–carbon bond in the molecular ion breaks, it produces <strong>two species</strong>: a positive ion (which is detected) and a neutral species, usually a radical (which is <strong>not</strong> detected — mass spectrometers only detect charged species).</p>
+        <p class="eqblock">(CH3-CH3)+• → CH3+ + •CH3</p>
+        <div class="warn">Only positive ions produce peaks in the spectrum. If a bond breaks to form a positive ion and a radical, only the ion's m/z shows up — the radical is invisible to the detector.</div>
+      </div>
+      <div class="note-block">
+        <h4>Worked example — butane, CH₃CH₂CH₂CH₃ (Mr = 58)</h4>
+        <table class="datatable">
+          <tr><th>m/z</th><th>Ion causing the peak</th></tr>
+          <tr><td>58</td><td>Molecular ion, (C₄H₁₀)⁺•</td></tr>
+          <tr><td>43</td><td>(CH₃CH₂CH₂)⁺ — loss of a methyl radical (•CH₃, mass 15) from the molecular ion</td></tr>
+          <tr><td>29</td><td>(CH₃CH₂)⁺ — the ethyl cation</td></tr>
+          <tr><td>15</td><td>(CH₃)⁺ — the methyl cation</td></tr>
+        </table>
+        <div class="tip">Quick method: the "missing mass" between the molecular ion peak and a fragment peak tells you what was lost as a neutral radical. E.g. 58 − 43 = 15 → loss of •CH₃ (a methyl radical).</div>
+      </div>
+      <div class="note-block">
+        <h4>Common losses to recognise (missing mass → group lost)</h4>
+        <table class="datatable">
+          <tr><th>Mass lost</th><th>Group lost</th></tr>
+          <tr><td>15</td><td>•CH₃ (methyl radical)</td></tr>
+          <tr><td>17</td><td>•OH (hydroxyl radical)</td></tr>
+          <tr><td>29</td><td>•CHO or •C₂H₅</td></tr>
+          <tr><td>45</td><td>•COOH (carboxyl radical)</td></tr>
+        </table>
+      </div>
+      <div class="note-block">
+        <h4>Method for suggesting a structure from a mass spectrum</h4>
+        <ol>
+          <li>Find the molecular ion peak (highest m/z) — this gives the Mr, and combined with a molecular formula, tells you what atoms are present.</li>
+          <li>Work out the "missing mass" between the molecular ion and each fragment peak.</li>
+          <li>Match each missing mass to a plausible lost group (see table above).</li>
+          <li>Build up a structure consistent with all the fragment peaks given.</li>
+        </ol>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why are radicals never seen as peaks in a mass spectrum?</div>
+          <div class="a">Radicals are neutral (uncharged) species, and a mass spectrometer only detects and accelerates charged (ionised) particles — only positive ions produce peaks.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Apply</span>
+          <div class="q">A compound has a molecular ion peak at m/z=72 and a fragment peak at m/z=57. What has been lost?</div>
+          <div class="a">72 − 57 = 15, corresponding to loss of a methyl radical, •CH₃.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">A fragment peak is 17 less than the molecular ion peak. What group has likely been lost?</div>
+          <div class="a">•OH (a hydroxyl radical) — suggesting the original compound contains an –OH group, e.g. an alcohol.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t2">
+        <div class="check-item"><input type="checkbox" id="c2-1"><label for="c2-1">I know only positive ions (not radicals) produce peaks</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-2"><label for="c2-2">I can calculate "missing mass" between peaks and match it to a lost group</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-3"><label for="c2-3">I can suggest a structure from a simplified mass spectrum, step by step</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7.2a -->
+  <section class="topic" id="t3">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">7.2a</div>
+      <div class="topic-title">Infrared Spectroscopy — Theory</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>What IR radiation does to a molecule</h4>
+        <p>Infrared radiation is absorbed by covalent bonds, causing <strong>stretching</strong> (bond length increases and decreases) and bending vibrations. At this level, only stretching is considered.</p>
+        <p>The amount of energy (and so the frequency/wavenumber) absorbed by a bond depends on: the bond's length, the bond's strength, and the masses of the atoms involved.</p>
+        <div class="tip">Only bonds with a changing dipole absorb IR radiation — simple non-polar diatomic molecules like H₂ and Cl₂ do not absorb IR radiation at all, since there's no dipole to oscillate.</div>
+      </div>
+      <div class="note-block">
+        <h4>Reading the axes of an IR spectrum</h4>
+        <ul>
+          <li><strong>Vertical axis:</strong> transmittance (%), from 0 to 100. 100% transmittance = no absorption at that wavenumber. A downward dip (trough) = an absorption.</li>
+          <li><strong>Horizontal axis:</strong> wavenumber, in cm⁻¹ — the reciprocal of wavelength, so it represents frequency. Runs from 4000 cm⁻¹ down to 500 cm⁻¹ (numbers decrease left to right, but frequency increases left to right). The scale changes after 2000 cm⁻¹.</li>
+        </ul>
+      </div>
+      <div class="note-block">
+        <h4>Sharp vs broad absorptions</h4>
+        <p>Some absorptions are described as <strong>sharp</strong> (narrow wavenumber range) or <strong>broad</strong> (wide wavenumber range) — this shape is itself diagnostic. The O–H absorption in alcohols and carboxylic acids is characteristically broad due to hydrogen bonding, while most other absorptions (like C=O) are sharp.</p>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why do H₂ and Cl₂ not absorb infrared radiation?</div>
+          <div class="a">They are simple non-polar molecules with no permanent dipole, so their bond vibrations don't involve a changing dipole for the IR radiation to interact with.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">What does the vertical axis of an IR spectrum represent, and what does 100% mean?</div>
+          <div class="a">Transmittance (%); 100% means all the infrared radiation at that wavenumber passed through the sample without being absorbed.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Explain</span>
+          <div class="q">Why is the O–H absorption in alcohols typically broad rather than sharp?</div>
+          <div class="a">Hydrogen bonding between O–H groups in neighbouring molecules varies the exact bond environment, spreading the absorption over a wider range of wavenumbers.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t3">
+        <div class="check-item"><input type="checkbox" id="c3-1"><label for="c3-1">I can explain what factors affect the wavenumber a bond absorbs at</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-2"><label for="c3-2">I can read and label the axes of an IR spectrum correctly</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-3"><label for="c3-3">I know why some absorptions are broad and others sharp</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7.2b -->
+  <section class="topic" id="t4">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">7.2b</div>
+      <div class="topic-title">Interpreting Spectra — Wavenumber Table &amp; Method</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <h4>Key wavenumber table (approximate ranges)</h4>
+        <table class="datatable">
+          <tr><th>Bond</th><th>Wavenumber / cm⁻¹</th><th>Found in</th></tr>
+          <tr><td>O–H (hydrogen bonded, alcohols)</td><td>3230–3550, broad</td><td>Alcohols</td></tr>
+          <tr><td>O–H (hydrogen bonded, carboxylic acids)</td><td>2500–3300, very broad</td><td>Carboxylic acids</td></tr>
+          <tr><td>N–H</td><td>3200–3500</td><td>Amines, amides</td></tr>
+          <tr><td>C–H</td><td>2850–3100</td><td>Almost all organic compounds</td></tr>
+          <tr><td>C=O</td><td>1680–1750, sharp</td><td>Aldehydes, ketones, carboxylic acids, esters</td></tr>
+          <tr><td>C=C</td><td>1620–1680</td><td>Alkenes</td></tr>
+          <tr><td>C–O</td><td>1000–1300</td><td>Alcohols, esters, ethers</td></tr>
+        </table>
+        <div class="tip">These values don't need to be memorised precisely for the exam — a data sheet with this table is normally provided. What you must be able to do is USE the table to interpret a spectrum.</div>
+      </div>
+      <div class="note-block">
+        <h4>Method: interpreting an unknown spectrum</h4>
+        <ol>
+          <li>Scan the spectrum for absorptions, and note their approximate wavenumber and whether they're broad or sharp.</li>
+          <li>Match each absorption to the table to suggest which bond(s) could be responsible.</li>
+          <li><strong>Use absence of an absorption just as much as presence</strong> — ruling out a functional group can be just as informative as identifying one.</li>
+        </ol>
+      </div>
+      <div class="note-block">
+        <h4>Worked example — distinguishing a ketone from a carboxylic acid</h4>
+        <p>A spectrum shows a strong, sharp absorption at 1700 cm⁻¹ (consistent with C=O — could be a ketone OR a carboxylic acid) but shows <strong>no</strong> absorption in the 2500–3300 cm⁻¹ region.</p>
+        <div class="tip">Since carboxylic acids always show the broad O–H absorption in that region, its absence rules out a carboxylic acid — the compound must be a ketone (or another C=O-containing compound without an O–H group, e.g. an aldehyde or ester, which would need further evidence like the C–H aldehyde peak around 2700–2900 to fully confirm).</div>
+      </div>
+
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">What wavenumber range is characteristic of a C=O bond, and what functional groups could it belong to?</div>
+          <div class="a">1680–1750 cm⁻¹; could be an aldehyde, ketone, carboxylic acid or ester.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Distinguish</span>
+          <div class="q">A spectrum has a C=O peak at 1700 cm⁻¹ but no broad absorption at 2500–3300 cm⁻¹. What can you conclude?</div>
+          <div class="a">The compound is unlikely to be a carboxylic acid (which would show the broad O–H absorption in that region) — it's more likely a ketone or aldehyde.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Recall</span>
+          <div class="q">What wavenumber range is characteristic of an O–H bond in an alcohol, and how does it look (sharp/broad)?</div>
+          <div class="a">3230–3550 cm⁻¹, broad.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Method</span>
+          <div class="q">Why is the ABSENCE of an absorption sometimes just as useful as its presence?</div>
+          <div class="a">Ruling out a functional group (e.g. no O–H peak rules out alcohols/carboxylic acids) narrows down the possible structures just as effectively as confirming one that IS present.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t4">
+        <div class="check-item"><input type="checkbox" id="c4-1"><label for="c4-1">I can use the wavenumber table to identify likely functional groups in a spectrum</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-2"><label for="c4-2">I can use absence of a peak as evidence, not just presence</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-3"><label for="c4-3">I can distinguish similar functional groups (e.g. ketone vs carboxylic acid) using combined evidence</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetProgress()">Reset checklist progress</button>
+  </div>
+</main>
+
+<script>
+  function toggleTopic(headEl){
+    const section = headEl.parentElement;
+    document.querySelectorAll('section.topic').forEach(s=>{
+      if(s!==section){ s.classList.remove('open'); s.querySelector('.topic-body').style.maxHeight=null; }
+    });
+    section.classList.toggle('open');
+    const body = section.querySelector('.topic-body');
+    body.style.maxHeight = section.classList.contains('open') ? body.scrollHeight + 'px' : null;
+  }
+
+  const STORAGE_KEY = 'chem-topic7-checklist';
+
+  function loadProgress(){
+    let saved = {};
+    try{ saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ saved = {}; }
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      if(saved[box.id]){ box.checked = true; box.closest('.check-item').classList.add('done'); }
+      box.addEventListener('change', ()=>{
+        box.closest('.check-item').classList.toggle('done', box.checked);
+        saveProgress();
+        updateProgressBar();
+      });
+    });
+    updateProgressBar();
+  }
+
+  function saveProgress(){
+    const state = {};
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      state[box.id] = box.checked;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateProgressBar(){
+    const boxes = document.querySelectorAll('.check-item input[type=checkbox]');
+    const total = boxes.length;
+    const done = Array.from(boxes).filter(b=>b.checked).length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total + ' checkpoints complete';
+  }
+
+  function resetProgress(){
+    if(!confirm('Clear all checklist progress for Topic 7?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      box.checked = false;
+      box.closest('.check-item').classList.remove('done');
+    });
+    updateProgressBar();
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    loadProgress();
+    const openSection = document.querySelector('section.topic.open');
+    if(openSection){
+      const body = openSection.querySelector('.topic-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>
