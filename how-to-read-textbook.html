@@ -1,0 +1,388 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>How to Read Student Book 1 | Edexcel 9CH0</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel-2:#1c2330; --border:#2a3140;
+    --text:#e6edf3; --muted:#8b96a5; --accent:#4fd1c5; --accent-2:#a78bfa;
+    --amber:#f2c94c; --danger:#ff6b6b; --good:#6fcf97; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:radial-gradient(circle at 20% -10%, #17202e 0%, var(--bg) 45%);
+    color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; padding-bottom:60px;
+  }
+  header.hero{ padding:34px 20px 26px; border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(79,209,197,0.08), transparent 70%); }
+  .eyebrow{ color:var(--accent); font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; margin:0 0 8px; }
+  h1{margin:0 0 6px; font-size:24px; line-height:1.3;}
+  .subtitle{color:var(--muted); font-size:14.5px; max-width:620px;}
+  .progress-wrap{max-width:900px; margin:22px auto 0; padding:0 20px;}
+  .progress-bar-track{ height:9px; border-radius:99px; background:var(--panel-2); overflow:hidden; border:1px solid var(--border); }
+  .progress-bar-fill{ height:100%; width:0%; background:linear-gradient(90deg,var(--accent),var(--accent-2)); transition:width .35s ease; }
+  .progress-label{display:flex; justify-content:space-between; font-size:12.5px; color:var(--muted); margin-top:6px;}
+  main{max-width:900px; margin:26px auto; padding:0 20px;}
+  nav.toc{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  nav.toc a{ color:var(--text); text-decoration:none; font-size:13px; padding:7px 12px;
+    background:var(--panel); border:1px solid var(--border); border-radius:99px; }
+  nav.toc a:hover{border-color:var(--accent); color:var(--accent);}
+  section.topic{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:18px; overflow:hidden; }
+  .topic-head{display:flex; align-items:center; gap:12px; padding:16px 18px; cursor:pointer; user-select:none;}
+  .topic-num{ flex:0 0 auto; width:34px; height:34px; border-radius:9px; background:var(--panel-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent); font-size:13px; }
+  .topic-title{flex:1; font-size:16px; font-weight:700;}
+  .chevron{transition:transform .25s ease; color:var(--muted); flex:0 0 auto;}
+  section.topic.open .chevron{transform:rotate(180deg);}
+  .topic-body{max-height:0; overflow:hidden; transition:max-height .35s ease; padding:0 18px;}
+  section.topic.open .topic-body{padding:0 18px 20px;}
+  .note-block{ background:var(--panel-2); border:1px solid var(--border); border-radius:10px; padding:14px 16px; margin:12px 0; font-size:14.5px; }
+  .note-block h4{margin:0 0 8px; font-size:13.5px; color:var(--accent); text-transform:uppercase; letter-spacing:.06em;}
+  .note-block ul, .note-block ol{margin:6px 0; padding-left:20px;}
+  .note-block li{margin-bottom:6px;}
+  .note-block p{margin:6px 0;}
+  .warn{border-left:3px solid var(--danger); padding-left:12px; margin:10px 0; font-size:13.5px; color:#ffb4b4;}
+  .tip{border-left:3px solid var(--good); padding-left:12px; margin:10px 0; font-size:13.5px; color:#b7f0c9;}
+  .flash-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px;}
+  @media(min-width:640px){ .flash-grid{grid-template-columns:1fr 1fr;} }
+  .flash{ background:#0f1420; border:1px solid var(--border); border-radius:12px; padding:14px 16px;
+    cursor:pointer; position:relative; min-height:78px; display:flex; align-items:center; }
+  .flash .q, .flash .a{width:100%;}
+  .flash .a{display:none; color:var(--accent);}
+  .flash.flipped .q{display:none;}
+  .flash.flipped .a{display:block;}
+  .flash .tag{ position:absolute; top:8px; right:10px; font-size:10px; letter-spacing:.08em; color:var(--muted); text-transform:uppercase; }
+  .flash:active{border-color:var(--accent);}
+  .checklist{margin-top:10px;}
+  .check-item{ display:flex; align-items:flex-start; gap:10px; padding:8px 0; border-bottom:1px dashed var(--border); font-size:14px; }
+  .check-item:last-child{border-bottom:none;}
+  .check-item input{margin-top:3px; width:18px; height:18px; accent-color:var(--accent); flex:0 0 auto;}
+  .check-item label{flex:1;}
+  .check-item.done label{color:var(--muted); text-decoration:line-through;}
+  .reset-row{display:flex; justify-content:flex-end; margin-top:18px;}
+  .reset-btn{ background:none; border:1px solid var(--border); color:var(--muted); padding:8px 14px; border-radius:99px; font-size:12.5px; cursor:pointer; }
+  .reset-btn:hover{color:var(--danger); border-color:var(--danger);}
+  .step-list{counter-reset:step; margin-top:10px;}
+  .step-item{
+    display:flex; gap:12px; align-items:flex-start; padding:10px 0; border-bottom:1px dashed var(--border); font-size:14px;
+  }
+  .step-item:last-child{border-bottom:none;}
+  .step-num{
+    counter-increment:step; flex:0 0 auto; width:24px; height:24px; border-radius:50%;
+    background:var(--panel-2); border:1px solid var(--accent); color:var(--accent);
+    display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:700;
+  }
+  .step-num::before{content:counter(step);}
+  table.datatable{width:100%; border-collapse:collapse; margin:10px 0; font-size:12.5px;}
+  table.datatable th, table.datatable td{border:1px solid var(--border); padding:7px 9px; text-align:left; vertical-align:top;}
+  table.datatable th{background:var(--panel); color:var(--accent); font-size:11px; text-transform:uppercase;}
+  table.datatable a{color:var(--accent);}
+  .pill{ display:inline-block; padding:2px 9px; border-radius:99px; font-size:11px; font-weight:700; }
+  .pill-H{background:#3a1f22; color:var(--danger); border:1px solid #5a2a2e;}
+  .pill-M{background:#3a3320; color:var(--amber); border:1px solid #5a4d2a;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">Edexcel A Level Chemistry · 9CH0</p>
+  <h1>How to Read Student Book 1 for a Grade A</h1>
+  <p class="subtitle">A reading-strategy guide for using Curtis, Murgatroyd &amp; Scott's Student Book 1 actively — tap a section to expand, tap a flashcard to flip. Progress saves on this device.</p>
+</header>
+
+<div class="progress-wrap">
+  <div class="progress-bar-track"><div class="progress-bar-fill" id="progressFill"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 checkpoints complete</span><span>Reading Guide</span></div>
+</div>
+
+<main>
+  <nav class="toc">
+    <a href="#t1">Why This Matters</a>
+    <a href="#t2">Book Features</a>
+    <a href="#t3">Reading Protocol</a>
+    <a href="#t4">Topic Map</a>
+    <a href="#t5">Summer 2 Gaps</a>
+    <a href="#t6">Exam Questions</a>
+  </nav>
+
+  <!-- 1 -->
+  <section class="topic open" id="t1">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">1</div>
+      <div class="topic-title">Why This Guide Exists</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <p>Passively reading a chapter top-to-bottom feels productive but produces weak recall. This guide turns the book's own built-in features into an active reading routine, so every hour with the book converts into exam-ready understanding — not just familiarity.</p>
+        <p>Page references and priority ratings here match the study plan and flashcard set exactly, so you can move between the book and the digital notes without losing your place.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 -->
+  <section class="topic" id="t2">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">2</div>
+      <div class="topic-title">Understanding the Book's Built-In Features</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <p>Pearson built specific study tools into every section. Most students skim past them — used properly, each one has a precise job. Tap each card to see how to actually use that feature.</p>
+      </div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Topic opener</span>
+          <div class="q">"What have I studied before? / What will I study later?"</div>
+          <div class="a">Read this FIRST, every time. If a "studied before" point feels shaky, revisit it before starting the new content — new topics build directly on these.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Learning objectives</span>
+          <div class="q">States exactly what you need to know by the end of the section.</div>
+          <div class="a">Turn each objective into a question before reading (e.g. "Why does ionisation energy decrease down a group?"), then read to answer it, not just absorb text.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Key definitions</span>
+          <div class="q">Bold, collated at the end of each section — the exact wording examiners expect.</div>
+          <div class="a">Don't just recognise these. Cover the definition and recite it from memory. Precise wording is worth real marks at A level.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Worked examples</span>
+          <div class="q">Shows the exact method and layout expected in your own answers.</div>
+          <div class="a">Never just read one. Cover the solution, attempt it yourself on paper, then compare line by line.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Learning tips</span>
+          <div class="q">Flags the most common mistakes students make.</div>
+          <div class="a">Treat every Learning tip as a predicted exam trap — these are usually exactly where marks are lost.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Did you know?</span>
+          <div class="q">Real-world facts featured to help memory.</div>
+          <div class="a">Don't skip these as "just for fun" — a vivid real-world anchor is often what makes a definition stick under exam pressure.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">In-text questions</span>
+          <div class="q">Immediate self-check after each sub-section.</div>
+          <div class="a">Answer every one before moving on. Answers are on Pearson's website (not printed) — look them up rather than skipping the check.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Thinking Bigger</span>
+          <div class="q">Real research/writing extension spreads at the end of each topic.</div>
+          <div class="a">Lower priority for resit prep. Useful for the highest-level exam questions, but only tackle these once the core content checklist is done.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">Exam-style questions</span>
+          <div class="q">Practice questions at the end of every topic.</div>
+          <div class="a">Do these under timed conditions, then mark against the worked-example standard of precision shown earlier in the chapter — your most valuable practice time.</div>
+        </div>
+        <div class="flash" onclick="this.classList.toggle('flipped')">
+          <span class="tag">ActiveBook</span>
+          <div class="q">Your 3-year online access — highlighting and annotation tools.</div>
+          <div class="a">Use highlighting ONLY for key definitions and Learning tips — highlighting everything defeats the purpose. Use annotations to link a section to its matching flashcard page.</div>
+        </div>
+      </div>
+
+      <div class="checklist" data-section="t2">
+        <div class="check-item"><input type="checkbox" id="c2-1"><label for="c2-1">I know what each of the book's built-in features is for</label></div>
+        <div class="check-item"><input type="checkbox" id="c2-2"><label for="c2-2">I've set up ActiveBook and know how to use highlight/annotation tools</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 -->
+  <section class="topic" id="t3">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">3</div>
+      <div class="topic-title">The Active Reading Protocol</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <p>Apply this exact sequence to every section of every chapter. It takes slightly longer than passive reading the first time, but drastically cuts revision time later, because the material is properly understood the first time through.</p>
+      </div>
+      <div class="step-list">
+        <div class="step-item"><div class="step-num"></div><div>Read the topic opener. Confirm you're solid on every "studied before" point.</div></div>
+        <div class="step-item"><div class="step-num"></div><div>Turn each Learning objective into a question. Write these questions down.</div></div>
+        <div class="step-item"><div class="step-num"></div><div>Read the main content once, without stopping to take notes.</div></div>
+        <div class="step-item"><div class="step-num"></div><div>Re-read slowly. Stop at every worked example and attempt it yourself before reading the solution.</div></div>
+        <div class="step-item"><div class="step-num"></div><div>Recite each Key definition from memory, then check the exact wording.</div></div>
+        <div class="step-item"><div class="step-num"></div><div>Answer the in-text questions, checking answers via Pearson's website.</div></div>
+        <div class="step-item"><div class="step-num"></div><div>Open the matching flashcard page (Section 4 below) and work through the flashcards for that section — this checks recall in a different format, catching gaps that re-reading alone misses.</div></div>
+        <div class="step-item"><div class="step-num"></div><div>Tick the matching checklist item on the flashcard page once you can answer it confidently without notes.</div></div>
+      </div>
+      <div class="tip">Steps 1–3 build a first-pass mental map. Step 4 is where real learning happens — attempting a worked example yourself exposes exactly which part of the method you don't yet have. Steps 6–8 test recall in two different formats, which is far more reliable evidence of true understanding than "I read the chapter" alone.</div>
+
+      <div class="checklist" data-section="t3">
+        <div class="check-item"><input type="checkbox" id="c3-1"><label for="c3-1">I understand and can follow all 8 steps of the reading protocol</label></div>
+        <div class="check-item"><input type="checkbox" id="c3-2"><label for="c3-2">I've tried the protocol on at least one section already</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 -->
+  <section class="topic" id="t4">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">4</div>
+      <div class="topic-title">Topic-by-Topic Reading Guide</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <p>Priority: <span class="pill pill-H">H</span> = high, frequently discriminates grade A from B. <span class="pill pill-M">M</span> = moderate, solid marks with fewer traps. Tap a flashcard link to open that chapter's companion notes.</p>
+      </div>
+      <table class="datatable">
+        <tr><th>Topic</th><th>Pages</th><th>Pri.</th><th>Flashcards</th></tr>
+        <tr><td>1 Atomic Structure</td><td>p.8–19</td><td><span class="pill pill-M">M</span></td><td><a href="topic1-atomic-structure.html">Open →</a></td></tr>
+        <tr><td>2 Bonding &amp; Structure</td><td>p.34–65</td><td><span class="pill pill-H">H</span></td><td><a href="topic2-bonding-structure.html">Open →</a></td></tr>
+        <tr><td>3 Redox I</td><td>p.144–163</td><td><span class="pill pill-M">M</span></td><td><a href="topic3-redox-1.html">Open →</a></td></tr>
+        <tr><td>4.1 Group 2</td><td>p.90–103</td><td><span class="pill pill-M">M</span></td><td><a href="topic4-group2-group7.html">Open →</a></td></tr>
+        <tr><td>4.2 Group 7</td><td>p.104–117</td><td><span class="pill pill-H">H</span></td><td><a href="topic4-group2-group7.html">Open →</a></td></tr>
+        <tr><td>5 Formulae, Equations, Amount of Substance</td><td>p.118–143</td><td><span class="pill pill-H">H</span></td><td><a href="topic5-formulae-equations-amount.html">Open →</a></td></tr>
+        <tr><td>6.1 Organic Intro &amp; Isomerism</td><td>p.164–177</td><td><span class="pill pill-M">M</span></td><td><a href="topic6-organic-chemistry-1.html">Open →</a></td></tr>
+        <tr><td>6.2 Hydrocarbons</td><td>p.178–197</td><td><span class="pill pill-H">H</span></td><td><a href="topic6-organic-chemistry-1.html">Open →</a></td></tr>
+        <tr><td>6.3 Halogenoalkanes</td><td>p.198–203</td><td><span class="pill pill-H">H</span></td><td><a href="topic6-organic-chemistry-1.html">Open →</a></td></tr>
+        <tr><td>6.4 Alcohols</td><td>p.204–215</td><td><span class="pill pill-M">M</span></td><td><a href="topic6-organic-chemistry-1.html">Open →</a></td></tr>
+        <tr><td>7 Mass Spec &amp; IR</td><td>p.216–229</td><td><span class="pill pill-M">M</span></td><td><a href="topic7-mass-spec-ir.html">Open →</a></td></tr>
+        <tr><td>8 Energetics</td><td>p.230–249</td><td><span class="pill pill-H">H</span></td><td><a href="topic8-energetics.html">Open →</a></td></tr>
+        <tr><td>9 Kinetics</td><td>p.250–263</td><td><span class="pill pill-H">H</span></td><td><a href="topic9-kinetics.html">Open →</a></td></tr>
+        <tr><td>10 Equilibrium</td><td>p.264–279</td><td><span class="pill pill-H">H</span></td><td><a href="topic10-equilibrium.html">Open →</a></td></tr>
+      </table>
+
+      <div class="note-block">
+        <h4>Reading focus per chapter</h4>
+        <ul>
+          <li><strong>Topic 1:</strong> Work every worked example on electron configuration by hand before checking it — fastest way to catch the Cr/Cu exception errors.</li>
+          <li><strong>Topic 2:</strong> Redraw every VSEPR shape without looking, then check. Watch the polar bond vs polar molecule distinction.</li>
+          <li><strong>Topic 3:</strong> Practise the oxidation-number worked examples on paper, not just reading them.</li>
+          <li><strong>Topic 4.1:</strong> Build your own two-column table of hydroxide vs sulfate solubility as you read.</li>
+          <li><strong>Topic 4.2:</strong> Focus on halogen displacement and disproportionation worked examples.</li>
+          <li><strong>Topic 5:</strong> Rewards slow reading — copy out every worked example step by step, including units.</li>
+          <li><strong>Topic 6.1:</strong> Use the IUPAC naming examples to practise naming 5 molecules of your own, then check.</li>
+          <li><strong>Topic 6.2:</strong> Redraw the electrophilic addition and free radical substitution mechanisms from memory each time.</li>
+          <li><strong>Topic 6.3:</strong> Note how the book links rate of hydrolysis to bond enthalpy data, not just electronegativity.</li>
+          <li><strong>Topic 6.4:</strong> Sketch your own distillation vs reflux apparatus diagram alongside the book's.</li>
+          <li><strong>Topic 7:</strong> Practise the fragmentation "missing mass" method on every example; keep the wavenumber table handy.</li>
+          <li><strong>Topic 8:</strong> Draw every Hess cycle yourself on paper before looking at the book's version.</li>
+          <li><strong>Topic 9:</strong> Redraw the Maxwell–Boltzmann diagrams for temperature AND catalysts separately, to avoid mixing them up.</li>
+          <li><strong>Topic 10:</strong> Write out the Kc expression for every example given, including heterogeneous ones, before checking.</li>
+        </ul>
+      </div>
+
+      <div class="checklist" data-section="t4">
+        <div class="check-item"><input type="checkbox" id="c4-1"><label for="c4-1">I know which flashcard page matches each book chapter</label></div>
+        <div class="check-item"><input type="checkbox" id="c4-2"><label for="c4-2">I've reviewed the specific reading focus for each topic</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 -->
+  <section class="topic" id="t5">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">5</div>
+      <div class="topic-title">Handling the Parts the Book Doesn't Cover</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block">
+        <p>Student Book 1 does not include NMR spectroscopy, chromatography, or chirality/optical isomerism — these Summer 2 topics belong to Book 2. Since there's no textbook chapter to apply the reading protocol to, use the school's own Summer 2 class notes instead, and still work through the matching outline in the study plan's Summer 2 Gaps section.</p>
+      </div>
+      <div class="checklist" data-section="t5">
+        <div class="check-item"><input type="checkbox" id="c5-1"><label for="c5-1">I have sourced Summer 2 class notes for NMR, chromatography and chirality</label></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 -->
+  <section class="topic" id="t6">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">6</div>
+      <div class="topic-title">Making the Most of Exam-Style Questions</div>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="checklist" data-section="t6">
+        <div class="check-item"><input type="checkbox" id="c6-1"><label for="c6-1">I do exam-style questions closed-book, timed, in full sentences — exactly like the real resit</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-2"><label for="c6-2">I mark my own answers against the worked-example standard of precision</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-3"><label for="c6-3">I keep a running error log of question types I get wrong more than once</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-4"><label for="c6-4">I only attempt Thinking Bigger spreads once all H-priority exam questions are done at least once</label></div>
+        <div class="check-item"><input type="checkbox" id="c6-5"><label for="c6-5">I use this reading protocol as part of my weekly study plan rhythm</label></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="reset-row">
+    <button class="reset-btn" onclick="resetProgress()">Reset checklist progress</button>
+  </div>
+</main>
+
+<script>
+  function toggleTopic(headEl){
+    const section = headEl.parentElement;
+    document.querySelectorAll('section.topic').forEach(s=>{
+      if(s!==section){ s.classList.remove('open'); s.querySelector('.topic-body').style.maxHeight=null; }
+    });
+    section.classList.toggle('open');
+    const body = section.querySelector('.topic-body');
+    body.style.maxHeight = section.classList.contains('open') ? body.scrollHeight + 'px' : null;
+  }
+
+  const STORAGE_KEY = 'chem-reading-guide-checklist';
+
+  function loadProgress(){
+    let saved = {};
+    try{ saved = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ saved = {}; }
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      if(saved[box.id]){ box.checked = true; box.closest('.check-item').classList.add('done'); }
+      box.addEventListener('change', ()=>{
+        box.closest('.check-item').classList.toggle('done', box.checked);
+        saveProgress();
+        updateProgressBar();
+      });
+    });
+    updateProgressBar();
+  }
+
+  function saveProgress(){
+    const state = {};
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      state[box.id] = box.checked;
+    });
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+  }
+
+  function updateProgressBar(){
+    const boxes = document.querySelectorAll('.check-item input[type=checkbox]');
+    const total = boxes.length;
+    const done = Array.from(boxes).filter(b=>b.checked).length;
+    const pct = total ? Math.round((done/total)*100) : 0;
+    document.getElementById('progressFill').style.width = pct + '%';
+    document.getElementById('progressText').textContent = done + ' / ' + total + ' checkpoints complete';
+  }
+
+  function resetProgress(){
+    if(!confirm('Clear all checklist progress for this reading guide?')) return;
+    localStorage.removeItem(STORAGE_KEY);
+    document.querySelectorAll('.check-item input[type=checkbox]').forEach(box=>{
+      box.checked = false;
+      box.closest('.check-item').classList.remove('done');
+    });
+    updateProgressBar();
+  }
+
+  window.addEventListener('DOMContentLoaded', ()=>{
+    loadProgress();
+    const openSection = document.querySelector('section.topic.open');
+    if(openSection){
+      const body = openSection.querySelector('.topic-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>
