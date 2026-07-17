@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Chemistry Formula Sheet | Reference</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel-2:#1c2330; --border:#2a3140;
+    --text:#e6edf3; --muted:#8b96a5; --accent:#4fd1c5; --accent-2:#a78bfa;
+    --amber:#f2c94c; --danger:#ff6b6b; --good:#6fcf97; --radius:14px;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; background:radial-gradient(circle at 20% -10%, #17202e 0%, var(--bg) 45%);
+    color:var(--text); font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    line-height:1.55; padding-bottom:60px;
+  }
+  header.hero{ padding:34px 20px 26px; border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, rgba(79,209,197,0.08), transparent 70%); }
+  .eyebrow{ color:var(--accent); font-size:12.5px; letter-spacing:.14em; text-transform:uppercase; font-weight:700; margin:0 0 8px; }
+  h1{margin:0 0 6px; font-size:24px; line-height:1.3;}
+  .subtitle{color:var(--muted); font-size:14.5px; max-width:640px;}
+
+  .legend{
+    max-width:900px; margin:18px auto 0; padding:0 20px;
+    display:flex; flex-wrap:wrap; gap:8px;
+  }
+  .legend-item{
+    display:flex; align-items:center; gap:6px; font-size:12px; color:var(--muted);
+    background:var(--panel); border:1px solid var(--border); border-radius:99px; padding:5px 10px;
+  }
+  .dot{width:8px; height:8px; border-radius:50%; flex:0 0 auto;}
+  .dot-good{background:var(--good);}
+  .dot-amber{background:var(--amber);}
+  .dot-danger{background:var(--danger);}
+
+  main{max-width:900px; margin:26px auto; padding:0 20px;}
+  nav.toc{display:flex; flex-wrap:wrap; gap:8px; margin-bottom:26px;}
+  nav.toc a{ color:var(--text); text-decoration:none; font-size:12.5px; padding:7px 12px;
+    background:var(--panel); border:1px solid var(--border); border-radius:99px; }
+  nav.toc a:hover{border-color:var(--accent); color:var(--accent);}
+
+  section.topic{ background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); margin-bottom:18px; overflow:hidden; }
+  .topic-head{display:flex; align-items:center; gap:12px; padding:16px 18px; cursor:pointer; user-select:none;}
+  .topic-num{ flex:0 0 auto; width:34px; height:34px; border-radius:9px; background:var(--panel-2); border:1px solid var(--border);
+    display:flex; align-items:center; justify-content:center; font-weight:700; color:var(--accent); font-size:15px; }
+  .topic-title{flex:1; font-size:15.5px; font-weight:700;}
+  .topic-status{font-size:10px; padding:2px 8px; border-radius:99px; font-weight:700; flex:0 0 auto; margin-right:4px;}
+  .chevron{transition:transform .25s ease; color:var(--muted); flex:0 0 auto;}
+  section.topic.open .chevron{transform:rotate(180deg);}
+  .topic-body{max-height:0; overflow:hidden; transition:max-height .35s ease; padding:0 18px;}
+  section.topic.open .topic-body{padding:0 18px 20px;}
+
+  .status-good{background:#1a3a2e; color:var(--good); border:1px solid #2d5a45;}
+  .status-amber{background:#3a3320; color:var(--amber); border:1px solid #5a4d2a;}
+  .status-danger{background:#3a1f22; color:var(--danger); border:1px solid #5a2a2e;}
+
+  .note-block{ background:var(--panel-2); border:1px solid var(--border); border-radius:10px; padding:12px 14px; margin:10px 0; font-size:13.5px; }
+  .note-block p{margin:4px 0;}
+
+  .flash-grid{display:grid; grid-template-columns:1fr; gap:10px; margin-top:14px;}
+  @media(min-width:640px){ .flash-grid{grid-template-columns:1fr 1fr;} }
+  .flash{ background:#0f1420; border:1px solid var(--border); border-radius:12px; padding:14px 16px;
+    cursor:pointer; position:relative; min-height:70px; display:flex; align-items:center; }
+  .flash .q, .flash .a{width:100%;}
+  .flash .a{display:none; color:var(--accent);}
+  .flash.flipped .q{display:none;}
+  .flash.flipped .a{display:block;}
+  .flash .tag{
+    position:absolute; top:8px; right:10px; font-size:9px; letter-spacing:.05em;
+    font-weight:700; padding:2px 7px; border-radius:99px;
+  }
+  .flash:active{border-color:var(--accent);}
+  .eq{font-family:"SF Mono",Consolas,monospace; color:var(--amber); font-size:14px;}
+
+  table.datatable{width:100%; border-collapse:collapse; margin:10px 0; font-size:12.5px;}
+  table.datatable th, table.datatable td{border:1px solid var(--border); padding:6px 9px; text-align:left; vertical-align:top;}
+  table.datatable th{background:var(--panel); color:var(--accent); font-size:11px; text-transform:uppercase;}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <p class="eyebrow">General Reference — Not Edexcel-Specific</p>
+  <h1>Chemistry Formula Sheet</h1>
+  <p class="subtitle">Digitised from a general chemistry formula sheet. Tap a section to expand, tap a card to flip. Each section is tagged for how relevant it is to your September Year 12 resit — see the legend below.</p>
+</header>
+
+<div class="legend">
+  <div class="legend-item"><span class="dot dot-good"></span> On the Edexcel 9CH0 Year 12 spec — worth learning now</div>
+  <div class="legend-item"><span class="dot dot-amber"></span> Edexcel content, but Year 13 (not examined in this resit)</div>
+  <div class="legend-item"><span class="dot dot-danger"></span> Not on the Edexcel A Level Chemistry spec at all</div>
+</div>
+
+<main>
+  <nav class="toc">
+    <a href="#s1">1. Mole Concept</a>
+    <a href="#s2">2. Gas Laws</a>
+    <a href="#s3">3. Kinetics</a>
+    <a href="#s4">4. Thermodynamics</a>
+    <a href="#s5">5. Electrochemistry</a>
+    <a href="#s6">6. Acids, Bases &amp; Salts</a>
+    <a href="#s7">7. Equilibrium</a>
+    <a href="#s8">8. Atomic Structure</a>
+    <a href="#s9">9. Solid State</a>
+    <a href="#s10">10. Organic Chemistry</a>
+    <a href="#s11">11. Polymers</a>
+    <a href="#s12">12. Solubility &amp; Ksp</a>
+    <a href="#s13">13. Redox Reactions</a>
+    <a href="#s14">14. Miscellaneous</a>
+    <a href="#s15">Useful Constants</a>
+  </nav>
+
+  <!-- 1 Mole Concept -->
+  <section class="topic open" id="s1">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">1</div>
+      <div class="topic-title">Mole Concept</div>
+      <span class="topic-status status-good">MOSTLY ON SPEC</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block"><p>Matches Topic 5 (Formulae, Equations &amp; Amount of Substance) closely — molality and normality are not Edexcel terms, marked below.</p></div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Moles (n)</div><div class="a eq">n = Mass (g) ÷ Molar mass (g/mol)</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Number of particles</div><div class="a eq">N = n × N<sub>A</sub>  (N<sub>A</sub> = 6.022×10²³ mol⁻¹)</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Molarity / concentration (c)</div><div class="a eq">c = moles solute ÷ volume solution (dm³)</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-danger">NOT EDEXCEL</span><div class="q">Molality (m)</div><div class="a eq">m = moles solute ÷ mass solvent (kg) — not an Edexcel term</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-danger">NOT EDEXCEL</span><div class="q">Normality (N)</div><div class="a eq">N = equivalents of solute ÷ volume solution (L) — not an Edexcel term</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Mass %</div><div class="a eq">(mass of solute ÷ mass of solution) × 100</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Mole fraction (X<sub>A</sub>)</div><div class="a eq">X<sub>A</sub> = n<sub>A</sub> ÷ (n<sub>A</sub> + n<sub>B</sub>)</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 2 Gas Laws -->
+  <section class="topic" id="s2">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">2</div>
+      <div class="topic-title">Gas Laws</div>
+      <span class="topic-status status-good">ON SPEC</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block"><p>Matches Topic 5.5 (Gas Volume Calculations). Edexcel uses SI units for pV=nRT: p in Pa, V in m³, R = 8.31 J K⁻¹ mol⁻¹ — not the L·atm units shown here.</p></div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Boyle's Law (T constant)</div><div class="a eq">P₁V₁ = P₂V₂</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Charles' Law (P constant)</div><div class="a eq">V₁/T₁ = V₂/T₂</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Avogadro's Law (P,T constant)</div><div class="a eq">V₁/n₁ = V₂/n₂</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Ideal Gas Equation</div><div class="a eq">pV = nRT  (Edexcel: p in Pa, V in m³, R = 8.31 J K⁻¹ mol⁻¹, T in K)</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 3 Kinetics -->
+  <section class="topic" id="s3">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">3</div>
+      <div class="topic-title">Chemical Kinetics</div>
+      <span class="topic-status status-danger">NOT ON SPEC</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block"><p>Edexcel Year 12 Topic 9 (Kinetics) covers collision theory, activation energy, Maxwell–Boltzmann and catalysts qualitatively — it does NOT include rate laws, orders of reaction, rate constants, or half-life equations. These belong to other exam boards / university courses, not your resit.</p></div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-danger">NOT EDEXCEL Y12</span><div class="q">Rate law</div><div class="a eq">Rate = k[A]ᵐ[B]ⁿ — not required for your resit</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-danger">NOT EDEXCEL Y12</span><div class="q">Half-life (first order)</div><div class="a eq">t½ = 0.693/k — not required for your resit</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 4 Thermodynamics -->
+  <section class="topic" id="s4">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">4</div>
+      <div class="topic-title">Thermodynamics</div>
+      <span class="topic-status status-amber">PARTLY ON SPEC</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block"><p>Only q=mcΔT matches your Topic 8 (Energetics/calorimetry). ΔG, ΔS and the Van't Hoff equation are Year 13 (entropy/Gibbs free energy) — not examined in this resit.</p></div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Heat energy transferred (calorimetry)</div><div class="a eq">Q = mcΔT</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-amber">YEAR 13</span><div class="q">Gibbs free energy</div><div class="a eq">ΔG = ΔH − TΔS — studied in Year 13</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-danger">NOT EDEXCEL</span><div class="q">Van't Hoff equation</div><div class="a eq">ln(K₂/K₁) = −ΔH°/R × (1/T₂ − 1/T₁) — not on the Edexcel spec</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 5 Electrochemistry -->
+  <section class="topic" id="s5">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">5</div>
+      <div class="topic-title">Electrochemistry</div>
+      <span class="topic-status status-amber">YEAR 13</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block"><p>Electrode potentials and the Nernst equation are Edexcel Topic 13 (Redox II), studied in Year 13 — not part of your September Year 12 resit.</p></div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-amber">YEAR 13</span><div class="q">Nernst equation</div><div class="a eq">E<sub>cell</sub> = E°<sub>cell</sub> − (0.0591/n)log Q — studied in Year 13</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 6 Acids Bases Salts -->
+  <section class="topic" id="s6">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">6</div>
+      <div class="topic-title">Acids, Bases &amp; Salts</div>
+      <span class="topic-status status-amber">YEAR 13</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block"><p>pH, Ka, Kb, Kw and buffers are Edexcel Topic 18 (Acid-Base Equilibria) — Year 13 content. Not needed for your September resit, but useful to have ready for reference later.</p></div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-amber">YEAR 13</span><div class="q">pH</div><div class="a eq">pH = −log₁₀[H⁺]</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-amber">YEAR 13</span><div class="q">K<sub>w</sub></div><div class="a eq">K<sub>w</sub> = [H⁺][OH⁻] = 1.0×10⁻¹⁴ (at 25°C)</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-amber">YEAR 13</span><div class="q">K<sub>a</sub></div><div class="a eq">K<sub>a</sub> = [H⁺][A⁻] ÷ [HA]</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 7 Equilibrium -->
+  <section class="topic" id="s7">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">7</div>
+      <div class="topic-title">Equilibrium</div>
+      <span class="topic-status status-amber">PARTLY ON SPEC</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block"><p>K<sub>c</sub> matches your Topic 10 directly. K<sub>p</sub> and ΔG°=−RTlnK are Year 13 extensions — full detail already covered in your <a href="topic10-equilibrium.html" style="color:var(--accent);">Topic 10 flashcards</a>.</p></div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Equilibrium constant, K<sub>c</sub> (for aA + bB ⇌ cC + dD)</div><div class="a eq">K<sub>c</sub> = [C]ᶜ[D]ᵈ ÷ [A]ᵃ[B]ᵇ</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-amber">YEAR 13</span><div class="q">K<sub>p</sub></div><div class="a eq">K<sub>p</sub> = K<sub>c</sub>(RT)^Δn — studied in Year 13</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 8 Atomic Structure -->
+  <section class="topic" id="s8">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">8</div>
+      <div class="topic-title">Atomic Structure (Quantum)</div>
+      <span class="topic-status status-danger">NOT ON SPEC</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block"><p>Bohr's formula, de Broglie's wavelength and the Heisenberg Uncertainty Principle are NOT on the Edexcel A Level Chemistry specification at all (this level of quantum mechanics belongs to Physics or other chemistry syllabuses). Your actual Topic 1 content is in the <a href="topic1-atomic-structure.html" style="color:var(--accent);">Topic 1 flashcards</a>.</p></div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-danger">NOT EDEXCEL</span><div class="q">Bohr's formula</div><div class="a eq">Eₙ = −2.18×10⁻¹⁸ × Z²/n² J — not on the Edexcel spec</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-danger">NOT EDEXCEL</span><div class="q">de Broglie wavelength</div><div class="a eq">λ = h/mv — not on the Edexcel spec</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-danger">NOT EDEXCEL</span><div class="q">Heisenberg Uncertainty</div><div class="a eq">Δx·Δp ≥ h/4π — not on the Edexcel spec</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 9 Solid State -->
+  <section class="topic" id="s9">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">9</div>
+      <div class="topic-title">Solid State</div>
+      <span class="topic-status status-danger">NOT ON SPEC</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block"><p>Unit cell density and packing efficiency calculations are not part of the Edexcel A Level Chemistry specification. Safe to skip entirely for your resit.</p></div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-danger">NOT EDEXCEL</span><div class="q">Density of unit cell</div><div class="a eq">ρ = ZM ÷ (N<sub>A</sub>·a³) — not on the Edexcel spec</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 10 Organic Chemistry -->
+  <section class="topic" id="s10">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">10</div>
+      <div class="topic-title">Organic Chemistry</div>
+      <span class="topic-status status-amber">PARTLY ON SPEC</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block"><p>Alkane and alkene general formulae match your <a href="topic6-organic-chemistry-1.html" style="color:var(--accent);">Topic 6 flashcards</a>. Alkynes are not covered by Edexcel at this level; aromatic compounds are Year 13.</p></div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Alkanes — general formula</div><div class="a eq">C<sub>n</sub>H<sub>2n+2</sub></div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Alkenes — general formula</div><div class="a eq">C<sub>n</sub>H<sub>2n</sub></div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-danger">NOT EDEXCEL</span><div class="q">Alkynes — general formula</div><div class="a eq">C<sub>n</sub>H<sub>2n−2</sub> — alkynes are not on the Edexcel spec</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-amber">YEAR 13</span><div class="q">Degree of Unsaturation (DBE)</div><div class="a eq">DBE = (2C + 2 + N − H − X) ÷ 2 — useful general skill, formally extended in Year 13</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 11 Polymers -->
+  <section class="topic" id="s11">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">11</div>
+      <div class="topic-title">Polymers</div>
+      <span class="topic-status status-amber">YEAR 13</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block"><p>Addition and condensation polymerisation are Edexcel Year 13 organic content — not part of this resit.</p></div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-amber">YEAR 13</span><div class="q">Addition polymerisation</div><div class="a eq">n CH₂=CH₂ → [−CH₂−CH₂−]ₙ — studied in Year 13</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 12 Solubility Ksp -->
+  <section class="topic" id="s12">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">12</div>
+      <div class="topic-title">Solubility &amp; K<sub>sp</sub></div>
+      <span class="topic-status status-amber">YEAR 13</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block"><p>Solubility product (K<sub>sp</sub>) calculations are Edexcel Year 13 content — not part of this resit.</p></div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-amber">YEAR 13</span><div class="q">K<sub>sp</sub> for AB ⇌ A⁺ + B⁻</div><div class="a eq">K<sub>sp</sub> = [A⁺][B⁻] — studied in Year 13</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 13 Redox -->
+  <section class="topic" id="s13">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">13</div>
+      <div class="topic-title">Redox Reactions</div>
+      <span class="topic-status status-good">ON SPEC (mostly)</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block"><p>Oxidation/reduction definitions match your <a href="topic3-redox-1.html" style="color:var(--accent);">Topic 3 flashcards</a> exactly. "n-factor method" is not Edexcel terminology — Edexcel instead uses oxidation number changes directly (see Topic 3.5 for the method you'll actually use).</p></div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Oxidation (electron-transfer definition)</div><div class="a eq">Loss of electrons (OIL RIG)</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Reduction (electron-transfer definition)</div><div class="a eq">Gain of electrons (OIL RIG)</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-danger">NOT EDEXCEL</span><div class="q">"n-factor" method</div><div class="a eq">Not Edexcel terminology — use oxidation number changes directly instead (Topic 3.5)</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 14 Misc -->
+  <section class="topic" id="s14">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">14</div>
+      <div class="topic-title">Miscellaneous</div>
+      <span class="topic-status status-amber">MOSTLY NOT ON SPEC</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <div class="note-block"><p>Only the molar mass of a gas from pV=nRT is relevant (Topic 5.5). Refractive index, Henry's Law, Raoult's Law and E=mc² are not part of A Level Chemistry.</p></div>
+      <div class="flash-grid">
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-good">ON SPEC</span><div class="q">Molar mass of a gas from ideal gas equation</div><div class="a eq">M = mRT ÷ (pV)</div></div>
+        <div class="flash" onclick="this.classList.toggle('flipped')"><span class="tag status-danger">NOT EDEXCEL</span><div class="q">Refractive index, Henry's Law, Raoult's Law, E=mc²</div><div class="a eq">None of these are on the Edexcel Chemistry spec</div></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 15 Constants -->
+  <section class="topic" id="s15">
+    <div class="topic-head" onclick="toggleTopic(this)">
+      <div class="topic-num">✓</div>
+      <div class="topic-title">Useful Constants</div>
+      <span class="topic-status status-amber">MIXED</span>
+      <div class="chevron">▾</div>
+    </div>
+    <div class="topic-body">
+      <table class="datatable">
+        <tr><th>Constant</th><th>Value</th><th>Relevant?</th></tr>
+        <tr><td>N<sub>A</sub> (Avogadro constant)</td><td>6.022 × 10²³ mol⁻¹</td><td>Yes — Topic 1 &amp; 5</td></tr>
+        <tr><td>R (gas constant)</td><td>8.314 J mol⁻¹ K⁻¹ (Edexcel rounds to 8.31)</td><td>Yes — Topic 5.5</td></tr>
+        <tr><td>K<sub>w</sub></td><td>1.0 × 10⁻¹⁴ (at 25°C)</td><td>Year 13 only</td></tr>
+        <tr><td>F (Faraday constant)</td><td>96 500 C mol⁻¹</td><td>Year 13 only (electrochemistry)</td></tr>
+        <tr><td>h (Planck constant), c (speed of light)</td><td>6.626×10⁻³⁴ J s, 3.00×10⁸ m s⁻¹</td><td>Not on Edexcel Chemistry spec</td></tr>
+      </table>
+    </div>
+  </section>
+
+</main>
+
+<script>
+  function toggleTopic(headEl){
+    const section = headEl.parentElement;
+    document.querySelectorAll('section.topic').forEach(s=>{
+      if(s!==section){ s.classList.remove('open'); s.querySelector('.topic-body').style.maxHeight=null; }
+    });
+    section.classList.toggle('open');
+    const body = section.querySelector('.topic-body');
+    body.style.maxHeight = section.classList.contains('open') ? body.scrollHeight + 'px' : null;
+  }
+  window.addEventListener('DOMContentLoaded', ()=>{
+    const openSection = document.querySelector('section.topic.open');
+    if(openSection){
+      const body = openSection.querySelector('.topic-body');
+      body.style.maxHeight = body.scrollHeight + 'px';
+    }
+  });
+</script>
+
+</body>
+</html>
