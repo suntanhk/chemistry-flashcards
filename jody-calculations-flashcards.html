@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jody's A* Chemistry Calculation Flashcards — 9CH0</title>
+<style>
+  :root{
+    --bg:#0f1115;
+    --panel:#171a21;
+    --panel2:#1e222b;
+    --border:#2a2f3a;
+    --text:#e8eaf0;
+    --muted:#9aa2b1;
+    --accent:#5ec8c0;
+    --accent2:#e8a33d;
+    --danger:#e35d5d;
+    --good:#6bbf7a;
+    --shadow: 0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0; font-family: "Segoe UI", system-ui, -apple-system, Arial, sans-serif;
+    background: radial-gradient(1200px 600px at 10% -10%, #1a2530 0%, var(--bg) 55%);
+    color:var(--text); min-height:100vh; padding:24px 16px 60px;
+  }
+  h1{font-size:1.5rem; margin:0 0 4px;}
+  .sub{color:var(--muted); font-size:.9rem; margin-bottom:18px;}
+  .wrap{max-width:920px; margin:0 auto;}
+
+  .stats{
+    display:flex; gap:10px; flex-wrap:wrap; margin-bottom:16px;
+  }
+  .stat{
+    background:var(--panel); border:1px solid var(--border); border-radius:10px;
+    padding:8px 14px; font-size:.82rem; color:var(--muted);
+  }
+  .stat b{color:var(--text); font-size:1rem; display:block;}
+
+  .tabs{display:flex; flex-wrap:wrap; gap:6px; margin-bottom:16px;}
+  .tab{
+    background:var(--panel); border:1px solid var(--border); color:var(--muted);
+    padding:7px 12px; border-radius:999px; font-size:.78rem; cursor:pointer;
+    user-select:none; transition:.15s;
+  }
+  .tab:hover{border-color:var(--accent); color:var(--text);}
+  .tab.active{background:var(--accent); color:#0b1512; border-color:var(--accent); font-weight:600;}
+
+  .controls{display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap; align-items:center;}
+  .btn{
+    background:var(--panel2); border:1px solid var(--border); color:var(--text);
+    padding:8px 14px; border-radius:8px; font-size:.82rem; cursor:pointer; transition:.15s;
+  }
+  .btn:hover{border-color:var(--accent);}
+  .btn.reset{color:var(--danger); border-color:#3a2323;}
+  .count{color:var(--muted); font-size:.82rem; margin-left:auto;}
+
+  .card-area{ perspective:1600px; margin-bottom:18px; }
+  .card{
+    position:relative; min-height:280px; border-radius:16px;
+    transform-style:preserve-3d; transition:transform .5s cubic-bezier(.4,.2,.2,1);
+    cursor:pointer;
+  }
+  .card.flipped{ transform:rotateY(180deg); }
+  .face{
+    position:absolute; inset:0; backface-visibility:hidden; border-radius:16px;
+    background:var(--panel); border:1px solid var(--border); box-shadow:var(--shadow);
+    padding:26px 28px; display:flex; flex-direction:column;
+  }
+  .face.back{ transform:rotateY(180deg); background:var(--panel2); }
+  .tag{
+    display:inline-block; font-size:.68rem; letter-spacing:.06em; text-transform:uppercase;
+    color:var(--accent); border:1px solid var(--accent); border-radius:999px; padding:2px 10px;
+    margin-bottom:14px; width:fit-content;
+  }
+  .qtext{font-size:1.15rem; line-height:1.5; flex:1;}
+  .atext{font-size:1rem; line-height:1.6; flex:1; white-space:pre-wrap;}
+  .hint{color:var(--muted); font-size:.75rem; margin-top:12px;}
+  .trap{
+    margin-top:14px; background:#241717; border:1px solid #4a2a2a; color:#f2b3b3;
+    border-radius:8px; padding:8px 12px; font-size:.82rem;
+  }
+  .trap b{color:var(--danger);}
+
+  .judge{display:flex; gap:10px; margin-top:4px;}
+  .jbtn{
+    flex:1; padding:11px; border-radius:10px; border:1px solid var(--border);
+    background:var(--panel); color:var(--text); font-size:.9rem; cursor:pointer; font-weight:600;
+    transition:.15s;
+  }
+  .jbtn.know{color:var(--good); border-color:#26492f;}
+  .jbtn.know:hover{background:#16281b;}
+  .jbtn.review{color:var(--accent2); border-color:#4a3820;}
+  .jbtn.review:hover{background:#2a2015;}
+
+  .progress-wrap{background:var(--panel); border:1px solid var(--border); border-radius:999px; height:8px; overflow:hidden; margin-bottom:6px;}
+  .progress-bar{height:100%; background:linear-gradient(90deg, var(--accent), var(--good)); width:0%; transition:width .3s;}
+  .progress-label{font-size:.72rem; color:var(--muted); margin-bottom:16px;}
+
+  .footer-note{color:var(--muted); font-size:.75rem; text-align:center; margin-top:30px; line-height:1.6;}
+  @media(max-width:600px){
+    .card{min-height:340px;}
+    .qtext{font-size:1rem;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🧪 Jody's A* Chemistry Calculation Flashcards</h1>
+  <div class="sub">Pearson Edexcel A Level Chemistry (9CH0) — September predicted-grade exam revision · click a card to flip</div>
+
+  <div class="stats">
+    <div class="stat"><b id="statTotal">0</b>Total cards</div>
+    <div class="stat"><b id="statKnow">0</b>Marked "Know it"</div>
+    <div class="stat"><b id="statReview">0</b>Marked "Review"</div>
+    <div class="stat"><b id="statSeen">0</b>Unseen</div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="progress-wrap"><div class="progress-bar" id="progBar"></div></div>
+  <div class="progress-label" id="progLabel">Card 1 of 1</div>
+
+  <div class="card-area">
+    <div class="card" id="card">
+      <div class="face front">
+        <div class="tag" id="tagFront">CH</div>
+        <div class="qtext" id="qtext">Loading…</div>
+        <div class="hint">Tap card to reveal answer</div>
+      </div>
+      <div class="face back">
+        <div class="tag" id="tagBack">CH</div>
+        <div class="atext" id="atext"></div>
+        <div class="trap" id="trapBox" style="display:none;"><b>Examiner trap:</b> <span id="trapText"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="judge">
+    <button class="jbtn review" onclick="judge('review')">🔁 Review again</button>
+    <button class="jbtn know" onclick="judge('know')">✅ Know it</button>
+  </div>
+
+  <div class="controls" style="margin-top:16px;">
+    <button class="btn" onclick="prevCard()">← Prev</button>
+    <button class="btn" onclick="nextCard()">Next →</button>
+    <button class="btn" onclick="shuffleDeck()">🔀 Shuffle</button>
+    <button class="btn" onclick="filterReviewOnly()">Show only "Review"</button>
+    <button class="btn reset" onclick="resetProgress()">Reset progress</button>
+    <span class="count" id="countLabel"></span>
+  </div>
+
+  <div class="footer-note">
+    Progress is saved in this browser (localStorage) so it persists between visits.<br>
+    Built from the 8-chapter A* Calculation Survival Guide — Fundamentals, The Mole, Stoichiometry &amp; Yield, Empirical/Molecular Formula, Concentration &amp; Titration, Gas Calculations, Energetics, and the 50 Common Question Types.
+  </div>
+</div>
+
+<script>
+const DECK = [
+// ===================== CHAPTER 1 =====================
+{ch:"1. Fundamentals", q:"What are the four 'must-know' equations from Chapter 1?", a:"n = m ÷ Mr (moles from mass)\nn = c × V (moles in solution)\nPV = nRT (ideal gas equation)\nq = mcΔT (energy calculation)", trap:""},
+{ch:"1. Fundamentals", q:"Convert 250 cm³ to dm³.", a:"250 ÷ 1000 = 0.250 dm³", trap:"Forgetting to divide by 1000 loses easy marks every year."},
+{ch:"1. Fundamentals", q:"Convert 25°C to Kelvin.", a:"K = °C + 273 = 25 + 273 = 298 K", trap:"PV = nRT ALWAYS needs Kelvin, never °C."},
+{ch:"1. Fundamentals", q:"Write 0.0000425 in standard form.", a:"4.25 × 10⁻⁵", trap:"Keep the first number between 1 and 10 — 52.3 × 10⁴ is WRONG, should be 5.23 × 10⁵."},
+{ch:"1. Fundamentals", q:"2.56 g of a substance has Mr = 64.0. How many sig figs should the mole answer have?", a:"2.56 ÷ 64.0 = 0.0400 mol (3 sig figs) — NOT 0.04 mol", trap:"Edexcel expects your answer to match the precision of the data given."},
+{ch:"1. Fundamentals", q:"How many significant figures does 0.004560 have?", a:"4 significant figures (count from the first non-zero digit: 4,5,6,0)", trap:""},
+{ch:"1. Fundamentals", q:"Rearrange n = m ÷ Mr to find mass.", a:"m = n × Mr", trap:"Students often forget to multiply — always ask 'am I finding mass? then multiply.'"},
+{ch:"1. Fundamentals", q:"Rearrange n = cV to find concentration.", a:"c = n ÷ V", trap:""},
+{ch:"1. Fundamentals", q:"State the Universal Chemistry Calculation Strategy (8 steps).", a:"1. Write down the data\n2. Write the units\n3. Convert units if necessary\n4. Identify the required formula\n5. Calculate moles if appropriate\n6. Use the mole ratio (if applicable)\n7. Calculate the final answer\n8. Check units, sig figs, and that the answer makes chemical sense", trap:""},
+{ch:"1. Fundamentals", q:"What is the Avogadro Constant, in standard form?", a:"6.02 × 10²³ mol⁻¹", trap:""},
+
+// ===================== CHAPTER 2 =====================
+{ch:"2. The Mole", q:"Define 'one mole'.", a:"The amount of substance containing exactly 6.02 × 10²³ particles (the Avogadro Constant). Particles may be atoms, molecules, ions, electrons, or formula units.", trap:""},
+{ch:"2. The Mole", q:"State the Three Golden Mole Equations.", a:"n = m ÷ Mr  (mass ↔ mole)\nn = cV  (solution)\nN = nL  (particles, L = 6.02×10²³)", trap:""},
+{ch:"2. The Mole", q:"Calculate the Mr of sulfuric acid, H₂SO₄.", a:"(2×1.0) + 32.1 + (4×16) = 2.0 + 32.1 + 64.0 = 98.1", trap:""},
+{ch:"2. The Mole", q:"Calculate the moles in 11.7 g of NaCl (Mr = 58.5).", a:"n = 11.7 ÷ 58.5 = 0.200 mol", trap:"Use Mr (formula mass), not Ar, for compounds."},
+{ch:"2. The Mole", q:"Calculate the mass of 0.250 mol NaOH (Mr = 40).", a:"m = n × Mr = 0.250 × 40 = 10.0 g", trap:""},
+{ch:"2. The Mole", q:"How many molecules are in 2.0 mol of water?", a:"N = 2.0 × 6.02×10²³ = 1.20 × 10²⁴ molecules", trap:""},
+{ch:"2. The Mole", q:"3.01 × 10²³ oxygen molecules — how many moles?", a:"3.01×10²³ ÷ 6.02×10²³ = 0.500 mol", trap:""},
+{ch:"2. The Mole", q:"For 2H₂ + O₂ → 2H₂O, if 4 mol H₂ reacts completely, how much O₂ is required?", a:"Ratio H₂:O₂ = 2:1 → 4 × (1/2) = 2 mol O₂", trap:"The equation coefficients give the MOLE ratio, not the mass ratio."},
+{ch:"2. The Mole", q:"State the Universal Stoichiometry Method (6 steps).", a:"Balanced equation → Calculate Mr → Convert mass to moles → Use mole ratio → Convert back if needed → Final answer", trap:"Never skip the mole step — never compare masses directly."},
+{ch:"2. The Mole", q:"24.0 g of Mg — how many moles (Mr = 24.3)?", a:"24.0 ÷ 24.3 ≈ 0.988 mol ≈ 1.00 mol", trap:""},
+
+// ===================== CHAPTER 3 =====================
+{ch:"3. Stoichiometry & Yield", q:"State the Golden Rule of stoichiometry.", a:"Mass → Mole → Mole Ratio → Mass. Never compare masses directly — always compare moles.", trap:""},
+{ch:"3. Stoichiometry & Yield", q:"State the Universal 6-Step Method for reaction calculations.", a:"1. Write balanced equation\n2. Calculate Mr\n3. Convert given mass to moles\n4. Use the mole ratio\n5. Convert moles into required quantity\n6. Check units and sig figs", trap:""},
+{ch:"3. Stoichiometry & Yield", q:"Define the limiting reagent.", a:"The reactant that is completely used up first — it determines the maximum amount of product that can form. The other reactant is 'in excess.'", trap:""},
+{ch:"3. Stoichiometry & Yield", q:"Fastest method to find the limiting reagent?", a:"Divide the moles of each reactant by its coefficient in the balanced equation. The SMALLER value is the limiting reagent.", trap:""},
+{ch:"3. Stoichiometry & Yield", q:"2H₂ + O₂ → 2H₂O. Given 6 mol H₂ and 2 mol O₂ — which is limiting?", a:"H₂: 6÷2 = 3. O₂: 2÷1 = 2. Smaller value (2) → O₂ is the limiting reagent.", trap:""},
+{ch:"3. Stoichiometry & Yield", q:"State the Percentage Yield formula.", a:"Percentage Yield = (Actual Yield ÷ Theoretical Yield) × 100", trap:"Students frequently forget to multiply by 100."},
+{ch:"3. Stoichiometry & Yield", q:"Theoretical yield 50.0 g, percentage yield 82%. Find actual yield.", a:"Actual Yield = 50.0 × 0.82 = 41.0 g", trap:""},
+{ch:"3. Stoichiometry & Yield", q:"Theoretical 20.0 g, actual 16.8 g — calculate percentage yield.", a:"(16.8 ÷ 20.0) × 100 = 84.0%", trap:""},
+{ch:"3. Stoichiometry & Yield", q:"State the Atom Economy formula.", a:"Atom Economy = (Mr of Desired Product ÷ Total Mr of All Products) × 100", trap:"Higher atom economy = less waste, more sustainable process."},
+{ch:"3. Stoichiometry & Yield", q:"Why is actual yield usually less than theoretical yield?", a:"Incomplete reaction, side reactions, product lost during transfer/purification, measurement errors.", trap:""},
+
+// ===================== CHAPTER 4 =====================
+{ch:"4. Empirical & Molecular", q:"Difference between empirical and molecular formula?", a:"Molecular formula = actual number of atoms in one molecule (e.g. C₆H₁₂O₆). Empirical formula = simplest whole-number ratio of atoms (e.g. CH₂O).", trap:""},
+{ch:"4. Empirical & Molecular", q:"State the Universal Empirical Formula Method flowchart.", a:"Mass → convert to moles → divide by the smallest value → obtain simplest whole-number ratio → write empirical formula → (if needed) find molecular formula", trap:""},
+{ch:"4. Empirical & Molecular", q:"A compound has ratio C:H:O = 1 : 1.5 : 1. What do you do?", a:"Multiply every number by 2 → 2 : 3 : 2 → C₂H₃O₂", trap:"Stopping at a decimal ratio is a common mark loss — always convert to whole numbers."},
+{ch:"4. Empirical & Molecular", q:"Memory table: what do you multiply a 0.33 or 0.67 ratio by? What about 0.25 or 0.75? What about 0.20, 0.40, 0.60, 0.80?", a:"0.33/0.67 → ×3\n0.25/0.75 → ×4\n0.20/0.40/0.60/0.80 → ×5", trap:""},
+{ch:"4. Empirical & Molecular", q:"How do you handle percentage composition questions (e.g. 40.0% C, 6.7% H, 53.3% O)?", a:"Assume 100 g total, so treat each percentage directly as grams, then proceed with the normal mass → mole → ratio method.", trap:"Using percentages directly as a mole ratio (without converting to moles) is a common error."},
+{ch:"4. Empirical & Molecular", q:"Empirical formula CH₂O has EFM = 30. Actual Mr = 180. Find the molecular formula.", a:"180 ÷ 30 = 6 → multiply every atom by 6 → C₆H₁₂O₆", trap:""},
+{ch:"4. Empirical & Molecular", q:"5.00 g hydrated CuSO₄ becomes 3.20 g after heating. Find x in CuSO₄·xH₂O. (Mr CuSO₄ = 159.6)", a:"Water lost = 5.00−3.20 = 1.80 g → 1.80÷18 = 0.100 mol water\nCuSO₄: 3.20÷159.6 ≈ 0.0200 mol\nRatio water:salt = 0.100:0.0200 = 5:1 → CuSO₄·5H₂O", trap:""},
+{ch:"4. Empirical & Molecular", q:"In combustion analysis, how many moles of C does 1 mol CO₂ represent? How many moles of H does 1 mol H₂O represent?", a:"1 mol CO₂ = 1 mol C\n1 mol H₂O = 2 mol H", trap:"Forgetting that water contains 2 H atoms per molecule is a very common mistake."},
+{ch:"4. Empirical & Molecular", q:"A compound: 52.2% C, 13.0% H, 34.8% O. Find the empirical formula.", a:"Assume 100 g: C=52.2÷12=4.35, H=13.0÷1=13.0, O=34.8÷16=2.175\nDivide by smallest (2.175): C=2, H=6, O=1 → C₂H₆O", trap:""},
+{ch:"4. Empirical & Molecular", q:"What clue words in a question signal 'hydrated salt' calculations?", a:"Heating, water lost, hydrated — method: water lost → water moles → salt moles → ratio → x", trap:""},
+
+// ===================== CHAPTER 5 =====================
+{ch:"5. Concentration & Titration", q:"State the Golden Formula for solutions.", a:"n = cV, where c = concentration (mol dm⁻³), V = volume (dm³)", trap:"ALWAYS convert cm³ to dm³ first (÷1000)."},
+{ch:"5. Concentration & Titration", q:"Calculate moles in 250 cm³ of 0.200 mol dm⁻³ NaOH.", a:"250 cm³ = 0.250 dm³\nn = 0.200 × 0.250 = 0.0500 mol", trap:""},
+{ch:"5. Concentration & Titration", q:"State the dilution formula and what stays constant.", a:"C₁V₁ = C₂V₂ — the number of MOLES stays the same during dilution; only concentration changes.", trap:""},
+{ch:"5. Concentration & Titration", q:"25.0 cm³ of 2.00 mol dm⁻³ HCl is diluted to 250 cm³. Find new concentration.", a:"C₁V₁=C₂V₂ → 2.00×25.0 = C₂×250 → C₂ = 0.200 mol dm⁻³", trap:""},
+{ch:"5. Concentration & Titration", q:"State the Universal Titration Method flowchart.", a:"Balanced equation → convert cm³ to dm³ → calculate moles of known solution → use mole ratio → calculate moles of unknown → find concentration", trap:""},
+{ch:"5. Concentration & Titration", q:"25.0 cm³ of 0.100 mol dm⁻³ NaOH neutralises 25.0 cm³ HCl (1:1 ratio). Find [HCl].", a:"NaOH moles = 0.100×0.0250 = 0.00250 mol\nRatio 1:1 → HCl = 0.00250 mol\nConcentration = 0.00250÷0.0250 = 0.100 mol dm⁻³", trap:""},
+{ch:"5. Concentration & Titration", q:"H₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O. 25.0 cm³ of 0.200 mol dm⁻³ NaOH needs 20.0 cm³ acid. Find [H₂SO₄].", a:"NaOH: 0.200×0.0250=0.00500 mol\nRatio 2:1 → acid = 0.00500÷2 = 0.00250 mol\nConcentration = 0.00250÷0.0200 = 0.125 mol dm⁻³", trap:"Never assume every titration is 1:1 — always check the coefficients."},
+{ch:"5. Concentration & Titration", q:"What is a 'back titration' and how is the reacted amount found?", a:"When acid/alkali first reacts with a solid, then the leftover is titrated. Reacted = Added − Remaining.", trap:""},
+{ch:"5. Concentration & Titration", q:"What is the single biggest examiner trap in titration questions?", a:"Forgetting to convert cm³ to dm³ before using n = cV — students lose 3–4 easy marks every year for this.", trap:""},
+{ch:"5. Concentration & Titration", q:"25.0 cm³ = ? dm³. 20.0 cm³ = ? dm³.", a:"25.0 cm³ = 0.0250 dm³\n20.0 cm³ = 0.0200 dm³", trap:""},
+
+// ===================== CHAPTER 6 =====================
+{ch:"6. Gas Calculations", q:"State the molar gas volume formula and when to use it.", a:"V = n × 24. Use when the question mentions Room Temperature, RTP, or 24 dm³. At RTP, 1 mole of ANY gas occupies 24.0 dm³.", trap:""},
+{ch:"6. Gas Calculations", q:"State the Ideal Gas Equation and its units.", a:"PV = nRT\nP in Pa, V in m³, n in mol, R = 8.31 J mol⁻¹K⁻¹, T in Kelvin", trap:"Common errors: using dm³ instead of m³, using kPa instead of Pa, forgetting °C→K conversion."},
+{ch:"6. Gas Calculations", q:"Decision tree: when should you use V=n×24 vs PV=nRT?", a:"Is the gas at RTP? YES → V=n×24. NO → is P, V, and T given? YES → PV=nRT.", trap:""},
+{ch:"6. Gas Calculations", q:"Calculate the volume of 2.50 mol O₂ at RTP.", a:"V = 2.50 × 24 = 60.0 dm³", trap:""},
+{ch:"6. Gas Calculations", q:"2H₂ + O₂ → 2H₂O. What volume of O₂ reacts with 96 dm³ H₂ (same conditions)?", a:"Ratio 2:1 → 96 ÷ 2 = 48 dm³ O₂", trap:"At the same T and P, gas volumes follow the same ratio as moles."},
+{ch:"6. Gas Calculations", q:"10.0 g CaCO₃ decomposes (CaCO₃ → CaO + CO₂). Find the volume of CO₂ at RTP. (Mr CaCO₃=100)", a:"n = 10÷100 = 0.100 mol → ratio 1:1 → CO₂ = 0.100 mol → V = 0.100×24 = 2.40 dm³", trap:""},
+{ch:"6. Gas Calculations", q:"Unit conversions: 1 kPa = ? Pa. 1 dm³ = ? m³.", a:"1 kPa = 1000 Pa\n1 dm³ = 0.001 m³", trap:""},
+{ch:"6. Gas Calculations", q:"P=101000 Pa, V=0.0240 m³, T=298 K. Find n using PV=nRT.", a:"n = PV÷RT = (101000×0.0240)÷(8.31×298) ≈ 0.98 mol", trap:""},
+{ch:"6. Gas Calculations", q:"48 dm³ of a gas at RTP — how many moles?", a:"n = V÷24 = 48÷24 = 2.00 mol", trap:""},
+{ch:"6. Gas Calculations", q:"Which gases occupy 24 dm³ per mole at RTP — H₂, O₂, N₂, CO₂, NH₃, or all of them?", a:"ALL of them — at RTP, every gas (regardless of identity) occupies the same molar volume: 24 dm³/mol.", trap:""},
+
+// ===================== CHAPTER 7 =====================
+{ch:"7. Energetics", q:"State the three core energetics formulae.", a:"q = mcΔT (heat energy)\nΔH = −q ÷ n (enthalpy change)\nΔH = Σ(Bonds Broken) − Σ(Bonds Formed)", trap:""},
+{ch:"7. Energetics", q:"What is the specific heat capacity of water/aqueous solutions to use (unless told otherwise)?", a:"c = 4.18 J g⁻¹ °C⁻¹", trap:""},
+{ch:"7. Energetics", q:"50.0 g water rises from 20.0°C to 35.0°C. Calculate q.", a:"ΔT = 15°C\nq = 50 × 4.18 × 15 = 3135 J = 3.14 kJ", trap:""},
+{ch:"7. Energetics", q:"Why is ΔH negative when temperature rises during a reaction?", a:"Temperature increases → the reaction releases heat → exothermic → ΔH is negative.", trap:"Missing the minus sign for exothermic reactions is a very common mistake."},
+{ch:"7. Energetics", q:"Heat released = 5.02 kJ, moles reacted = 0.100 mol. Find ΔH.", a:"ΔH = −5.02 ÷ 0.100 = −50.2 kJ mol⁻¹", trap:""},
+{ch:"7. Energetics", q:"50 cm³ 1.00 mol dm⁻³ HCl + 50 cm³ 1.00 mol dm⁻³ NaOH; T rises 22.0°C→29.5°C. Find ΔH.", a:"Mass=100g, ΔT=7.5°C → q=100×4.18×7.5=3135J=3.135kJ\nMoles = 1.00×0.050=0.050 mol\nΔH = −3.135÷0.050 = −62.7 kJ mol⁻¹", trap:"Use the TOTAL solution volume (both reactants added together) as the mass in grams (density ≈1.00 g/cm³)."},
+{ch:"7. Energetics", q:"State Hess's Law in one sentence.", a:"The total enthalpy change for a reaction is independent of the route taken — add equations so unwanted substances cancel.", trap:""},
+{ch:"7. Energetics", q:"H₂ + Cl₂ → 2HCl. Bonds: H–H=436, Cl–Cl=243, H–Cl=431 (×2 formed). Find ΔH.", a:"Broken = 436+243 = 679\nFormed = 2×431 = 862\nΔH = 679−862 = −183 kJ mol⁻¹", trap:"Always calculate Broken − Formed, never the reverse."},
+{ch:"7. Energetics", q:"How do you decide whether to use q=mcΔT versus Hess's Law/bond enthalpy?", a:"Ask: do I have a temperature change? YES → q=mcΔT. NO → look for a Hess cycle or bond enthalpy table.", trap:""},
+{ch:"7. Energetics", q:"Bond energies: Broken = 900 kJ, Formed = 1100 kJ. Find ΔH.", a:"ΔH = 900 − 1100 = −200 kJ mol⁻¹", trap:""},
+
+// ===================== CHAPTER 8 =====================
+{ch:"8. Recognition & Rules", q:"You see the word 'mass' given, moles asked — what formula immediately comes to mind?", a:"n = m ÷ Mr", trap:"Common mistake: using Ar instead of Mr for a compound."},
+{ch:"8. Recognition & Rules", q:"You see 'burette', 'pipette', 'neutralisation', 'acid', 'alkali' — what question type is this?", a:"Titration → balanced equation → convert volume → n=cV → mole ratio → answer", trap:"Biggest trap: assuming the ratio is always 1:1 — always check the equation."},
+{ch:"8. Recognition & Rules", q:"You see 'Room Temperature' / 'RTP' — what do you immediately think?", a:"1 mol gas = 24 dm³ (V = n×24). If NOT RTP, use PV=nRT instead.", trap:""},
+{ch:"8. Recognition & Rules", q:"You see 'Green Chemistry', 'waste', 'efficiency' — what calculation is this?", a:"Atom Economy = (Desired ÷ Total) × 100", trap:""},
+{ch:"8. Recognition & Rules", q:"You see 'water lost' / 'heating' with a salt — what calculation is this?", a:"Hydrated salt calculation → water lost → water moles → salt moles → ratio → x", trap:""},
+{ch:"8. Recognition & Rules", q:"List the 12 Golden Rules (condensed) — name at least 6.", a:"1. Convert cm³→dm³ before n=cV\n2. Convert °C→K before PV=nRT\n3. Convert dm³→m³ before PV=nRT\n4. Always calculate moles first\n5. Never compare masses — compare moles\n6. Always use the balanced equation\n7. Keep extra decimal places until the final answer\n8. Include units in every final answer\n9. Check significant figures\n10. Re-read the final line of the question\n11. Check exothermic (−) vs endothermic (+)\n12. If stuck, write the relevant formula first for method marks", trap:""},
+{ch:"8. Recognition & Rules", q:"Two reactants given in a question — what should you immediately ask?", a:"Which one runs out first? → divide each mol amount by its coefficient; the smaller value is the limiting reagent.", trap:""},
+{ch:"8. Recognition & Rules", q:"What is Jody's recommended 30-minute daily calculation routine?", a:"5 min: recite key formulae from memory\n10 min: 5 short mixed-topic questions\n10 min: 2 full exam-style questions (4–6 marks each)\n5 min: review mistakes, write one correction note per error", trap:""},
+{ch:"8. Recognition & Rules", q:"A question gives an empirical formula AND an Mr — what's the method?", a:"Empirical formula → calculate EFM → Mr÷EFM = multiplication factor → multiply every atom by that factor → molecular formula", trap:""},
+{ch:"8. Recognition & Rules", q:"What is the fastest way to identify a multi-step stoichiometry question, and how should you approach it?", a:"It combines several techniques (e.g. mass→moles→ratio→concentration→percentage yield) in one question. Never jump — do one step at a time.", trap:""},
+];
+
+let state = {};
+try{ state = JSON.parse(localStorage.getItem('jody_calc_flashcards')||'{}'); }catch(e){ state = {}; }
+
+const chapters = [...new Set(DECK.map(c=>c.ch))];
+let activeFilter = 'All';
+let order = DECK.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+function cardKey(i){ return DECK[i].ch+"|"+DECK[i].q; }
+
+function buildTabs(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML='';
+  ['All', ...chapters].forEach(ch=>{
+    const el = document.createElement('div');
+    el.className = 'tab'+(ch===activeFilter?' active':'');
+    el.textContent = ch;
+    el.onclick = ()=>{ activeFilter=ch; applyFilter(); };
+    tabs.appendChild(el);
+  });
+}
+
+function applyFilter(){
+  buildTabs();
+  order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].ch===activeFilter);
+  pos = 0; flipped=false;
+  render();
+}
+
+function filterReviewOnly(){
+  order = DECK.map((_,i)=>i).filter(i=> state[cardKey(i)]==='review' && (activeFilter==='All' || DECK[i].ch===activeFilter));
+  if(order.length===0){ alert("No cards marked 'Review' in this view yet."); order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].ch===activeFilter); }
+  pos=0; flipped=false; render();
+}
+
+function shuffleDeck(){
+  for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+  pos=0; flipped=false; render();
+}
+
+function render(){
+  if(order.length===0){ order=[0]; }
+  const idx = order[pos];
+  const c = DECK[idx];
+  document.getElementById('tagFront').textContent = c.ch;
+  document.getElementById('tagBack').textContent = c.ch;
+  document.getElementById('qtext').textContent = c.q;
+  document.getElementById('atext').textContent = c.a;
+  const trapBox = document.getElementById('trapBox');
+  if(c.trap){ trapBox.style.display='block'; document.getElementById('trapText').textContent = c.trap; }
+  else{ trapBox.style.display='none'; }
+  document.getElementById('card').classList.remove('flipped');
+  flipped=false;
+  document.getElementById('progLabel').textContent = `Card ${pos+1} of ${order.length}${activeFilter!=='All'?' · '+activeFilter:''}`;
+  document.getElementById('progBar').style.width = ((pos+1)/order.length*100)+'%';
+  updateStats();
+}
+
+function updateStats(){
+  const total = DECK.length;
+  let know=0, review=0;
+  DECK.forEach((c,i)=>{ const s = state[cardKey(i)]; if(s==='know') know++; else if(s==='review') review++; });
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statKnow').textContent = know;
+  document.getElementById('statReview').textContent = review;
+  document.getElementById('statSeen').textContent = total-know-review;
+  document.getElementById('countLabel').textContent = order.length+' cards in view';
+}
+
+document.getElementById('card').addEventListener('click', ()=>{
+  flipped = !flipped;
+  document.getElementById('card').classList.toggle('flipped', flipped);
+});
+
+function nextCard(){ pos = (pos+1)%order.length; flipped=false; render(); }
+function prevCard(){ pos = (pos-1+order.length)%order.length; flipped=false; render(); }
+
+function judge(result){
+  const idx = order[pos];
+  state[cardKey(idx)] = result;
+  try{ localStorage.setItem('jody_calc_flashcards', JSON.stringify(state)); }catch(e){}
+  nextCard();
+}
+
+function resetProgress(){
+  if(confirm("Reset all know/review progress?")){
+    state = {};
+    try{ localStorage.setItem('jody_calc_flashcards', JSON.stringify(state)); }catch(e){}
+    updateStats();
+  }
+}
+
+applyFilter();
+</script>
+</body>
+</html>
