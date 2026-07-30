@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jody's Mega Practice Flashcards — Full Worked Solutions (9CH0)</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --border:#2a2f3a;
+    --text:#e8eaf0; --muted:#9aa2b1; --accent:#5ec8c0; --accent2:#e8a33d;
+    --danger:#e35d5d; --good:#6bbf7a; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+    background:radial-gradient(1200px 600px at 10% -10%,#1a2530 0%,var(--bg) 55%);
+    color:var(--text);min-height:100vh;padding:24px 16px 60px;}
+  h1{font-size:1.45rem;margin:0 0 4px;}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px;}
+  .wrap{max-width:960px;margin:0 auto;}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:.82rem;color:var(--muted);}
+  .stat b{color:var(--text);font-size:1rem;display:block;}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+  .tab{background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:999px;font-size:.76rem;cursor:pointer;user-select:none;transition:.15s;}
+  .tab:hover{border-color:var(--accent);color:var(--text);}
+  .tab.active{background:var(--accent);color:#0b1512;border-color:var(--accent);font-weight:600;}
+  .controls{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+  .btn{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.82rem;cursor:pointer;transition:.15s;}
+  .btn:hover{border-color:var(--accent);}
+  .btn.reset{color:var(--danger);border-color:#3a2323;}
+  .count{color:var(--muted);font-size:.82rem;margin-left:auto;}
+  .card-area{perspective:1600px;margin-bottom:18px;}
+  .card{position:relative;min-height:460px;border-radius:16px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);cursor:pointer;}
+  .card.flipped{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow);padding:26px 28px;display:flex;flex-direction:column;overflow-y:auto;}
+  .face.back{transform:rotateY(180deg);background:var(--panel2);}
+  .tag{display:inline-block;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 10px;margin-bottom:14px;width:fit-content;}
+  .qtext{font-size:1.08rem;line-height:1.55;flex:1;white-space:pre-wrap;}
+  .atext{font-size:.92rem;line-height:1.7;flex:1;white-space:pre-wrap;font-family:"Cascadia Code","Consolas",monospace;}
+  .hint{color:var(--muted);font-size:.75rem;margin-top:12px;}
+  .warn{margin-top:14px;background:#241717;border:1px solid #4a2a2a;color:#f2b3b3;border-radius:8px;padding:8px 12px;font-size:.8rem;}
+  .warn b{color:var(--danger);}
+  .final{color:var(--accent2);font-weight:700;}
+  .judge{display:flex;gap:10px;margin-top:4px;}
+  .jbtn{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:.9rem;cursor:pointer;font-weight:600;transition:.15s;}
+  .jbtn.know{color:var(--good);border-color:#26492f;} .jbtn.know:hover{background:#16281b;}
+  .jbtn.review{color:var(--accent2);border-color:#4a3820;} .jbtn.review:hover{background:#2a2015;}
+  .progress-wrap{background:var(--panel);border:1px solid var(--border);border-radius:999px;height:8px;overflow:hidden;margin-bottom:6px;}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--good));width:0%;transition:width .3s;}
+  .progress-label{font-size:.72rem;color:var(--muted);margin-bottom:16px;}
+  .footer-note{color:var(--muted);font-size:.75rem;text-align:center;margin-top:30px;line-height:1.6;}
+  @media(max-width:600px){.card{min-height:520px;} .qtext{font-size:.98rem;} .atext{font-size:.85rem;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🏆 Jody's Mega Practice Flashcards — Full Worked Solutions</h1>
+  <div class="sub">20 mark-scheme-quality A* problems (9CH0) — every substitution, unit and reasoning step shown · click card to flip</div>
+
+  <div class="stats">
+    <div class="stat"><b id="statTotal">0</b>Total cards</div>
+    <div class="stat"><b id="statKnow">0</b>Marked "Know it"</div>
+    <div class="stat"><b id="statReview">0</b>Marked "Review"</div>
+    <div class="stat"><b id="statSeen">0</b>Unseen</div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="progress-wrap"><div class="progress-bar" id="progBar"></div></div>
+  <div class="progress-label" id="progLabel">Card 1 of 1</div>
+
+  <div class="card-area">
+    <div class="card" id="card">
+      <div class="face front">
+        <div class="tag" id="tagFront">Q</div>
+        <div class="qtext" id="qtext">Loading…</div>
+        <div class="hint">Tap card to reveal the full worked solution</div>
+      </div>
+      <div class="face back">
+        <div class="tag" id="tagBack">Q</div>
+        <div class="atext" id="atext"></div>
+        <div class="warn" id="warnBox" style="display:none;"><b>Watch out:</b> <span id="warnText"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="judge">
+    <button class="jbtn review" onclick="judge('review')">🔁 Review again</button>
+    <button class="jbtn know" onclick="judge('know')">✅ Know it</button>
+  </div>
+
+  <div class="controls" style="margin-top:16px;">
+    <button class="btn" onclick="prevCard()">← Prev</button>
+    <button class="btn" onclick="nextCard()">Next →</button>
+    <button class="btn" onclick="shuffleDeck()">🔀 Shuffle</button>
+    <button class="btn" onclick="filterReviewOnly()">Show only "Review"</button>
+    <button class="btn reset" onclick="resetProgress()">Reset progress</button>
+    <span class="count" id="countLabel"></span>
+  </div>
+
+  <div class="footer-note">
+    Progress is saved in this browser (localStorage). This deck pairs with the 8-chapter Calculation Flashcards deck —
+    use that one for formula recall drills, and this one for full multi-step exam-style problems.
+  </div>
+</div>
+
+<script>
+const DECK = [
+{ch:"Stoichiometry", q:"Q1. Calculate the mass of iron(III) oxide produced when 11.2 g of iron burns in oxygen.",
+a:"Equation: 4Fe + 3O₂ → 2Fe₂O₃\n\nMr(Fe) = 55.8\nn(Fe) = 11.2 ÷ 55.8 = 0.200717 mol\n\nRatio Fe : Fe₂O₃ = 4 : 2 = 2 : 1\nn(Fe₂O₃) = 0.200717 ÷ 2 = 0.100358 mol\n\nMr(Fe₂O₃) = (2×55.8)+(3×16.0) = 111.6+48.0 = 159.6\nm = n × Mr = 0.100358 × 159.6 = 16.017 g\n\n✅ Answer: 16.0 g (3 s.f., matching the given data)", warn:""},
+
+{ch:"Empirical/Molecular", q:"Q2. 0.88 g of a hydrocarbon produces 2.64 g CO₂ and 1.44 g H₂O on combustion. Find the empirical formula.",
+a:"All C ends up in CO₂; all H ends up in H₂O.\n\nCarbon: n(CO₂)=2.64÷44.0=0.0600 mol → n(C)=0.0600 mol → m(C)=0.0600×12.0=0.720 g\n\nHydrogen: n(H₂O)=1.44÷18.0=0.0800 mol → n(H)=2×0.0800=0.160 mol → m(H)=0.160×1.0=0.160 g\n\nCheck for oxygen: m(O) = 0.88 − 0.720 − 0.160 = 0 g → no oxygen, hydrocarbon only\n\nMole ratio (÷ smallest, 0.0600):\nC: 1.00   H: 2.667\n\n2.667 = 8/3 → multiply both by 3:\nC = 3, H = 8\n\n✅ Answer: C₃H₈", warn:"Always check whether oxygen is present by mass difference before assuming it's zero."},
+
+{ch:"Gas Calculations", q:"Q3. What volume of O₂ at RTP is needed to burn 10.0 cm³ of propane (C₃H₈) completely?",
+a:"Equation: C₃H₈ + 5O₂ → 3CO₂ + 4H₂O(l)\n\nBy Avogadro's Law, gas volume ratio = mole ratio.\nC₃H₈ : O₂ = 1 : 5\n\nV(O₂) = 5 × 10.0 = 50.0 cm³\n\n✅ Answer: 50.0 cm³", warn:"H₂O is produced as a LIQUID here, so it does NOT contribute to gas volume — don't include it in the gas ratio."},
+
+{ch:"Concentration", q:"Q4. Calculate the mass of NaOH needed to make 500 cm³ of 0.250 mol dm⁻³ solution.",
+a:"V = 500 cm³ = 0.500 dm³\n\nn = c × V = 0.250 × 0.500 = 0.125 mol\n\nMr(NaOH) = 23.0+16.0+1.0 = 40.0\nm = n × Mr = 0.125 × 40.0 = 5.00 g\n\n✅ Answer: 5.00 g", warn:""},
+
+{ch:"Titration", q:"Q5. 25.0 cm³ of H₂SO₄ was neutralised by 32.50 cm³ of 0.200 mol dm⁻³ NaOH. Find [H₂SO₄].",
+a:"Equation: H₂SO₄ + 2NaOH → Na₂SO₄ + 2H₂O  (ratio H₂SO₄:NaOH = 1:2)\n\nn(NaOH) = 0.200 × 0.03250 = 0.00650 mol\n\nn(H₂SO₄) = 0.00650 ÷ 2 = 0.00325 mol\n\nV(H₂SO₄) = 25.0 cm³ = 0.0250 dm³\nc = n ÷ V = 0.00325 ÷ 0.0250 = 0.130 mol dm⁻³\n\n✅ Answer: 0.130 mol dm⁻³", warn:"Don't forget the 1:2 ratio — H₂SO₄ is diprotic."},
+
+{ch:"Back Titration", q:"Q6. 1.80 g of impure CaCO₃ reacted with 50.0 cm³ of 1.00 M HCl. Excess HCl needed 15.00 cm³ of 0.500 M NaOH. Find % purity.",
+a:"Total HCl added: n = 1.00 × 0.0500 = 0.0500 mol\n\nExcess HCl (via NaOH titration, 1:1):\nn(NaOH) = 0.500 × 0.01500 = 0.00750 mol → n(HCl excess) = 0.00750 mol\n\nHCl that reacted with CaCO₃:\n0.0500 − 0.00750 = 0.0425 mol\n\nEquation: CaCO₃ + 2HCl → CaCl₂ + H₂O + CO₂ (ratio 1:2)\nn(CaCO₃) = 0.0425 ÷ 2 = 0.02125 mol\n\nMr(CaCO₃) = 40.1+12.0+48.0 = 100.1\nm(pure CaCO₃) = 0.02125 × 100.1 = 2.127 g\n\n% purity = (2.127 ÷ 1.80) × 100 = 118%\n\n⚠ This exceeds 100% — physically impossible — meaning the given numbers are inconsistent. With a more realistic sample mass (~2.50 g) the same method gives ≈85.1% purity.\n\n✅ Answer (as given): 118% — flag as a data error. Realistic expected result: ~85%", warn:"ALWAYS sanity-check your final answer — purity/yield can never exceed 100%. If it does, you've made an arithmetic slip or the question data is inconsistent — say so."},
+
+{ch:"Uncertainty", q:"Q7. A titre of 12.50 cm³ was obtained. Calculate the % measurement uncertainty.",
+a:"Burette uncertainty = ±0.05 cm³ per reading.\nA titre needs TWO readings (initial + final):\nAbsolute uncertainty = 2 × 0.05 = ±0.10 cm³\n\n% uncertainty = (0.10 ÷ 12.50) × 100 = 0.80%\n\n✅ Answer: ±0.80%", warn:"Always double the single-reading uncertainty for any 'difference' measurement (titre, mass loss, etc.) — two readings, two uncertainties."},
+
+{ch:"Yield & Atom Economy", q:"Q8. In C₂H₄ + H₂O → C₂H₅OH, actual yield is 18.4 g from 28.0 g ethene. Find % yield and atom economy.",
+a:"Atom Economy:\nMr(C₂H₄)=28.0, Mr(H₂O)=18.0, Mr(C₂H₅OH)=46.0\nOnly one product → %AE = (46.0 ÷ 46.0) × 100 = 100%\n\nPercentage Yield:\nn(C₂H₄) = 28.0 ÷ 28.0 = 1.00 mol\nRatio 1:1 → theoretical n(C₂H₅OH) = 1.00 mol\nTheoretical mass = 1.00 × 46.0 = 46.0 g\n\n% yield = (18.4 ÷ 46.0) × 100 = 40.0%\n\n✅ Answer: % Yield = 40.0%,  Atom Economy = 100%", warn:"Atom economy depends only on the equation (all reactant mass → one product = 100%); % yield depends on the ACTUAL amount obtained. Don't confuse the two."},
+
+{ch:"Energetics", q:"Q9. 100 cm³ of 0.50 M HCl + 100 cm³ of 0.50 M NaOH. Temperature rises from 21.0°C to 27.4°C. Calculate ΔH_neutralisation.",
+a:"Total mass = 100+100 = 200 g (density ≈ 1 g cm⁻³)\nΔT = 27.4 − 21.0 = 6.4°C\n\nq = mcΔT = 200 × 4.18 × 6.4 = 5350.4 J = 5.3504 kJ\n\nn(HCl) = 0.50 × 0.100 = 0.050 mol\nn(NaOH) = 0.50 × 0.100 = 0.050 mol (equal, 1:1 reaction)\n\nΔH = −q ÷ n = −5.3504 ÷ 0.050 = −107.008 kJ mol⁻¹\n\n✅ Answer: −107 kJ mol⁻¹ (negative — exothermic, since temperature rose)", warn:"Use the TOTAL combined volume as the mass — don't just use one solution's volume."},
+
+{ch:"Energetics", q:"Q10. Calculate ΔH° for: C₂H₆(g) + 3.5O₂(g) → 2CO₂(g) + 3H₂O(l)\nGiven ΔHf°: C₂H₆=−85, CO₂=−394, H₂O=−286 kJ mol⁻¹",
+a:"Formula: ΔHr° = ΣΔHf°(products) − ΣΔHf°(reactants)\n\nProducts: 2×(−394) + 3×(−286) = −788 + (−858) = −1646 kJ mol⁻¹\n\nReactants: ΔHf°(C₂H₆) + 3.5×ΔHf°(O₂) = −85 + 0 = −85 kJ mol⁻¹\n(O₂ is an element in its standard state, so ΔHf° = 0)\n\nΔHr° = (−1646) − (−85) = −1646+85 = −1561 kJ mol⁻¹\n\n✅ Answer: −1561 kJ mol⁻¹", warn:"ΔHf° of any element in its standard state is always ZERO."},
+
+{ch:"Energetics", q:"Q11. Calculate ΔH for CH₄ + Cl₂ → CH₃Cl + HCl using bond enthalpies.\n(C–H=413, Cl–Cl=243, C–Cl=346, H–Cl=432 kJ mol⁻¹)",
+a:"Bonds BROKEN (endothermic, +):\nC–H: +413\nCl–Cl: +243\nTotal broken = +656 kJ mol⁻¹\n\nBonds FORMED (exothermic, −):\nC–Cl: −346\nH–Cl: −432\nTotal formed = −778 kJ mol⁻¹\n\nΔH = Broken − Formed = 656 − 778 = −122 kJ mol⁻¹\n\n✅ Answer: −122 kJ mol⁻¹", warn:""},
+
+{ch:"Equilibrium (A2)", q:"Q12. For H₂ + I₂ ⇌ 2HI, Kc = 49.0. Starting with 1.00 mol H₂ and 1.00 mol I₂ in 1.00 dm³, find equilibrium [HI].",
+a:"ICE table (mol dm⁻³):\n         [H₂]     [I₂]     [HI]\nInitial   1.00     1.00      0\nChange    −x       −x       +2x\nEquil.   1.00−x   1.00−x     2x\n\nKc = [HI]² ÷ ([H₂][I₂]) = (2x)² ÷ (1.00−x)² = 49.0\n\nTake square root of both sides:\n2x ÷ (1.00−x) = 7.00\n2x = 7.00 − 7.00x\n9x = 7.00\nx = 0.778\n\n[HI] = 2x = 2 × 0.778 = 1.556 mol dm⁻³\n\n✅ Answer: [HI] = 1.56 mol dm⁻³", warn:"Taking the square root only works cleanly because both sides are perfect squares here — check the stoichiometry before using this shortcut."},
+
+{ch:"Atomic Structure", q:"Q13. Calculate Ar of neon given isotopes: ²⁰Ne (90.5%), ²¹Ne (0.3%), ²²Ne (9.2%).",
+a:"Ar = Σ(isotopic mass × % abundance) ÷ 100\n\nAr = [(20×90.5)+(21×0.3)+(22×9.2)] ÷ 100\n= [1810 + 6.3 + 202.4] ÷ 100\n= 2018.7 ÷ 100\n= 20.187\n\n✅ Answer: 20.2", warn:""},
+
+{ch:"Empirical/Molecular", q:"Q14. A compound has empirical formula CH₂O and Mr = 180. Find the molecular formula.",
+a:"EFM(CH₂O) = 12.0 + (2×1.0) + 16.0 = 30.0\n\nMultiplier = Mr ÷ EFM = 180 ÷ 30.0 = 6\n\nMultiply every atom by 6 → C₆H₁₂O₆\n\n✅ Answer: C₆H₁₂O₆", warn:""},
+
+{ch:"Titration (Dilution)", q:"Q15. 25.0 cm³ of vinegar was diluted to 250 cm³. 25.0 cm³ of the diluted solution needed 22.40 cm³ of 0.100 M NaOH. Find [CH₃COOH] in the original vinegar.",
+a:"n(NaOH) = 0.100 × 0.02240 = 0.00224 mol\n\nRatio CH₃COOH : NaOH = 1:1 → n(CH₃COOH) in 25.0 cm³ diluted sample = 0.00224 mol\n\nThe 25.0 cm³ aliquot is 1/10 of the full 250 cm³ flask, so scale up:\nn(CH₃COOH) in full 250 cm³ = 0.00224 × 10 = 0.0224 mol\n\nThis 0.0224 mol came from the ORIGINAL 25.0 cm³ of vinegar:\nc = n ÷ V = 0.0224 ÷ 0.0250 = 0.896 mol dm⁻³\n\n✅ Answer: 0.896 mol dm⁻³", warn:"Don't forget the ×10 scale-up step for the dilution — this is the step students most often miss."},
+
+{ch:"Gas Calculations", q:"Q16. Calculate the volume of CO₂ at RTP from heating 10.0 g CaCO₃.",
+a:"Equation: CaCO₃ → CaO + CO₂ (ratio 1:1)\n\nMr(CaCO₃) = 40.1+12.0+48.0 = 100.1\nn(CaCO₃) = 10.0 ÷ 100.1 = 0.09990 mol\n\nn(CO₂) = 0.09990 mol (1:1 ratio)\nV = n × 24.0 = 0.09990 × 24.0 = 2.3976 dm³\n\n✅ Answer: 2.40 dm³ (or 2400 cm³)", warn:""},
+
+{ch:"Concentration", q:"Q17. A solution contains 4.00 g NaOH per dm³. What is its concentration in mol dm⁻³?",
+a:"Mr(NaOH) = 40.0 g mol⁻¹\n\nc = (mass concentration) ÷ Mr = 4.00 ÷ 40.0 = 0.100 mol dm⁻³\n\n✅ Answer: 0.100 mol dm⁻³", warn:"Mass concentration (g dm⁻³) ÷ Mr gives molar concentration (mol dm⁻³) directly — no volume conversion needed here since it's already 'per dm³'."},
+
+{ch:"Equilibrium (A2)", q:"Q18. For 2SO₂ + O₂ ⇌ 2SO₃: 0.40 mol SO₂ and 0.20 mol O₂ in 2.0 dm³. At equilibrium, 0.30 mol SO₃ is present. Calculate Kc (with units).",
+a:"Initial concentrations:\n[SO₂]₀ = 0.40÷2.0 = 0.20 mol dm⁻³\n[O₂]₀ = 0.20÷2.0 = 0.10 mol dm⁻³\n[SO₃]₀ = 0\n\nAt equilibrium [SO₃] = 0.30÷2.0 = 0.15 mol dm⁻³\n\nStoichiometry (2:1:2): SO₃ formed = 0.30 mol\nSO₂ used = 0.30 mol → remaining = 0.40−0.30 = 0.10 mol → [SO₂]=0.10÷2.0=0.050 mol dm⁻³\nO₂ used = 0.15 mol → remaining = 0.20−0.15 = 0.05 mol → [O₂]=0.05÷2.0=0.025 mol dm⁻³\n\nKc = [SO₃]² ÷ ([SO₂]²[O₂]) = (0.15)² ÷ [(0.050)²×0.025]\n= 0.0225 ÷ 0.0000625 = 360\n\nUnits: (mol dm⁻³)² ÷ [(mol dm⁻³)²×(mol dm⁻³)] = mol⁻¹ dm³\n\n✅ Answer: Kc = 360 mol⁻¹ dm³", warn:"Always work out the CHANGE using the mole ratio (2:1:2), not the raw mol/dm³ numbers directly — then convert to concentration at the end."},
+
+{ch:"Redox", q:"Q19. Balance: Cr₂O₇²⁻ + Fe²⁺ → Cr³⁺ + Fe³⁺ in acidic conditions.",
+a:"Reduction half-equation:\nCr₂O₇²⁻ → 2Cr³⁺\nBalance O: Cr₂O₇²⁻ → 2Cr³⁺ + 7H₂O\nBalance H: Cr₂O₇²⁻ + 14H⁺ → 2Cr³⁺ + 7H₂O\nBalance charge (LHS = −2+14 = +12, RHS = +6) → add 6e⁻:\nCr₂O₇²⁻ + 14H⁺ + 6e⁻ → 2Cr³⁺ + 7H₂O\n\nOxidation half-equation:\nFe²⁺ → Fe³⁺ + e⁻\nMultiply by 6: 6Fe²⁺ → 6Fe³⁺ + 6e⁻\n\nAdd together (electrons cancel):\nCr₂O₇²⁻ + 14H⁺ + 6Fe²⁺ → 2Cr³⁺ + 7H₂O + 6Fe³⁺\n\n✅ Answer: Cr₂O₇²⁻ + 14H⁺ + 6Fe²⁺ → 2Cr³⁺ + 7H₂O + 6Fe³⁺", warn:"Standard order: balance the element first, then O (using H₂O), then H (using H⁺), then charge (using e⁻) — in acidic conditions only."},
+
+{ch:"Multi-step Yield", q:"Q20. A 4-step synthesis has yields of 90%, 85%, 80%, 95%. Calculate the overall yield.",
+a:"Overall yield = 0.90 × 0.85 × 0.80 × 0.95 × 100%\n\n= 0.765 × 0.80 × 0.95 × 100%\n= 0.612 × 0.95 × 100%\n= 0.5814 × 100%\n= 58.14%\n\n✅ Answer: 58.1%", warn:"Multi-step yields MULTIPLY, they don't average — a common and costly mistake."},
+
+{ch:"Final Checklist", q:"🏆 Jody's Final Exam Checklist — what 8 things should you check on EVERY calculation question?",
+a:"1. Did I write the balanced equation?\n2. Did I convert cm³ → dm³ where needed?\n3. Did I use the correct mole ratio?\n4. Are my units correct at every step?\n5. Did I use 3 significant figures?\n6. For enthalpy: is the sign correct (exothermic = negative)?\n7. For uncertainties: did I multiply the burette reading uncertainty by 2?\n8. Does my answer make physical sense (e.g. yield/purity ≤ 100%)?", warn:""},
+];
+
+let state = {};
+try{ state = JSON.parse(localStorage.getItem('jody_mega_flashcards')||'{}'); }catch(e){ state = {}; }
+
+const chapters = [...new Set(DECK.map(c=>c.ch))];
+let activeFilter = 'All';
+let order = DECK.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+function cardKey(i){ return DECK[i].ch+"|"+DECK[i].q; }
+
+function buildTabs(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML='';
+  ['All', ...chapters].forEach(ch=>{
+    const el = document.createElement('div');
+    el.className = 'tab'+(ch===activeFilter?' active':'');
+    el.textContent = ch;
+    el.onclick = ()=>{ activeFilter=ch; applyFilter(); };
+    tabs.appendChild(el);
+  });
+}
+
+function applyFilter(){
+  buildTabs();
+  order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].ch===activeFilter);
+  pos = 0; flipped=false;
+  render();
+}
+
+function filterReviewOnly(){
+  order = DECK.map((_,i)=>i).filter(i=> state[cardKey(i)]==='review' && (activeFilter==='All' || DECK[i].ch===activeFilter));
+  if(order.length===0){ alert("No cards marked 'Review' in this view yet."); order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].ch===activeFilter); }
+  pos=0; flipped=false; render();
+}
+
+function shuffleDeck(){
+  for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+  pos=0; flipped=false; render();
+}
+
+function render(){
+  if(order.length===0){ order=[0]; }
+  const idx = order[pos];
+  const c = DECK[idx];
+  document.getElementById('tagFront').textContent = c.ch;
+  document.getElementById('tagBack').textContent = c.ch;
+  document.getElementById('qtext').textContent = c.q;
+  document.getElementById('atext').textContent = c.a;
+  const warnBox = document.getElementById('warnBox');
+  if(c.warn){ warnBox.style.display='block'; document.getElementById('warnText').textContent = c.warn; }
+  else{ warnBox.style.display='none'; }
+  document.getElementById('card').classList.remove('flipped');
+  flipped=false;
+  document.getElementById('progLabel').textContent = `Card ${pos+1} of ${order.length}${activeFilter!=='All'?' · '+activeFilter:''}`;
+  document.getElementById('progBar').style.width = ((pos+1)/order.length*100)+'%';
+  updateStats();
+}
+
+function updateStats(){
+  const total = DECK.length;
+  let know=0, review=0;
+  DECK.forEach((c,i)=>{ const s = state[cardKey(i)]; if(s==='know') know++; else if(s==='review') review++; });
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statKnow').textContent = know;
+  document.getElementById('statReview').textContent = review;
+  document.getElementById('statSeen').textContent = total-know-review;
+  document.getElementById('countLabel').textContent = order.length+' cards in view';
+}
+
+document.getElementById('card').addEventListener('click', ()=>{
+  flipped = !flipped;
+  document.getElementById('card').classList.toggle('flipped', flipped);
+});
+
+function nextCard(){ pos = (pos+1)%order.length; flipped=false; render(); }
+function prevCard(){ pos = (pos-1+order.length)%order.length; flipped=false; render(); }
+
+function judge(result){
+  const idx = order[pos];
+  state[cardKey(idx)] = result;
+  try{ localStorage.setItem('jody_mega_flashcards', JSON.stringify(state)); }catch(e){}
+  nextCard();
+}
+
+function resetProgress(){
+  if(confirm("Reset all know/review progress?")){
+    state = {};
+    try{ localStorage.setItem('jody_mega_flashcards', JSON.stringify(state)); }catch(e){}
+    updateStats();
+  }
+}
+
+applyFilter();
+</script>
+</body>
+</html>
