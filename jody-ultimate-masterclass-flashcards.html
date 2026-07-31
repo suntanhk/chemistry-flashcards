@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jody's Ultimate A* Masterclass Flashcards (9CH0)</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --border:#2a2f3a;
+    --text:#e8eaf0; --muted:#9aa2b1; --accent:#5ec8c0; --accent2:#e8a33d;
+    --danger:#e35d5d; --good:#6bbf7a; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+    background:radial-gradient(1200px 600px at 10% -10%,#1a2530 0%,var(--bg) 55%);
+    color:var(--text);min-height:100vh;padding:24px 16px 60px;}
+  h1{font-size:1.42rem;margin:0 0 4px;}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px;}
+  .wrap{max-width:960px;margin:0 auto;}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:.82rem;color:var(--muted);}
+  .stat b{color:var(--text);font-size:1rem;display:block;}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;max-height:120px;overflow-y:auto;}
+  .tab{background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:6px 11px;border-radius:999px;font-size:.72rem;cursor:pointer;user-select:none;transition:.15s;white-space:nowrap;}
+  .tab:hover{border-color:var(--accent);color:var(--text);}
+  .tab.active{background:var(--accent);color:#0b1512;border-color:var(--accent);font-weight:600;}
+  .controls{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+  .btn{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.82rem;cursor:pointer;transition:.15s;}
+  .btn:hover{border-color:var(--accent);}
+  .btn.reset{color:var(--danger);border-color:#3a2323;}
+  .count{color:var(--muted);font-size:.82rem;margin-left:auto;}
+  .card-area{perspective:1600px;margin-bottom:18px;}
+  .card{position:relative;min-height:420px;border-radius:16px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);cursor:pointer;}
+  .card.flipped{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow);padding:26px 28px;display:flex;flex-direction:column;overflow-y:auto;}
+  .face.back{transform:rotateY(180deg);background:var(--panel2);}
+  .tag{display:inline-block;font-size:.64rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 10px;margin-bottom:14px;width:fit-content;}
+  .qtext{font-size:1.05rem;line-height:1.55;flex:1;white-space:pre-wrap;}
+  .atext{font-size:.94rem;line-height:1.7;flex:1;white-space:pre-wrap;font-family:"Cascadia Code","Consolas",monospace;}
+  .hint{color:var(--muted);font-size:.75rem;margin-top:12px;}
+  .warn{margin-top:14px;background:#241717;border:1px solid #4a2a2a;color:#f2b3b3;border-radius:8px;padding:8px 12px;font-size:.78rem;}
+  .warn b{color:var(--danger);}
+  .judge{display:flex;gap:10px;margin-top:4px;}
+  .jbtn{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:.9rem;cursor:pointer;font-weight:600;transition:.15s;}
+  .jbtn.know{color:var(--good);border-color:#26492f;} .jbtn.know:hover{background:#16281b;}
+  .jbtn.review{color:var(--accent2);border-color:#4a3820;} .jbtn.review:hover{background:#2a2015;}
+  .progress-wrap{background:var(--panel);border:1px solid var(--border);border-radius:999px;height:8px;overflow:hidden;margin-bottom:6px;}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--good));width:0%;transition:width .3s;}
+  .progress-label{font-size:.72rem;color:var(--muted);margin-bottom:16px;}
+  .footer-note{color:var(--muted);font-size:.75rem;text-align:center;margin-top:30px;line-height:1.6;}
+  @media(max-width:600px){.card{min-height:480px;} .qtext{font-size:.98rem;} .atext{font-size:.88rem;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🏅 Jody's Ultimate A* Masterclass Flashcards</h1>
+  <div class="sub">Pearson Edexcel 9CH0 Year 12 — all 17 chapters, every formula &amp; trap · September resit revision · click to flip</div>
+
+  <div class="stats">
+    <div class="stat"><b id="statTotal">0</b>Total cards</div>
+    <div class="stat"><b id="statKnow">0</b>Marked "Know it"</div>
+    <div class="stat"><b id="statReview">0</b>Marked "Review"</div>
+    <div class="stat"><b id="statSeen">0</b>Unseen</div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="progress-wrap"><div class="progress-bar" id="progBar"></div></div>
+  <div class="progress-label" id="progLabel">Card 1 of 1</div>
+
+  <div class="card-area">
+    <div class="card" id="card">
+      <div class="face front">
+        <div class="tag" id="tagFront">CH</div>
+        <div class="qtext" id="qtext">Loading…</div>
+        <div class="hint">Tap card to reveal the answer</div>
+      </div>
+      <div class="face back">
+        <div class="tag" id="tagBack">CH</div>
+        <div class="atext" id="atext"></div>
+        <div class="warn" id="warnBox" style="display:none;"><b>A* trap:</b> <span id="warnText"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="judge">
+    <button class="jbtn review" onclick="judge('review')">🔁 Review again</button>
+    <button class="jbtn know" onclick="judge('know')">✅ Know it</button>
+  </div>
+
+  <div class="controls" style="margin-top:16px;">
+    <button class="btn" onclick="prevCard()">← Prev</button>
+    <button class="btn" onclick="nextCard()">Next →</button>
+    <button class="btn" onclick="shuffleDeck()">🔀 Shuffle</button>
+    <button class="btn" onclick="filterReviewOnly()">Show only "Review"</button>
+    <button class="btn reset" onclick="resetProgress()">Reset progress</button>
+    <span class="count" id="countLabel"></span>
+  </div>
+
+  <div class="footer-note">
+    Progress saved in this browser (localStorage). This is the master deck — it pairs with (but goes deeper than) the
+    Calculation, Mega Practice, Formula Master Sheet, and Decision Tree decks, adding errors/uncertainty, Hess cycles,
+    redox rules, mass spectrometry, and the full A* Exam Technique Bible.
+  </div>
+</div>
+
+<script>
+const DECK = [
+// ===== CH1: MOLE & AVOGADRO =====
+{ch:"1. Mole & Avogadro", q:"State the exact value of the Avogadro constant used in this masterclass.", a:"Nₐ = 6.022 × 10²³ mol⁻¹", warn:""},
+{ch:"1. Mole & Avogadro", q:"Calculate Mr(Ca(NO₃)₂).", a:"40.1 + 2×(14.0 + 3×16.0) = 40.1 + 2×62.0 = 164.1 g mol⁻¹", warn:""},
+{ch:"1. Mole & Avogadro", q:"Calculate the number of oxygen atoms in 0.250 mol of Ca(NO₃)₂.", a:"1 mol Ca(NO₃)₂ contains 6 mol O atoms (3×2)\nMoles of O = 0.250×6 = 1.50 mol\nNumber of atoms = 1.50 × 6.022×10²³ = 9.03×10²³ atoms", warn:"If asked for the number of ATOMS in a compound, multiply by the subscript — don't just use the compound's own mole count."},
+{ch:"1. Mole & Avogadro", q:"Draw/describe the Rearrangement Triangle for n = m/Mr.", a:"m sits on top, n and Mr sit on the bottom row.\nm = n × Mr\nn = m ÷ Mr\nMr = m ÷ n", warn:""},
+
+// ===== CH2: REACTING MASSES =====
+{ch:"2. Reacting Masses", q:"State the Universal 7-Step Method for reacting mass problems.", a:"1. Write the balanced symbol equation\n2. Identify the given and required substance\n3. Calculate moles of the given substance (n=m/Mr)\n4. Use the mole ratio from the equation\n5. Calculate the required quantity\n6. Convert units if necessary\n7. Check significant figures (usually 3 s.f.)", warn:""},
+{ch:"2. Reacting Masses", q:"5.00 g Mg + 5.00 g O₂ react (2Mg+O₂→2MgO). Which is limiting, and what mass of MgO forms?", a:"n(Mg)=5.00/24.3=0.206 mol\nn(O₂)=5.00/32.0=0.156 mol\n0.206 mol Mg needs 0.103 mol O₂ — we have 0.156 mol (excess)\n→ Mg is limiting\nn(MgO)=0.206 mol (1:1) → mass=0.206×40.3=8.30 g", warn:"Always calculate moles of BOTH reactants and compare via the mole ratio — never assume which is limiting."},
+{ch:"2. Reacting Masses", q:"2.50 g hydrated CuSO₄·xH₂O heated leaves 1.60 g anhydrous CuSO₄. Find x.", a:"Water lost = 2.50−1.60 = 0.90 g → 0.90/18.0 = 0.0500 mol\nCuSO₄ = 1.60/159.6 = 0.0100 mol\nRatio CuSO₄:H₂O = 1:5 → x = 5 → CuSO₄·5H₂O", warn:""},
+
+// ===== CH3: EMPIRICAL & MOLECULAR =====
+{ch:"3. Empirical/Molecular", q:"State the empirical formula method in one line.", a:"Mass/% → ÷ Ar → moles → ÷ smallest → round to whole numbers (or simple fraction) → write formula.", warn:"If you get a decimal like 1.5, multiply ALL ratios by 2 (or the appropriate factor) to clear it — never round a genuine non-integer ratio."},
+{ch:"3. Empirical/Molecular", q:"A hydrocarbon has empirical formula CH; its molecular ion peak is at m/z=78. Find the molecular formula.", a:"Mr(empirical, CH) = 13.0\nn = 78/13.0 = 6\nMolecular formula = C₆H₆", warn:""},
+{ch:"3. Empirical/Molecular", q:"In combustion analysis, how do you find the mass of oxygen in the original compound (if present)?", a:"Mass of O = Total sample mass − mass(C) − mass(H)\n(found after converting CO₂→C and H₂O→H)", warn:""},
+{ch:"3. Empirical/Molecular", q:"0.50 g organic compound (C,H,O) burned gives 1.10 g CO₂ and 0.45 g H₂O. Outline how you'd find C:H:O moles.", a:"n(CO₂)=1.10/44.0=0.0250 mol → n(C)=0.0250 mol, m(C)=0.300 g\nn(H₂O)=0.45/18.0=0.0250 mol → n(H)=0.0500 mol, m(H)=0.050 g\nm(O)=0.50−0.300−0.050=0.150 g → n(O)=0.150/16.0=0.009375 mol\nDivide all by smallest, then clear any fractions.", warn:"Real exam numbers are usually cleaner — always sanity-check your arithmetic if the ratio looks messy."},
+
+// ===== CH4: GASES =====
+{ch:"4. Gases", q:"State Avogadro's Law.", a:"Equal volumes of gases at the same temperature and pressure contain the same number of molecules (moles). V₁/n₁ = V₂/n₂", warn:""},
+{ch:"4. Gases", q:"State RTP conditions and the molar volume at RTP.", a:"RTP = 20°C and 1 atm (101 kPa)\nVₘ = 24.0 dm³ mol⁻¹", warn:""},
+{ch:"4. Gases", q:"If gas volume is given in cm³, what do you divide by to get moles (NOT 24.0)?", a:"Divide by 24,000 (i.e. n = V(cm³) ÷ 24000), OR convert cm³→dm³ first then use ÷24.0.", warn:"A* TRAP: using ÷24.0 directly on a cm³ value gives an answer 1000× too large."},
+{ch:"4. Gases", q:"20.0 cm³ of propane burns completely: C₃H₈+5O₂→3CO₂+4H₂O(l). Find the total gas volume of products.", a:"Only CO₂ is gas (H₂O is liquid here).\nVolume CO₂ = 3 × 20.0 = 60.0 cm³\nTotal gas volume = 60.0 cm³", warn:"Don't count liquid water in a gas volume ratio calculation."},
+{ch:"4. Gases", q:"List all the unit conversions needed to use pV=nRT correctly.", a:"kPa→Pa: ×1000\natm→Pa: ×101325\ndm³→m³: ÷1000\ncm³→m³: ÷1,000,000\n°C→K: +273", warn:""},
+{ch:"4. Gases", q:"Calculate the volume of 0.500 mol gas at 25°C and 100 kPa using pV=nRT.", a:"T=298 K, p=100,000 Pa\nV = nRT/p = (0.500×8.31×298)/100,000 = 1238.19/100,000 = 0.01238 m³ = 12.4 dm³", warn:""},
+
+// ===== CH5: SOLUTIONS & CONCENTRATION =====
+{ch:"5. Solutions & Concentration", q:"State the mass concentration formula and its rearrangement.", a:"Mass concentration = c × Mr\nc = mass concentration ÷ Mr", warn:""},
+{ch:"5. Solutions & Concentration", q:"List the 6 steps for preparing a standard solution.", a:"1. Weigh the solid accurately (2–3 d.p.)\n2. Dissolve in a beaker with distilled water\n3. Transfer to a volumetric flask via a funnel\n4. Rinse the beaker, add washings to the flask\n5. Add water to the graduation mark (dropping pipette for the last few drops)\n6. Stopper and invert repeatedly to mix", warn:"View the meniscus at eye level — viewing from above/below causes parallax error."},
+{ch:"5. Solutions & Concentration", q:"State the dilution formula and identify each term.", a:"c₁V₁ = c₂V₂\nc₁ = stock concentration, V₁ = volume of stock used\nc₂ = diluted concentration, V₂ = final total volume", warn:""},
+{ch:"5. Solutions & Concentration", q:"Serial dilution: 10.0 cm³ of 1.00 mol dm⁻³ NaCl diluted to 100 cm³, then 10.0 cm³ of THAT diluted to 250 cm³. Find the final concentration.", a:"First dilution: c₂ = (1.00×10.0)/100 = 0.100 mol dm⁻³\nSecond dilution: c₃ = (0.100×10.0)/250 = 0.00400 mol dm⁻³", warn:""},
+
+// ===== CH6: TITRATION =====
+{ch:"6. Titration", q:"State the core titration equation linking two species A and B (aA + bB → products).", a:"(cₐVₐ)/a = (cᵦVᵦ)/b", warn:"Volumes can stay in cm³ here since the 1000 conversion cancels on both sides — but if calculating moles separately, always convert to dm³."},
+{ch:"6. Titration", q:"State the acid:base ratio for: (a) monoprotic acid + base (b) diprotic acid + base (c) dibasic base + acid (d) tribasic base + acid.", a:"(a) HCl+NaOH → 1:1\n(b) H₂SO₄+2NaOH → 1:2\n(c) Na₂CO₃+2HCl → 1:2\n(d) Na₃PO₄+3HCl → 1:3", warn:""},
+{ch:"6. Titration", q:"25.0 cm³ Na₂CO₃ titrated against 0.150 mol dm⁻³ HCl, average titre 18.40 cm³. Find [Na₂CO₃].", a:"Na₂CO₃+2HCl→2NaCl+H₂O+CO₂ (1:2)\nn(HCl)=0.150×0.01840=2.76×10⁻³ mol\nn(Na₂CO₃)=2.76×10⁻³÷2=1.38×10⁻³ mol\nc=1.38×10⁻³÷0.0250=0.0552 mol dm⁻³", warn:""},
+{ch:"6. Titration", q:"25.0 cm³ vinegar diluted to 250 cm³. 25.0 cm³ of the diluted sample needs 28.30 cm³ of 0.100 M NaOH. Find [CH₃COOH] in the ORIGINAL vinegar.", a:"n(NaOH)=0.100×0.02830=2.83×10⁻³ mol = n(CH₃COOH) in 25 cm³ diluted\nScale to 250 cm³ diluted: ×10 → 0.0283 mol\nThis equals moles in the original 25.0 cm³ vinegar\nc(original) = 0.0283÷0.0250 = 1.13 mol dm⁻³", warn:"The ×10 scale-up (from the 25 cm³ aliquot back to the full 250 cm³ flask) is the step students most often forget."},
+
+// ===== CH7: BACK TITRATIONS =====
+{ch:"7. Back Titrations", q:"List the 4 situations where you should use a back titration instead of a direct titration.", a:"1. The reaction is slow\n2. The substance is insoluble\n3. Direct titration is impractical\n4. You need to find the purity of an impure sample", warn:""},
+{ch:"7. Back Titrations", q:"State the general back-titration method (4 steps).", a:"1. Add a known EXCESS of reagent A to react with the sample\n2. Titrate the UNREACTED excess of A against standard solution B\n3. Moles of A reacted with sample = Total A added − A remaining\n4. Use stoichiometry to find moles of the sample", warn:""},
+{ch:"7. Back Titrations", q:"2.00 g impure CaCO₃ + 50.0 cm³ 1.00 M HCl (excess). Excess HCl needs 20.00 cm³ 0.500 M NaOH. Find % purity.", a:"n(HCl)total=1.00×0.0500=0.0500 mol\nn(NaOH)=0.500×0.02000=0.0100 mol=n(HCl)excess\nn(HCl)reacted=0.0500−0.0100=0.0400 mol\nCaCO₃+2HCl→CaCl₂+H₂O+CO₂: n(CaCO₃)=0.0400÷2=0.0200 mol\nm=0.0200×100.1=2.002 g\n% purity=(2.002/2.00)×100=100%", warn:"If purity comes out above 100%, either the sample mass is wrong or there's an arithmetic error — flag it, don't just report it."},
+
+// ===== CH8: ERRORS & UNCERTAINTIES =====
+{ch:"8. Errors & Uncertainty", q:"Distinguish random error, systematic error, and a mistake.", a:"Random: unpredictable scatter — affects PRECISION — reduce by repeating & averaging\nSystematic: consistent bias (equipment fault) — affects ACCURACY — reduce by calibrating equipment\nMistake: human error (misreading, spillage) — invalidates the result — reduce with careful technique", warn:""},
+{ch:"8. Errors & Uncertainty", q:"State the typical uncertainty for: 50 cm³ burette, 25 cm³ pipette, 250 cm³ volumetric flask, top-pan balance (2 d.p.).", a:"50 cm³ burette: ±0.05 cm³ PER READING\n25 cm³ pipette: ±0.06 cm³ (single reading)\n250 cm³ volumetric flask: ±0.20 cm³\nTop-pan balance (2 d.p.): ±0.01 g", warn:""},
+{ch:"8. Errors & Uncertainty", q:"State the percentage uncertainty formula.", a:"% uncertainty = (absolute uncertainty ÷ measurement) × 100%", warn:""},
+{ch:"8. Errors & Uncertainty", q:"How do you combine uncertainties for (a) addition/subtraction (b) multiplication/division (c) powers?", a:"(a) Add the ABSOLUTE uncertainties\n(b) Add the PERCENTAGE uncertainties\n(c) Multiply the % uncertainty by the power (e.g. y=x², %unc(y)=2×%unc(x))", warn:""},
+{ch:"8. Errors & Uncertainty", q:"Why is the absolute uncertainty in a titre ±0.10 cm³ rather than ±0.05 cm³?", a:"A titre requires TWO burette readings (initial and final), so the uncertainties add: 2 × 0.05 = ±0.10 cm³.", warn:""},
+{ch:"8. Errors & Uncertainty", q:"List 3 A* strategies to REDUCE % uncertainty in a titration.", a:"1. Use a larger titre volume (less dilute solution)\n2. Use a burette with smaller graduations\n3. Repeat until concordant results (within 0.10–0.20 cm³)", warn:""},
+{ch:"8. Errors & Uncertainty", q:"2.55±0.01 g solid dissolved in 250.0±0.2 cm³ water. Find % uncertainty in concentration.", a:"%unc(mass) = (0.01/2.55)×100 = 0.392%\n%unc(volume) = (0.2/250.0)×100 = 0.080%\n%unc(concentration) = 0.392+0.080 = 0.472% (multiplication/division rule → add %)", warn:""},
+
+// ===== CH9: YIELD, ATOM ECONOMY, LIMITING REAGENT =====
+{ch:"9. Yield & Atom Economy", q:"List 5 reasons why percentage yield is usually less than 100%.", a:"1. Reversible reaction (doesn't go to completion)\n2. Side reactions produce by-products\n3. Loss during transfer, filtration, or purification\n4. Reactant not pure\n5. Mechanical losses (spillage, residue on filter paper)", warn:""},
+{ch:"9. Yield & Atom Economy", q:"What is the key conceptual difference between % yield and % atom economy?", a:"Yield = efficiency of the PRACTICAL procedure (how much you actually collected).\nAtom economy = efficiency of the REACTION PATHWAY itself (theoretical maximum, based only on the equation).", warn:"Addition reactions always have 100% atom economy since there's only one product."},
+{ch:"9. Yield & Atom Economy", q:"3-step synthesis has yields of 85%, 70%, 90%. Calculate the overall yield.", a:"Overall = 0.85 × 0.70 × 0.90 × 100 = 53.6%", warn:"Multi-step yields MULTIPLY, they never average."},
+{ch:"9. Yield & Atom Economy", q:"5.00 g Mg + 5.00 g O₂ react; actual yield of MgO = 7.50 g. Find % yield.", a:"n(Mg)=0.206 mol, n(O₂)=0.156 mol → Mg needs 0.103 mol O₂, has 0.156 → Mg limiting\nTheoretical n(MgO)=0.206 mol → theoretical mass=0.206×40.3=8.30 g\n% yield=(7.50/8.30)×100=90.4%", warn:""},
+
+// ===== CH10: CALORIMETRY =====
+{ch:"10. Calorimetry", q:"State the sign convention: for an EXOTHERMIC reaction, is q positive or negative, and is ΔH positive or negative?", a:"Exothermic: temperature increases, q is POSITIVE (surroundings gain heat), but ΔH is NEGATIVE (the system has lost energy).", warn:"Don't confuse the sign of q with the sign of ΔH — they represent different things (surroundings vs. system)."},
+{ch:"10. Calorimetry", q:"List the 5 standard assumptions made in calorimetry calculations.", a:"1. Density of solution = 1.00 g cm⁻³ (mass in g = volume in cm³)\n2. Specific heat capacity of solution = 4.18 J g⁻¹K⁻¹\n3. No heat loss to surroundings\n4. Reaction goes to completion\n5. The calorimeter itself absorbs no heat", warn:""},
+{ch:"10. Calorimetry", q:"0.46 g ethanol burned heats 200 g water from 20.0°C to 32.5°C. Calculate ΔH_combustion.", a:"q=200×4.18×12.5=10450 J=10.45 kJ\nn(ethanol)=0.46/46.0=0.0100 mol\nΔH_c=−10.45/0.0100=−1045 kJ mol⁻¹ (≈−1050)\n(Data book value ≈−1367 kJ mol⁻¹ — the gap is due to heat loss.)", warn:"Experimental combustion ΔH values from simple calorimetry are always LESS exothermic in magnitude than data-book values, due to unavoidable heat loss."},
+{ch:"10. Calorimetry", q:"List 3 A* improvements to reduce heat loss in a combustion calorimetry experiment.", a:"1. Use a lid on the calorimeter\n2. Insulate the cup\n3. Measure temperature over time and apply a cooling-curve correction (extrapolation), or use a bomb calorimeter", warn:""},
+
+// ===== CH11: HESS'S LAW =====
+{ch:"11. Hess's Law", q:"State Hess's Law.", a:"The total enthalpy change for a reaction is the same regardless of the route taken, provided the initial and final conditions are the same.", warn:""},
+{ch:"11. Hess's Law", q:"State the formation-cycle formula and the key rule about elements.", a:"ΔH°r = ΣΔHf°(products) − ΣΔHf°(reactants)\nKey rule: ΔHf° for any element in its standard state = 0", warn:""},
+{ch:"11. Hess's Law", q:"State the combustion-cycle formula and what the combustion products are.", a:"ΔH°r = ΣΔHc°(reactants) − ΣΔHc°(products)\nCombustion products = CO₂(g) and H₂O(l) [and SO₂(g) if sulfur present]", warn:"Formation cycle = products−reactants. Combustion cycle = reactants−products. These are REVERSED from each other — mixing them up is a very common mistake."},
+{ch:"11. Hess's Law", q:"C₂H₄(g)+H₂(g)→C₂H₆(g). Given ΔHf°(C₂H₄)=+52, ΔHf°(C₂H₆)=−85 kJ mol⁻¹. Find ΔH°.", a:"ΔH° = [−85] − [(+52)+0] = −85−52 = −137 kJ mol⁻¹", warn:""},
+{ch:"11. Hess's Law", q:"C₂H₄(g)+H₂O(l)→C₂H₅OH(l). Given ΔHc°(C₂H₄)=−1411, ΔHc°(C₂H₅OH)=−1367 kJ mol⁻¹. Find ΔH°.", a:"ΔH° = [(−1411)+0] − [−1367] = −1411+1367 = −44 kJ mol⁻¹", warn:"Water is a COMBUSTION PRODUCT here, so its ΔHc° = 0 in this cycle — don't confuse it with water's own formation enthalpy."},
+
+// ===== CH12: BOND ENTHALPY =====
+{ch:"12. Bond Enthalpy", q:"Define mean bond enthalpy.", a:"The average energy required to break one mole of a specific bond in gaseous molecules, averaged over many different compounds.", warn:""},
+{ch:"12. Bond Enthalpy", q:"Why are bond enthalpy calculations generally LESS accurate than using formation or combustion data?", a:"Bond enthalpies are mean (averaged) values that vary slightly between molecules, and they only apply to gaseous species.", warn:""},
+{ch:"12. Bond Enthalpy", q:"CH₄+2O₂→CO₂+2H₂O(g). BE: C–H=413, O=O=498, C=O=805, O–H=464. Find ΔH.", a:"Broken: 4×C–H + 2×O=O = 1652+996 = 2648 kJ mol⁻¹\nFormed: 2×C=O + 4×O–H = 1610+1856 = 3466 kJ mol⁻¹\nΔH = 2648−3466 = −818 kJ mol⁻¹", warn:""},
+
+// ===== CH13: EQUILIBRIUM Kc =====
+{ch:"13. Equilibrium Kc", q:"Write the general Kc expression for aA + bB ⇌ cC + dD, and state the key rules.", a:"Kc = ([C]^c × [D]^d) ÷ ([A]^a × [B]^b)\nRules: products over reactants; equilibrium concentrations only; EXCLUDE pure solids and pure liquids; units depend on the stoichiometry.", warn:""},
+{ch:"13. Equilibrium Kc", q:"For N₂+3H₂⇌2NH₃, derive the units of Kc.", a:"Kc = [NH₃]² ÷ ([N₂][H₂]³)\nUnits: (mol dm⁻³)² ÷ [(mol dm⁻³)×(mol dm⁻³)³] = mol⁻² dm⁶", warn:""},
+{ch:"13. Equilibrium Kc", q:"N₂O₄(g)⇌2NO₂(g): 0.200 mol N₂O₄ in 2.00 dm³; at equilibrium 0.120 mol NO₂ present. Calculate Kc.", a:"Initial [N₂O₄]=0.100 mol dm⁻³\nChange: −0.060 (N₂O₄), +0.120 (NO₂)\nEquilibrium: [N₂O₄]=0.040, [NO₂]=0.060\nKc = (0.060)² ÷ 0.040 = 0.0036÷0.040 = 0.090 mol dm⁻³", warn:"Always build the ICE table in moles-per-volume (concentration), not raw moles, before substituting into Kc."},
+
+// ===== CH14: REDOX =====
+{ch:"14. Redox", q:"State the oxidation number rules for: element in standard state, O, H, Group 1 and Group 2 metals.", a:"Element in standard state = 0\nO = −2 (except peroxides = −1, OF₂ = +2)\nH = +1 (except metal hydrides = −1)\nGroup 1 = +1, Group 2 = +2, Al = +3, F = −1\nSum of oxidation numbers = overall charge on the species", warn:""},
+{ch:"14. Redox", q:"State the 4-step method for balancing a half-equation in ACIDIC conditions.", a:"1. Balance atoms other than O and H\n2. Balance O by adding H₂O\n3. Balance H by adding H⁺\n4. Balance charge by adding e⁻", warn:""},
+{ch:"14. Redox", q:"State the 3-step method for combining two half-equations into a full redox equation.", a:"1. Multiply each half-equation so electrons lost = electrons gained\n2. Add the two half-equations together\n3. Cancel any e⁻, H₂O, and H⁺ that appear on both sides", warn:""},
+{ch:"14. Redox", q:"Balance: MnO₄⁻ + C₂O₄²⁻ → Mn²⁺ + CO₂ in acidic solution.", a:"Reduction: MnO₄⁻+8H⁺+5e⁻ → Mn²⁺+4H₂O\nOxidation: C₂O₄²⁻ → 2CO₂+2e⁻\n×2 reduction, ×5 oxidation, then add:\n2MnO₄⁻ + 16H⁺ + 5C₂O₄²⁻ → 2Mn²⁺ + 8H₂O + 10CO₂", warn:""},
+
+// ===== CH15: MASS SPECTROMETRY =====
+{ch:"15. Mass Spectrometry", q:"State the formula for relative atomic mass (Ar) from isotopic abundances.", a:"Ar = Σ(isotopic mass × relative abundance) ÷ Σ(relative abundances)\n(if % abundances sum to 100, divide the total by 100)", warn:""},
+{ch:"15. Mass Spectrometry", q:"Chlorine isotopes: ³⁵Cl (75.8%), ³⁷Cl (24.2%). Calculate Ar.", a:"Ar = (35×75.8 + 37×24.2) ÷ 100 = (2653+895.4)÷100 = 3548.4÷100 = 35.5", warn:""},
+{ch:"15. Mass Spectrometry", q:"Cl₂ gives mass spec peaks at m/z=70, 72, 74 in roughly 9:6:1 ratio. Explain why.", a:"With ³⁵Cl:³⁷Cl ≈ 3:1 (probabilities ¾ and ¼):\n³⁵Cl–³⁵Cl (m/z=70): ¾×¾=9/16\n³⁵Cl–³⁷Cl (m/z=72): 2×¾×¼=6/16\n³⁷Cl–³⁷Cl (m/z=74): ¼×¼=1/16\nRatio = 9:6:1", warn:"This '3-peak cluster' pattern is the classic signature of an element with two isotopes combining as a diatomic molecule — recognise it instantly."},
+
+// ===== CH16: EXAM TECHNIQUE BIBLE =====
+{ch:"16. Exam Technique Bible", q:"State the 7-Point Checklist for every calculation question.", a:"1. Write the formula being used\n2. Show all working — method marks save you\n3. Include units at every step and in the final answer\n4. Use 3 significant figures (unless data suggests 2 s.f.)\n5. Check reasonableness (yield ≤100%, sensible temperature changes, concentrations usually 0.01–10 mol dm⁻³)\n6. State assumptions for calorimetry questions\n7. Watch dm³ vs cm³ — the #1 error in A-Level chemistry", warn:""},
+{ch:"16. Exam Technique Bible", q:"State the significant figures rules for (a) multiplication/division and (b) addition/subtraction.", a:"(a) Multiplication/division: match the s.f. of the measurement with the FEWEST significant figures\n(b) Addition/subtraction: match the decimal places of the measurement with the FEWEST decimal places", warn:""},
+{ch:"16. Exam Technique Bible", q:"List the Top 10 Most Common Calculation Errors from the Exam Technique Bible.", a:"1. Forgetting cm³→dm³ conversion\n2. Using mass of an IMPURE sample directly in stoichiometry\n3. Wrong mole ratio from an unbalanced equation\n4. Sign error in enthalpy (exothermic = negative!)\n5. Forgetting to double the burette uncertainty\n6. Using Mr instead of Ar in empirical formula work\n7. Not squaring/cubing concentrations correctly in Kc expressions\n8. Including solids/liquids in a Kc expression\n9. Using 24.0 dm³ for a non-gaseous substance\n10. Forgetting to divide by n in ΔH=q/n (giving kJ instead of kJ mol⁻¹)", warn:""},
+{ch:"16. Exam Technique Bible", q:"Complete the Unit Conversion Cheat Sheet: cm³→dm³, dm³→m³, g→kg, °C→K.", a:"cm³→dm³: ÷1000\ndm³→m³: ÷1000\ng→kg: ÷1000\n°C→K: +273", warn:""},
+];
+
+let state = {};
+try{ state = JSON.parse(localStorage.getItem('jody_ultimate_flashcards')||'{}'); }catch(e){ state = {}; }
+
+const chapters = [...new Set(DECK.map(c=>c.ch))];
+let activeFilter = 'All';
+let order = DECK.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+function cardKey(i){ return DECK[i].ch+"|"+DECK[i].q; }
+
+function buildTabs(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML='';
+  ['All', ...chapters].forEach(ch=>{
+    const el = document.createElement('div');
+    el.className = 'tab'+(ch===activeFilter?' active':'');
+    el.textContent = ch;
+    el.onclick = ()=>{ activeFilter=ch; applyFilter(); };
+    tabs.appendChild(el);
+  });
+}
+
+function applyFilter(){
+  buildTabs();
+  order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].ch===activeFilter);
+  pos = 0; flipped=false;
+  render();
+}
+
+function filterReviewOnly(){
+  order = DECK.map((_,i)=>i).filter(i=> state[cardKey(i)]==='review' && (activeFilter==='All' || DECK[i].ch===activeFilter));
+  if(order.length===0){ alert("No cards marked 'Review' in this view yet."); order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].ch===activeFilter); }
+  pos=0; flipped=false; render();
+}
+
+function shuffleDeck(){
+  for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+  pos=0; flipped=false; render();
+}
+
+function render(){
+  if(order.length===0){ order=[0]; }
+  const idx = order[pos];
+  const c = DECK[idx];
+  document.getElementById('tagFront').textContent = c.ch;
+  document.getElementById('tagBack').textContent = c.ch;
+  document.getElementById('qtext').textContent = c.q;
+  document.getElementById('atext').textContent = c.a;
+  const warnBox = document.getElementById('warnBox');
+  if(c.warn){ warnBox.style.display='block'; document.getElementById('warnText').textContent = c.warn; }
+  else{ warnBox.style.display='none'; }
+  document.getElementById('card').classList.remove('flipped');
+  flipped=false;
+  document.getElementById('progLabel').textContent = `Card ${pos+1} of ${order.length}${activeFilter!=='All'?' · '+activeFilter:''}`;
+  document.getElementById('progBar').style.width = ((pos+1)/order.length*100)+'%';
+  updateStats();
+}
+
+function updateStats(){
+  const total = DECK.length;
+  let know=0, review=0;
+  DECK.forEach((c,i)=>{ const s = state[cardKey(i)]; if(s==='know') know++; else if(s==='review') review++; });
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statKnow').textContent = know;
+  document.getElementById('statReview').textContent = review;
+  document.getElementById('statSeen').textContent = total-know-review;
+  document.getElementById('countLabel').textContent = order.length+' cards in view';
+}
+
+document.getElementById('card').addEventListener('click', ()=>{
+  flipped = !flipped;
+  document.getElementById('card').classList.toggle('flipped', flipped);
+});
+
+function nextCard(){ pos = (pos+1)%order.length; flipped=false; render(); }
+function prevCard(){ pos = (pos-1+order.length)%order.length; flipped=false; render(); }
+
+function judge(result){
+  const idx = order[pos];
+  state[cardKey(idx)] = result;
+  try{ localStorage.setItem('jody_ultimate_flashcards', JSON.stringify(state)); }catch(e){}
+  nextCard();
+}
+
+function resetProgress(){
+  if(confirm("Reset all know/review progress?")){
+    state = {};
+    try{ localStorage.setItem('jody_ultimate_flashcards', JSON.stringify(state)); }catch(e){}
+    updateStats();
+  }
+}
+
+applyFilter();
+</script>
+</body>
+</html>
