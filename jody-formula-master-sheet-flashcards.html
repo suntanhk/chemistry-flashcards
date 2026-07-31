@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jody's Formula Master Sheet Flashcards (9CH0)</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --border:#2a2f3a;
+    --text:#e8eaf0; --muted:#9aa2b1; --accent:#5ec8c0; --accent2:#e8a33d;
+    --danger:#e35d5d; --good:#6bbf7a; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+    background:radial-gradient(1200px 600px at 10% -10%,#1a2530 0%,var(--bg) 55%);
+    color:var(--text);min-height:100vh;padding:24px 16px 60px;}
+  h1{font-size:1.45rem;margin:0 0 4px;}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px;}
+  .wrap{max-width:920px;margin:0 auto;}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:.82rem;color:var(--muted);}
+  .stat b{color:var(--text);font-size:1rem;display:block;}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+  .tab{background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:999px;font-size:.76rem;cursor:pointer;user-select:none;transition:.15s;}
+  .tab:hover{border-color:var(--accent);color:var(--text);}
+  .tab.active{background:var(--accent);color:#0b1512;border-color:var(--accent);font-weight:600;}
+  .controls{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+  .btn{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.82rem;cursor:pointer;transition:.15s;}
+  .btn:hover{border-color:var(--accent);}
+  .btn.reset{color:var(--danger);border-color:#3a2323;}
+  .count{color:var(--muted);font-size:.82rem;margin-left:auto;}
+  .card-area{perspective:1600px;margin-bottom:18px;}
+  .card{position:relative;min-height:280px;border-radius:16px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);cursor:pointer;}
+  .card.flipped{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow);padding:26px 28px;display:flex;flex-direction:column;overflow-y:auto;}
+  .face.back{transform:rotateY(180deg);background:var(--panel2);}
+  .tag{display:inline-block;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 10px;margin-bottom:14px;width:fit-content;}
+  .stars{color:var(--accent2);font-size:.75rem;margin-bottom:6px;letter-spacing:1px;}
+  .qtext{font-size:1.15rem;line-height:1.55;flex:1;white-space:pre-wrap;}
+  .atext{font-size:1.05rem;line-height:1.7;flex:1;white-space:pre-wrap;font-family:"Cascadia Code","Consolas",monospace;}
+  .hint{color:var(--muted);font-size:.75rem;margin-top:12px;}
+  .warn{margin-top:14px;background:#241717;border:1px solid #4a2a2a;color:#f2b3b3;border-radius:8px;padding:8px 12px;font-size:.8rem;}
+  .warn b{color:var(--danger);}
+  .judge{display:flex;gap:10px;margin-top:4px;}
+  .jbtn{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:.9rem;cursor:pointer;font-weight:600;transition:.15s;}
+  .jbtn.know{color:var(--good);border-color:#26492f;} .jbtn.know:hover{background:#16281b;}
+  .jbtn.review{color:var(--accent2);border-color:#4a3820;} .jbtn.review:hover{background:#2a2015;}
+  .progress-wrap{background:var(--panel);border:1px solid var(--border);border-radius:999px;height:8px;overflow:hidden;margin-bottom:6px;}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--good));width:0%;transition:width .3s;}
+  .progress-label{font-size:.72rem;color:var(--muted);margin-bottom:16px;}
+  .footer-note{color:var(--muted);font-size:.75rem;text-align:center;margin-top:30px;line-height:1.6;}
+  @media(max-width:600px){.card{min-height:320px;} .qtext{font-size:1rem;} .atext{font-size:.95rem;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>⭐ Jody's Formula Master Sheet Flashcards</h1>
+  <div class="sub">Pearson Edexcel 9CH0 — Chapter 1: Formulae, Equations &amp; Amounts of Substance · 2-minute drill before every lesson/mock/resit</div>
+
+  <div class="stats">
+    <div class="stat"><b id="statTotal">0</b>Total cards</div>
+    <div class="stat"><b id="statKnow">0</b>Marked "Know it"</div>
+    <div class="stat"><b id="statReview">0</b>Marked "Review"</div>
+    <div class="stat"><b id="statSeen">0</b>Unseen</div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="progress-wrap"><div class="progress-bar" id="progBar"></div></div>
+  <div class="progress-label" id="progLabel">Card 1 of 1</div>
+
+  <div class="card-area">
+    <div class="card" id="card">
+      <div class="face front">
+        <div class="tag" id="tagFront">SECTION</div>
+        <div class="stars" id="starsFront"></div>
+        <div class="qtext" id="qtext">Loading…</div>
+        <div class="hint">Tap card to reveal the formula / answer</div>
+      </div>
+      <div class="face back">
+        <div class="tag" id="tagBack">SECTION</div>
+        <div class="atext" id="atext"></div>
+        <div class="warn" id="warnBox" style="display:none;"><b>Exam tip:</b> <span id="warnText"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="judge">
+    <button class="jbtn review" onclick="judge('review')">🔁 Review again</button>
+    <button class="jbtn know" onclick="judge('know')">✅ Know it</button>
+  </div>
+
+  <div class="controls" style="margin-top:16px;">
+    <button class="btn" onclick="prevCard()">← Prev</button>
+    <button class="btn" onclick="nextCard()">Next →</button>
+    <button class="btn" onclick="shuffleDeck()">🔀 Shuffle</button>
+    <button class="btn" onclick="filterReviewOnly()">Show only "Review"</button>
+    <button class="btn reset" onclick="resetProgress()">Reset progress</button>
+    <span class="count" id="countLabel"></span>
+  </div>
+
+  <div class="footer-note">
+    Progress is saved in this browser (localStorage). This is Part 1 of the A★ Quick Reference Pack —
+    pairs with the Calculation Flashcards and Mega Practice Flashcards decks. Part 2 (Universal Calculation Decision Tree) will follow.
+  </div>
+</div>
+
+<script>
+const DECK = [
+// ===== 1. Mole formulae =====
+{sec:"1. Mole Formulae", stars:"⭐⭐⭐⭐⭐", q:"n = m ÷ Mr — what is this used for, and what are the units?", a:"Converts mass ⇄ moles.\nm in grams (g), n in moles (mol).", warn:""},
+{sec:"1. Mole Formulae", stars:"⭐⭐⭐⭐⭐", q:"m = n × Mr — what is this used for?", a:"Converts moles → mass.\nAnswer in grams (g).", warn:"Students often accidentally divide instead of multiply — ask 'am I finding mass? then multiply.'"},
+{sec:"1. Mole Formulae", stars:"⭐⭐⭐⭐☆", q:"n = N ÷ N_A — what is this used for?", a:"Converts number of particles → moles.\nN = number of particles, N_A = Avogadro constant.", warn:""},
+{sec:"1. Mole Formulae", stars:"⭐⭐⭐⭐☆", q:"N = n × N_A — what is this used for?", a:"Converts moles → number of particles.", warn:""},
+{sec:"1. Mole Formulae", stars:"⭐⭐⭐⭐⭐", q:"What is the value of N_A (Avogadro Constant), with units?", a:"N_A = 6.02 × 10²³ mol⁻¹", warn:""},
+
+// ===== 2. Concentration formulae =====
+{sec:"2. Concentration", stars:"⭐⭐⭐⭐⭐", q:"n = cV — what is this used for, and what are the units of c and V?", a:"Calculates moles from concentration and volume.\nc = concentration in mol dm⁻³\nV = volume in dm³", warn:""},
+{sec:"2. Concentration", stars:"⭐⭐⭐⭐⭐", q:"Rearrange n = cV to find concentration.", a:"c = n ÷ V", warn:""},
+{sec:"2. Concentration", stars:"⭐⭐⭐⭐☆", q:"Rearrange n = cV to find volume.", a:"V = n ÷ c", warn:""},
+{sec:"2. Concentration", stars:"⭐⭐⭐⭐⭐", q:"What is the conversion rule from cm³ to dm³?", a:"cm³ ÷ 1000 = dm³", warn:"You MUST convert to dm³ before using n = cV."},
+
+// ===== 3. Gas formulae =====
+{sec:"3. Gas Formulae", stars:"⭐⭐⭐⭐⭐", q:"At RTP, how much volume does 1 mole of ANY gas occupy?", a:"1 mol = 24.0 dm³", warn:""},
+{sec:"3. Gas Formulae", stars:"⭐⭐⭐⭐⭐", q:"State the formula linking gas volume and moles at RTP.", a:"V = n × 24", warn:""},
+{sec:"3. Gas Formulae", stars:"⭐⭐⭐⭐⭐", q:"Rearrange V = n×24 to find moles.", a:"n = V ÷ 24", warn:""},
+{sec:"3. Gas Formulae", stars:"⭐⭐⭐⭐⭐", q:"State the Ideal Gas Equation.", a:"PV = nRT", warn:""},
+{sec:"3. Gas Formulae", stars:"⭐⭐⭐⭐⭐", q:"In PV = nRT, what unit must P, V, and T each be in?", a:"P in Pa\nV in m³\nT in Kelvin (K)\n(n in mol, R = 8.31 J mol⁻¹ K⁻¹)", warn:"Using dm³ or kPa or °C directly in PV=nRT without converting is one of the most common Edexcel errors."},
+
+// ===== 4. Percentage formulae =====
+{sec:"4. Percentage Formulae", stars:"⭐⭐⭐⭐⭐", q:"State the Percentage Yield formula.", a:"% Yield = (Actual ÷ Theoretical) × 100", warn:""},
+{sec:"4. Percentage Formulae", stars:"⭐⭐⭐⭐☆", q:"State the Atom Economy formula.", a:"% Atom Economy = (Desired Product ÷ Total Products) × 100", warn:""},
+{sec:"4. Percentage Formulae", stars:"⭐⭐⭐⭐☆", q:"State the Percentage Purity formula.", a:"% Purity = (Pure Substance ÷ Total Sample) × 100", warn:""},
+
+// ===== 5. Universal constants =====
+{sec:"5. Universal Constants", stars:"⭐⭐⭐⭐⭐", q:"State the value of the Avogadro Constant.", a:"6.02 × 10²³ mol⁻¹", warn:""},
+{sec:"5. Universal Constants", stars:"⭐⭐⭐⭐⭐", q:"State the value of the Gas Constant, R.", a:"R = 8.31 J mol⁻¹ K⁻¹", warn:""},
+{sec:"5. Universal Constants", stars:"⭐⭐⭐⭐⭐", q:"State the RTP molar gas volume.", a:"24.0 dm³ mol⁻¹", warn:""},
+
+// ===== 6. Unit conversions =====
+{sec:"6. Unit Conversions", stars:"⭐⭐⭐⭐⭐", q:"cm³ → dm³ : what's the rule?", a:"÷ 1000", warn:""},
+{sec:"6. Unit Conversions", stars:"⭐⭐⭐⭐⭐", q:"dm³ → cm³ : what's the rule?", a:"× 1000", warn:""},
+{sec:"6. Unit Conversions", stars:"⭐⭐⭐⭐☆", q:"dm³ → m³ : what's the rule?", a:"÷ 1000", warn:""},
+{sec:"6. Unit Conversions", stars:"⭐⭐⭐⭐☆", q:"m³ → dm³ : what's the rule?", a:"× 1000", warn:""},
+{sec:"6. Unit Conversions", stars:"⭐⭐⭐⭐⭐", q:"°C → K : what's the rule?", a:"+ 273", warn:""},
+{sec:"6. Unit Conversions", stars:"⭐⭐⭐⭐☆", q:"K → °C : what's the rule?", a:"− 273", warn:""},
+{sec:"6. Unit Conversions", stars:"⭐⭐⭐⭐☆", q:"kPa → Pa : what's the rule?", a:"× 1000", warn:""},
+{sec:"6. Unit Conversions", stars:"⭐⭐⭐⭐⭐", q:"What is the single most common reason students lose marks in calculation questions?", a:"Incorrect unit conversion.", warn:""},
+
+// ===== 7. Universal workflow =====
+{sec:"7. Universal Workflow", stars:"⭐⭐⭐⭐⭐", q:"State the Universal Calculation Workflow (5 stages).", a:"Known Value\n→ Convert to Moles\n→ Balanced Equation\n→ Use Mole Ratio\n→ Convert to Required Answer", warn:""},
+{sec:"7. Universal Workflow", stars:"⭐⭐⭐⭐⭐", q:"What is the golden rule about mass-to-mass or volume-to-volume calculations?", a:"NEVER calculate directly from mass to mass, or volume to volume — always go through moles first.", warn:""},
+
+// ===== 8. Top 10 facts =====
+{sec:"8. Top 10 Facts", stars:"⭐⭐⭐⭐⭐", q:"Top 10 Facts #1 — how many particles are in 1 mole?", a:"1 mol = 6.02 × 10²³ particles.", warn:""},
+{sec:"8. Top 10 Facts", stars:"⭐⭐⭐⭐⭐", q:"Top 10 Facts #2 — at RTP, what volume does 1 mol of gas occupy?", a:"24.0 dm³", warn:""},
+{sec:"8. Top 10 Facts", stars:"⭐⭐⭐⭐⭐", q:"Top 10 Facts #3 — what must you always do before calculating with an equation?", a:"Always balance the equation before calculating.", warn:""},
+{sec:"8. Top 10 Facts", stars:"⭐⭐⭐⭐⭐", q:"Top 10 Facts #4 — when balancing equations, what should you change — coefficients or subscripts?", a:"Use coefficients — never change subscripts.", warn:""},
+{sec:"8. Top 10 Facts", stars:"⭐⭐⭐⭐⭐", q:"Top 10 Facts #5 — what unit must volume be in for n = cV?", a:"dm³", warn:""},
+{sec:"8. Top 10 Facts", stars:"⭐⭐⭐⭐⭐", q:"Top 10 Facts #6 — what unit must temperature be in for PV = nRT?", a:"Kelvin (K)", warn:""},
+{sec:"8. Top 10 Facts", stars:"⭐⭐⭐⭐⭐", q:"Top 10 Facts #7 — what unit must pressure be in for PV = nRT?", a:"Pascals (Pa)", warn:""},
+{sec:"8. Top 10 Facts", stars:"⭐⭐⭐⭐⭐", q:"Top 10 Facts #8 — what determines the amount of product formed in a reaction?", a:"The limiting reagent.", warn:""},
+{sec:"8. Top 10 Facts", stars:"⭐⭐⭐⭐⭐", q:"Top 10 Facts #9 — is percentage yield usually more or less than 100%?", a:"Usually LESS than 100%.", warn:""},
+{sec:"8. Top 10 Facts", stars:"⭐⭐⭐⭐⭐", q:"Top 10 Facts #10 — which compounds get split into ions when writing ionic equations?", a:"Only AQUEOUS ionic compounds (solids, liquids, and gases are NOT split into ions).", warn:""},
+
+// ===== Memory Box =====
+{sec:"A* Memory Box", stars:"⭐⭐⭐⭐⭐", q:"Recite the Six Formulae Every A* Student Knows, in order.", a:"1. n = m/Mr\n2. n = cV\n3. n = N/N_A\n4. V = n × 24\n5. PV = nRT\n6. % = Part ÷ Whole × 100", warn:"If you can recall all six instantly, you have the foundation for nearly every Chapter 1 calculation."},
+];
+
+let state = {};
+try{ state = JSON.parse(localStorage.getItem('jody_formula_master_flashcards')||'{}'); }catch(e){ state = {}; }
+
+const sections = [...new Set(DECK.map(c=>c.sec))];
+let activeFilter = 'All';
+let order = DECK.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+function cardKey(i){ return DECK[i].sec+"|"+DECK[i].q; }
+
+function buildTabs(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML='';
+  ['All', ...sections].forEach(s=>{
+    const el = document.createElement('div');
+    el.className = 'tab'+(s===activeFilter?' active':'');
+    el.textContent = s;
+    el.onclick = ()=>{ activeFilter=s; applyFilter(); };
+    tabs.appendChild(el);
+  });
+}
+
+function applyFilter(){
+  buildTabs();
+  order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].sec===activeFilter);
+  pos = 0; flipped=false;
+  render();
+}
+
+function filterReviewOnly(){
+  order = DECK.map((_,i)=>i).filter(i=> state[cardKey(i)]==='review' && (activeFilter==='All' || DECK[i].sec===activeFilter));
+  if(order.length===0){ alert("No cards marked 'Review' in this view yet."); order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].sec===activeFilter); }
+  pos=0; flipped=false; render();
+}
+
+function shuffleDeck(){
+  for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+  pos=0; flipped=false; render();
+}
+
+function render(){
+  if(order.length===0){ order=[0]; }
+  const idx = order[pos];
+  const c = DECK[idx];
+  document.getElementById('tagFront').textContent = c.sec;
+  document.getElementById('tagBack').textContent = c.sec;
+  document.getElementById('starsFront').textContent = c.stars;
+  document.getElementById('qtext').textContent = c.q;
+  document.getElementById('atext').textContent = c.a;
+  const warnBox = document.getElementById('warnBox');
+  if(c.warn){ warnBox.style.display='block'; document.getElementById('warnText').textContent = c.warn; }
+  else{ warnBox.style.display='none'; }
+  document.getElementById('card').classList.remove('flipped');
+  flipped=false;
+  document.getElementById('progLabel').textContent = `Card ${pos+1} of ${order.length}${activeFilter!=='All'?' · '+activeFilter:''}`;
+  document.getElementById('progBar').style.width = ((pos+1)/order.length*100)+'%';
+  updateStats();
+}
+
+function updateStats(){
+  const total = DECK.length;
+  let know=0, review=0;
+  DECK.forEach((c,i)=>{ const s = state[cardKey(i)]; if(s==='know') know++; else if(s==='review') review++; });
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statKnow').textContent = know;
+  document.getElementById('statReview').textContent = review;
+  document.getElementById('statSeen').textContent = total-know-review;
+  document.getElementById('countLabel').textContent = order.length+' cards in view';
+}
+
+document.getElementById('card').addEventListener('click', ()=>{
+  flipped = !flipped;
+  document.getElementById('card').classList.toggle('flipped', flipped);
+});
+
+function nextCard(){ pos = (pos+1)%order.length; flipped=false; render(); }
+function prevCard(){ pos = (pos-1+order.length)%order.length; flipped=false; render(); }
+
+function judge(result){
+  const idx = order[pos];
+  state[cardKey(idx)] = result;
+  try{ localStorage.setItem('jody_formula_master_flashcards', JSON.stringify(state)); }catch(e){}
+  nextCard();
+}
+
+function resetProgress(){
+  if(confirm("Reset all know/review progress?")){
+    state = {};
+    try{ localStorage.setItem('jody_formula_master_flashcards', JSON.stringify(state)); }catch(e){}
+    updateStats();
+  }
+}
+
+applyFilter();
+</script>
+</body>
+</html>
