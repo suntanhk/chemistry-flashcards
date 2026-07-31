@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Chemistry Mock Paper 1 — Flashcards</title>
+<style>
+  :root{
+    --bg:#0a0e17; --bg2:#0f1524; --card:#141b2d; --card2:#182238;
+    --accent:#2dd4bf; --accent2:#22b8a3; --amber:#fbbf24; --red:#f87171;
+    --green:#4ade80; --text:#e5e9f0; --muted:#8b95a8; --border:#243044;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--text);min-height:100vh;padding-bottom:40px;}
+  header{padding:18px 16px 10px;text-align:center;position:sticky;top:0;background:rgba(10,14,23,0.96);
+    backdrop-filter:blur(8px);z-index:20;border-bottom:1px solid var(--border);}
+  h1{font-size:1.15rem;margin:0 0 2px;background:linear-gradient(90deg,var(--accent),#818cf8);
+    -webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800;}
+  .sub{font-size:0.72rem;color:var(--muted);margin-bottom:10px;}
+  .progress-wrap{max-width:520px;margin:0 auto;}
+  .progress-bar{height:6px;background:var(--border);border-radius:6px;overflow:hidden;margin-top:6px;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#818cf8);width:0%;transition:width .3s;}
+  .stats{display:flex;justify-content:center;gap:14px;margin-top:6px;font-size:0.68rem;color:var(--muted);}
+  .stats span.k{color:var(--green);} .stats span.r{color:var(--red);}
+  .tabs{display:flex;overflow-x:auto;gap:6px;padding:10px 12px 4px;max-width:560px;margin:0 auto;
+    -ms-overflow-style:none;scrollbar-width:none;}
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{flex:0 0 auto;padding:7px 13px;border-radius:20px;background:var(--card);border:1px solid var(--border);
+    color:var(--muted);font-size:0.72rem;font-weight:600;white-space:nowrap;cursor:pointer;}
+  .tab.active{background:linear-gradient(90deg,var(--accent),#22b8a3);color:#04211c;border-color:transparent;}
+  main{max-width:560px;margin:0 auto;padding:14px 14px 0;}
+  .counter{text-align:center;font-size:0.75rem;color:var(--muted);margin-bottom:8px;}
+  .deck{position:relative;height:420px;}
+  .card{position:absolute;inset:0;background:var(--card);border:1px solid var(--border);border-radius:18px;
+    padding:20px;display:flex;flex-direction:column;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,0.35);
+    transition:transform .15s;overflow:hidden;}
+  .card:active{transform:scale(0.985);}
+  .tagrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .qid{font-size:0.68rem;font-weight:800;color:var(--accent);letter-spacing:.5px;}
+  .marks{font-size:0.65rem;background:var(--card2);color:var(--amber);padding:3px 9px;border-radius:10px;
+    font-weight:700;border:1px solid var(--border);}
+  .topicchip{font-size:0.62rem;color:var(--muted);background:var(--bg2);padding:2px 8px;border-radius:8px;margin-top:2px;display:inline-block;}
+  .content{flex:1;overflow-y:auto;font-size:0.92rem;line-height:1.55;padding-right:2px;}
+  .content b{color:var(--accent);}
+  .content .tip{margin-top:10px;padding:9px 10px;background:rgba(251,191,36,0.08);border-left:3px solid var(--amber);
+    border-radius:6px;font-size:0.8rem;color:#fde68a;}
+  .content .trap{margin-top:8px;padding:9px 10px;background:rgba(248,113,113,0.08);border-left:3px solid var(--red);
+    border-radius:6px;font-size:0.8rem;color:#fecaca;}
+  .content .eq{font-family:'Courier New',monospace;background:var(--bg2);padding:8px 10px;border-radius:8px;
+    margin:6px 0;font-size:0.85rem;color:#93e8db;border:1px solid var(--border);}
+  .fliphint{text-align:center;font-size:0.65rem;color:var(--muted);margin-top:8px;}
+  .backface{background:var(--card2);}
+  .actions{display:flex;gap:10px;margin-top:12px;}
+  .btn{flex:1;padding:11px;border-radius:12px;border:none;font-weight:700;font-size:0.85rem;cursor:pointer;}
+  .btn.review{background:rgba(248,113,113,0.15);color:var(--red);border:1px solid rgba(248,113,113,0.4);}
+  .btn.know{background:rgba(74,222,128,0.15);color:var(--green);border:1px solid rgba(74,222,128,0.4);}
+  .btn.review.sel{background:var(--red);color:#1a0505;}
+  .btn.know.sel{background:var(--green);color:#052712;}
+  .navrow{display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:8px;}
+  .navbtn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 18px;
+    border-radius:12px;font-size:0.85rem;font-weight:700;cursor:pointer;}
+  .navbtn:disabled{opacity:0.3;}
+  .resetrow{text-align:center;margin-top:18px;}
+  .resetbtn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:10px;
+    font-size:0.7rem;cursor:pointer;}
+  table.mini{width:100%;border-collapse:collapse;margin:6px 0;font-size:0.78rem;}
+  table.mini td,table.mini th{border:1px solid var(--border);padding:4px 6px;text-align:left;}
+  table.mini th{background:var(--bg2);color:var(--accent);}
+</style>
+</head>
+<body>
+<header>
+  <h1>🧪 Chemistry Mock Paper 1</h1>
+  <div class="sub">Edexcel 9CH0/01 · Advanced Inorganic &amp; Physical Chemistry · 90 marks · for Jody</div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="stats">
+      <span>Total: <b id="statTotal">0</b></span>
+      <span class="k">Know: <span id="statKnow">0</span></span>
+      <span class="r">Review: <span id="statReview">0</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="tabs" id="tabs"></div>
+
+<main>
+  <div class="counter" id="counter"></div>
+  <div class="deck">
+    <div class="card" id="cardEl" onclick="flipCard()"></div>
+  </div>
+  <div class="navrow">
+    <button class="navbtn" id="prevBtn" onclick="prevCard()">← Prev</button>
+    <button class="navbtn" id="shuffleBtn" onclick="shuffleDeck()">🔀 Shuffle</button>
+    <button class="navbtn" id="nextBtn" onclick="nextCard()">Next →</button>
+  </div>
+  <div class="resetrow"><button class="resetbtn" onclick="resetProgress()">Reset all progress</button></div>
+</main>
+
+<script>
+const cards = [
+/* ===== SECTION A — MULTIPLE CHOICE (1 mark each) ===== */
+{id:'A1',section:'A',topic:'Atomic Structure',marks:1,
+ q:'<b>Q1.</b> Which ion has the electron configuration [Ar] 3d⁵?<br><br>A. Fe²⁺&nbsp;&nbsp; B. Mn²⁺&nbsp;&nbsp; C. Cr³⁺&nbsp;&nbsp; D. Co²⁺',
+ a:'<b>Answer: B — Mn²⁺</b><br>Mn is [Ar]3d⁵4s². Removing 2 electrons from the 4s subshell first (not 3d) gives Mn²⁺ = [Ar]3d⁵.<div class="trap">⚠️ Trap: transition metals always lose 4s electrons BEFORE 3d electrons when forming ions — a very common examiner trip point.</div>'},
+
+{id:'A2',section:'A',topic:'Bonding',marks:1,
+ q:'<b>Q2.</b> Which substance has the highest lattice enthalpy?<br><br>A. NaCl&nbsp;&nbsp; B. MgCl₂&nbsp;&nbsp; C. MgO&nbsp;&nbsp; D. CaO',
+ a:'<b>Answer: C — MgO</b><br>Lattice enthalpy increases with higher ionic charge and smaller ionic radius. Mg²⁺ and O²⁻ are both small, highly charged (2+/2−) ions — the 2+/2− charge product dominates over CaO (larger Ca²⁺) and MgCl₂ (only 1− charge on Cl⁻).<div class="tip">💡 Rule: LE ∝ (charge product) / (sum of ionic radii). Charge matters more than size.</div>'},
+
+{id:'A3',section:'A',topic:'Redox I',marks:1,
+ q:'<b>Q3.</b> In: 2MnO₄⁻ + 5C₂O₄²⁻ + 16H⁺ → 2Mn²⁺ + 10CO₂ + 8H₂O<br>What is the change in oxidation number of carbon?<br><br>A. +2 to +4&nbsp;&nbsp; B. +3 to +4&nbsp;&nbsp; C. +2 to +3&nbsp;&nbsp; D. +4 to +2',
+ a:'<b>Answer: B — +3 to +4</b><br>In C₂O₄²⁻ (oxalate), overall charge −2 with 4 O (−8) and 2 C, so 2C = +6, C = +3. In CO₂, O = −4 total, so C = +4. Each carbon is oxidised by 1 unit.'},
+
+{id:'A4',section:'A',topic:'Equilibrium I',marks:1,
+ q:'<b>Q4.</b> Which statement about dynamic equilibrium is correct?<br><br>A. Concentrations of reactants/products are equal<br>B. Forward/backward reactions have stopped<br>C. Rate of forward = rate of backward reaction<br>D. Kc changes when a catalyst is added',
+ a:'<b>Answer: C</b><br>At dynamic equilibrium both reactions continue at equal rates — concentrations are constant but NOT necessarily equal, and Kc is unaffected by catalysts (they only speed up reaching equilibrium).'},
+
+{id:'A5',section:'A',topic:'Periodic Table',marks:1,
+ q:'<b>Q5.</b> Which element in Period 3 has the highest first ionisation energy?<br><br>A. Na&nbsp;&nbsp; B. Mg&nbsp;&nbsp; C. Al&nbsp;&nbsp; D. Si',
+ a:'<b>Answer: D — Si</b> (of the options given)<br>General IE1 rises across Period 3 (Na→Ar), with small dips at Al (3p vs 3s) and S (paired 3p electron repulsion). Of Na, Mg, Al, Si — Si has the highest IE1 since it follows the Al dip.'},
+
+{id:'A6',section:'A',topic:'Acid-Base',marks:1,
+ q:'<b>Q6.</b> A buffer contains CH₃COOH and CH₃COO⁻. What happens when a small amount of alkali is added?<br><br>A. H⁺ neutralises the alkali<br>B. CH₃COO⁻ + OH⁻ → CH₃COOH<br>C. CH₃COOH + OH⁻ → CH₃COO⁻ + H₂O<br>D. pH increases significantly',
+ a:'<b>Answer: C</b><br>The weak acid component (CH₃COOH) mops up the added OH⁻, forming CH₃COO⁻ and water — this is why the pH only changes slightly.'},
+
+{id:'A7',section:'A',topic:'Transition Metals',marks:1,
+ q:'<b>Q7.</b> Which complex ion shows optical isomerism?<br><br>A. [Co(NH₃)₆]³⁺<br>B. [Co(NH₃)₄Cl₂]⁺ (trans)<br>C. [Co(en)₃]³⁺<br>D. [Cu(NH₃)₄(H₂O)₂]²⁺',
+ a:'<b>Answer: C — [Co(en)₃]³⁺</b><br>Bidentate en ligands wrapped around the octahedral centre create a non-superimposable mirror image (chiral, like a propeller) — classic optical isomerism source.<div class="tip">💡 Look for: 3 bidentate ligands (like en) around an octahedral metal = optical isomerism trigger.</div>'},
+
+{id:'A8',section:'A',topic:'Equilibrium II',marks:1,
+ q:'<b>Q8.</b> For N₂(g) + 3H₂(g) ⇌ 2NH₃(g), what is the correct Kp expression?<br><br>A. p(NH₃)/[p(N₂)·p(H₂)³]<br>B. p(NH₃)²/[p(N₂)·p(H₂)³]<br>C. [p(N₂)·p(H₂)³]/p(NH₃)²<br>D. p(NH₃)²/[p(N₂)·p(H₂)]',
+ a:'<b>Answer: B</b><br>Kp = p(NH₃)² / [p(N₂) × p(H₂)³] — powers match the balancing numbers exactly, same rule as Kc.'},
+
+{id:'A9',section:'A',topic:'Kinetics',marks:1,
+ q:'<b>Q9.</b> Which factor increases the rate constant, k?<br><br>A. Increasing concentration<br>B. Increasing pressure<br>C. Increasing temperature<br>D. Adding a catalyst',
+ a:'<b>Answer: C — Increasing temperature</b><br>k is only affected by temperature (via the Arrhenius equation) and by catalysts changing Ea — but here only temperature is a listed correct changer of k in the intended sense; concentration/pressure change rate, not k itself.<div class="trap">⚠️ Trap: concentration and pressure change the RATE but not the rate constant k. Only T (and catalysts, via Ea) change k.</div>'},
+
+{id:'A10',section:'A',topic:'Redox II',marks:1,
+ q:'<b>Q10.</b> Which statement about standard electrode potentials is correct?<br><br>A. Measured at 298 K, 100 kPa, 1 mol dm⁻³<br>B. More negative E° = stronger oxidising agent<br>C. E°cell = E°(oxidation) − E°(reduction)<br>D. Hydrogen electrode has E° = +0.77 V',
+ a:'<b>Answer: A</b><br>Standard conditions: 298 K, 100 kPa, 1 mol dm⁻³, all relative to the standard hydrogen electrode (E° = 0.00 V exactly). Remember: E°cell = E°(reduction, cathode) − E°(oxidation, anode); more POSITIVE E° = stronger oxidising agent.'},
+
+/* ===== SECTION B ===== */
+{id:'B11a',section:'B',topic:'Atomic Structure',marks:2,
+ q:'<b>Q11(a)</b> Define the term <i>first ionisation energy</i>. [2]',
+ a:'<b>Model answer:</b><br>The energy required to remove ✓ one electron from each atom in one mole of gaseous atoms ✓ (to form one mole of gaseous 1+ ions).<div class="tip">💡 Must say "gaseous atoms" and "one electron from each" — both needed for full marks.</div>'},
+
+{id:'B11b',section:'B',topic:'Atomic Structure',marks:2,
+ q:'<b>Q11(b)</b> Write an equation, including state symbols, for the second ionisation energy of magnesium. [2]',
+ a:'<div class="eq">Mg⁺(g) → Mg²⁺(g) + e⁻</div>1 mark for correct species/electron, 1 mark for correct state symbols (all gaseous).<div class="trap">⚠️ Trap: must start from Mg⁺(g), NOT Mg(g) — second IE removes the second electron from the 1+ ion.</div>'},
+
+{id:'B11c',section:'B',topic:'Atomic Structure',marks:3,
+ q:'<b>Q11(c)</b> Explain why the first ionisation energy of aluminium is lower than that of magnesium. [3]',
+ a:'<b>Model answer:</b><br>Al: [Ne] 3s² 3p¹, Mg: [Ne] 3s² ✓<br>The 3p electron in Al is at a slightly higher energy level / further from the nucleus / more shielded (by the 3s electrons) ✓<br>So less energy is required to remove it ✓<div class="tip">💡 Always name the sub-shell (3p vs 3s), not just "different shell."</div>'},
+
+{id:'B12a',section:'B',topic:'Bonding',marks:2,
+ q:'<b>Q12(a)</b> Draw a dot-and-cross diagram for NH₃, outer electrons only. [2]',
+ a:'<b>Model answer:</b><br>3 N–H bonds, each shown as one dot (N) + one cross (H) shared pair ✓<br>One lone pair shown on N (2 dots, not shared) ✓<div class="tip">💡 N contributes 5 outer electrons; 3 are shared with H, 2 remain as the lone pair.</div>'},
+
+{id:'B12b',section:'B',topic:'Bonding',marks:4,
+ q:'<b>Q12(b)</b> State the shape of NH₃ and its bond angle. Explain using electron pair repulsion. [4]',
+ a:'<b>Model answer:</b><br>Shape: <b>trigonal pyramidal</b> ✓ &nbsp; Bond angle: <b>107°</b> ✓<br>3 bonding pairs + 1 lone pair arranged around N ✓<br>Lone pair–bonding pair repulsion is greater than bonding pair–bonding pair repulsion, pushing the N–H bonds closer together ✓'},
+
+{id:'B12c',section:'B',topic:'Bonding',marks:2,
+ q:'<b>Q12(c)</b> Explain why the NH₃ bond angle (107°) is less than the CH₄ bond angle (109.5°). [2]',
+ a:'<b>Model answer:</b><br>NH₃ has a lone pair which repels more strongly than bonding pairs ✓<br>CH₄ has four bonding pairs and NO lone pair, so repulsion is more even/symmetrical ✓'},
+
+{id:'B13a',section:'B',topic:'Halogens',marks:3,
+ q:'<b>Q13(a)</b> Ionic equation for aqueous chlorine + aqueous sodium bromide. State the observation. [3]',
+ a:'<div class="eq">Cl₂(aq) + 2Br⁻(aq) → 2Cl⁻(aq) + Br₂(aq)</div>✓✓ (equation, balancing)<br>Observation: colourless/pale green solution → orange/yellow/brown ✓<div class="tip">💡 Chlorine is more reactive (stronger oxidising agent) than bromine, so it displaces Br⁻ → Br₂.</div>'},
+
+{id:'B13b',section:'B',topic:'Halogens',marks:3,
+ q:'<b>Q13(b)</b> Explain why fluorine is a stronger oxidising agent than chlorine. [3]',
+ a:'<b>Model answer:</b><br>Fluorine atom is smaller / has fewer electron shells ✓<br>Greater nuclear attraction for the incoming electron (less shielding, smaller radius) ✓<br>So F₂ more readily gains an electron (is more easily reduced) ✓'},
+
+{id:'B13c',section:'B',topic:'Halogens',marks:3,
+ q:'<b>Q13(c)</b> Describe what is observed when conc. H₂SO₄ is added to solid NaI. Give one equation. [3]',
+ a:'<b>Model answer:</b><br>Observation: purple vapour / black solid (I₂) / rotten-egg smell (H₂S) ✓<br>Any ONE equation, e.g.:<div class="eq">2NaI + H₂SO₄ → Na₂SO₄ + 2HI</div>or 8NaI + 9H₂SO₄ → 8NaHSO₄ + 4I₂ + H₂S + 4H₂O<br>or 2HI + H₂SO₄ → I₂ + SO₂ + 2H₂O ✓✓<div class="tip">💡 I⁻ is the strongest reducing agent of the halides — reduces S from +6 (H₂SO₄) all the way to −2 (H₂S).</div>'},
+
+{id:'B14a',section:'B',topic:'Energetics I',marks:2,
+ q:'<b>Q14(a)</b> Define <i>standard enthalpy change of formation</i>. [2]',
+ a:'<b>Model answer:</b><br>The enthalpy change when ONE MOLE of a compound is formed ✓<br>from its elements in their standard states (under standard conditions, 298K/100kPa) ✓'},
+
+{id:'B14b',section:'B',topic:'Energetics I',marks:4,
+ q:'<b>Q14(b)</b> Calculate ΔH°f of ethane, C₂H₆(g), using:<br>ΔH°c[C(s)] = −394 kJ/mol<br>ΔH°c[H₂(g)] = −286 kJ/mol<br>ΔH°c[C₂H₆(g)] = −1560 kJ/mol [4]',
+ a:'<b>Hess\'s Law (combustion data → sum reactants − products... careful with direction):</b><div class="eq">2C(s) + 3H₂(g) → C₂H₆(g)<br>ΔH°f = ΣΔH°c(reactants) − ΔH°c(product)<br>= [2(−394) + 3(−286)] − (−1560)<br>= (−788 − 858) − (−1560)<br>= −1646 + 1560<br>= <b>−86 kJ mol⁻¹</b></div>✓✓✓✓ full method + correct sign + answer.<div class="tip">💡 With COMBUSTION data, the cycle triangle goes: elements → (direct arrow, ΔHf, top) compound; both routes down to CO₂+H₂O via combustion arrows. ΔHf = Σ(ΔHc reactants) − Σ(ΔHc products).</div>'},
+
+{id:'B14c',section:'B',topic:'Energetics I',marks:2,
+ q:'<b>Q14(c)</b> ΔH°f of ethene, C₂H₄(g), is +52 kJ/mol. Explain why this value is positive. [2]',
+ a:'<b>Model answer:</b><br>Ethene is formed from elements already in a more stable, lower-energy combined state ✓<br>Energy is required (net) to break bonds in the elemental forms (graphite\'s extended structure, H₂) to build the comparatively less stable C=C/C–H arrangement — more energy is absorbed breaking bonds than is released forming new ones ✓'},
+
+{id:'B15a',section:'B',topic:'Stoichiometry',marks:2,
+ q:'<b>Q15(a)</b> 2.00 g impure CaCO₃ + excess HCl → 0.560 dm³ CO₂ at r.t.p. Write the equation, with state symbols. [2]',
+ a:'<div class="eq">CaCO₃(s) + 2HCl(aq) → CaCl₂(aq) + H₂O(l) + CO₂(g)</div>✓ equation balanced, ✓ all state symbols correct.'},
+
+{id:'B15b',section:'B',topic:'Stoichiometry',marks:1,
+ q:'<b>Q15(b)</b> Calculate moles of CO₂ collected at r.t.p. (Vm = 24.0 dm³/mol). [1]',
+ a:'<div class="eq">n(CO₂) = 0.560 / 24.0 = 0.02333 mol</div>✓'},
+
+{id:'B15c',section:'B',topic:'Stoichiometry',marks:3,
+ q:'<b>Q15(c)</b> Calculate the percentage purity of the CaCO₃ sample. [3]',
+ a:'<b>Method:</b><div class="eq">n(CaCO₃) = n(CO₂) = 0.02333 mol (1:1 ratio) ✓<br>mass CaCO₃ = 0.02333 × 100.1 = 2.34 g ✓<br>% purity = (2.34 / 2.00) × 100 ≈ 117%</div><div class="trap">⚠️ Examiner flag: this answer comes out over 100%, which is chemically impossible — a sign the given numbers in this practice question don\'t quite balance. In a REAL exam, if your % purity exceeds 100%, STOP and re-check your working (molar mass, volume conversion, units) before writing a final answer — don\'t just accept an impossible number. Method marks are still awarded for correct working shown.</div>'},
+
+{id:'B15d',section:'B',topic:'Stoichiometry',marks:1,
+ q:'<b>Q15(d)</b> State one assumption made in the part (c) calculation. [1]',
+ a:'<b>Model answer (any one):</b><br>All the CO₂ produced was collected / no gas was lost ✓<br>OR the impurity does not react with HCl to also produce CO₂ ✓<br>OR the molar volume was exactly 24.0 dm³ mol⁻¹ at the conditions used ✓'},
+
+{id:'B16a',section:'B',topic:'Equilibrium I',marks:1,
+ q:'<b>Q16(a)</b> Write the Kc expression for: H₂(g) + I₂(g) ⇌ 2HI(g) [1]',
+ a:'<div class="eq">Kc = [HI]² / ([H₂][I₂])</div>✓'},
+
+{id:'B16b',section:'B',topic:'Equilibrium I',marks:4,
+ q:'<b>Q16(b)</b> 0.20 mol H₂ + 0.20 mol I₂ in a 1.0 dm³ container reach equilibrium at 700 K. At eqm, 0.32 mol HI present. Calculate Kc. [4]',
+ a:'<b>ICE table (mol dm⁻³, volume = 1.0 dm³):</b><table class="mini"><tr><th></th><th>H₂</th><th>I₂</th><th>HI</th></tr><tr><td>Initial</td><td>0.20</td><td>0.20</td><td>0</td></tr><tr><td>Change</td><td>−0.16</td><td>−0.16</td><td>+0.32</td></tr><tr><td>Eqm</td><td>0.04</td><td>0.04</td><td>0.32</td></tr></table>✓✓ (ICE table)<div class="eq">Kc = (0.32)² / (0.04 × 0.04) = 0.1024 / 0.0016 = <b>64</b> (no units)</div>✓✓<div class="tip">💡 Equal moles of gas both sides → Kc has NO units. Always check mole totals before assigning units.</div>'},
+
+{id:'B16c',section:'B',topic:'Equilibrium I',marks:2,
+ q:'<b>Q16(c)</b> State the effect, if any, on Kc when: (i) temperature is increased (exothermic reaction) (ii) a catalyst is added. [1+1]',
+ a:'<b>(i)</b> Kc <b>decreases</b> ✓ (exothermic forward reaction — increasing T shifts equilibrium back towards reactants, favouring the endothermic reverse direction)<br><b>(ii)</b> <b>No effect</b> ✓ — a catalyst speeds up both forward and reverse rates equally, it does not change Kc.'},
+
+{id:'B16d',section:'B',topic:'Equilibrium I',marks:2,
+ q:'<b>Q16(d)</b> Explain why increasing pressure has no effect on the position of equilibrium for H₂(g)+I₂(g)⇌2HI(g). [2]',
+ a:'<b>Model answer:</b><br>Same number of moles of gas on both sides (2 mol → 2 mol) ✓<br>So a pressure change affects the forward and backward rates equally / equilibrium position is unaffected ✓'},
+
+{id:'B17a',section:'B',topic:'Acid-Base',marks:1,
+ q:'<b>Q17(a)</b> Calculate the pH of 0.15 mol dm⁻³ hydrochloric acid. [1]',
+ a:'<div class="eq">pH = −log(0.15) = <b>0.82</b></div>✓ (strong acid — fully dissociates, so [H⁺] = [HCl])'},
+
+{id:'B17b',section:'B',topic:'Acid-Base',marks:3,
+ q:'<b>Q17(b)</b> Calculate the pH of 0.15 mol dm⁻³ ethanoic acid. (Ka = 1.7×10⁻⁵ mol dm⁻³) [3]',
+ a:'<div class="eq">Ka ≈ [H⁺]² / [HA]  (assume [HA]eqm ≈ 0.15)<br>[H⁺]² = 1.7×10⁻⁵ × 0.15 = 2.55×10⁻⁶ ✓<br>[H⁺] = 1.60×10⁻³ mol dm⁻³ ✓<br>pH = −log(1.60×10⁻³) = <b>2.80</b> ✓</div><div class="tip">💡 Weak acid pH formula: [H⁺] = √(Ka × [HA]). Never use pH = −log(concentration) directly for weak acids!</div>'},
+
+{id:'B17c',section:'B',topic:'Acid-Base',marks:4,
+ q:'<b>Q17(c)</b> Buffer: 50.0 cm³ of 0.20 mol dm⁻³ ethanoic acid + 50.0 cm³ of 0.10 mol dm⁻³ sodium ethanoate. Calculate the pH. [4]',
+ a:'<b>Henderson–Hasselbalch:</b><div class="eq">pKa = −log(1.7×10⁻⁵) = 4.77 ✓<br>[acid] after mixing = 0.10 mol/dm³, [salt] = 0.05 mol/dm³ (both halved by dilution, ratio unaffected) ✓<br>pH = pKa + log([salt]/[acid]) = 4.77 + log(0.05/0.10)<br>= 4.77 + log(0.5) = 4.77 − 0.30 = <b>4.47</b> ✓</div><div class="trap">⚠️ Trap: equal volumes mixed means BOTH concentrations halve — but since you only need the RATIO, you could also just use the original 0.20/0.10 ratio directly. Same answer either way.</div>'},
+
+{id:'B17d',section:'B',topic:'Acid-Base',marks:2,
+ q:'<b>Q17(d)</b> Explain how this buffer resists a pH change when a small amount of acid is added. [2]',
+ a:'<b>Model answer:</b><br>Added H⁺ reacts with the CH₃COO⁻ (salt) component to form CH₃COOH ✓<br>So the [acid]/[salt] ratio changes only slightly, and pH stays approximately constant (since pH depends on log of this ratio) ✓'},
+
+/* ===== SECTION C — EXTENDED RESPONSE ===== */
+{id:'C18ai',section:'C',topic:'Energetics II',marks:5,
+ q:'<b>Q18(a)(i)</b> Draw a fully labelled Born–Haber cycle for the formation of MgO(s) from its elements. [5]',
+ a:'<b>Cycle steps (bottom → top, each an arrow):</b><br>1. Mg(s) → Mg(g) — atomisation of Mg ✓<br>2. Mg(g) → Mg⁺(g) → Mg²⁺(g) — 1st + 2nd IE (two arrows) ✓<br>3. ½O₂(g) → O(g) — atomisation of oxygen ✓<br>4. O(g) → O⁻(g) → O²⁻(g) — 1st + 2nd electron affinity ✓<br>5. Mg²⁺(g) + O²⁻(g) → MgO(s) — lattice enthalpy (closes the cycle) ✓<br>All arrows correctly directioned and labelled with the enthalpy term name.'},
+
+{id:'C18aii',section:'C',topic:'Energetics II',marks:4,
+ q:'<b>Q18(a)(ii)</b> Calculate the lattice enthalpy of formation of MgO using:<br>ΔH°f=−602, ΔH°at[Mg]=+148, IE1=+738, IE2=+1451, ΔH°at[½O₂]=+249, EA1=−141, EA2=+798 (all kJ/mol) [4]',
+ a:'<div class="eq">ΔH°f = ΔH°at(Mg) + IE1 + IE2 + ΔH°at(O) + EA1 + EA2 + ΔH°LE<br>−602 = 148 + 738 + 1451 + 249 + (−141) + 798 + ΔH°LE ✓✓<br>−602 = 3243 + ΔH°LE<br>ΔH°LE = −602 − 3243 = <b>−3845 kJ mol⁻¹</b> ✓✓</div><div class="tip">💡 Add up ALL the positive steps first (atomisation + IEs + EA2 are endothermic/positive; EA1 is exothermic/negative), then rearrange around ΔHf.</div>'},
+
+{id:'C18b',section:'C',topic:'Energetics II',marks:2,
+ q:'<b>Q18(b)</b> Theoretical LE (electrostatic model) = −3920 kJ/mol; experimental (Born–Haber) = −3889 kJ/mol. Explain the difference. [2]',
+ a:'<b>Model answer:</b><br>The theoretical value assumes a purely ionic model (perfect spheres, 100% ionic bonding) ✓<br>In reality the bond has some covalent character — the small, highly charged Mg²⁺ polarises the O²⁻ electron cloud, distorting it ✓ (extra covalent contribution makes the real bond stronger than pure ionic theory predicts)'},
+
+{id:'C18c',section:'C',topic:'Energetics II',marks:2,
+ q:'<b>Q18(c)</b> Define enthalpy change of solution. Write an equation for the enthalpy of solution of MgO. [2]',
+ a:'<b>Definition:</b> the enthalpy change when ONE MOLE of solute dissolves in a solvent to form an infinitely dilute solution ✓<div class="eq">MgO(s) + aq → Mg²⁺(aq) + O²⁻(aq)</div>✓'},
+
+{id:'C18d',section:'C',topic:'Energetics II',marks:2,
+ q:'<b>Q18(d)</b> ΔH°sol(MgO) = −155 kJ/mol; LE(MgO) = −3889 kJ/mol. Calculate Σ(hydration enthalpies) of Mg²⁺ and O²⁻. [2]',
+ a:'<div class="eq">ΔH°sol = ΔH°LE + ΣΔH°hyd<br>−155 = −3889 + ΣΔH°hyd<br>ΣΔH°hyd = −155 − (−3889) = <b>−3734 kJ mol⁻¹</b> ✓✓</div>Hydration enthalpies are always exothermic (negative), so this large negative value makes chemical sense.<div class="trap">⚠️ Sign-error trap: this is one of the most commonly mis-signed calculations at A* level — always draw the mini energy cycle (solid → gaseous ions → aqueous ions) rather than relying on a memorised formula.</div>'},
+
+{id:'C19ai',section:'C',topic:'Redox II',marks:2,
+ q:'<b>Q19(a)(i)</b> Define <i>standard electrode potential</i>. [2]',
+ a:'<b>Model answer:</b><br>The electrode potential (e.m.f.) of a half-cell ✓<br>measured under standard conditions (298 K, 100 kPa, 1 mol dm⁻³), relative to the standard hydrogen electrode ✓'},
+
+{id:'C19aii',section:'C',topic:'Redox II',marks:4,
+ q:'<b>Q19(a)(ii)</b> Draw a labelled diagram of the apparatus to measure the standard electrode potential of the Fe³⁺/Fe²⁺ half-cell. [4]',
+ a:'<b>Required labelled features:</b><br>• Salt bridge connecting the two half-cells ✓<br>• Fe³⁺(aq)/Fe²⁺(aq) solution (1 mol dm⁻³ each) with a Pt electrode (inert, since no solid metal in this couple) ✓<br>• Standard hydrogen electrode: H₂ gas at 100 kPa bubbling over a Pt electrode in 1 mol dm⁻³ H⁺(aq) ✓<br>• High-resistance voltmeter connecting the two electrodes ✓<br>(Temperature 298 K implied/stated)'},
+
+{id:'C19bi',section:'C',topic:'Redox II',marks:3,
+ q:'<b>Q19(b)(i)</b> Write the ionic equation for chlorine + iodide ions, and calculate E°cell. (E°: Cl₂/Cl⁻=+1.36V, I₂/I⁻=+0.54V) [3]',
+ a:'<div class="eq">Cl₂ + 2I⁻ → 2Cl⁻ + I₂</div>✓✓ (equation, balancing)<div class="eq">E°cell = E°(reduction) − E°(oxidation) = 1.36 − 0.54 = <b>+0.82 V</b></div>✓'},
+
+{id:'C19bii',section:'C',topic:'Redox II',marks:2,
+ q:'<b>Q19(b)(ii)</b> Explain whether bromine will oxidise Fe²⁺ ions under standard conditions. (E°: Br₂/Br⁻=+1.07V, Fe³⁺/Fe²⁺=+0.77V) [2]',
+ a:'<b>Worked check:</b><div class="eq">E°cell = E°(reduction, Br₂/Br⁻) − E°(oxidation, Fe³⁺/Fe²⁺)<br>= 1.07 − 0.77 = <b>+0.30 V</b></div>Since E°cell is <b>positive</b>, this reaction IS feasible under standard conditions — <b>bromine WILL oxidise Fe²⁺ to Fe³⁺</b>.<div class="tip">📌 Important note for Jody: the original wording of this question ("explain why bromine will NOT oxidise Fe²⁺") doesn\'t match the data given — with these E° values the reaction is actually feasible. This is a great self-check example: always calculate E°cell from the data rather than trusting an assumption in the question stem. (For contrast: iodine, E°=+0.54V, gives E°cell = 0.54−0.77 = −0.23V, which is NOT feasible — iodine cannot oxidise Fe²⁺.)</div>'},
+
+{id:'C19ci',section:'C',topic:'Redox II',marks:1,
+ q:'<b>Q19(c)(i)</b> Redox titration: Fe²⁺ solution titrated with KMnO₄. State the colour change at the end point. [1]',
+ a:'<b>Answer:</b> Colourless → pale pink (permanent) ✓<div class="tip">💡 MnO₄⁻ is self-indicating — purple reagent decolourises as it reacts, until the first permanent pink tinge signals excess MnO₄⁻ = end point.</div>'},
+
+{id:'C19cii',section:'C',topic:'Redox II',marks:4,
+ q:'<b>Q19(c)(ii)</b> 25.0 cm³ Fe²⁺ solution titrated with 0.0200 mol dm⁻³ KMnO₄, mean titre 18.50 cm³.<br>MnO₄⁻ + 5Fe²⁺ + 8H⁺ → Mn²⁺ + 5Fe³⁺ + 4H₂O<br>Calculate [Fe²⁺]. [4]',
+ a:'<div class="eq">n(MnO₄⁻) = 0.0200 × (18.50/1000) = 3.70×10⁻⁴ mol ✓<br>n(Fe²⁺) = 5 × 3.70×10⁻⁴ = 1.85×10⁻³ mol ✓ (1:5 ratio from equation)<br>[Fe²⁺] = 1.85×10⁻³ / (25.0/1000) = <b>0.0740 mol dm⁻³</b> ✓✓</div>'},
+
+{id:'C19d',section:'C',topic:'Transition Metals',marks:3,
+ q:'<b>Q19(d)</b> Describe the colour changes when excess conc. ammonia is added to aqueous copper(II) sulfate. Give an equation. [3]',
+ a:'<b>Model answer:</b><br>Blue solution → pale blue precipitate (forms first, with limited NH₃) ✓<br>Precipitate dissolves in EXCESS ammonia to give a deep/dark blue solution ✓<div class="eq">[Cu(H₂O)₆]²⁺ + 4NH₃ → [Cu(NH₃)₄(H₂O)₂]²⁺ + 4H₂O</div>✓'},
+
+{id:'C20ai',section:'C',topic:'Transition Metals',marks:4,
+ q:'<b>Q20(a)(i)</b> Explain why transition metal ions are often coloured. [4]',
+ a:'<b>Model answer (4-point chain):</b><br>1. The transition metal ion has partially filled d orbitals ✓<br>2. Ligands bonding to the metal cause the d orbitals to split into two different energy levels ✓<br>3. Visible light is absorbed as an electron is promoted from the lower to the higher d level ✓<br>4. The complementary colour (light NOT absorbed) is transmitted/reflected and observed ✓<div class="tip">💡 This exact 4-step logic chain (partial d-fill → splitting → absorption/promotion → complementary colour seen) is one of the most repeated 4-mark answers at A Level — learn it word-for-word.</div>'},
+
+{id:'C20aii',section:'C',topic:'Transition Metals',marks:2,
+ q:'<b>Q20(a)(ii)</b> State the oxidation state and co-ordination number of chromium in [Cr(H₂O)₆]³⁺. [2]',
+ a:'<b>Oxidation state: +3</b> ✓ (6 neutral H₂O ligands, overall charge +3 = Cr charge)<br><b>Co-ordination number: 6</b> ✓ (6 ligands bonded to the central Cr)'},
+
+{id:'C20bi',section:'C',topic:'Transition Metals',marks:2,
+ q:'<b>Q20(b)(i)</b> Write the equation for aqueous copper(II) ions + iodide ions. [2]',
+ a:'<div class="eq">2Cu²⁺(aq) + 4I⁻(aq) → 2CuI(s) + I₂(aq)</div>✓✓ (species + balancing)<div class="tip">💡 Cu²⁺ is unusually reduced to Cu⁺ (not Cu) here — CuI(s) is a white/cream precipitate, and the solution turns brown due to I₂ formed.</div>'},
+
+{id:'C20bii',section:'C',topic:'Transition Metals',marks:2,
+ q:'<b>Q20(b)(ii)</b> In this reaction, is copper(II) acting as an oxidising or reducing agent? Explain. [2]',
+ a:'<b>Model answer:</b><br>Cu²⁺ gains an electron / is reduced to Cu⁺ ✓<br>So Cu²⁺ is acting as the <b>oxidising agent</b> (it oxidises I⁻ to I₂ while itself being reduced) ✓'},
+
+{id:'C20ci',section:'C',topic:'Transition Metals',marks:2,
+ q:'<b>Q20(c)(i)</b> Draw the cis and trans isomers of [Co(NH₃)₄Cl₂]⁺. [2]',
+ a:'<b>Model answer:</b><br><b>Cis</b>: octahedral complex with the two Cl ligands on ADJACENT (90°) positions ✓<br><b>Trans</b>: octahedral complex with the two Cl ligands directly OPPOSITE (180°) each other, NH₃ filling the remaining 4 positions ✓'},
+
+{id:'C20cii',section:'C',topic:'Transition Metals',marks:2,
+ q:'<b>Q20(c)(ii)</b> Explain why [Co(NH₃)₄Cl₂]⁺ shows stereoisomerism but [Co(NH₃)₆]³⁺ does not. [2]',
+ a:'<b>Model answer:</b><br>[Co(NH₃)₄Cl₂]⁺ has TWO different types of ligand (NH₃ and Cl) which can be arranged in different relative spatial positions (cis/trans) ✓<br>[Co(NH₃)₆]³⁺ has only ONE type of ligand — all positions are equivalent, so no alternative (distinguishable) arrangement is possible ✓'},
+
+{id:'C20d',section:'C',topic:'Transition Metals',marks:3,
+ q:'<b>Q20(d)</b> Vanadium(V) oxide is a catalyst in the Contact Process. Explain how it acts as a catalyst; give equations. [3]',
+ a:'<b>Model answer — V₂O₅ acts via a change in oxidation state (homogeneous-style catalytic cycle):</b><div class="eq">SO₂ + V₂O₅ → SO₃ + 2VO₂ &nbsp; (V₂O₅ oxidises SO₂ to SO₃, and is itself reduced) ✓<br>4VO₂ + O₂ → 2V₂O₅ &nbsp; (VO₂ is then re-oxidised back to V₂O₅ by O₂) ✓</div>V₂O₅ is regenerated at the end of the cycle, so it is not consumed overall — a true catalyst ✓<div class="tip">💡 This is an example of the catalyst itself undergoing a temporary oxidation-state change (V: +5 → +4 → +5) rather than simple surface adsorption.</div>'},
+
+/* ===== EXAM TECHNIQUE SUMMARY CARD ===== */
+{id:'TIPS',section:'C',topic:'Exam Technique',marks:0,
+ q:'<b>⭐ Final Exam Technique Checklist</b><br>(tap to reveal — memorise before Paper 1)',
+ a:'<b>1.</b> Show ALL working — method marks are generous even with a wrong final answer.<br><b>2.</b> Always include +/− signs on enthalpy values and correct units for Kc/Kp (check if units cancel to none!).<br><b>3.</b> Include state symbols in thermochemical and redox equations — examiners specifically credit these.<br><b>4.</b> Set up an ICE table clearly for every equilibrium calculation — never skip straight to the answer.<br><b>5.</b> For Born-Haber cycles: draw the FULL cycle first, then substitute numbers — check every arrow direction.<br><b>6.</b> Roughly 1 minute per mark — don\'t spend 10 minutes on a 3-mark question.<br><b>7.</b> If a calculated answer looks chemically impossible (e.g. >100% purity), STOP and re-check units/molar mass before finalising.<div class="tip">💡 Highest-mark topics on this paper: Redox II (19), Transition Metals (17), Energetics II (15), Acid-Base (10) — prioritise these in revision time.</div>'},
+];
+
+/* ===== STATE ===== */
+let currentSection='ALL';
+let filtered=[];
+let idx=0;
+let flipped=false;
+let progress=JSON.parse(localStorage.getItem('chemMock1Progress')||'{}');
+
+const sections=[{k:'ALL',l:'All 54'},{k:'A',l:'Section A · MCQ'},{k:'B',l:'Section B'},{k:'C',l:'Section C'}];
+
+function buildTabs(){
+  const wrap=document.getElementById('tabs');
+  wrap.innerHTML='';
+  sections.forEach(s=>{
+    const btn=document.createElement('div');
+    btn.className='tab'+(s.k===currentSection?' active':'');
+    btn.textContent=s.l;
+    btn.onclick=()=>{currentSection=s.k;idx=0;flipped=false;applyFilter();render();};
+    wrap.appendChild(btn);
+  });
+}
+function applyFilter(){
+  filtered = currentSection==='ALL'? cards.slice() : cards.filter(c=>c.section===currentSection);
+}
+function flipCard(){flipped=!flipped;render();}
+function nextCard(){if(idx<filtered.length-1){idx++;flipped=false;render();}}
+function prevCard(){if(idx>0){idx--;flipped=false;render();}}
+function shuffleDeck(){
+  for(let i=filtered.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[filtered[i],filtered[j]]=[filtered[j],filtered[i]];}
+  idx=0;flipped=false;render();
+}
+function mark(id,status){
+  progress[id]=status;
+  localStorage.setItem('chemMock1Progress',JSON.stringify(progress));
+  render();
+}
+function resetProgress(){
+  if(confirm('Reset all know/review progress?')){progress={};localStorage.setItem('chemMock1Progress','{}');render();}
+}
+function render(){
+  buildTabs();
+  const c=filtered[idx];
+  const el=document.getElementById('cardEl');
+  document.getElementById('counter').textContent = `Card ${idx+1} of ${filtered.length}`;
+  document.getElementById('prevBtn').disabled = idx===0;
+  document.getElementById('nextBtn').disabled = idx===filtered.length-1;
+  const st=progress[c.id];
+  el.className='card'+(flipped?' backface':'');
+  el.innerHTML=`
+    <div class="tagrow">
+      <div><span class="qid">${c.id}</span><br><span class="topicchip">${c.topic}</span></div>
+      ${c.marks?`<span class="marks">${c.marks} mark${c.marks>1?'s':''}</span>`:''}
+    </div>
+    <div class="content">${flipped? c.a : c.q}</div>
+    <div class="fliphint">${flipped? '↺ tap to see question' : '👆 tap card to reveal answer'}</div>
+    <div class="actions">
+      <button class="btn review ${st==='review'?'sel':''}" onclick="event.stopPropagation();mark('${c.id}','review')">🔴 Review</button>
+      <button class="btn know ${st==='know'?'sel':''}" onclick="event.stopPropagation();mark('${c.id}','know')">🟢 Know it</button>
+    </div>`;
+  const known=Object.values(progress).filter(v=>v==='know').length;
+  const review=Object.values(progress).filter(v=>v==='review').length;
+  document.getElementById('statTotal').textContent=cards.length;
+  document.getElementById('statKnow').textContent=known;
+  document.getElementById('statReview').textContent=review;
+  document.getElementById('progressFill').style.width = (Object.keys(progress).length/cards.length*100)+'%';
+}
+
+applyFilter();
+render();
+</script>
+</body>
+</html>
