@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jody's Complete A* Theory Flashcards (9CH0)</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --border:#2a2f3a;
+    --text:#e8eaf0; --muted:#9aa2b1; --accent:#5ec8c0; --accent2:#e8a33d;
+    --danger:#e35d5d; --good:#6bbf7a; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+    background:radial-gradient(1200px 600px at 10% -10%,#1a2530 0%,var(--bg) 55%);
+    color:var(--text);min-height:100vh;padding:24px 16px 60px;}
+  h1{font-size:1.4rem;margin:0 0 4px;}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px;}
+  .wrap{max-width:960px;margin:0 auto;}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:.82rem;color:var(--muted);}
+  .stat b{color:var(--text);font-size:1rem;display:block;}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;max-height:140px;overflow-y:auto;}
+  .tab{background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:6px 11px;border-radius:999px;font-size:.7rem;cursor:pointer;user-select:none;transition:.15s;white-space:nowrap;}
+  .tab:hover{border-color:var(--accent);color:var(--text);}
+  .tab.active{background:var(--accent);color:#0b1512;border-color:var(--accent);font-weight:600;}
+  .controls{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+  .btn{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.82rem;cursor:pointer;transition:.15s;}
+  .btn:hover{border-color:var(--accent);}
+  .btn.reset{color:var(--danger);border-color:#3a2323;}
+  .count{color:var(--muted);font-size:.82rem;margin-left:auto;}
+  .card-area{perspective:1600px;margin-bottom:18px;}
+  .card{position:relative;min-height:400px;border-radius:16px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);cursor:pointer;}
+  .card.flipped{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow);padding:26px 28px;display:flex;flex-direction:column;overflow-y:auto;}
+  .face.back{transform:rotateY(180deg);background:var(--panel2);}
+  .tag{display:inline-block;font-size:.62rem;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 10px;margin-bottom:14px;width:fit-content;}
+  .qtext{font-size:1.03rem;line-height:1.55;flex:1;white-space:pre-wrap;}
+  .atext{font-size:.92rem;line-height:1.68;flex:1;white-space:pre-wrap;}
+  .hint{color:var(--muted);font-size:.75rem;margin-top:12px;}
+  .warn{margin-top:14px;background:#241717;border:1px solid #4a2a2a;color:#f2b3b3;border-radius:8px;padding:8px 12px;font-size:.78rem;}
+  .warn b{color:var(--danger);}
+  .judge{display:flex;gap:10px;margin-top:4px;}
+  .jbtn{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:.9rem;cursor:pointer;font-weight:600;transition:.15s;}
+  .jbtn.know{color:var(--good);border-color:#26492f;} .jbtn.know:hover{background:#16281b;}
+  .jbtn.review{color:var(--accent2);border-color:#4a3820;} .jbtn.review:hover{background:#2a2015;}
+  .progress-wrap{background:var(--panel);border:1px solid var(--border);border-radius:999px;height:8px;overflow:hidden;margin-bottom:6px;}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--good));width:0%;transition:width .3s;}
+  .progress-label{font-size:.72rem;color:var(--muted);margin-bottom:16px;}
+  .footer-note{color:var(--muted);font-size:.75rem;text-align:center;margin-top:30px;line-height:1.6;}
+  @media(max-width:600px){.card{min-height:460px;} .qtext{font-size:.96rem;} .atext{font-size:.86rem;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🧬 Jody's Complete A* Theory Flashcards</h1>
+  <div class="sub">Pearson Edexcel 9CH0 Year 12 — Topics 1–18 (atomic structure through inorganic analysis) · September resit · click to flip</div>
+
+  <div class="stats">
+    <div class="stat"><b id="statTotal">0</b>Total cards</div>
+    <div class="stat"><b id="statKnow">0</b>Marked "Know it"</div>
+    <div class="stat"><b id="statReview">0</b>Marked "Review"</div>
+    <div class="stat"><b id="statSeen">0</b>Unseen</div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="progress-wrap"><div class="progress-bar" id="progBar"></div></div>
+  <div class="progress-label" id="progLabel">Card 1 of 1</div>
+
+  <div class="card-area">
+    <div class="card" id="card">
+      <div class="face front">
+        <div class="tag" id="tagFront">TOPIC</div>
+        <div class="qtext" id="qtext">Loading…</div>
+        <div class="hint">Tap card to reveal the answer</div>
+      </div>
+      <div class="face back">
+        <div class="tag" id="tagBack">TOPIC</div>
+        <div class="atext" id="atext"></div>
+        <div class="warn" id="warnBox" style="display:none;"><b>A* trap:</b> <span id="warnText"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="judge">
+    <button class="jbtn review" onclick="judge('review')">🔁 Review again</button>
+    <button class="jbtn know" onclick="judge('know')">✅ Know it</button>
+  </div>
+
+  <div class="controls" style="margin-top:16px;">
+    <button class="btn" onclick="prevCard()">← Prev</button>
+    <button class="btn" onclick="nextCard()">Next →</button>
+    <button class="btn" onclick="shuffleDeck()">🔀 Shuffle</button>
+    <button class="btn" onclick="filterReviewOnly()">Show only "Review"</button>
+    <button class="btn reset" onclick="resetProgress()">Reset progress</button>
+    <span class="count" id="countLabel"></span>
+  </div>
+
+  <div class="footer-note">
+    Progress saved in this browser (localStorage). This deck covers the non-calculation THEORY syllabus —
+    pairs with the Calculation, Mega Practice, Formula Master Sheet, Decision Tree, and Ultimate Masterclass decks
+    (which cover calculations) to give Jody full 9CH0 Year 12 coverage.
+  </div>
+</div>
+
+<script>
+const DECK = [
+// ===== TOPIC 1: ATOMIC STRUCTURE =====
+{t:"1. Atomic Structure", q:"State the relative mass and charge of a proton, neutron, and electron.", a:"Proton: mass 1, charge +1, in nucleus\nNeutron: mass 1, charge 0, in nucleus\nElectron: mass ≈1/1836 (≈0), charge −1, in orbitals", warn:""},
+{t:"1. Atomic Structure", q:"Define isotopes, and state what is identical vs different between them.", a:"Atoms of the same element with different numbers of neutrons.\nIdentical: chemical properties (same electron configuration)\nDifferent: physical properties (different mass)", warn:""},
+{t:"1. Atomic Structure", q:"State the formula for Ar from a mass spectrum.", a:"Ar = Σ(isotopic mass × relative abundance) ÷ Σ(relative abundances)", warn:""},
+{t:"1. Atomic Structure", q:"Write the electron configuration of chromium (Z=24) and copper (Z=29), and explain why they're exceptions.", a:"Cr: [Ar] 3d⁵ 4s¹ (NOT 3d⁴4s²) — half-filled d-subshell stability\nCu: [Ar] 3d¹⁰ 4s¹ (NOT 3d⁹4s²) — fully-filled d-subshell stability", warn:"MUST memorise these two — they are the classic exceptions examiners test."},
+{t:"1. Atomic Structure", q:"For Sc–Zn, which orbital is lost first on ionisation — 3d or 4s — and why, given that 3d is higher in energy in the neutral atom?", a:"4s electrons are lost FIRST, because 3d orbitals are more compact and experience greater inter-electron repulsion, making 3d electrons lower in energy once ionisation begins (despite 3d being higher energy while occupied in the neutral atom).", warn:""},
+{t:"1. Atomic Structure", q:"State Hund's Rule and the Pauli Exclusion Principle.", a:"Hund's Rule: electrons occupy orbitals singly before pairing up.\nPauli Exclusion Principle: two electrons in the same orbital must have opposite spins.", warn:""},
+{t:"1. Atomic Structure", q:"Define first ionisation energy, with the equation.", a:"The energy required to remove one mole of electrons from one mole of gaseous atoms.\nX(g) → X⁺(g) + e⁻", warn:""},
+{t:"1. Atomic Structure", q:"State the 3 factors that affect ionisation energy.", a:"Nuclear charge (more protons → higher IE)\nShielding (more inner electrons → lower IE)\nDistance from nucleus (further outer shell → lower IE)", warn:""},
+{t:"1. Atomic Structure", q:"Explain the IE drop from Be to B, and from N to O, across Period 2.", a:"Be→B: electron removed from 2p (higher energy, more shielded from nucleus than 2s) → drop\nN→O: electron removed from a PAIRED 2p orbital — extra electron-electron repulsion makes it easier to remove → drop", warn:""},
+{t:"1. Atomic Structure", q:"What does a large jump between successive ionisation energies indicate?", a:"A change of electron shell — e.g. Mg has a large jump after the 2nd IE, because the 3rd electron is removed from the 2p shell (inner shell), not 3s.", warn:""},
+
+// ===== TOPIC 2: BONDING =====
+{t:"2. Bonding & Structure", q:"Define metallic bonding precisely (A* wording).", a:"The electrostatic force of attraction between the NUCLEI of metal cations and a sea of delocalised electrons.", warn:"Do NOT say 'cations and electrons' — always say NUCLEI of cations."},
+{t:"2. Bonding & Structure", q:"Why is the melting point trend Group 1 < Group 2 < d-block metals?", a:"More delocalised electrons per cation, and smaller cation radius, giving a stronger electrostatic attraction between nuclei and the delocalised sea.", warn:""},
+{t:"2. Bonding & Structure", q:"Define ionic bonding precisely — what must you NOT say?", a:"Strong electrostatic attraction between oppositely charged ions in a GIANT IONIC LATTICE.\nDo NOT say 'an ionic bond between two ions' — each ion interacts with many others; stability comes from lattice energy.", warn:""},
+{t:"2. Bonding & Structure", q:"What two factors determine the strength of ionic bonding?", a:"Ionic charge (higher charge → stronger attraction, e.g. MgO > NaCl)\nIonic radius (smaller ions → closer approach → stronger attraction)", warn:""},
+{t:"2. Bonding & Structure", q:"Define a σ (sigma) bond and a π (pi) bond, and where each is found.", a:"σ bond: end-on overlap of orbitals; present in ALL single bonds and as one part of double/triple bonds.\nπ bond: sideways overlap of p-orbitals; found in double bonds (1σ+1π) and triple bonds (1σ+2π). A π bond can only form after a σ bond already exists between the same atoms.", warn:""},
+{t:"2. Bonding & Structure", q:"Explain why fluorine is more electronegative than chlorine, despite having fewer protons.", a:"Fluorine has a much smaller atomic radius and less shielding, so the bonding electron pair is closer to the nucleus and more strongly attracted.", warn:""},
+{t:"2. Bonding & Structure", q:"Define a dative covalent bond and give 4 examples.", a:"Both electrons in the bond are supplied by ONE atom (the donor); shown with an arrow → from donor to acceptor.\nExamples: H₃O⁺ (H⁺ accepts lone pair from O), NH₄⁺ (H⁺ accepts from N), Al₂Cl₆ dimer (Cl donates to electron-deficient Al), CO (O donates a lone pair into C's empty orbital).", warn:""},
+{t:"2. Bonding & Structure", q:"Complete the VSEPR table: 4 bonding pairs + 0 lone pairs; 4 bonding + 1 lone; 4 bonding + 2 lone. Give shape and bond angle for each.", a:"4+0: Tetrahedral, 109.5°\n3+1 (of 4 total): Trigonal pyramidal, 107°\n2+2 (of 4 total): Bent (non-linear), 104.5°", warn:""},
+{t:"2. Bonding & Structure", q:"State the repulsion strength order in VSEPR theory.", a:"Lone pair–lone pair > Lone pair–bonding pair > Bonding pair–bonding pair", warn:""},
+{t:"2. Bonding & Structure", q:"What causes London Dispersion Forces, and what two things increase their strength?", a:"Instantaneous dipole–induced dipole attractions, present in ALL molecules.\nStrength increases with: number of electrons, and surface area (contact area) — branched alkanes have LOWER bp than straight-chain isomers due to reduced surface area.", warn:""},
+{t:"2. Bonding & Structure", q:"State the 3 anomalous properties of water caused by hydrogen bonding.", a:"1. Relatively high melting/boiling points\n2. Ice is less dense than water (open hydrogen-bonded lattice)\n3. High surface tension", warn:""},
+{t:"2. Bonding & Structure", q:"Explain the hydrogen halide boiling point trend: HF anomalously high, then HCl < HBr < HI.", a:"HF: anomalously high due to hydrogen bonding (F is small & highly electronegative)\nHCl→HBr→HI: increases due to increasing number of electrons → stronger London dispersion forces (no H-bonding in these three)", warn:""},
+{t:"2. Bonding & Structure", q:"State the structure-prediction flowchart: conducts as solid? conducts molten? high/low mp?", a:"Conducts as solid → Metallic (giant lattice)\nDoesn't conduct as solid but DOES conduct molten → Ionic (giant lattice)\nDoesn't conduct solid or molten, HIGH mp → Giant covalent (e.g. SiO₂, diamond)\nDoesn't conduct solid or molten, LOW mp → Molecular (e.g. I₂, CO₂)", warn:"Graphite is the exception — giant covalent but DOES conduct, because of delocalised electrons between its layers."},
+
+// ===== TOPIC 4: REDOX I =====
+{t:"4. Redox I", q:"State the oxidation number rules for O and H (with exceptions).", a:"O = −2 (except peroxides = −1, OF₂ = +2)\nH = +1 (except metal hydrides = −1)", warn:""},
+{t:"4. Redox I", q:"Define oxidation and reduction in terms of oxidation number AND electrons.", a:"Oxidation: increase in oxidation number = loss of electrons\nReduction: decrease in oxidation number = gain of electrons", warn:""},
+{t:"4. Redox I", q:"Define oxidising agent and reducing agent.", a:"Oxidising agent: the species that is ITSELF reduced (it gains electrons)\nReducing agent: the species that is ITSELF oxidised (it loses electrons)", warn:"Very commonly confused — the oxidising agent gets reduced, not oxidised."},
+{t:"4. Redox I", q:"Define disproportionation, with the Cl₂+H₂O example.", a:"One element is BOTH oxidised and reduced in the same reaction.\nCl₂+H₂O→HCl+HClO: Cl goes 0→−1 (reduction) AND 0→+1 (oxidation) simultaneously.", warn:""},
+{t:"4. Redox I", q:"Name FeCl₂, FeCl₃, NaClO, and NaClO₃ using oxidation-state nomenclature.", a:"FeCl₂ = iron(II) chloride\nFeCl₃ = iron(III) chloride\nNaClO = sodium chlorate(I) [Cl=+1]\nNaClO₃ = sodium chlorate(V) [Cl=+5]", warn:""},
+
+// ===== TOPIC 5: GROUP 1 & 2 =====
+{t:"5. Group 1 & 2", q:"State the Group 1 melting point and reactivity trends down the group, with explanations.", a:"Melting point DECREASES: metallic bonding weakens (larger cations, delocalised electrons further from nucleus)\nReactivity INCREASES: outer electron further from nucleus and more shielded → easier to lose", warn:""},
+{t:"5. Group 1 & 2", q:"What do Li, Na, and K/Rb/Cs each form when burned in oxygen?", a:"Li → oxide (Li₂O)\nNa → peroxide (Na₂O₂)\nK/Rb/Cs → superoxides (e.g. KO₂)", warn:"This is an A* level detail — don't just say 'Group 1 metals form oxides.'"},
+{t:"5. Group 1 & 2", q:"Compare Mg, Ca, and Sr/Ba reacting with cold water.", a:"Mg: very slow (protective oxide coating)\nCa: vigorous, goes cloudy (Ca(OH)₂ is only slightly soluble)\nSr, Ba: very vigorous", warn:""},
+{t:"5. Group 1 & 2", q:"What is the product when Mg reacts with STEAM, and how does this differ from cold water?", a:"Mg + H₂O(g) → MgO + H₂ (vigorous) — a DIFFERENT product (oxide, not hydroxide) compared to the slow reaction with cold water.", warn:""},
+{t:"5. Group 1 & 2", q:"State the Group 2 solubility trends for hydroxides and sulfates down the group, with the reason for each.", a:"Hydroxides: solubility INCREASES down the group (lattice energy decreases faster than hydration energy)\nSulfates: solubility DECREASES down the group (lattice energy decreases slower than hydration energy)", warn:""},
+{t:"5. Group 1 & 2", q:"Explain why thermal stability of Group 2 carbonates/nitrates increases down the group.", a:"Larger cations have lower charge density → less polarising power → less distortion of the anion → more heat required to decompose it.", warn:"Group 1 compounds are MORE thermally stable than their Group 2 equivalents overall."},
+{t:"5. Group 1 & 2", q:"State the flame test colours for Li⁺, Na⁺, K⁺, Ca²⁺, Sr²⁺, Ba²⁺.", a:"Li⁺: crimson red\nNa⁺: yellow/orange\nK⁺: lilac\nCa²⁺: brick red\nSr²⁺: crimson red\nBa²⁺: apple green", warn:"Sodium impurities are so intense they can mask other flame colours."},
+{t:"5. Group 1 & 2", q:"Describe the test for ammonium ions (NH₄⁺) and the confirmatory test for the gas produced.", a:"NH₄⁺ + OH⁻ → NH₃ + H₂O (on warming)\nTest for NH₃ gas: damp red litmus turns blue; HCl(g) gives white fumes of NH₄Cl.", warn:""},
+
+// ===== TOPIC 6: GROUP 7 =====
+{t:"6. Group 7 (Halogens)", q:"State the Group 7 reactivity and oxidising power trend down the group, with reason.", a:"Both DECREASE down the group: it becomes harder to gain an extra electron because the incoming electron is further from the nucleus and experiences more shielding. F₂ > Cl₂ > Br₂ > I₂ in oxidising power.", warn:""},
+{t:"6. Group 7 (Halogens)", q:"Describe the colours of Cl₂, Br₂, and I₂ in aqueous solution vs organic solvent (cyclohexane).", a:"Cl₂: pale green (aq) / colourless (organic)\nBr₂: orange/yellow (aq) / orange-red (organic)\nI₂: brown (aq) / purple-violet (organic)", warn:""},
+{t:"6. Group 7 (Halogens)", q:"Write the equation for chlorine's disproportionation in water, and name the product HClO.", a:"Cl₂ + H₂O ⇌ HCl + HClO\nHClO = chloric(I) acid (old name: hypochlorous acid) — used for water disinfection.", warn:""},
+{t:"6. Group 7 (Halogens)", q:"Write the equations for Cl₂ with COLD DILUTE NaOH and with HOT CONCENTRATED NaOH.", a:"Cold dilute: Cl₂+2NaOH→NaCl+NaClO+H₂O (makes bleach)\nHot concentrated: 3Cl₂+6NaOH→5NaCl+NaClO₃+3H₂O (forms sodium chlorate(V))", warn:""},
+{t:"6. Group 7 (Halogens)", q:"Compare the reaction of NaCl, NaBr, and NaI with concentrated H₂SO₄ — observations and whether redox occurs.", a:"NaCl: misty fumes only; products HCl, NaHSO₄ — NOT redox (acid-base only)\nNaBr: misty + brown fumes; products HBr, Br₂, SO₂, H₂O — REDOX (S: +6→+4)\nNaI: misty + purple fumes + black solid + yellow solid + rotten-egg smell; products HI, I₂, SO₂, S, H₂S, H₂O — REDOX (S: +6→+4, 0, and −2)", warn:"I⁻ is such a strong reducing agent it can reduce sulfur all the way from +6 to −2 (in H₂S)."},
+{t:"6. Group 7 (Halogens)", q:"State the halide test method and results with AgNO₃, then with dilute and concentrated NH₃.", a:"Add dilute HNO₃ first (removes carbonate impurities), then AgNO₃(aq):\nCl⁻ → white ppt (AgCl); Br⁻ → cream ppt (AgBr); I⁻ → yellow ppt (AgI)\nDilute NH₃: AgCl dissolves; AgBr and AgI do not.\nConcentrated NH₃: AgBr also dissolves; AgI remains insoluble.", warn:""},
+
+// ===== TOPIC 7: INTRO ORGANIC =====
+{t:"7. Intro Organic Chemistry", q:"Define a homologous series (3 key features).", a:"Same functional group; successive members differ by CH₂; similar chemical properties; gradual change in physical properties.", warn:""},
+{t:"7. Intro Organic Chemistry", q:"Define chain isomerism, position isomerism, and functional group isomerism.", a:"Chain: different carbon skeleton (branched vs straight)\nPosition: functional group attached at a different position on the same skeleton\nFunctional group: different homologous series altogether (e.g. an alcohol vs an ether, or an aldehyde vs a ketone) sharing the same molecular formula", warn:""},
+{t:"7. Intro Organic Chemistry", q:"State the 2 requirements for E/Z isomerism.", a:"1. Restricted rotation (a C=C double bond or a ring)\n2. Each carbon of the double bond must have two DIFFERENT groups attached", warn:""},
+{t:"7. Intro Organic Chemistry", q:"State the requirement for optical isomerism, and define enantiomer / racemic mixture.", a:"Requires a chiral centre: a carbon attached to 4 different groups.\nEnantiomers: non-superimposable mirror images that rotate plane-polarised light in equal and opposite directions.\nRacemic mixture: a 50:50 mix of both enantiomers — optically inactive overall.", warn:""},
+{t:"7. Intro Organic Chemistry", q:"Outline the free radical substitution mechanism for CH₄ + Cl₂ (initiation, propagation, termination).", a:"Initiation: Cl₂ → 2Cl• (UV light, homolytic fission)\nPropagation: CH₄+Cl•→•CH₃+HCl, then •CH₃+Cl₂→CH₃Cl+Cl•\nTermination: e.g. Cl•+Cl•→Cl₂", warn:"Further substitution can give CH₂Cl₂, CHCl₃, CCl₄ — a mixture of products is a disadvantage of this method."},
+{t:"7. Intro Organic Chemistry", q:"State Markovnikov's rule for HX addition to an alkene.", a:"H adds to the carbon that already has more H atoms attached (i.e. the major product has the halogen on the more substituted carbon, via the more stable carbocation intermediate).", warn:""},
+{t:"7. Intro Organic Chemistry", q:"Outline the electrophilic addition mechanism for ethene + Br₂.", a:"Br–Br becomes polarised as it approaches the π bond (induced dipole); Brδ+ is attacked by the π electrons, forming a carbocation intermediate and a Br⁻ ion; the Br⁻ then attacks the carbocation to complete the addition.", warn:""},
+
+// ===== TOPIC 8: ENERGETICS =====
+{t:"8. Energetics", q:"State the standard conditions used for thermodynamic data.", a:"100 kPa, 298 K, solutions at 1 mol dm⁻³ concentration.", warn:""},
+{t:"8. Energetics", q:"State the 4 standard calorimetry assumptions.", a:"Density = 1 g cm⁻³\nc = 4.18 J g⁻¹ K⁻¹\nNo heat loss\nReaction goes to completion", warn:""},
+
+// ===== TOPIC 9: KINETICS =====
+{t:"9. Kinetics", q:"State the 2 conditions of collision theory for a successful reaction.", a:"Particles must collide with: (1) sufficient energy ≥ activation energy (Ea), and (2) the correct orientation.", warn:""},
+{t:"9. Kinetics", q:"On a Maxwell-Boltzmann distribution, what does the area under the curve represent, and how does it change with temperature?", a:"Area under the curve = total number of molecules — this stays CONSTANT at a given temperature (it doesn't change with T).\nAt higher T: the curve shifts right and flattens (still same area) — more molecules have energy ≥ Ea, so more successful collisions occur.", warn:""},
+{t:"9. Kinetics", q:"Explain how a catalyst increases reaction rate in terms of the Maxwell-Boltzmann distribution.", a:"A catalyst provides an alternative reaction pathway with a LOWER activation energy — at the same temperature, more molecules now have energy ≥ this lower Ea, so more collisions are successful.", warn:""},
+{t:"9. Kinetics", q:"List the 4 factors affecting reaction rate and how each works.", a:"Concentration: more particles per unit volume → more frequent collisions\nTemperature: particles have more kinetic energy → more collisions exceed Ea\nCatalyst: lowers Ea; not consumed in the reaction\nSurface area: more particles exposed → more frequent collisions", warn:""},
+
+// ===== TOPIC 10: EQUILIBRIUM I =====
+{t:"10. Equilibrium I", q:"Define dynamic equilibrium.", a:"Forward and reverse reactions occur at EQUAL RATES, in a CLOSED system, so the concentrations of reactants and products remain constant (though not necessarily equal to each other).", warn:""},
+{t:"10. Equilibrium I", q:"State Le Chatelier's Principle, and its predicted effect of increasing pressure on a gas equilibrium.", a:"If a dynamic equilibrium is disturbed, the system adjusts to minimise the disturbance.\nIncreasing pressure → shifts equilibrium to the side with FEWER moles of gas.", warn:""},
+{t:"10. Equilibrium I", q:"How does increasing temperature affect Kc for an exothermic forward reaction, versus an endothermic forward reaction?", a:"Exothermic forward reaction: increasing T DECREASES Kc\nEndothermic forward reaction: increasing T INCREASES Kc\n(A catalyst has NO effect on Kc — it speeds up both directions equally.)", warn:""},
+{t:"10. Equilibrium I", q:"What are the 2 key rules about what to exclude from a Kc expression, and what Kc depends on?", a:"Exclude pure solids and pure liquids from the Kc expression.\nKc is ONLY affected by temperature (not by concentration, pressure, or catalysts).", warn:""},
+
+// ===== TOPIC 11: HALOGENOALKANES =====
+{t:"11. Halogenoalkanes", q:"Define primary, secondary, and tertiary halogenoalkanes.", a:"Primary: halogen-bearing C is attached to 1 other carbon\nSecondary: attached to 2 other carbons\nTertiary: attached to 3 other carbons", warn:""},
+{t:"11. Halogenoalkanes", q:"State the rate order for nucleophilic substitution of C–X bonds (C–I, C–Br, C–Cl), and why.", a:"Rate: C–I > C–Br > C–Cl — the C–I bond is weakest (largest halogen, least orbital overlap) so it breaks most easily.", warn:""},
+{t:"11. Halogenoalkanes", q:"How would you use AgNO₃ to compare hydrolysis rates of different halogenoalkanes, and what would you see?", a:"Add AgNO₃(aq) to each halogenoalkane sample — a silver halide precipitate forms as X⁻ is released. The precipitate forms FASTEST for the iodo-compound (yellow AgI), SLOWEST for the chloro-compound (white AgCl), reflecting the C–X bond strength order.", warn:""},
+{t:"11. Halogenoalkanes", q:"What reagent causes elimination of a halogenoalkane (rather than substitution), and what conditions favour elimination?", a:"Ethanolic (alcoholic) KOH causes elimination, forming an alkene by removing H from an adjacent carbon along with the halogen.\nElimination is favoured by high temperature and a strong, bulky base.", warn:""},
+
+// ===== TOPIC 12: ALCOHOLS =====
+{t:"12. Alcohols", q:"State what primary, secondary, and tertiary alcohols oxidise to (using acidified K₂Cr₂O₇).", a:"Primary (–CH₂OH) → aldehyde (distil off immediately) → carboxylic acid (heat under reflux with excess oxidant)\nSecondary (–CHOH–) → ketone (heat under reflux)\nTertiary (–COH<) → resistant to oxidation (no reaction)", warn:""},
+{t:"12. Alcohols", q:"What colour change occurs during alcohol oxidation with acidified K₂Cr₂O₇, and why?", a:"Orange → green, because Cr₂O₇²⁻ (orange) is reduced to Cr³⁺ (green) as the alcohol is oxidised.", warn:""},
+{t:"12. Alcohols", q:"How do you distinguish primary, secondary, and tertiary alcohols using Tollens' reagent and K₂Cr₂O₇?", a:"Primary: oxidises to an aldehyde → gives a silver mirror with Tollens' reagent\nSecondary: oxidises to a ketone → NO reaction with Tollens'\nTertiary: no oxidation at all → no colour change with K₂Cr₂O₇ (stays orange)", warn:""},
+
+// ===== TOPIC 13: IR SPECTROSCOPY =====
+{t:"13. IR Spectroscopy", q:"State the characteristic IR wavenumber ranges for O–H (alcohol), O–H (carboxylic acid), N–H, C–H, and C=O.", a:"O–H (alcohol): 3230–3550 cm⁻¹, broad, strong\nO–H (carboxylic acid): 2500–3300 cm⁻¹, VERY broad\nN–H: 3300–3500 cm⁻¹, broad\nC–H: 2850–3100 cm⁻¹, strong\nC=O: 1680–1750 cm⁻¹, strong, sharp", warn:"Alcohol O–H and carboxylic acid O–H are easy to confuse — the acid version is much broader and extends lower."},
+{t:"13. IR Spectroscopy", q:"What is the 'fingerprint region' and what is it used for?", a:"1500–500 cm⁻¹ — unique to each compound; used to confirm a compound's identity by exact matching, beyond just identifying functional groups.", warn:""},
+
+// ===== TOPIC 14: MASS SPEC (ORGANIC) =====
+{t:"14. Mass Spectrometry (Organic)", q:"What does the molecular ion peak (M⁺) tell you, and what causes the M+1 peak?", a:"M⁺ = the highest m/z peak, giving the Mr of the molecule.\nM+1 peak is caused by the ¹³C isotope (~1.1% natural abundance).", warn:""},
+{t:"14. Mass Spectrometry (Organic)", q:"State the Nitrogen Rule, and identify the fragments at m/z 15, 29, 43, and 77.", a:"Nitrogen Rule: an ODD molecular ion mass suggests an ODD number of nitrogen atoms.\nm/z 15: CH₃⁺\nm/z 29: CHO⁺ or C₂H₅⁺\nm/z 43: CH₃CO⁺\nm/z 77: C₆H₅⁺ (phenyl)", warn:""},
+
+// ===== TOPIC 15: NMR SPECTROSCOPY =====
+{t:"15. NMR Spectroscopy", q:"What is TMS used for, and what does it appear at?", a:"Tetramethylsilane (TMS) is the reference compound; its peak is set at δ=0 ppm.", warn:""},
+{t:"15. NMR Spectroscopy", q:"State the n+1 splitting rule, and name the patterns for n=0,1,2,3.", a:"A proton environment split by n equivalent adjacent protons gives (n+1) peaks.\nn=0: singlet (1 peak)\nn=1: doublet (2 peaks)\nn=2: triplet (3 peaks)\nn=3: quartet (4 peaks)", warn:""},
+{t:"15. NMR Spectroscopy", q:"Give approximate δ (ppm) chemical shift ranges for R–CH₃, R–CH₂–OH, R–CHO, and R–COOH.", a:"R–CH₃: 0.9–1.0 ppm\nR–CH₂–OH: 3.3–4.0 ppm\nR–CHO: 9.0–10.0 ppm\nR–COOH: 10.0–12.0 ppm (very broad)", warn:""},
+{t:"15. NMR Spectroscopy", q:"What happens during D₂O exchange, and what is it used to identify?", a:"–OH and –NH protons exchange with D and DISAPPEAR from the spectrum when the sample is shaken with D₂O (heavy water). Used to identify alcohols, carboxylic acids, and amines.", warn:""},
+
+// ===== TOPIC 16: CHROMATOGRAPHY =====
+{t:"16. Chromatography", q:"State the Rf formula for TLC.", a:"Rf = (distance moved by spot) ÷ (distance moved by solvent front)\nRf is characteristic for a compound under given conditions.", warn:""},
+{t:"16. Chromatography", q:"What does retention time and peak area indicate in gas chromatography (GC)?", a:"Retention time identifies the compound; peak area is proportional to the amount of that substance present. GC can be coupled with mass spectrometry (GC-MS) for full identification.", warn:""},
+
+// ===== TOPIC 17: CHIRALITY & ISOMERISM =====
+{t:"17. Chirality & Isomerism", q:"State the Cahn-Ingold-Prelog priority rules used for assigning E/Z configuration.", a:"Higher atomic number = higher priority.\nIf the first atoms attached are the same, compare the atoms attached to THOSE atoms.\nA multiple bond (e.g. C=C) counts as the carbon being attached to two separate carbon atoms (duplicated).", warn:""},
+{t:"17. Chirality & Isomerism", q:"When is a racemic mixture typically formed in a reaction, and give an example.", a:"When an ACHIRAL reactant produces a CHIRAL product — e.g. electrophilic addition of Br₂ to a planar (achiral) alkene creates a chiral carbon, and the Br⁻ can attack the carbocation from either face with equal probability, giving a 50:50 racemic mixture.", warn:""},
+
+// ===== TOPIC 18: INORGANIC ANALYSIS =====
+{t:"18. Inorganic Analysis", q:"Describe the test for carbonate ions (CO₃²⁻), including the confirmatory test for the gas.", a:"Add dilute acid → effervescence of CO₂ gas.\nConfirm: CO₂ turns limewater cloudy — Ca(OH)₂ + CO₂ → CaCO₃ + H₂O", warn:""},
+{t:"18. Inorganic Analysis", q:"Describe the test for sulfate ions (SO₄²⁻), and why acid is added first.", a:"Add BaCl₂(aq) acidified with HCl → white precipitate of BaSO₄ forms.\nBa²⁺+SO₄²⁻→BaSO₄(s)\nAcid is added first to prevent false-positive precipitation of BaCO₃ or BaSO₃.", warn:""},
+{t:"18. Inorganic Analysis", q:"Describe the test for ammonium ions (NH₄⁺).", a:"Add NaOH(aq) and warm → NH₃ gas is released, which turns damp red litmus paper blue.", warn:""},
+
+// ===== A* EXAM TECHNIQUE — FINAL STRATEGIES =====
+{t:"A* Exam Technique", q:"How should you structure the answer to an 'Explain' question (e.g. explaining a trend)?", a:"Always use the word BECAUSE and link to a fundamental principle (nuclear charge, shielding, atomic/ionic radius, electronegativity, bond enthalpy). Example: 'As we go down the group, atomic radius increases BECAUSE...'", warn:""},
+{t:"A* Exam Technique", q:"How should you structure the answer to a 'Compare' question?", a:"Use comparative language (higher/lower, stronger/weaker, more/less) and make a DIRECT comparison: 'X has a higher boiling point than Y BECAUSE...'", warn:""},
+{t:"A* Exam Technique", q:"What should you always include when describing a practical observation?", a:"Describe COLOUR changes precisely (not just 'colour change') and state exactly what you would OBSERVE (gas evolved, precipitate formed, temperature change). For purification: wash, dry, recrystallise, and measure melting point.", warn:""},
+{t:"A* Exam Technique", q:"What must an organic mechanism diagram always show?", a:"Curly arrows starting from bonds or lone pairs; charges shown on any intermediates; and the mechanism type should be named (e.g. electrophilic addition, nucleophilic substitution).", warn:""},
+{t:"A* Exam Technique", q:"List the 6 Common A* Traps to avoid in wording your answers.", a:"1. 'Ionic bond between two ions' → say 'giant ionic lattice with electrostatic attraction between all ions'\n2. 'Metals have positive ions in a sea of electrons' → use the precise definition with NUCLEI\n3. Forgetting water is LIQUID at room temperature (not gas)\n4. Using 'amount' when you mean 'concentration' or 'volume'\n5. Confusing oxidation and reduction definitions\n6. Not specifying 'aqueous' or state symbols in equations", warn:""},
+];
+
+let state = {};
+try{ state = JSON.parse(localStorage.getItem('jody_theory_flashcards')||'{}'); }catch(e){ state = {}; }
+
+const topics = [...new Set(DECK.map(c=>c.t))];
+let activeFilter = 'All';
+let order = DECK.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+function cardKey(i){ return DECK[i].t+"|"+DECK[i].q; }
+
+function buildTabs(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML='';
+  ['All', ...topics].forEach(t=>{
+    const el = document.createElement('div');
+    el.className = 'tab'+(t===activeFilter?' active':'');
+    el.textContent = t;
+    el.onclick = ()=>{ activeFilter=t; applyFilter(); };
+    tabs.appendChild(el);
+  });
+}
+
+function applyFilter(){
+  buildTabs();
+  order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].t===activeFilter);
+  pos = 0; flipped=false;
+  render();
+}
+
+function filterReviewOnly(){
+  order = DECK.map((_,i)=>i).filter(i=> state[cardKey(i)]==='review' && (activeFilter==='All' || DECK[i].t===activeFilter));
+  if(order.length===0){ alert("No cards marked 'Review' in this view yet."); order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].t===activeFilter); }
+  pos=0; flipped=false; render();
+}
+
+function shuffleDeck(){
+  for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+  pos=0; flipped=false; render();
+}
+
+function render(){
+  if(order.length===0){ order=[0]; }
+  const idx = order[pos];
+  const c = DECK[idx];
+  document.getElementById('tagFront').textContent = c.t;
+  document.getElementById('tagBack').textContent = c.t;
+  document.getElementById('qtext').textContent = c.q;
+  document.getElementById('atext').textContent = c.a;
+  const warnBox = document.getElementById('warnBox');
+  if(c.warn){ warnBox.style.display='block'; document.getElementById('warnText').textContent = c.warn; }
+  else{ warnBox.style.display='none'; }
+  document.getElementById('card').classList.remove('flipped');
+  flipped=false;
+  document.getElementById('progLabel').textContent = `Card ${pos+1} of ${order.length}${activeFilter!=='All'?' · '+activeFilter:''}`;
+  document.getElementById('progBar').style.width = ((pos+1)/order.length*100)+'%';
+  updateStats();
+}
+
+function updateStats(){
+  const total = DECK.length;
+  let know=0, review=0;
+  DECK.forEach((c,i)=>{ const s = state[cardKey(i)]; if(s==='know') know++; else if(s==='review') review++; });
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statKnow').textContent = know;
+  document.getElementById('statReview').textContent = review;
+  document.getElementById('statSeen').textContent = total-know-review;
+  document.getElementById('countLabel').textContent = order.length+' cards in view';
+}
+
+document.getElementById('card').addEventListener('click', ()=>{
+  flipped = !flipped;
+  document.getElementById('card').classList.toggle('flipped', flipped);
+});
+
+function nextCard(){ pos = (pos+1)%order.length; flipped=false; render(); }
+function prevCard(){ pos = (pos-1+order.length)%order.length; flipped=false; render(); }
+
+function judge(result){
+  const idx = order[pos];
+  state[cardKey(idx)] = result;
+  try{ localStorage.setItem('jody_theory_flashcards', JSON.stringify(state)); }catch(e){}
+  nextCard();
+}
+
+function resetProgress(){
+  if(confirm("Reset all know/review progress?")){
+    state = {};
+    try{ localStorage.setItem('jody_theory_flashcards', JSON.stringify(state)); }catch(e){}
+    updateStats();
+  }
+}
+
+applyFilter();
+</script>
+</body>
+</html>
