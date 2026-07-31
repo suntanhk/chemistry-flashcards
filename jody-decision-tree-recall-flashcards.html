@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jody's Decision Tree & Recall Flashcards (9CH0)</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --border:#2a2f3a;
+    --text:#e8eaf0; --muted:#9aa2b1; --accent:#5ec8c0; --accent2:#e8a33d;
+    --danger:#e35d5d; --good:#6bbf7a; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+    background:radial-gradient(1200px 600px at 10% -10%,#1a2530 0%,var(--bg) 55%);
+    color:var(--text);min-height:100vh;padding:24px 16px 60px;}
+  h1{font-size:1.45rem;margin:0 0 4px;}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px;}
+  .wrap{max-width:940px;margin:0 auto;}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:.82rem;color:var(--muted);}
+  .stat b{color:var(--text);font-size:1rem;display:block;}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;}
+  .tab{background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:7px 12px;border-radius:999px;font-size:.74rem;cursor:pointer;user-select:none;transition:.15s;}
+  .tab:hover{border-color:var(--accent);color:var(--text);}
+  .tab.active{background:var(--accent);color:#0b1512;border-color:var(--accent);font-weight:600;}
+  .controls{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+  .btn{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.82rem;cursor:pointer;transition:.15s;}
+  .btn:hover{border-color:var(--accent);}
+  .btn.reset{color:var(--danger);border-color:#3a2323;}
+  .count{color:var(--muted);font-size:.82rem;margin-left:auto;}
+  .card-area{perspective:1600px;margin-bottom:18px;}
+  .card{position:relative;min-height:320px;border-radius:16px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);cursor:pointer;}
+  .card.flipped{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow);padding:26px 28px;display:flex;flex-direction:column;overflow-y:auto;}
+  .face.back{transform:rotateY(180deg);background:var(--panel2);}
+  .tag{display:inline-block;font-size:.66rem;letter-spacing:.06em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 10px;margin-bottom:14px;width:fit-content;}
+  .qtext{font-size:1.1rem;line-height:1.55;flex:1;white-space:pre-wrap;}
+  .atext{font-size:1rem;line-height:1.7;flex:1;white-space:pre-wrap;font-family:"Cascadia Code","Consolas",monospace;}
+  .hint{color:var(--muted);font-size:.75rem;margin-top:12px;}
+  .warn{margin-top:14px;background:#241717;border:1px solid #4a2a2a;color:#f2b3b3;border-radius:8px;padding:8px 12px;font-size:.8rem;}
+  .warn b{color:var(--danger);}
+  .judge{display:flex;gap:10px;margin-top:4px;}
+  .jbtn{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:.9rem;cursor:pointer;font-weight:600;transition:.15s;}
+  .jbtn.know{color:var(--good);border-color:#26492f;} .jbtn.know:hover{background:#16281b;}
+  .jbtn.review{color:var(--accent2);border-color:#4a3820;} .jbtn.review:hover{background:#2a2015;}
+  .progress-wrap{background:var(--panel);border:1px solid var(--border);border-radius:999px;height:8px;overflow:hidden;margin-bottom:6px;}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--good));width:0%;transition:width .3s;}
+  .progress-label{font-size:.72rem;color:var(--muted);margin-bottom:16px;}
+  .footer-note{color:var(--muted);font-size:.75rem;text-align:center;margin-top:30px;line-height:1.6;}
+  @media(max-width:600px){.card{min-height:380px;} .qtext{font-size:1rem;} .atext{font-size:.92rem;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🧭 Jody's Decision Tree &amp; 30-Second Recall Flashcards</h1>
+  <div class="sub">Pearson Edexcel 9CH0 — "Which formula do I use?" decision tree + A/A* model-answer recall questions · click card to flip</div>
+
+  <div class="stats">
+    <div class="stat"><b id="statTotal">0</b>Total cards</div>
+    <div class="stat"><b id="statKnow">0</b>Marked "Know it"</div>
+    <div class="stat"><b id="statReview">0</b>Marked "Review"</div>
+    <div class="stat"><b id="statSeen">0</b>Unseen</div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="progress-wrap"><div class="progress-bar" id="progBar"></div></div>
+  <div class="progress-label" id="progLabel">Card 1 of 1</div>
+
+  <div class="card-area">
+    <div class="card" id="card">
+      <div class="face front">
+        <div class="tag" id="tagFront">SECTION</div>
+        <div class="qtext" id="qtext">Loading…</div>
+        <div class="hint">Tap card to reveal the answer</div>
+      </div>
+      <div class="face back">
+        <div class="tag" id="tagBack">SECTION</div>
+        <div class="atext" id="atext"></div>
+        <div class="warn" id="warnBox" style="display:none;"><b>Exam tip:</b> <span id="warnText"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="judge">
+    <button class="jbtn review" onclick="judge('review')">🔁 Review again</button>
+    <button class="jbtn know" onclick="judge('know')">✅ Know it</button>
+  </div>
+
+  <div class="controls" style="margin-top:16px;">
+    <button class="btn" onclick="prevCard()">← Prev</button>
+    <button class="btn" onclick="nextCard()">Next →</button>
+    <button class="btn" onclick="shuffleDeck()">🔀 Shuffle</button>
+    <button class="btn" onclick="filterReviewOnly()">Show only "Review"</button>
+    <button class="btn reset" onclick="resetProgress()">Reset progress</button>
+    <span class="count" id="countLabel"></span>
+  </div>
+
+  <div class="footer-note">
+    Progress is saved in this browser (localStorage). Pairs with the Formula Master Sheet, Calculation, and Mega Practice
+    flashcard decks — use this one for "which method do I pick?" speed and the 20–30 second recall drill.
+  </div>
+</div>
+
+<script>
+const DECK = [
+// ===== Decision Tree A-J =====
+{sec:"Decision Tree", q:"The question gives MASS (g). What do you do first, and what next if another substance is asked about?", a:"Calculate moles: n = m ÷ Mr\n\nIf another substance is asked about:\nWrite the balanced equation → use the mole ratio → calculate the answer.", warn:""},
+{sec:"Decision Tree", q:"The question gives CONCENTRATION. What's the pathway?", a:"Convert volume to dm³ → n = cV → balanced equation → answer.", warn:""},
+{sec:"Decision Tree", q:"The question gives the NUMBER OF PARTICLES. What's the pathway?", a:"n = N ÷ N_A → balanced equation → answer.", warn:""},
+{sec:"Decision Tree", q:"The question gives GAS VOLUME. What's the very first question you must ask yourself?", a:"'Is it RTP?'\nYES → n = V ÷ 24\nNO → use PV = nRT\nThen: balanced equation → answer.", warn:""},
+{sec:"Decision Tree", q:"The question gives TWO REACTANTS. What's the pathway?", a:"Convert BOTH to moles → compare using the balanced equation → identify the limiting reagent → calculate the product.", warn:""},
+{sec:"Decision Tree", q:"The question asks for EMPIRICAL FORMULA. What's the pathway?", a:"Masses or % → convert to moles → divide by smallest → multiply to whole numbers → empirical formula.\n\nIf Mr is given: multiply the empirical formula up → molecular formula.", warn:""},
+{sec:"Decision Tree", q:"The question mentions TITRATION. What's the pathway?", a:"Volume → convert to dm³ → n = cV → balanced equation → unknown moles → unknown concentration.", warn:""},
+{sec:"Decision Tree", q:"The question asks for YIELD. What's the pathway?", a:"Actual ÷ Theoretical × 100", warn:""},
+{sec:"Decision Tree", q:"The question asks for PURITY. What's the pathway?", a:"Pure Mass ÷ Total Mass × 100", warn:""},
+{sec:"Decision Tree", q:"The question asks for ATOM ECONOMY. What's the pathway?", a:"Desired Product Mr ÷ Total Product Mr × 100", warn:""},
+{sec:"Decision Tree", q:"State the Universal Chemistry Calculation Flowchart (4 steps) that solves most Chapter 1 calculations.", a:"Known Quantity → Convert to Moles → Balanced Equation → Use Mole Ratio → Convert to Required Quantity", warn:""},
+
+// ===== Stop & Check + Common Mistakes =====
+{sec:"Stop & Check", q:"List the 6 items on the A★ 'STOP & CHECK' box before writing a final answer.", a:"☐ Is the equation balanced?\n☐ Have I converted to moles?\n☐ Have I used the correct mole ratio?\n☐ Have I converted units correctly?\n☐ Have I included the correct units?\n☐ Is the number of significant figures sensible?", warn:""},
+{sec:"Common Mistakes", q:"Mistake: using cm³ instead of dm³. How do you avoid it?", a:"Divide by 1000 first.", warn:""},
+{sec:"Common Mistakes", q:"Mistake: forgetting Kelvin. How do you avoid it?", a:"Add 273 to convert °C to K.", warn:""},
+{sec:"Common Mistakes", q:"Mistake: forgetting Pa. How do you avoid it?", a:"Multiply kPa by 1000 to get Pa.", warn:""},
+{sec:"Common Mistakes", q:"Mistake: not balancing the equation. How do you avoid it?", a:"Always balance the equation before calculating.", warn:""},
+{sec:"Common Mistakes", q:"Mistake: comparing masses instead of moles. How do you avoid it?", a:"Convert to moles first — never compare masses directly.", warn:""},
+{sec:"Common Mistakes", q:"Mistake: ignoring mole ratios. How do you avoid it?", a:"Use the coefficients from the balanced equation.", warn:""},
+{sec:"Common Mistakes", q:"Mistake: using the excess reagent in a calculation. How do you avoid it?", a:"Always calculate the product from the LIMITING reagent.", warn:""},
+{sec:"Common Mistakes", q:"Mistake: splitting solids in ionic equations. How do you avoid it?", a:"Only split AQUEOUS ionic compounds into ions.", warn:""},
+{sec:"Common Mistakes", q:"Mistake: forgetting units in the final answer. How do you avoid it?", a:"Always write g, mol, dm³, or mol dm⁻³ as appropriate.", warn:""},
+{sec:"Common Mistakes", q:"Mistake: rounding too early. How do you avoid it?", a:"Keep at least 3 significant figures until the very end of the calculation.", warn:""},
+
+// ===== 30-Second Recall / Model Answers =====
+{sec:"30-Second Recall", q:"Q1. What is the first thing you should do in almost every calculation?", a:"Write the balanced chemical equation first, then identify the known and unknown quantities.", warn:"Most calculation errors happen because students skip the balanced equation and use the wrong mole ratio."},
+{sec:"30-Second Recall", q:"Q2. What is the formula for moles from mass?", a:"Moles = Mass (g) ÷ Mr\n(Mass in grams, Mr = relative formula mass)", warn:""},
+{sec:"30-Second Recall", q:"Q3. What is the formula for concentration, and its two rearrangements?", a:"c = n ÷ V  (c in mol dm⁻³, n in mol, V in dm³)\n\nRearrangements:\nn = cV\nV = n ÷ c", warn:""},
+{sec:"30-Second Recall", q:"Q4. What is the molar gas volume at RTP?", a:"24.0 dm³ mol⁻¹\n(= 24,000 cm³ mol⁻¹)", warn:"Only valid for gases at Room Temperature and Pressure (RTP)."},
+{sec:"30-Second Recall", q:"Q5. When should you use PV = nRT?", a:"When the gas is NOT at RTP, or when pressure, temperature, or volume are given instead of using the molar gas volume shortcut.\n\nPV = nRT\nP=Pa, V=m³, n=mol, R=gas constant, T=K", warn:""},
+{sec:"30-Second Recall", q:"Q6. What is the value of the Avogadro constant?", a:"6.02 × 10²³ mol⁻¹ — the number of particles in one mole of a substance.", warn:""},
+{sec:"30-Second Recall", q:"Q7. What is the value of the gas constant R?", a:"R = 8.31 J mol⁻¹ K⁻¹", warn:"Always convert temperature to Kelvin before using the ideal gas equation."},
+{sec:"30-Second Recall", q:"Q8. What is the formula for percentage yield?", a:"% Yield = (Actual Yield ÷ Theoretical Yield) × 100", warn:""},
+{sec:"30-Second Recall", q:"Q9. What is the limiting reagent?", a:"The reactant that is completely used up first, so it limits the amount of product formed.", warn:"Always identify the limiting reagent before calculating the theoretical yield."},
+{sec:"30-Second Recall", q:"Q10. What unit must concentration be written in?", a:"mol dm⁻³", warn:"If volume is given in cm³, convert to dm³ (÷1000) before calculating concentration."},
+
+// ===== 60-second memory sheet (as a single recall card set) =====
+{sec:"60-Second Memory Sheet", q:"Complete the memory sheet: Moles = ? Concentration = ? Moles in solution = ?", a:"Moles = Mass ÷ Mr\nConcentration = n ÷ V\nMoles in solution: n = cV", warn:""},
+{sec:"60-Second Memory Sheet", q:"Complete the memory sheet: Molar gas volume (RTP) = ? Ideal gas equation = ?", a:"Molar gas volume (RTP) = 24.0 dm³ mol⁻¹\nIdeal gas equation: PV = nRT", warn:""},
+{sec:"60-Second Memory Sheet", q:"Complete the memory sheet: Avogadro constant = ? Gas constant R = ?", a:"Avogadro constant = 6.02 × 10²³ mol⁻¹\nGas constant R = 8.31 J mol⁻¹ K⁻¹", warn:""},
+{sec:"60-Second Memory Sheet", q:"Complete the memory sheet: Percentage yield = ? Limiting reagent = ? Concentration unit = ?", a:"Percentage yield = Actual ÷ Theoretical × 100\nLimiting reagent = reactant used up first\nConcentration unit = mol dm⁻³", warn:""},
+
+// ===== Examiner Advice =====
+{sec:"Examiner Advice", q:"State the 5-step examiner advice checklist to follow before starting ANY chemistry calculation.", a:"1. Write the balanced equation.\n2. Convert all units correctly (cm³→dm³, °C→K if required).\n3. Calculate moles first whenever possible.\n4. Use the mole ratio from the balanced equation.\n5. Round your final answer appropriately and include the correct unit.", warn:"This 5-step method applies to nearly all calculation questions in 9CH0 and minimises avoidable errors."},
+];
+
+let state = {};
+try{ state = JSON.parse(localStorage.getItem('jody_decisiontree_flashcards')||'{}'); }catch(e){ state = {}; }
+
+const sections = [...new Set(DECK.map(c=>c.sec))];
+let activeFilter = 'All';
+let order = DECK.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+function cardKey(i){ return DECK[i].sec+"|"+DECK[i].q; }
+
+function buildTabs(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML='';
+  ['All', ...sections].forEach(s=>{
+    const el = document.createElement('div');
+    el.className = 'tab'+(s===activeFilter?' active':'');
+    el.textContent = s;
+    el.onclick = ()=>{ activeFilter=s; applyFilter(); };
+    tabs.appendChild(el);
+  });
+}
+
+function applyFilter(){
+  buildTabs();
+  order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].sec===activeFilter);
+  pos = 0; flipped=false;
+  render();
+}
+
+function filterReviewOnly(){
+  order = DECK.map((_,i)=>i).filter(i=> state[cardKey(i)]==='review' && (activeFilter==='All' || DECK[i].sec===activeFilter));
+  if(order.length===0){ alert("No cards marked 'Review' in this view yet."); order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].sec===activeFilter); }
+  pos=0; flipped=false; render();
+}
+
+function shuffleDeck(){
+  for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+  pos=0; flipped=false; render();
+}
+
+function render(){
+  if(order.length===0){ order=[0]; }
+  const idx = order[pos];
+  const c = DECK[idx];
+  document.getElementById('tagFront').textContent = c.sec;
+  document.getElementById('tagBack').textContent = c.sec;
+  document.getElementById('qtext').textContent = c.q;
+  document.getElementById('atext').textContent = c.a;
+  const warnBox = document.getElementById('warnBox');
+  if(c.warn){ warnBox.style.display='block'; document.getElementById('warnText').textContent = c.warn; }
+  else{ warnBox.style.display='none'; }
+  document.getElementById('card').classList.remove('flipped');
+  flipped=false;
+  document.getElementById('progLabel').textContent = `Card ${pos+1} of ${order.length}${activeFilter!=='All'?' · '+activeFilter:''}`;
+  document.getElementById('progBar').style.width = ((pos+1)/order.length*100)+'%';
+  updateStats();
+}
+
+function updateStats(){
+  const total = DECK.length;
+  let know=0, review=0;
+  DECK.forEach((c,i)=>{ const s = state[cardKey(i)]; if(s==='know') know++; else if(s==='review') review++; });
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statKnow').textContent = know;
+  document.getElementById('statReview').textContent = review;
+  document.getElementById('statSeen').textContent = total-know-review;
+  document.getElementById('countLabel').textContent = order.length+' cards in view';
+}
+
+document.getElementById('card').addEventListener('click', ()=>{
+  flipped = !flipped;
+  document.getElementById('card').classList.toggle('flipped', flipped);
+});
+
+function nextCard(){ pos = (pos+1)%order.length; flipped=false; render(); }
+function prevCard(){ pos = (pos-1+order.length)%order.length; flipped=false; render(); }
+
+function judge(result){
+  const idx = order[pos];
+  state[cardKey(idx)] = result;
+  try{ localStorage.setItem('jody_decisiontree_flashcards', JSON.stringify(state)); }catch(e){}
+  nextCard();
+}
+
+function resetProgress(){
+  if(confirm("Reset all know/review progress?")){
+    state = {};
+    try{ localStorage.setItem('jody_decisiontree_flashcards', JSON.stringify(state)); }catch(e){}
+    updateStats();
+  }
+}
+
+applyFilter();
+</script>
+</body>
+</html>
