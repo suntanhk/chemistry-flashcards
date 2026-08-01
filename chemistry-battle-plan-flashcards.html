@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Jody's Pre-Mock Battle Plan — Flashcards</title>
+<style>
+  :root{
+    --bg:#0a0e17; --bg2:#0f1524; --card:#141b2d; --card2:#182238;
+    --accent:#2dd4bf; --accent2:#22b8a3; --amber:#fbbf24; --red:#f87171;
+    --green:#4ade80; --text:#e5e9f0; --muted:#8b95a8; --border:#243044;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{margin:0;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;
+    background:linear-gradient(160deg,var(--bg),var(--bg2));color:var(--text);min-height:100vh;padding-bottom:40px;}
+  header{padding:18px 16px 10px;text-align:center;position:sticky;top:0;background:rgba(10,14,23,0.96);
+    backdrop-filter:blur(8px);z-index:20;border-bottom:1px solid var(--border);}
+  h1{font-size:1.1rem;margin:0 0 2px;background:linear-gradient(90deg,var(--accent),#818cf8);
+    -webkit-background-clip:text;background-clip:text;color:transparent;font-weight:800;}
+  .sub{font-size:0.72rem;color:var(--muted);margin-bottom:10px;}
+  .progress-wrap{max-width:520px;margin:0 auto;}
+  .progress-bar{height:6px;background:var(--border);border-radius:6px;overflow:hidden;margin-top:6px;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),#818cf8);width:0%;transition:width .3s;}
+  .stats{display:flex;justify-content:center;gap:14px;margin-top:6px;font-size:0.68rem;color:var(--muted);}
+  .stats span.k{color:var(--green);} .stats span.r{color:var(--red);}
+  .tabs{display:flex;overflow-x:auto;gap:6px;padding:10px 12px 4px;max-width:560px;margin:0 auto;
+    -ms-overflow-style:none;scrollbar-width:none;}
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{flex:0 0 auto;padding:7px 13px;border-radius:20px;background:var(--card);border:1px solid var(--border);
+    color:var(--muted);font-size:0.72rem;font-weight:600;white-space:nowrap;cursor:pointer;}
+  .tab.active{background:linear-gradient(90deg,var(--accent),#22b8a3);color:#04211c;border-color:transparent;}
+  main{max-width:560px;margin:0 auto;padding:14px 14px 0;}
+  .counter{text-align:center;font-size:0.75rem;color:var(--muted);margin-bottom:8px;}
+  .deck{position:relative;height:440px;}
+  .card{position:absolute;inset:0;background:var(--card);border:1px solid var(--border);border-radius:18px;
+    padding:20px;display:flex;flex-direction:column;cursor:pointer;box-shadow:0 8px 24px rgba(0,0,0,0.35);
+    transition:transform .15s;overflow:hidden;}
+  .card:active{transform:scale(0.985);}
+  .tagrow{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;}
+  .qid{font-size:0.68rem;font-weight:800;color:var(--accent);letter-spacing:.5px;}
+  .topicchip{font-size:0.62rem;color:var(--muted);background:var(--bg2);padding:2px 8px;border-radius:8px;margin-top:2px;display:inline-block;}
+  .content{flex:1;overflow-y:auto;font-size:0.92rem;line-height:1.55;padding-right:2px;}
+  .content b{color:var(--accent);}
+  .content .tip{margin-top:10px;padding:9px 10px;background:rgba(251,191,36,0.08);border-left:3px solid var(--amber);
+    border-radius:6px;font-size:0.8rem;color:#fde68a;}
+  .content .trap{margin-top:8px;padding:9px 10px;background:rgba(248,113,113,0.08);border-left:3px solid var(--red);
+    border-radius:6px;font-size:0.8rem;color:#fecaca;}
+  .content .eq{font-family:'Courier New',monospace;background:var(--bg2);padding:8px 10px;border-radius:8px;
+    margin:6px 0;font-size:0.85rem;color:#93e8db;border:1px solid var(--border);}
+  .content .fix{margin-top:8px;padding:9px 10px;background:rgba(74,222,128,0.08);border-left:3px solid var(--green);
+    border-radius:6px;font-size:0.8rem;color:#bbf7d0;}
+  .fliphint{text-align:center;font-size:0.65rem;color:var(--muted);margin-top:8px;}
+  .backface{background:var(--card2);}
+  .actions{display:flex;gap:10px;margin-top:12px;}
+  .btn{flex:1;padding:11px;border-radius:12px;border:none;font-weight:700;font-size:0.85rem;cursor:pointer;}
+  .btn.review{background:rgba(248,113,113,0.15);color:var(--red);border:1px solid rgba(248,113,113,0.4);}
+  .btn.know{background:rgba(74,222,128,0.15);color:var(--green);border:1px solid rgba(74,222,128,0.4);}
+  .btn.review.sel{background:var(--red);color:#1a0505;}
+  .btn.know.sel{background:var(--green);color:#052712;}
+  .navrow{display:flex;justify-content:space-between;align-items:center;margin-top:12px;gap:8px;}
+  .navbtn{background:var(--card);border:1px solid var(--border);color:var(--text);padding:10px 18px;
+    border-radius:12px;font-size:0.85rem;font-weight:700;cursor:pointer;}
+  .navbtn:disabled{opacity:0.3;}
+  .resetrow{text-align:center;margin-top:18px;}
+  .resetbtn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 14px;border-radius:10px;
+    font-size:0.7rem;cursor:pointer;}
+  table.mini{width:100%;border-collapse:collapse;margin:6px 0;font-size:0.78rem;}
+  table.mini td,table.mini th{border:1px solid var(--border);padding:4px 6px;text-align:left;}
+  table.mini th{background:var(--bg2);color:var(--accent);}
+  ul.clean{margin:6px 0;padding-left:18px;}
+  ul.clean li{margin-bottom:4px;}
+</style>
+</head>
+<body>
+<header>
+  <h1>🎯 Jody's Pre-Mock Battle Plan</h1>
+  <div class="sub">How to turn 12 mock papers into an A* training system</div>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="stats">
+      <span>Total: <b id="statTotal">0</b></span>
+      <span class="k">Know: <span id="statKnow">0</span></span>
+      <span class="r">Review: <span id="statReview">0</span></span>
+    </div>
+  </div>
+</header>
+
+<div class="tabs" id="tabs"></div>
+
+<main>
+  <div class="counter" id="counter"></div>
+  <div class="deck">
+    <div class="card" id="cardEl" onclick="flipCard()"></div>
+  </div>
+  <div class="navrow">
+    <button class="navbtn" id="prevBtn" onclick="prevCard()">← Prev</button>
+    <button class="navbtn" id="shuffleBtn" onclick="shuffleDeck()">🔀 Shuffle</button>
+    <button class="navbtn" id="nextBtn" onclick="nextCard()">Next →</button>
+  </div>
+  <div class="resetrow"><button class="resetbtn" onclick="resetProgress()">Reset all progress</button></div>
+</main>
+
+<script>
+const cards = [
+/* ===== STRATEGY — the 3-phase method ===== */
+{id:'S1',section:'STRAT',topic:'The Big Picture',
+ q:'<b>The 3-Phase Method</b><br><br>What are the 3 phases for tackling the 12 mock papers, and which papers belong to each?',
+ a:'<table class="mini"><tr><th>Phase</th><th>Papers</th><th>Method</th></tr><tr><td><b>1. Skill Building</b></td><td>1–4</td><td>Untimed, open notes, full working</td></tr><tr><td><b>2. Exam Simulation</b></td><td>5–8</td><td>Strictly timed (1hr 45), closed book</td></tr><tr><td><b>3. Precision Polishing</b></td><td>9–12</td><td>Timed, targeting weak topics from the error log</td></tr></table><div class="tip">💡 Doing Paper 1 under exam conditions while still rusty is demoralising and wasteful. Doing Paper 12 untimed is equally wasteful — the goal is to train your "exam brain" progressively.</div>'},
+
+{id:'S2',section:'STRAT',topic:'Phase 1',
+ q:'<b>Phase 1: Skill Building</b><br><br>Papers 1–4 — what\'s the method, and what\'s the purpose?',
+ a:'<b>Method:</b> Untimed, open notes, show FULL working ✓<br><b>Purpose:</b> Learn the question patterns, fix knowledge gaps, and build confidence before the pressure is turned on.<div class="fix">✅ No rush here — the whole point is to get the chemistry right, not fast.</div>'},
+
+{id:'S3',section:'STRAT',topic:'Phase 2',
+ q:'<b>Phase 2: Exam Simulation</b><br><br>Papers 5–8 — what\'s the method, and what\'s the purpose?',
+ a:'<b>Method:</b> Strictly timed (1 hour 45 minutes), closed book, full exam conditions ✓<br><b>Purpose:</b> Build speed, stamina, and pressure-handling — the skills that untimed practice can\'t teach.<div class="fix">✅ Before starting Phase 2, review every error logged from Papers 1–4 (see the Error Log cards).</div>'},
+
+{id:'S4',section:'STRAT',topic:'Phase 3',
+ q:'<b>Phase 3: Precision Polishing</b><br><br>Papers 9–12 — what\'s the method, and what\'s the purpose?',
+ a:'<b>Method:</b> Timed, but with intentional focus on the weak topics identified in Phases 1 and 2 ✓<br><b>Purpose:</b> Eliminate recurring errors and lock in automaticity — so nothing on exam day is a surprise.'},
+
+/* ===== STRATEGY — mark-first, review-second ===== */
+{id:'S5',section:'STRAT',topic:'Mark-First Rule',
+ q:'<b>The "Mark-First, Review-Second" Rule</b><br><br>What\'s the golden rule for marking each paper?',
+ a:'<b>Mark it yourself first using the mark scheme.</b><br>Be brutally honest — <b>no "sympathy marks."</b><div class="tip">💡 Honest marking is the entire foundation of this system — if you\'re generous with yourself, the error log becomes useless and you walk into the real exam with false confidence.</div>'},
+
+{id:'S6',section:'STRAT',topic:'Error Diagnosis',
+ q:'<b>For every lost mark, ask...</b><br><br>What are the 3 questions to diagnose WHY you lost each mark?',
+ a:'<b>1. Knowledge gap?</b> — e.g. "I didn\'t know the Born-Haber cycle steps"<br><b>2. Calculation error?</b> — e.g. sign wrong, arithmetic slip, forgot ×2<br><b>3. Exam technique error?</b> — e.g. ran out of time, didn\'t show working, missed state symbols<div class="fix">✅ Naming the TYPE of error is what makes the fix specific instead of vague ("be more careful" fixes nothing; "always write the ICE table first" does).</div>'},
+
+{id:'S7',section:'STRAT',topic:'Error Log',
+ q:'<b>The Error Notebook</b><br><br>What 3 columns should Jody keep for every mistake?',
+ a:'<table class="mini"><tr><th>Column</th><th>Example</th></tr><tr><td><b>Topic</b></td><td>Buffer calculations</td></tr><tr><td><b>Error type</b></td><td>Knowledge / Calculation / Technique</td></tr><tr><td><b>Fix</b></td><td>"Always write ICE table before substituting"</td></tr></table><div class="tip">💡 <b>Golden rule:</b> if the same mistake happens twice across different papers, it is no longer an accident — it is a habit. Fix it before starting Paper 5.</div>'},
+
+/* ===== TOPIC TRAPS ===== */
+{id:'T1',section:'TRAP',topic:'Born-Haber Cycles',
+ q:'<b>🔷 Born-Haber Cycles</b><br>(appears in Papers 1,2,3,4,7,8,9,10,11,12)<br><br>What are the 2 classic traps, and the fix?',
+ a:'<div class="trap">⚠️ Trap 1: forgetting to multiply atomisation/IE/EA by the stoichiometric coefficient (e.g. ×2 for MgCl₂, ×2 for Na₂O).</div><div class="trap">⚠️ Trap 2: the SECOND electron affinity of oxygen is always POSITIVE (+798 kJ mol⁻¹) — it\'s easy to assume all EA values are negative.</div><div class="fix">✅ Fix: draw the full cycle BEFORE substituting any numbers. Check your diagram has the correct number of arrows for every species.</div>'},
+
+{id:'T2',section:'TRAP',topic:'Redox Titrations',
+ q:'<b>🔷 Redox Titrations</b><br>(appears in every paper)<br><br>What are the key mole ratios Jody must never mix up?',
+ a:'<table class="mini"><tr><th>Titration</th><th>Ratio</th></tr><tr><td>MnO₄⁻ : Fe²⁺</td><td>1 : 5</td></tr><tr><td>Cr₂O₇²⁻ : Fe²⁺</td><td>1 : 6</td></tr><tr><td>MnO₄⁻ : H₂O₂</td><td>2 : 5</td></tr></table><div class="fix">✅ Fix: write the balanced equation at the TOP of your working every single time — never rely on memory for the ratio.</div>'},
+
+{id:'T3',section:'TRAP',topic:'Kp / Kc Calculations',
+ q:'<b>🔷 Kp / Kc Calculations</b><br>(Papers 1,2,4,5,7,8,9,10,12)<br><br>What are the 2 classic traps, and the fix?',
+ a:'<div class="trap">⚠️ Trap 1: forgetting to derive the units — e.g. for the Haber Process, Kp has units atm⁻² (or kPa⁻²).</div><div class="trap">⚠️ Trap 2: using CONCENTRATIONS instead of PARTIAL PRESSURES for Kp — a mix-up between Kc and Kp methods.</div><div class="fix">✅ Fix: always write the expression FIRST, then substitute numbers, then work out the units SEPARATELY as a final step.</div>'},
+
+{id:'T4',section:'TRAP',topic:'Buffer Calculations',
+ q:'<b>🔷 Buffer Calculations</b><br>(Papers 1,2,3,4,5,7,8,9,10,11,12)<br><br>What is the classic trap, and the fix?',
+ a:'<div class="trap">⚠️ Trap: using CONCENTRATIONS instead of MOLES when mixing solutions of different volumes.</div><div class="fix">✅ Fix: calculate moles first, then use the mole ratio. Special shortcut — if moles of acid = moles of salt, then pH = pKa automatically (log(1) = 0).</div>'},
+
+{id:'T5',section:'TRAP',topic:'Transition Metal Colour',
+ q:'<b>🔷 Transition Metal Colour &amp; Isomerism</b><br>(every paper)<br><br>What are the 2 classic traps, and the fix?',
+ a:'<div class="trap">⚠️ Trap 1: saying "d-d transitions" without explaining WHY they happen (ligand field splitting must be named explicitly).</div><div class="trap">⚠️ Trap 2: forgetting that Zn²⁺ is d¹⁰ (full shell, no colour) and Sc³⁺ is d⁰ (empty shell, no colour).</div><div class="fix">✅ Fix — memorise this exact template: "Partially filled d orbitals → ligands split them → electron promotion → absorption of visible light → complementary colour observed."</div>'},
+
+/* ===== CHECKLIST ===== */
+{id:'C1',section:'CHECK',topic:'Pre-Submission Checklist',
+ q:'<b>Exam Technique Checklist</b><br><br>Before submitting ANY paper, what should Jody mentally run through? (Part 1 of 2)',
+ a:'<ul class="clean"><li>☐ State symbols included in ALL thermochemical and ionic equations?</li><li>☐ Signs AND units on every enthalpy value? (e.g. "−2522 kJ mol⁻¹", not just "2522")</li><li>☐ Working shown for every calculation? (Examiners award method marks generously)</li><li>☐ ICE table written out for every equilibrium calculation?</li></ul>'},
+
+{id:'C2',section:'CHECK',topic:'Pre-Submission Checklist',
+ q:'<b>Exam Technique Checklist (Part 2 of 2)</b><br><br>What are the remaining 4 checks?',
+ a:'<ul class="clean"><li>☐ Henderson-Hasselbalch equation written out BEFORE substituting, for every buffer question?</li><li>☐ Rate equation written out before calculating k?</li><li>☐ E°cell calculation clearly shows which half-cell is the cathode and which is the anode?</li><li>☐ Observations described with BOTH colour and state? (e.g. "green precipitate," never just "green")</li></ul>'},
+
+/* ===== SCHEDULE ===== */
+{id:'SC1',section:'STRAT',topic:'6-Week Schedule',
+ q:'<b>Suggested 6-Week Schedule</b><br><br>Weeks 1–3: which papers, and what\'s the focus?',
+ a:'<table class="mini"><tr><th>Week</th><th>Papers</th><th>Focus</th></tr><tr><td>1</td><td>1+2 (untimed)</td><td>Born-Haber, lattice enthalpy, basic redox</td></tr><tr><td>2</td><td>3+4 (untimed)</td><td>Kinetics, equilibrium, buffer basics</td></tr><tr><td>3</td><td>5+6 (timed)</td><td>First timed runs; review ALL errors from Weeks 1–2</td></tr></table>'},
+
+{id:'SC2',section:'STRAT',topic:'6-Week Schedule',
+ q:'<b>Suggested 6-Week Schedule</b><br><br>Weeks 4–6: which papers, and what\'s the focus?',
+ a:'<table class="mini"><tr><th>Week</th><th>Papers</th><th>Focus</th></tr><tr><td>4</td><td>7+8 (timed)</td><td>Build stamina; focus on speed</td></tr><tr><td>5</td><td>9+10 (timed)</td><td>Target weak topics from the error log</td></tr><tr><td>6</td><td>11+12 (timed)</td><td>Final polish; simulate "exam week"</td></tr></table><div class="tip">💡 <b>Rest days matter.</b> Don\'t do two papers back-to-back on the same day — the brain needs time to consolidate between sessions.</div>'},
+
+/* ===== MINDSET ===== */
+{id:'M1',section:'MIND',topic:'Paper 1 Character',
+ q:'<b>Mindset: What kind of paper is Paper 1?</b>',
+ a:'Paper 1 is a <b>calculation and definition paper</b>. If Jody knows the definitions and can do the maths, she will score well.<br><br>It is LESS "tricky" than Paper 2 (Organic) and LESS synoptic than Paper 3.<div class="fix">✅ This is Jody\'s highest-scoring paper opportunity — precision and memorised definitions win the marks here, more than clever synoptic thinking.</div>'},
+
+{id:'M2',section:'MIND',topic:'Diagnostic Mindset',
+ q:'<b>Mindset: What if Paper 1 score is low?</b>',
+ a:'<b>Don\'t panic.</b> The first paper is diagnostic, not a verdict.<br><br>The goal is improvement by Paper 12 — not perfection on Paper 1.<div class="tip">💡 A low first score just means the error log has plenty to work with. That\'s the system working as intended.</div>'},
+
+{id:'M3',section:'MIND',topic:'The 5-Minute Rule',
+ q:'<b>Mindset: What should Jody do if a question takes more than 5 minutes?</b>',
+ a:'<b>In the real exam:</b> skip it, come back later if there\'s time.<br><b>In practice:</b> mark it as incomplete, learn the correct method from the mark scheme, then retry the SAME question the next day (without looking) to prove the fix stuck.'},
+
+/* ===== TOP 10 FORMULAS ===== */
+{id:'F1',section:'FORM',topic:'Formula 1/10',
+ q:'<b>Top 10 Formulas — #1: Kc</b><br><br>Write the general expression for Kc.',
+ a:'<div class="eq">Kc = [products] / [reactants]</div>Concentration-based equilibrium constant — each raised to the power of its balancing number.'},
+
+{id:'F2',section:'FORM',topic:'Formula 2/10',
+ q:'<b>Top 10 Formulas — #2: Kp</b><br><br>Write the general expression for Kp.',
+ a:'<div class="eq">Kp = p(products) / p(reactants)</div>Partial-pressure-based equilibrium constant — same power rule as Kc, but using partial pressures, only for gas-phase equilibria.'},
+
+{id:'F3',section:'FORM',topic:'Formula 3/10',
+ q:'<b>Top 10 Formulas — #3: pH</b><br><br>Write the pH formula.',
+ a:'<div class="eq">pH = −log[H⁺]</div>'},
+
+{id:'F4',section:'FORM',topic:'Formula 4/10',
+ q:'<b>Top 10 Formulas — #4: Ka and the Henderson-Hasselbalch equation</b><br><br>Write both.',
+ a:'<div class="eq">Ka = [H⁺][A⁻] / [HA]</div><div class="eq">pH = pKa + log([salt]/[acid])</div>'},
+
+{id:'F5',section:'FORM',topic:'Formula 5/10',
+ q:'<b>Top 10 Formulas — #5: Kw</b><br><br>Write the expression and its value at 298 K.',
+ a:'<div class="eq">Kw = [H⁺][OH⁻] = 1.0×10⁻¹⁴ mol² dm⁻⁶ (at 298 K)</div>'},
+
+{id:'F6',section:'FORM',topic:'Formula 6/10',
+ q:'<b>Top 10 Formulas — #6: Gibbs free energy (from enthalpy/entropy)</b><br><br>Write the equation.',
+ a:'<div class="eq">ΔG° = ΔH° − TΔS°</div>'},
+
+{id:'F7',section:'FORM',topic:'Formula 7/10',
+ q:'<b>Top 10 Formulas — #7: Gibbs free energy (from cell potential)</b><br><br>Write the equation.',
+ a:'<div class="eq">ΔG° = −nFE°cell</div>n = electrons transferred, F = 96500 C mol⁻¹.'},
+
+{id:'F8',section:'FORM',topic:'Formula 8/10',
+ q:'<b>Top 10 Formulas — #8: Rate constant from half-life (first order)</b><br><br>Write the equation.',
+ a:'<div class="eq">k = ln2 / t½</div>Only valid for FIRST-order reactions, where t½ is constant regardless of concentration.'},
+
+{id:'F9',section:'FORM',topic:'Formula 9/10',
+ q:'<b>Top 10 Formulas — #9: E°cell</b><br><br>Write the equation.',
+ a:'<div class="eq">E°cell = E°cathode − E°anode</div>(equivalently: E°(reduction) − E°(oxidation))'},
+
+{id:'F10',section:'FORM',topic:'Formula 10/10',
+ q:'<b>Top 10 Formulas — #10: Enthalpy of solution</b><br><br>Write the equation linking it to lattice enthalpy and hydration enthalpy.',
+ a:'<div class="eq">ΔH°solution = ΔH°LE(dissociation) + ΣΔH°hydration</div><div class="tip">💡 Uses the DISSOCIATION lattice enthalpy (positive/endothermic) — if you\'re given the lattice enthalpy of FORMATION instead, flip its sign first before adding.</div>'},
+
+/* ===== FINAL WORDS ===== */
+{id:'FW',section:'MIND',topic:'Final Words',
+ q:'<b>🎯 Final Words</b><br>(tap to reveal)',
+ a:'These 12 papers contain over <b>1000 marks</b> of practice.<br><br>Treat each mistake as data, and each paper as a training session — by Paper 12, you will have seen virtually every variation of question Edexcel can throw at you.<div class="fix">✅ Start with Paper 1. Mark it honestly. Fix one thing. Repeat.<br><br>You\'ve got this. 🎯</div>'},
+];
+
+/* ===== STATE ===== */
+let currentSection='ALL';
+let filtered=[];
+let idx=0;
+let flipped=false;
+let progress=JSON.parse(localStorage.getItem('chemBattlePlanProgress')||'{}');
+
+const sections=[{k:'ALL',l:'All Cards'},{k:'STRAT',l:'📋 Strategy'},{k:'TRAP',l:'⚠️ Topic Traps'},{k:'CHECK',l:'✅ Checklist'},{k:'FORM',l:'🧮 Formulas'},{k:'MIND',l:'🎯 Mindset'}];
+
+function buildTabs(){
+  const wrap=document.getElementById('tabs');
+  wrap.innerHTML='';
+  sections.forEach(s=>{
+    const btn=document.createElement('div');
+    btn.className='tab'+(s.k===currentSection?' active':'');
+    btn.textContent=s.l;
+    btn.onclick=()=>{currentSection=s.k;idx=0;flipped=false;applyFilter();render();};
+    wrap.appendChild(btn);
+  });
+}
+function applyFilter(){
+  filtered = currentSection==='ALL'? cards.slice() : cards.filter(c=>c.section===currentSection);
+}
+function flipCard(){flipped=!flipped;render();}
+function nextCard(){if(idx<filtered.length-1){idx++;flipped=false;render();}}
+function prevCard(){if(idx>0){idx--;flipped=false;render();}}
+function shuffleDeck(){
+  for(let i=filtered.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[filtered[i],filtered[j]]=[filtered[j],filtered[i]];}
+  idx=0;flipped=false;render();
+}
+function mark(id,status){
+  progress[id]=status;
+  localStorage.setItem('chemBattlePlanProgress',JSON.stringify(progress));
+  render();
+}
+function resetProgress(){
+  if(confirm('Reset all know/review progress?')){progress={};localStorage.setItem('chemBattlePlanProgress','{}');render();}
+}
+function render(){
+  buildTabs();
+  const c=filtered[idx];
+  const el=document.getElementById('cardEl');
+  document.getElementById('counter').textContent = `Card ${idx+1} of ${filtered.length}`;
+  document.getElementById('prevBtn').disabled = idx===0;
+  document.getElementById('nextBtn').disabled = idx===filtered.length-1;
+  const st=progress[c.id];
+  el.className='card'+(flipped?' backface':'');
+  el.innerHTML=`
+    <div class="tagrow">
+      <div><span class="qid">${c.id}</span><br><span class="topicchip">${c.topic}</span></div>
+    </div>
+    <div class="content">${flipped? c.a : c.q}</div>
+    <div class="fliphint">${flipped? '↺ tap to see front' : '👆 tap card to reveal'}</div>
+    <div class="actions">
+      <button class="btn review ${st==='review'?'sel':''}" onclick="event.stopPropagation();mark('${c.id}','review')">🔴 Review</button>
+      <button class="btn know ${st==='know'?'sel':''}" onclick="event.stopPropagation();mark('${c.id}','know')">🟢 Know it</button>
+    </div>`;
+  const known=Object.values(progress).filter(v=>v==='know').length;
+  const review=Object.values(progress).filter(v=>v==='review').length;
+  document.getElementById('statTotal').textContent=cards.length;
+  document.getElementById('statKnow').textContent=known;
+  document.getElementById('statReview').textContent=review;
+  document.getElementById('progressFill').style.width = (Object.keys(progress).length/cards.length*100)+'%';
+}
+
+applyFilter();
+render();
+</script>
+</body>
+</html>
