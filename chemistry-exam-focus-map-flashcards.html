@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>9CH0 考試重點地圖 Flashcards</title>
+<style>
+  :root{
+    --bg:#0f1117; --panel:#181c26; --panel2:#1f2430; --border:#2b3140;
+    --text:#e8ecf4; --muted:#8a92a6; --accent:#5eb3ff; --accent2:#ffb454;
+    --good:#4ade80; --bad:#f87171; --trap:#f87171; --tip:#4ade80;
+  }
+  *{box-sizing:border-box;-webkit-tap-highlight-color:transparent;}
+  body{
+    margin:0; background:var(--bg); color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;
+    padding-bottom:40px;
+  }
+  header{
+    padding:18px 16px 10px; text-align:center; position:sticky; top:0;
+    background:linear-gradient(180deg,var(--bg) 80%,transparent); z-index:10;
+  }
+  h1{font-size:1.15rem; margin:0 0 2px; color:var(--accent);}
+  .subtitle{font-size:.78rem; color:var(--muted); margin:0;}
+  .progress-wrap{max-width:520px;margin:10px auto 0;padding:0 16px;}
+  .progress-bar{height:6px;background:var(--panel2);border-radius:4px;overflow:hidden;}
+  .progress-fill{height:100%;background:linear-gradient(90deg,var(--accent),var(--good));width:0%;transition:width .3s;}
+  .progress-label{font-size:.7rem;color:var(--muted);text-align:center;margin-top:4px;}
+
+  .tabs{
+    display:flex; gap:6px; overflow-x:auto; padding:12px 16px 4px;
+    max-width:560px; margin:0 auto; scrollbar-width:none;
+  }
+  .tabs::-webkit-scrollbar{display:none;}
+  .tab{
+    flex:0 0 auto; padding:7px 13px; border-radius:20px; font-size:.76rem;
+    background:var(--panel); color:var(--muted); border:1px solid var(--border);
+    white-space:nowrap; cursor:pointer; user-select:none;
+  }
+  .tab.active{background:var(--accent); color:#0f1117; border-color:var(--accent); font-weight:600;}
+
+  .deck{max-width:520px; margin:10px auto; padding:0 16px;}
+  .counter{text-align:center; font-size:.78rem; color:var(--muted); margin-bottom:8px;}
+
+  .card{
+    background:var(--panel); border:1px solid var(--border); border-radius:16px;
+    min-height:280px; padding:22px 20px; position:relative; cursor:pointer;
+    display:flex; flex-direction:column; justify-content:center;
+    box-shadow:0 6px 20px rgba(0,0,0,.35);
+  }
+  .card-tag{
+    position:absolute; top:12px; left:16px; font-size:.65rem; letter-spacing:.04em;
+    color:var(--accent2); text-transform:uppercase; font-weight:700;
+  }
+  .card-side{font-size:.65rem; position:absolute; top:12px; right:16px; color:var(--muted);}
+  .q-text{font-size:1.02rem; line-height:1.55; margin-top:14px; white-space:pre-wrap;}
+  .a-text{font-size:.95rem; line-height:1.6; white-space:pre-wrap;}
+  .a-text .trap{color:var(--trap); font-weight:600;}
+  .a-text .tip{color:var(--tip); font-weight:600;}
+  .hint{position:absolute; bottom:10px; left:0; right:0; text-align:center; font-size:.68rem; color:var(--muted);}
+  .front{display:flex; flex-direction:column;}
+  .back{display:none; flex-direction:column;}
+  .card.flipped .front{display:none;}
+  .card.flipped .back{display:flex;}
+
+  .controls{display:flex; gap:10px; margin-top:14px;}
+  .btn{
+    flex:1; padding:12px 0; border-radius:12px; border:none; font-size:.85rem;
+    font-weight:700; cursor:pointer; display:flex; align-items:center; justify-content:center; gap:6px;
+  }
+  .btn-know{background:rgba(74,222,128,.15); color:var(--good); border:1px solid rgba(74,222,128,.4);}
+  .btn-review{background:rgba(248,113,113,.15); color:var(--bad); border:1px solid rgba(248,113,113,.4);}
+  .nav{display:flex; justify-content:space-between; margin-top:10px; gap:10px;}
+  .nav button{
+    flex:1; padding:10px 0; border-radius:12px; background:var(--panel2); color:var(--text);
+    border:1px solid var(--border); font-size:.82rem; cursor:pointer;
+  }
+  .nav button:disabled{opacity:.35;}
+
+  .status-pill{
+    display:inline-block; font-size:.68rem; padding:2px 8px; border-radius:10px; margin-left:6px;
+  }
+  .pill-know{background:rgba(74,222,128,.18); color:var(--good);}
+  .pill-review{background:rgba(248,113,113,.18); color:var(--bad);}
+
+  .reset-row{text-align:center; margin-top:22px;}
+  .reset-btn{
+    background:none; border:1px solid var(--border); color:var(--muted); font-size:.72rem;
+    padding:7px 14px; border-radius:10px; cursor:pointer;
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <h1>9CH0 考試重點地圖</h1>
+  <p class="subtitle">Exam Focus Map · 高頻主題 × 常見陷阱 × 應試技巧</p>
+  <div class="progress-wrap">
+    <div class="progress-bar"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0 / 0 已標記</div>
+  </div>
+</header>
+
+<div class="tabs" id="tabs"></div>
+
+<div class="deck">
+  <div class="counter" id="counter"></div>
+  <div class="card" id="card">
+    <div class="card-tag" id="cardTag"></div>
+    <div class="card-side" id="cardSide">Q</div>
+    <div class="front">
+      <div class="q-text" id="qText"></div>
+      <div class="hint">輕觸卡片翻面</div>
+    </div>
+    <div class="back">
+      <div class="a-text" id="aText"></div>
+      <div class="hint">輕觸卡片返回問題</div>
+    </div>
+  </div>
+
+  <div class="controls">
+    <button class="btn btn-review" id="btnReview">✕ 需要複習</button>
+    <button class="btn btn-know" id="btnKnow">✓ 已掌握</button>
+  </div>
+
+  <div class="nav">
+    <button id="prevBtn">← 上一張</button>
+    <button id="nextBtn">下一張 →</button>
+  </div>
+
+  <div class="reset-row">
+    <button class="reset-btn" id="resetBtn">重設本主題進度</button>
+  </div>
+</div>
+
+<script>
+const CARDS = [
+{cat:"overview", q:"9CH0 三份試卷分別叫什麼名稱？各佔多少分、多少時間？", a:"Paper 1：Advanced Inorganic and Physical Chemistry，90分/105分鐘\nPaper 2：Advanced Organic and Physical Chemistry，90分/105分鐘\nPaper 3：General and Practical Principles in Chemistry，120分/150分鐘\n\n<span class='tip'>提示：Paper 3 分數與時間都最長，且綜合性最強。</span>"},
+{cat:"overview", q:"Paper 3 的出題特點是什麼？為何即使沒做過實驗也要重視？", a:"Paper 3 考核實驗設計、數據處理、不確定度計算，並常結合 Paper 1+2 的內容出跨主題整合題。\n\n<span class='tip'>它考的是『實驗背後的化學原理』，不是動手能力，所以理論扎實一樣可以拿高分。</span>"},
+{cat:"overview", q:"Paper 1 涵蓋哪些 Topics？", a:"Topics 1–10：原子結構、鍵合、氧化還原、能量學 I & II、平衡、酸鹼/緩衝溶液、鹵素、過渡金屬。"},
+{cat:"overview", q:"Paper 2 除了有機化學主線外，還會考什麼物理化學內容？", a:"動力學（kinetics）及平衡的延伸應用，常與有機反應機理結合出題。"},
+
+{cat:"born-haber", q:"Born-Haber cycle 在 12 份模擬卷中出現頻率是多少？代表什麼？", a:"12/12 —— 每一份都有。這是投入時間報酬率最高的主題之一，務必能徒手畫出。"},
+{cat:"born-haber", q:"Lattice enthalpy 的『formation』定義和『dissociation』定義有何不同？", a:"Formation：離子結合成固體，放熱，數值為負。\nDissociation：固體打散成氣態離子，吸熱，數值為正。\n兩者互為相反數。\n\n<span class='trap'>陷阱：題目用哪一種定義會直接影響 cycle 中箭咀方向及正負號。</span>"},
+{cat:"born-haber", q:"畫 Born-Haber cycle 前，第一步應該做什麼檢查？", a:"先圈出題目給的 lattice enthalpy 是 formation 定義還是 dissociation 定義。\n\n<span class='tip'>應試技巧：這一步做錯，整條 cycle 的符號會全部反轉。</span>"},
+{cat:"born-haber", q:"Dissociation enthalpy（如鍵能）的正負號慣例是什麼？", a:"永遠是正值（吸熱），因為打斷鍵需要吸收能量。"},
+
+{cat:"redox", q:"氧化還原滴定計算在模擬卷中的出現頻率？常見組合有哪些？", a:"12/12。常見組合：MnO4⁻/Fe²⁺（1:5）、Cr2O7²⁻/Fe²⁺（1:6）、H2O2/MnO4⁻。"},
+{cat:"redox", q:"Cr2O7²⁻ 與 Fe²⁺ 反應的正確 mole ratio 是多少？學生最常見的錯誤記法是什麼？", a:"正確比例是 1:6。\n\n<span class='trap'>常見陷阱：容易被誤記成 1:1 或 1:3，因為沒有從半反應式重新推導，而是直接背比例。</span>"},
+{cat:"redox", q:"處理任何氧化還原滴定計算，正確的做法順序是什麼？", a:"1) 寫出兩條半反應式\n2) 用電子數配平整條方程式\n3) 讀出真正的 mole ratio\n\n<span class='tip'>不要背誦比例，每次重新推導，才不會被陌生組合考起。</span>"},
+
+{cat:"transition", q:"過渡金屬配位化學考核範圍包括哪幾大類？", a:"顏色來源（d-d transition）、配體取代、幾何異構、光學異構（如 [Co(en)3]³⁺、cisplatin）。"},
+{cat:"transition", q:"為什麼 Sc³⁺ 和 Zn²⁺ 是無色的？", a:"因為它們的 d 軌域分別是全空（d⁰）或全滿（d¹⁰），沒有 d-d transition 可以吸收可見光。\n\n<span class='trap'>陷阱：學生常忽略這一點，誤以為所有過渡金屬離子都有顏色。</span>"},
+{cat:"transition", q:"判斷配位化合物異構前，第一步應該做什麼？", a:"先數中心離子的 d 電子數（判斷是否無色），再確認配位數與幾何形狀（八面體/四面體/平面正方形），才畫異構圖。"},
+{cat:"transition", q:"[Co(en)3]³⁺ 和 cisplatin 分別展示哪一種異構現象？", a:"[Co(en)3]³⁺：光學異構（optical isomerism），因為 en 是雙牙配體，形成不能重疊的鏡像結構。\ncisplatin：幾何異構（cis/trans），是平面正方形配位化合物的順反異構。"},
+
+{cat:"buffer", q:"緩衝溶液 pH 計算題最常見的出題形式是什麼？", a:"「弱酸 + NaOH 部分中和」或「弱鹼 + 強酸部分中和」形式。"},
+{cat:"buffer", q:"處理弱鹼型緩衝題時，容易漏做哪一步？", a:"忘記先將 pKb 轉換成 pKa（pKa + pKb = pKw = 14 at 25°C），直接誤用 pKb 代入 Henderson-Hasselbalch。\n\n<span class='trap'>這是弱鹼緩衝題最常見的失分點。</span>"},
+{cat:"buffer", q:"計算緩衝溶液 pH 的正確步驟順序是什麼？", a:"1) 寫出中和反應式\n2) 用 ICE 表找出反應後剩餘的弱酸/弱鹼莫耳數及生成的共軛物莫耳數\n3) 代入 Henderson-Hasselbalch 方程式\n\n<span class='tip'>不要直接用起始濃度計算，一定要先扣掉中和消耗的部分。</span>"},
+
+{cat:"kp-kc", q:"Kp/Kc 計算常以哪些平衡系統出題？", a:"Haber process（N2+3H2⇌2NH3）、Contact process（2SO2+O2⇌2SO3）、N2O4⇌2NO2 等。"},
+{cat:"kp-kc", q:"催化劑會改變 Kp 或 Kc 的數值嗎？為什麼？", a:"不會。催化劑只提供另一條活化能較低的反應途徑，加快正逆反應同時達到平衡的速度，但不改變平衡位置，因此 Kp/Kc 數值不變。\n\n<span class='tip'>答題時明確寫出這句話可以拿到概念分。</span>"},
+{cat:"kp-kc", q:"用 mole fraction 計算 Kp 時，最常見的計算陷阱是什麼？", a:"忘記先算出總莫耳數（total moles），漏除以總莫耳數就直接把個別物質莫耳數當成 mole fraction 代入。"},
+
+{cat:"kinetics", q:"Kinetics 的機理配對題（rate-determining step）要求學生做什麼？", a:"給出一組實驗速率數據，要求先推導出 rate law（各反應物的級數），再判斷哪一個建議機理的 slow step 與該 rate law 一致。"},
+{cat:"kinetics", q:"判斷機理是否與 rate law 一致時，容易犯的錯誤是什麼？", a:"只看機理 slow step 中出現了哪些反應物種類，卻忽略了 rate law 中每個反應物的級數是否吻合。\n\n<span class='trap'>陷阱：反應物種類對了，級數不對，機理仍然不成立。</span>"},
+{cat:"kinetics", q:"處理機理配對題的正確步驟是什麼？", a:"1) 由實驗數據獨立求出 rate law\n2) 逐一檢查每個建議機理的 slow step 反應物是否與 rate law 中出現的物種和級數完全一致"},
+
+{cat:"vsepr-amphoteric", q:"VSEPR 分子形狀題常用哪些『非常見』分子來考學生？", a:"PCl5（trigonal bipyramidal）、SF6（octahedral）等擁有超過 4 對電子雲的中心原子分子，需要多角度判斷鍵角。"},
+{cat:"vsepr-amphoteric", q:"哪些氧化物/氫氧化物具有兩性（amphoteric），可溶於過量強鹼？", a:"Al2O3、Cr(OH)3 可溶於過量 NaOH。\n\n<span class='trap'>對比陷阱：Fe(OH)3 則不溶於過量 NaOH（只是鹼性氧化物，不是兩性），常被出題人拿來對比考察。</span>"},
+
+{cat:"misconceptions", q:"Maxwell-Boltzmann 分布圖中，加入催化劑後應該怎麼畫？", a:"畫『同一條曲線、標出兩個不同的 Ea 位置』（未加催化劑的 Ea 及加了催化劑後較低的 Ea'），不是畫兩條分開的曲線。\n\n<span class='trap'>這是最常見的作圖迷思之一。</span>"},
+{cat:"misconceptions", q:"計算 ΔG° = ΔH° − TΔS° 前，最容易忽略的陷阱是什麼？", a:"ΔH° 單位通常是 kJ mol⁻¹，而 ΔS° 單位是 J mol⁻¹ K⁻¹，代入前必須先統一單位（通常把 ΔS° 除以 1000 轉成 kJ）。"},
+{cat:"misconceptions", q:"答案的有效數字應該根據什麼決定？", a:"應跟隨題目給出數據中，最少有效數字的一項來決定，而不是憑計算機顯示的位數直接作答。"},
+{cat:"misconceptions", q:"催化劑對平衡位置和 Kp/Kc 有什麼影響？", a:"完全沒有影響。催化劑只影響達到平衡的速度，不影響平衡位置，也不改變 Kp/Kc 數值。"},
+
+{cat:"checklist", q:"考前自我檢查：你能否徒手畫出至少 5 種不同化合物的 Born-Haber cycle？", a:"如果不能，先從最簡單的 NaCl、KCl 開始練習，再挑戰 CaCl2、Na2O、MgCl2 等雙電荷或雙步驟的例子。"},
+{cat:"checklist", q:"考前自我檢查：你能否即場配平任何氧化還原半反應，而不是背誦比例？", a:"練習方法：隨機抽一對氧化劑/還原劑，限時 2 分鐘內配平半反應並寫出總反應式與 mole ratio。"},
+{cat:"checklist", q:"考前自我檢查：你能否解釋為何 Sc³⁺／Zn²⁺ 無色，而 Ti³⁺／Cu²⁺ 有色？", a:"能解釋的關鍵：先數 d 電子數，d⁰ 或 d¹⁰ 代表無 d-d transition 故無色；d¹–d⁹ 之間則有 d-d transition 可吸收可見光而顯色。"},
+{cat:"checklist", q:"考前自我檢查：你是否記得催化劑對 Kp/Kc、平衡位置皆無影響，只影響速率？", a:"這是一個貫穿多個主題的核心概念，務必能在任何相關題目中主動寫出這句話爭取概念分。"},
+];
+
+const CATS = [
+  {id:"all", label:"全部"},
+  {id:"overview", label:"試卷總覽"},
+  {id:"born-haber", label:"Born-Haber"},
+  {id:"redox", label:"氧化還原滴定"},
+  {id:"transition", label:"過渡金屬"},
+  {id:"buffer", label:"緩衝溶液"},
+  {id:"kp-kc", label:"Kp/Kc"},
+  {id:"kinetics", label:"Kinetics機理"},
+  {id:"vsepr-amphoteric", label:"VSEPR/兩性"},
+  {id:"misconceptions", label:"常見誤解"},
+  {id:"checklist", label:"考前檢查"},
+];
+
+const STORAGE_KEY = "chemExamFocusMapProgress";
+let progress = {};
+try{ progress = JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; }catch(e){ progress = {}; }
+CARDS.forEach((c,i)=>{ c.id = i; });
+
+let currentCat = "all";
+let filtered = CARDS.slice();
+let idx = 0;
+let flipped = false;
+
+const tabsEl = document.getElementById("tabs");
+const cardEl = document.getElementById("card");
+const qText = document.getElementById("qText");
+const aText = document.getElementById("aText");
+const cardTag = document.getElementById("cardTag");
+const counter = document.getElementById("counter");
+const progressFill = document.getElementById("progressFill");
+const progressLabel = document.getElementById("progressLabel");
+
+function catLabel(id){ const c = CATS.find(x=>x.id===id); return c ? c.label : id; }
+
+function renderTabs(){
+  tabsEl.innerHTML = "";
+  CATS.forEach(c=>{
+    const btn = document.createElement("div");
+    btn.className = "tab" + (c.id===currentCat ? " active" : "");
+    btn.textContent = c.label;
+    btn.onclick = ()=>{ currentCat = c.id; applyFilter(); };
+    tabsEl.appendChild(btn);
+  });
+}
+
+function applyFilter(){
+  filtered = currentCat==="all" ? CARDS.slice() : CARDS.filter(c=>c.cat===currentCat);
+  idx = 0; flipped = false;
+  renderTabs();
+  renderCard();
+  updateProgress();
+}
+
+function renderCard(){
+  if(filtered.length===0){
+    qText.innerHTML = "此分類暫無卡片";
+    aText.innerHTML = "";
+    counter.textContent = "";
+    cardTag.textContent = "";
+    return;
+  }
+  const c = filtered[idx];
+  cardEl.classList.toggle("flipped", flipped);
+  cardTag.textContent = catLabel(c.cat);
+  qText.innerHTML = c.q;
+  aText.innerHTML = c.a;
+  const status = progress[c.id];
+  let statusHtml = "";
+  if(status==="know") statusHtml = " <span class='status-pill pill-know'>已掌握</span>";
+  if(status==="review") statusHtml = " <span class='status-pill pill-review'>需複習</span>";
+  counter.innerHTML = (idx+1) + " / " + filtered.length + statusHtml;
+  document.getElementById("cardSide").textContent = flipped ? "A" : "Q";
+  document.getElementById("prevBtn").disabled = idx===0;
+  document.getElementById("nextBtn").disabled = idx===filtered.length-1;
+}
+
+function updateProgress(){
+  const total = CARDS.length;
+  const done = Object.keys(progress).length;
+  const pct = total ? Math.round((done/total)*100) : 0;
+  progressFill.style.width = pct + "%";
+  progressLabel.textContent = done + " / " + total + " 已標記";
+}
+
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+
+cardEl.addEventListener("click", ()=>{
+  if(filtered.length===0) return;
+  flipped = !flipped;
+  renderCard();
+});
+
+document.getElementById("prevBtn").onclick = (e)=>{
+  e.stopPropagation();
+  if(idx>0){ idx--; flipped=false; renderCard(); }
+};
+document.getElementById("nextBtn").onclick = (e)=>{
+  e.stopPropagation();
+  if(idx<filtered.length-1){ idx++; flipped=false; renderCard(); }
+};
+document.getElementById("btnKnow").onclick = (e)=>{
+  e.stopPropagation();
+  if(filtered.length===0) return;
+  progress[filtered[idx].id] = "know";
+  saveProgress(); updateProgress(); renderCard();
+};
+document.getElementById("btnReview").onclick = (e)=>{
+  e.stopPropagation();
+  if(filtered.length===0) return;
+  progress[filtered[idx].id] = "review";
+  saveProgress(); updateProgress(); renderCard();
+};
+document.getElementById("resetBtn").onclick = (e)=>{
+  e.stopPropagation();
+  if(!confirm("確定要重設目前分類的進度嗎？")) return;
+  filtered.forEach(c=>{ delete progress[c.id]; });
+  saveProgress(); updateProgress(); renderCard();
+};
+
+applyFilter();
+</script>
+</body>
+</html>
