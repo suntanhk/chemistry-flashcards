@@ -1,0 +1,286 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jody's 60-Question Weakness Drill Flashcards (9CH0)</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --border:#2a2f3a;
+    --text:#e8eaf0; --muted:#9aa2b1; --accent:#5ec8c0; --accent2:#e8a33d;
+    --danger:#e35d5d; --good:#6bbf7a; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+    background:radial-gradient(1200px 600px at 10% -10%,#1a2530 0%,var(--bg) 55%);
+    color:var(--text);min-height:100vh;padding:24px 16px 60px;}
+  h1{font-size:1.4rem;margin:0 0 4px;}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px;}
+  .wrap{max-width:960px;margin:0 auto;}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:.82rem;color:var(--muted);}
+  .stat b{color:var(--text);font-size:1rem;display:block;}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;max-height:120px;overflow-y:auto;}
+  .tab{background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:6px 11px;border-radius:999px;font-size:.72rem;cursor:pointer;user-select:none;transition:.15s;white-space:nowrap;}
+  .tab:hover{border-color:var(--accent);color:var(--text);}
+  .tab.active{background:var(--accent);color:#0b1512;border-color:var(--accent);font-weight:600;}
+  .controls{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+  .btn{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.82rem;cursor:pointer;transition:.15s;}
+  .btn:hover{border-color:var(--accent);}
+  .btn.reset{color:var(--danger);border-color:#3a2323;}
+  .count{color:var(--muted);font-size:.82rem;margin-left:auto;}
+  .card-area{perspective:1600px;margin-bottom:18px;}
+  .card{position:relative;min-height:360px;border-radius:16px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);cursor:pointer;}
+  .card.flipped{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow);padding:26px 28px;display:flex;flex-direction:column;overflow-y:auto;}
+  .face.back{transform:rotateY(180deg);background:var(--panel2);}
+  .tag{display:inline-block;font-size:.64rem;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 10px;margin-bottom:10px;width:fit-content;}
+  .marks{color:var(--accent2);font-size:.78rem;font-weight:700;margin-bottom:8px;}
+  .qtext{font-size:1.02rem;line-height:1.55;flex:1;white-space:pre-wrap;}
+  .atext{font-size:.94rem;line-height:1.68;flex:1;white-space:pre-wrap;}
+  .hint{color:var(--muted);font-size:.75rem;margin-top:12px;}
+  .warn{margin-top:14px;background:#241717;border:1px solid #4a2a2a;color:#f2b3b3;border-radius:8px;padding:8px 12px;font-size:.78rem;}
+  .warn b{color:var(--danger);}
+  .judge{display:flex;gap:10px;margin-top:4px;}
+  .jbtn{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:.9rem;cursor:pointer;font-weight:600;transition:.15s;}
+  .jbtn.know{color:var(--good);border-color:#26492f;} .jbtn.know:hover{background:#16281b;}
+  .jbtn.review{color:var(--accent2);border-color:#4a3820;} .jbtn.review:hover{background:#2a2015;}
+  .progress-wrap{background:var(--panel);border:1px solid var(--border);border-radius:999px;height:8px;overflow:hidden;margin-bottom:6px;}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--good));width:0%;transition:width .3s;}
+  .progress-label{font-size:.72rem;color:var(--muted);margin-bottom:16px;}
+  .footer-note{color:var(--muted);font-size:.75rem;text-align:center;margin-top:30px;line-height:1.6;}
+  @media(max-width:600px){.card{min-height:420px;} .qtext{font-size:.96rem;} .atext{font-size:.88rem;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🎯 Jody's 60-Question Weakness Drill Flashcards</h1>
+  <div class="sub">Pearson Edexcel 9CH0 Year 12 — A★ Final Weakness Drill, all 60 Q&amp;A across 5 sections · click to flip</div>
+
+  <div class="stats">
+    <div class="stat"><b id="statTotal">0</b>Total cards</div>
+    <div class="stat"><b id="statKnow">0</b>Marked "Know it"</div>
+    <div class="stat"><b id="statReview">0</b>Marked "Review"</div>
+    <div class="stat"><b id="statSeen">0</b>Unseen</div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="progress-wrap"><div class="progress-bar" id="progBar"></div></div>
+  <div class="progress-label" id="progLabel">Card 1 of 1</div>
+
+  <div class="card-area">
+    <div class="card" id="card">
+      <div class="face front">
+        <div class="tag" id="tagFront">SECTION</div>
+        <div class="marks" id="marksFront"></div>
+        <div class="qtext" id="qtext">Loading…</div>
+        <div class="hint">Tap card to reveal the answer</div>
+      </div>
+      <div class="face back">
+        <div class="tag" id="tagBack">SECTION</div>
+        <div class="atext" id="atext"></div>
+        <div class="warn" id="warnBox" style="display:none;"><b>A* point:</b> <span id="warnText"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="judge">
+    <button class="jbtn review" onclick="judge('review')">🔁 Review again</button>
+    <button class="jbtn know" onclick="judge('know')">✅ Know it</button>
+  </div>
+
+  <div class="controls" style="margin-top:16px;">
+    <button class="btn" onclick="prevCard()">← Prev</button>
+    <button class="btn" onclick="nextCard()">Next →</button>
+    <button class="btn" onclick="shuffleDeck()">🔀 Shuffle</button>
+    <button class="btn" onclick="filterReviewOnly()">Show only "Review"</button>
+    <button class="btn reset" onclick="resetProgress()">Reset progress</button>
+    <span class="count" id="countLabel"></span>
+  </div>
+
+  <div class="footer-note">
+    Progress saved in this browser (localStorage). Target: once Jody consistently scores 85%+ on this drill,
+    move straight into timed Paper 1 → Paper 2 → Paper 3 as final exam rehearsal.
+  </div>
+</div>
+
+<script>
+const DECK = [
+// ===== SECTION 1: CALCULATIONS (Q1-20) =====
+{sec:"S1: Calculations", marks:"[2]", q:"Q1. Calculate the amount of substance in 25.0 cm³ of 0.200 mol dm⁻³ NaOH.", a:"25.0 cm³ = 0.0250 dm³\nn = cV = 0.200×0.0250 = 0.00500 mol", warn:"Always convert cm³ to dm³ before using n=cV."},
+{sec:"S1: Calculations", marks:"[2]", q:"Q2. 0.0250 mol of a substance has mass 1.475 g. Calculate Mr.", a:"Mr = mass/moles = 1.475/0.0250 = 59.0", warn:""},
+{sec:"S1: Calculations", marks:"[2]", q:"Q3. Calculate the mass of 0.150 mol CaCO₃ (Ar: Ca=40, C=12, O=16).", a:"Mr(CaCO₃) = 40+12+(3×16) = 100\nm = nMr = 0.150×100 = 15.0 g", warn:""},
+{sec:"S1: Calculations", marks:"[2]", q:"Q4. Calculate the volume of 0.150 mol gas at 24.0 dm³ mol⁻¹.", a:"V = n×24.0 = 0.150×24.0 = 3.60 dm³", warn:""},
+{sec:"S1: Calculations", marks:"[2]", q:"Q5. Actual yield 3.20 g, theoretical yield 4.00 g. Calculate % yield.", a:"%yield = (3.20/4.00)×100 = 80.0%", warn:""},
+{sec:"S1: Calculations", marks:"[4]", q:"Q6. A compound is 40.0% C, 6.7% H, 53.3% O. Find its empirical formula.", a:"Moles (per 100g): C=40.0/12=3.33, H=6.7/1=6.7, O=53.3/16=3.33\nDivide by smallest (3.33): C=1, H=2, O=1\nEmpirical formula = CH₂O", warn:""},
+{sec:"S1: Calculations", marks:"[3]", q:"Q7. 2.50 g NaOH (Mr=40.0) dissolved to make 250 cm³ solution. Calculate concentration.", a:"n = 2.50/40.0 = 0.0625 mol\nV = 250 cm³ = 0.250 dm³\nc = n/V = 0.0625/0.250 = 0.250 mol dm⁻³", warn:""},
+{sec:"S1: Calculations", marks:"[4]", q:"Q8. 25.00 cm³ NaOH reacts exactly with 24.60 cm³ of 0.1000 mol dm⁻³ HCl (1:1). Calculate [NaOH].", a:"n(HCl) = 0.1000×0.02460 = 0.002460 mol = n(NaOH)\nc(NaOH) = 0.002460/0.02500 = 0.0984 mol dm⁻³", warn:""},
+{sec:"S1: Calculations", marks:"[2]", q:"Q9. 2H₂+O₂→2H₂O. If 0.300 mol H₂ reacts completely, calculate moles of O₂ required.", a:"Ratio H₂:O₂ = 2:1 → n(O₂) = 0.300/2 = 0.150 mol", warn:""},
+{sec:"S1: Calculations", marks:"[2]", q:"Q10. Mg+2HCl→MgCl₂+H₂. 0.100 mol Mg + 0.150 mol HCl. Identify the limiting reagent.", a:"0.100 mol Mg needs 0.200 mol HCl; only 0.150 mol available → HCl is the limiting reagent.", warn:""},
+{sec:"S1: Calculations", marks:"[2]", q:"Q11. 100 g solution rises 5.0°C (c=4.18 J g⁻¹K⁻¹). Calculate q.", a:"q = mcΔT = 100×4.18×5.0 = 2090 J = 2.09 kJ", warn:""},
+{sec:"S1: Calculations", marks:"[2]", q:"Q12. 0.0500 mol of substance releases 2.50 kJ. Calculate ΔH.", a:"q = −2.50 kJ (released)\nΔH = q/n = −2.50/0.0500 = −50.0 kJ mol⁻¹", warn:""},
+{sec:"S1: Calculations", marks:"[2]", q:"Q13. A reaction produces 40 cm³ gas in 20 s. Calculate the mean rate.", a:"rate = ΔV/Δt = 40/20 = 2.0 cm³ s⁻¹", warn:""},
+{sec:"S1: Calculations", marks:"[2]", q:"Q14. A measurement is 25.0±0.2 cm³. Calculate the % uncertainty.", a:"%unc = (0.2/25.0)×100 = 0.80%", warn:""},
+{sec:"S1: Calculations", marks:"[1]", q:"Q15. A titre uses initial and final readings, each ±0.05 cm³. Calculate the absolute uncertainty in the titre.", a:"0.05+0.05 = ±0.10 cm³", warn:""},
+{sec:"S1: Calculations", marks:"[2]", q:"Q16. Calculate (0.250×12.0)/2.00 to appropriate sig figs.", a:"(0.250×12.0)/2.00 = 3.00/2.00 = 1.50", warn:""},
+{sec:"S1: Calculations", marks:"[3]", q:"Q17. Calculate the % by mass of oxygen in H₂SO₄.", a:"Mr = 2+32+(4×16) = 98\nO mass = 4×16 = 64\n%O = (64/98)×100 = 65.3%", warn:""},
+{sec:"S1: Calculations", marks:"[3]", q:"Q18. Calculate the concentration of a solution with 5.85 g NaCl (Mr=58.5) in 500 cm³.", a:"n = 5.85/58.5 = 0.100 mol\nV = 500 cm³ = 0.500 dm³\nc = 0.100/0.500 = 0.200 mol dm⁻³", warn:""},
+{sec:"S1: Calculations", marks:"[2]", q:"Q19. Desired product Mr=80; total reactant Mr=100. Calculate atom economy.", a:"%AE = (80/100)×100 = 80%", warn:""},
+{sec:"S1: Calculations", marks:"[4]", q:"Q20. 10.0 g CaCO₃ → CaO+CO₂ completely. Calculate the volume of CO₂ at 24.0 dm³ mol⁻¹.", a:"Mr(CaCO₃)=100 → n=10.0/100=0.100 mol\nRatio 1:1 → n(CO₂)=0.100 mol\nV = 0.100×24.0 = 2.40 dm³", warn:""},
+
+// ===== SECTION 2: ORGANIC CHEMISTRY (Q21-35) =====
+{sec:"S2: Organic Chemistry", marks:"[1]", q:"Q21. State the general formula of alkanes.", a:"CnH2n+2", warn:""},
+{sec:"S2: Organic Chemistry", marks:"[1]", q:"Q22. State the general formula of alkenes.", a:"CnH2n", warn:""},
+{sec:"S2: Organic Chemistry", marks:"[2]", q:"Q23. State the test for an alkene, and the positive result.", a:"Add bromine water. Positive result: orange/brown → colourless.", warn:""},
+{sec:"S2: Organic Chemistry", marks:"[2]", q:"Q24. Write the equation for ethene + bromine.", a:"CH₂=CH₂ + Br₂ → CH₂BrCH₂Br (1,2-dibromoethane)", warn:""},
+{sec:"S2: Organic Chemistry", marks:"[1]", q:"Q25. CH₃CH₂Br+OH⁻→? Name/give the product.", a:"CH₃CH₂OH (ethanol)", warn:""},
+{sec:"S2: Organic Chemistry", marks:"[1]", q:"Q26. Name the mechanism in Q25.", a:"Nucleophilic substitution", warn:""},
+{sec:"S2: Organic Chemistry", marks:"[1]", q:"Q27. Define a nucleophile.", a:"An electron-pair donor that attacks an electron-deficient centre.", warn:""},
+{sec:"S2: Organic Chemistry", marks:"[1]", q:"Q28. Define an electrophile.", a:"An electron-pair acceptor.", warn:""},
+{sec:"S2: Organic Chemistry", marks:"[2]", q:"Q29. Explain why the carbon bonded to bromine in bromoethane is electrophilic.", a:"Br is more electronegative than C, so the C–Br bond is polar (Cδ+–Brδ−). The carbon is electron-deficient and can be attacked by a nucleophile.", warn:""},
+{sec:"S2: Organic Chemistry", marks:"[4]", q:"Q30. Describe the curly-arrow mechanism for CH₃CH₂Br+OH⁻→CH₃CH₂OH+Br⁻.", a:"Arrow 1: lone pair on O → electrophilic carbon\nArrow 2: C–Br bond → Br", warn:"Curly arrows show movement of ELECTRON PAIRS, not movement of atoms."},
+{sec:"S2: Organic Chemistry", marks:"[2]", q:"Q31. Give the oxidation pathway of a primary alcohol.", a:"Primary alcohol → aldehyde → carboxylic acid", warn:""},
+{sec:"S2: Organic Chemistry", marks:"[1]", q:"Q32. State the oxidising agent used for alcohol oxidation.", a:"Acidified potassium manganate(VII)", warn:""},
+{sec:"S2: Organic Chemistry", marks:"[2]", q:"Q33. Why is ethanal distilled off during its preparation?", a:"Ethanal can be further oxidised to ethanoic acid. Distilling it off removes it from the reaction mixture and prevents further oxidation.", warn:""},
+{sec:"S2: Organic Chemistry", marks:"[2]", q:"Q34. Why is reflux used when preparing a carboxylic acid from a primary alcohol?", a:"Reflux allows prolonged heating without volatile substances escaping (vapour condenses and returns), letting oxidation proceed to completion.", warn:""},
+{sec:"S2: Organic Chemistry", marks:"[3]", q:"Q35. Explain why alkenes undergo addition reactions.", a:"Alkenes contain a C=C double bond with a π bond of relatively high electron density, which reacts with electrophiles. The π bond breaks and new atoms/groups bond across the former double bond.", warn:""},
+
+// ===== SECTION 3: PRACTICAL & DATA ANALYSIS (Q36-45) =====
+{sec:"S3: Practical & Data", marks:"[1]", q:"Q36. Why is a rough titration performed?", a:"To find approximately where the endpoint occurs, so accurate titrations can be performed efficiently afterward.", warn:""},
+{sec:"S3: Practical & Data", marks:"[1]", q:"Q37. What makes titres concordant?", a:"They are very close together, normally within about 0.10 cm³.", warn:""},
+{sec:"S3: Practical & Data", marks:"[1]", q:"Q38. Why is the rough titre normally excluded from the mean?", a:"It is only approximate and generally less accurate than the concordant accurate titres.", warn:""},
+{sec:"S3: Practical & Data", marks:"[2]", q:"Q39. Explain why repeating measurements improves reliability.", a:"Repeating allows anomalous results to be identified and a mean of concordant results calculated, reducing the effect of random error.", warn:""},
+{sec:"S3: Practical & Data", marks:"[1]", q:"Q40. Define accuracy.", a:"How close a measurement is to the true or accepted value.", warn:""},
+{sec:"S3: Practical & Data", marks:"[1]", q:"Q41. Define precision.", a:"How close repeated measurements are to each other.", warn:""},
+{sec:"S3: Practical & Data", marks:"[2]", q:"Q42. Distinguish random error from systematic error.", a:"Random error: unpredictable variation between measurements.\nSystematic error: a consistent bias in the same direction.", warn:""},
+{sec:"S3: Practical & Data", marks:"[2]", q:"Q43. Why don't repeats remove systematic error?", a:"Repeating reduces random error, but the SAME systematic bias affects every measurement, so it isn't removed by repeating.", warn:""},
+{sec:"S3: Practical & Data", marks:"[2]", q:"Q44. A student plots gas volume against time. How is the initial rate determined?", a:"Draw a tangent to the curve at t=0. Initial rate = gradient of that tangent.", warn:""},
+{sec:"S3: Practical & Data", marks:"[2]", q:"Q45. Give two reasons percentage yield is below 100%.", a:"Any two: incomplete reaction; side reactions; product lost during transfer; product lost during purification; product left in apparatus; product decomposed.", warn:""},
+
+// ===== SECTION 4: PHYSICAL & INORGANIC CHEMISTRY (Q46-55) =====
+{sec:"S4: Physical & Inorganic", marks:"[2]", q:"Q46. Define dynamic equilibrium.", a:"In a closed system, forward and reverse reactions continue at EQUAL RATES, so concentrations of reactants and products stay constant.", warn:""},
+{sec:"S4: Physical & Inorganic", marks:"[2]", q:"Q47. N₂+3H₂⇌2NH₃. Predict the effect of increasing pressure.", a:"Left = 4 mol gas, right = 2 mol gas. Increasing pressure favours fewer gas moles → equilibrium shifts RIGHT.", warn:""},
+{sec:"S4: Physical & Inorganic", marks:"[2]", q:"Q48. Forward reaction is exothermic. Explain the effect of increasing temperature.", a:"Increasing T favours the endothermic reverse reaction → equilibrium shifts LEFT, product yield decreases.", warn:""},
+{sec:"S4: Physical & Inorganic", marks:"[2]", q:"Q49. Explain why a catalyst does not change the equilibrium position.", a:"A catalyst lowers Ea for BOTH forward and reverse reactions equally — it increases both rates but doesn't favour either direction, so equilibrium position is unchanged.", warn:""},
+{sec:"S4: Physical & Inorganic", marks:"[2]", q:"Q50. Explain why increasing concentration usually increases reaction rate.", a:"More particles per unit volume → collision frequency increases → more successful collisions per second.", warn:""},
+{sec:"S4: Physical & Inorganic", marks:"[3]", q:"Q51. Explain the effect of increasing temperature via collision theory (3 points).", a:"1. Increases average kinetic energy\n2. Increases collision frequency\n3. Increases the proportion of particles with energy ≥ Ea\n→ successful collisions per second increase", warn:""},
+{sec:"S4: Physical & Inorganic", marks:"[1]", q:"Q52. Define oxidation in terms of electrons.", a:"Loss of electrons", warn:""},
+{sec:"S4: Physical & Inorganic", marks:"[1]", q:"Q53. Define reduction in terms of electrons.", a:"Gain of electrons", warn:""},
+{sec:"S4: Physical & Inorganic", marks:"[3]", q:"Q54. Which is the stronger oxidising agent, Cl₂ or I₂? Explain.", a:"Cl₂. Chlorine is smaller with fewer occupied shells and less shielding, so an incoming electron experiences stronger nuclear attraction — chlorine gains electrons more readily.", warn:""},
+{sec:"S4: Physical & Inorganic", marks:"[3]", q:"Q55. Predict whether chlorine reacts with iodide ions and write the ionic equation.", a:"Yes: Cl₂ + 2I⁻ → 2Cl⁻ + I₂\nChlorine is the stronger oxidising agent and oxidises iodide to iodine.", warn:""},
+
+// ===== SECTION 5: A* SYNOPTIC QUESTIONS (Q56-60) =====
+{sec:"S5: Synoptic", marks:"[8]", q:"Q56. 25.00 cm³ H₂SO₄ requires 20.00 cm³ of 0.1000 mol dm⁻³ NaOH (H₂SO₄+2NaOH→Na₂SO₄+2H₂O). Calculate [H₂SO₄].", a:"n(NaOH) = 0.1000×0.02000 = 0.002000 mol\nRatio H₂SO₄:NaOH = 1:2 → n(H₂SO₄) = 0.002000/2 = 0.001000 mol\nV = 25.00 cm³ = 0.02500 dm³\nc = 0.001000/0.02500 = 0.0400 mol dm⁻³", warn:"A* calculation chain: V → n → mole ratio → n → c"},
+{sec:"S5: Synoptic", marks:"[6]", q:"Q57. Unknown compound Mr=74; IR shows strong absorption ~1740 cm⁻¹, no broad O–H. Suggest the functional group and how mass spec gives further evidence.", a:"~1740 cm⁻¹ suggests C=O. No broad O–H rules out alcohol/carboxylic acid as likely — an ESTER fits (carbonyl, no O–H).\nMass spec: molecular ion peak at m/z=74 confirms Mr=74; the fragmentation pattern gives further structural evidence since different structures fragment differently.", warn:""},
+{sec:"S5: Synoptic", marks:"[2]", q:"Q58(a). Experimental ΔH=−48.0 kJ mol⁻¹; accepted=−57.0 kJ mol⁻¹. Calculate % difference.", a:"Difference = |−48.0−(−57.0)| = 9.0\n% difference = (9.0/57.0)×100 = 15.8%", warn:""},
+{sec:"S5: Synoptic", marks:"[2]", q:"Q58(b). Give two reasons for the difference in Q58(a).", a:"Heat lost to surroundings; heat absorbed by apparatus; inaccurate temperature measurement; incomplete reaction; assumptions about density/specific heat capacity (any two).", warn:""},
+{sec:"S5: Synoptic", marks:"[2]", q:"Q58(c). Give one improvement to reduce the error in Q58.", a:"Improve insulation and use a lid to reduce heat loss to the surroundings (the improvement should target the specific error source identified).", warn:""},
+{sec:"S5: Synoptic", marks:"[2]", q:"Q59(a). Gas data: 10s→15cm³, 30s→37cm³. Calculate the mean rate between 10s and 30s.", a:"ΔV = 37−15 = 22 cm³, Δt = 30−10 = 20 s\nrate = 22/20 = 1.10 cm³ s⁻¹", warn:""},
+{sec:"S5: Synoptic", marks:"[2]", q:"Q59(b). Explain why the volume-time graph becomes less steep over time.", a:"Reactants are gradually consumed, so their concentration decreases, reducing collision frequency and the number of successful collisions per second.", warn:""},
+{sec:"S5: Synoptic", marks:"[2]", q:"Q59(c). How is the initial rate obtained from the graph?", a:"Draw a tangent at t=0; initial rate = gradient of that tangent.", warn:""},
+{sec:"S5: Synoptic", marks:"[10]", q:"Q60. FINAL SYNOPTIC: A halogenoalkane reacts with aqueous OH⁻; product purified/analysed by IR and mass spec. Cover: (1) reaction type, (2) product, (3) mechanism, (4) IR evidence, (5) mass spec Mr, (6) why yield<100%.", a:"1. Nucleophilic substitution — OH⁻ acts as a nucleophile, substituting for the halogen.\n2. Product = an alcohol.\n3. Mechanism: OH⁻ lone pair attacks the electrophilic carbon (curly arrow: lone pair→C); second arrow: C–X bond→X.\n4. IR: broad absorption ~3200–3600 cm⁻¹ confirms O–H (alcohol).\n5. Mass spec: molecular ion peak gives Mr directly (Mr = m/z of molecular ion); fragmentation pattern gives further structural evidence.\n6. Yield<100%: reaction may be incomplete, side reactions may occur, or product lost during transfer/purification/drying.", warn:"10-mark synoptic answer — mentally tick off all 6 numbered requirements before finishing, since each is a separate marking point."},
+
+// ===== FINAL RAPID-REVISION SUMMARY =====
+{sec:"Final Summary", marks:"", q:"Recite the 8 core calculation formulae from the Final Rapid-Revision Summary.", a:"n = cV\nn = m/Mr\nc = n/V\nq = mcΔT\nΔH = −q/n\nrate = Δquantity/Δt\n% yield = (actual/theoretical)×100\n% uncertainty = (absolute uncertainty/measurement)×100", warn:""},
+{sec:"Final Summary", marks:"", q:"Recite the 3 organic summary facts.", a:"Alkene + bromine water → decolourisation\nPrimary alcohol → aldehyde → carboxylic acid\nHalogenoalkane + nucleophile → substitution", warn:""},
+{sec:"Final Summary", marks:"", q:"Recite the equilibrium, redox, and practical summary facts.", a:"Equilibrium: forward rate = reverse rate (dynamic equilibrium); catalyst → no change in equilibrium position.\nRedox: oxidation = loss of electrons; reduction = gain of electrons.\nPractical: accuracy = closeness to true value; precision = closeness of repeated values; random error reduced by repeats; systematic error NOT removed by repeats.", warn:""},
+];
+
+let state = {};
+try{ state = JSON.parse(localStorage.getItem('jody_60drill_flashcards')||'{}'); }catch(e){ state = {}; }
+
+const sections = [...new Set(DECK.map(c=>c.sec))];
+let activeFilter = 'All';
+let order = DECK.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+function cardKey(i){ return DECK[i].sec+"|"+DECK[i].q; }
+
+function buildTabs(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML='';
+  ['All', ...sections].forEach(s=>{
+    const el = document.createElement('div');
+    el.className = 'tab'+(s===activeFilter?' active':'');
+    el.textContent = s;
+    el.onclick = ()=>{ activeFilter=s; applyFilter(); };
+    tabs.appendChild(el);
+  });
+}
+
+function applyFilter(){
+  buildTabs();
+  order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].sec===activeFilter);
+  pos = 0; flipped=false;
+  render();
+}
+
+function filterReviewOnly(){
+  order = DECK.map((_,i)=>i).filter(i=> state[cardKey(i)]==='review' && (activeFilter==='All' || DECK[i].sec===activeFilter));
+  if(order.length===0){ alert("No cards marked 'Review' in this view yet."); order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].sec===activeFilter); }
+  pos=0; flipped=false; render();
+}
+
+function shuffleDeck(){
+  for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+  pos=0; flipped=false; render();
+}
+
+function render(){
+  if(order.length===0){ order=[0]; }
+  const idx = order[pos];
+  const c = DECK[idx];
+  document.getElementById('tagFront').textContent = c.sec;
+  document.getElementById('tagBack').textContent = c.sec;
+  document.getElementById('marksFront').textContent = c.marks;
+  document.getElementById('qtext').textContent = c.q;
+  document.getElementById('atext').textContent = c.a;
+  const warnBox = document.getElementById('warnBox');
+  if(c.warn){ warnBox.style.display='block'; document.getElementById('warnText').textContent = c.warn; }
+  else{ warnBox.style.display='none'; }
+  document.getElementById('card').classList.remove('flipped');
+  flipped=false;
+  document.getElementById('progLabel').textContent = `Card ${pos+1} of ${order.length}${activeFilter!=='All'?' · '+activeFilter:''}`;
+  document.getElementById('progBar').style.width = ((pos+1)/order.length*100)+'%';
+  updateStats();
+}
+
+function updateStats(){
+  const total = DECK.length;
+  let know=0, review=0;
+  DECK.forEach((c,i)=>{ const s = state[cardKey(i)]; if(s==='know') know++; else if(s==='review') review++; });
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statKnow').textContent = know;
+  document.getElementById('statReview').textContent = review;
+  document.getElementById('statSeen').textContent = total-know-review;
+  document.getElementById('countLabel').textContent = order.length+' cards in view';
+}
+
+document.getElementById('card').addEventListener('click', ()=>{
+  flipped = !flipped;
+  document.getElementById('card').classList.toggle('flipped', flipped);
+});
+
+function nextCard(){ pos = (pos+1)%order.length; flipped=false; render(); }
+function prevCard(){ pos = (pos-1+order.length)%order.length; flipped=false; render(); }
+
+function judge(result){
+  const idx = order[pos];
+  state[cardKey(idx)] = result;
+  try{ localStorage.setItem('jody_60drill_flashcards', JSON.stringify(state)); }catch(e){}
+  nextCard();
+}
+
+function resetProgress(){
+  if(confirm("Reset all know/review progress?")){
+    state = {};
+    try{ localStorage.setItem('jody_60drill_flashcards', JSON.stringify(state)); }catch(e){}
+    updateStats();
+  }
+}
+
+applyFilter();
+</script>
+</body>
+</html>
