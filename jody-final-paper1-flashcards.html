@@ -1,0 +1,280 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jody's Final Paper 1 Flashcards (9CH0)</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --border:#2a2f3a;
+    --text:#e8eaf0; --muted:#9aa2b1; --accent:#5ec8c0; --accent2:#e8a33d;
+    --danger:#e35d5d; --good:#6bbf7a; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+    background:radial-gradient(1200px 600px at 10% -10%,#1a2530 0%,var(--bg) 55%);
+    color:var(--text);min-height:100vh;padding:24px 16px 60px;}
+  h1{font-size:1.4rem;margin:0 0 4px;}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px;}
+  .wrap{max-width:960px;margin:0 auto;}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:.82rem;color:var(--muted);}
+  .stat b{color:var(--text);font-size:1rem;display:block;}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;max-height:120px;overflow-y:auto;}
+  .tab{background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:6px 11px;border-radius:999px;font-size:.72rem;cursor:pointer;user-select:none;transition:.15s;white-space:nowrap;}
+  .tab:hover{border-color:var(--accent);color:var(--text);}
+  .tab.active{background:var(--accent);color:#0b1512;border-color:var(--accent);font-weight:600;}
+  .controls{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+  .btn{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.82rem;cursor:pointer;transition:.15s;}
+  .btn:hover{border-color:var(--accent);}
+  .btn.reset{color:var(--danger);border-color:#3a2323;}
+  .count{color:var(--muted);font-size:.82rem;margin-left:auto;}
+  .card-area{perspective:1600px;margin-bottom:18px;}
+  .card{position:relative;min-height:400px;border-radius:16px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);cursor:pointer;}
+  .card.flipped{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow);padding:26px 28px;display:flex;flex-direction:column;overflow-y:auto;}
+  .face.back{transform:rotateY(180deg);background:var(--panel2);}
+  .tag{display:inline-block;font-size:.64rem;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 10px;margin-bottom:10px;width:fit-content;}
+  .marks{color:var(--accent2);font-size:.78rem;font-weight:700;margin-bottom:8px;}
+  .qtext{font-size:1.02rem;line-height:1.55;flex:1;white-space:pre-wrap;}
+  .atext{font-size:.94rem;line-height:1.68;flex:1;white-space:pre-wrap;}
+  .hint{color:var(--muted);font-size:.75rem;margin-top:12px;}
+  .warn{margin-top:14px;background:#241717;border:1px solid #4a2a2a;color:#f2b3b3;border-radius:8px;padding:8px 12px;font-size:.78rem;}
+  .warn b{color:var(--danger);}
+  .judge{display:flex;gap:10px;margin-top:4px;}
+  .jbtn{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:.9rem;cursor:pointer;font-weight:600;transition:.15s;}
+  .jbtn.know{color:var(--good);border-color:#26492f;} .jbtn.know:hover{background:#16281b;}
+  .jbtn.review{color:var(--accent2);border-color:#4a3820;} .jbtn.review:hover{background:#2a2015;}
+  .progress-wrap{background:var(--panel);border:1px solid var(--border);border-radius:999px;height:8px;overflow:hidden;margin-bottom:6px;}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--good));width:0%;transition:width .3s;}
+  .progress-label{font-size:.72rem;color:var(--muted);margin-bottom:16px;}
+  .footer-note{color:var(--muted);font-size:.75rem;text-align:center;margin-top:30px;line-height:1.6;}
+  @media(max-width:600px){.card{min-height:460px;} .qtext{font-size:.96rem;} .atext{font-size:.88rem;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📝 Jody's Final Paper 1 Flashcards</h1>
+  <div class="sub">Pearson Edexcel 9CH0 Year 12 — full 90-mark mock, Questions 1–19, with model answers &amp; mark schemes · click to flip</div>
+
+  <div class="stats">
+    <div class="stat"><b id="statTotal">0</b>Total cards</div>
+    <div class="stat"><b id="statKnow">0</b>Marked "Know it"</div>
+    <div class="stat"><b id="statReview">0</b>Marked "Review"</div>
+    <div class="stat"><b id="statSeen">0</b>Unseen</div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="progress-wrap"><div class="progress-bar" id="progBar"></div></div>
+  <div class="progress-label" id="progLabel">Card 1 of 1</div>
+
+  <div class="card-area">
+    <div class="card" id="card">
+      <div class="face front">
+        <div class="tag" id="tagFront">SECTION</div>
+        <div class="marks" id="marksFront"></div>
+        <div class="qtext" id="qtext">Loading…</div>
+        <div class="hint">Tap card to reveal the model answer</div>
+      </div>
+      <div class="face back">
+        <div class="tag" id="tagBack">SECTION</div>
+        <div class="atext" id="atext"></div>
+        <div class="warn" id="warnBox" style="display:none;"><b>Exam trap:</b> <span id="warnText"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="judge">
+    <button class="jbtn review" onclick="judge('review')">🔁 Review again</button>
+    <button class="jbtn know" onclick="judge('know')">✅ Know it</button>
+  </div>
+
+  <div class="controls" style="margin-top:16px;">
+    <button class="btn" onclick="prevCard()">← Prev</button>
+    <button class="btn" onclick="nextCard()">Next →</button>
+    <button class="btn" onclick="shuffleDeck()">🔀 Shuffle</button>
+    <button class="btn" onclick="filterReviewOnly()">Show only "Review"</button>
+    <button class="btn reset" onclick="resetProgress()">Reset progress</button>
+    <span class="count" id="countLabel"></span>
+  </div>
+
+  <div class="footer-note">
+    Progress saved in this browser (localStorage). This deck covers the full 90-mark Final Paper 1 mock —
+    Section A (Q1–10, multiple choice) and Section B (Q11–19, structured), plus the Rapid Revision Table and Top 10 Exam Traps.
+  </div>
+</div>
+
+<script>
+const DECK = [
+// ===== SECTION A: MULTIPLE CHOICE (Q1-10) =====
+{sec:"Section A: MCQ", marks:"[1]", q:"Q1. An atom has proton number 17 and mass number 37. State the numbers of protons, neutrons, and electrons.", a:"17 protons, 20 neutrons, 17 electrons (Answer B)\n\nNeutrons = mass number − proton number = 37−17 = 20\nAtom is neutral → electrons = protons = 17", warn:"A* Rule: Neutrons = mass number − proton number."},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q2. Which of Na, Mg, Al, Si has the greatest first ionisation energy, and why?", a:"Si (Answer D).\nAcross Period 3, first IE generally increases: nuclear charge increases, electrons added to the same shell, shielding roughly constant → stronger attraction to the outer electron.", warn:"There's a dip between Mg and Al: Al's outer electron is in the higher-energy, more-shielded 3p orbital (vs Mg's 3s), so Al has a LOWER first IE than Mg — don't assume a smooth increase across the whole period."},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q3. Which substance contains a giant ionic lattice: CO₂, MgO, I₂, or CH₄?", a:"MgO (Answer B) — contains Mg²⁺ and O²⁻ ions in a giant ionic lattice. CO₂, I₂, and CH₄ are all molecular substances.", warn:"General rule: metal + non-metal → usually ionic; non-metal + non-metal → usually covalent."},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q4. What is the oxidation number of sulfur in SO₄²⁻?", a:"+6 (Answer C)\nLet S = x: x + 4(−2) = −2 → x − 8 = −2 → x = +6", warn:"The sum of oxidation numbers must always equal the overall charge of the species."},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q5. Calculate the amount of substance in 4.90 g of H₂SO₄ (Mr=98.0).", a:"0.0500 mol (Answer B)\nn = m/Mr = 4.90/98.0 = 0.0500 mol", warn:""},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q6. Which change increases reaction rate WITHOUT changing the equilibrium position?", a:"Adding a catalyst (Answer D).\nA catalyst provides an alternative pathway with lower Ea, speeding up BOTH forward and reverse reactions equally — it does not shift the equilibrium position.", warn:"NEVER say 'a catalyst increases the equilibrium yield' — it does not."},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q7. Which statement correctly describes a dynamic equilibrium?", a:"The forward and reverse reactions occur at equal rates (Answer C).\nrate(forward) = rate(reverse). The reactions continue to occur — concentrations stay constant but are NOT necessarily equal to each other.", warn:""},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q8. Which Group 2 element (Mg, Ca, Sr, Ba) reacts most vigorously with water?", a:"Ba (Answer D) — reactivity increases down Group 2.\nChain: radius↑ → shielding↑ → nuclear attraction↓ → reactivity↑", warn:""},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q9. What precipitate forms when aqueous AgNO₃ is added to a solution containing bromide ions?", a:"Cream precipitate (Answer B)\nAg⁺(aq) + Br⁻(aq) → AgBr(s)", warn:"Memory table: Cl⁻→white, Br⁻→cream, I⁻→yellow."},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q10. A reaction has ΔH = +125 kJ mol⁻¹. Is it exothermic or endothermic?", a:"Endothermic (Answer B).\nΔH > 0 → endothermic (energy absorbed from surroundings). ΔH < 0 → exothermic.", warn:""},
+
+// ===== Q11: ATOMIC STRUCTURE & PERIODICITY =====
+{sec:"Q11: Atomic Structure", marks:"[2]", q:"Q11(a). Explain what is meant by 'first ionisation energy'.", a:"The energy required to remove one electron from each atom in one mole of gaseous atoms, to form one mole of gaseous 1+ ions.", warn:"The words 'gaseous atoms' and 'one mole' are essential for full marks."},
+{sec:"Q11: Atomic Structure", marks:"[2]", q:"Q11(b). Successive IEs (kJ/mol): 578, 1817, 2745, 11577, 14842. Deduce the group of the element and explain.", a:"Group 3.\nThere is a very large jump between the 3rd and 4th ionisation energies, showing that 3 electrons are removed from the outer shell before an electron is removed from an inner shell.", warn:"Key rule: a large jump after the Nth IE means the element is in Group N."},
+{sec:"Q11: Atomic Structure", marks:"[3]", q:"Q11(c). Explain WHY there is a large increase between the 3rd and 4th ionisation energies.", a:"The first three electrons are removed from the outer shell. The fourth electron is removed from an INNER shell, which is closer to the nucleus and experiences LESS shielding — it therefore experiences a stronger electrostatic attraction, so much more energy is required to remove it.", warn:""},
+{sec:"Q11: Atomic Structure", marks:"[2]", q:"Q11(d). The element (Group 3, Period 3) — write its full electron configuration in 1s notation.", a:"Aluminium: 1s² 2s² 2p⁶ 3s² 3p¹", warn:""},
+
+// ===== Q12: BONDING & STRUCTURE =====
+{sec:"Q12: Bonding & Structure", marks:"[3]", q:"Q12(a). Explain why MgO has a much higher melting point than NaCl (refer to ionic charge and radius).", a:"MgO contains Mg²⁺ and O²⁻ (higher charges than Na⁺/Cl⁻), so the electrostatic attraction is stronger. The relatively small ionic radii also give strong attraction. More energy is required to overcome the ionic lattice in MgO.", warn:"Electrostatic attraction increases when ionic charge increases AND ionic radius decreases."},
+{sec:"Q12: Bonding & Structure", marks:"[3]", q:"Q12(b). Explain why NH₃ has a trigonal pyramidal shape.", a:"N has four electron pairs (3 bonding + 1 lone pair). Electron pairs repel and arrange as far apart as possible. The lone pair repels MORE strongly than bonding pairs, pushing the N–H bonds closer together, giving trigonal pyramidal shape, bond angle ≈107°.", warn:"Must-know: NH₃ = 107°, trigonal pyramidal."},
+{sec:"Q12: Bonding & Structure", marks:"[2]", q:"Q12(c). Explain why water has a higher boiling point than H₂S.", a:"Water forms strong hydrogen bonds (H bonded to highly electronegative O). H₂S cannot hydrogen bond, so its intermolecular forces are weaker. More energy is required to separate water molecules.", warn:"Do NOT say 'the O–H covalent bonds are broken when water boils' — it's the intermolecular hydrogen bonds that are overcome, not the covalent bonds."},
+{sec:"Q12: Bonding & Structure", marks:"[2]", q:"Q12(d). State the shape and bond angle of CO₂.", a:"Linear, 180°.\nCentral carbon has 2 regions of electron density and no lone pairs.", warn:""},
+
+// ===== Q13: REDOX =====
+{sec:"Q13: Redox", marks:"[2]", q:"Q13(a). Determine the oxidation number of chlorine in ClO₃⁻.", a:"+5\nx + 3(−2) = −1 → x − 6 = −1 → x = +5", warn:""},
+{sec:"Q13: Redox", marks:"[2]", q:"Q13(b). Cl₂+2OH⁻→Cl⁻+ClO⁻+H₂O. Explain why this is disproportionation.", a:"Chlorine (0 in Cl₂) is simultaneously reduced to −1 (in Cl⁻) and oxidised to +1 (in ClO⁻) — the same element is both oxidised and reduced in the same reaction.", warn:"Definition: disproportionation = a reaction where the same element is simultaneously oxidised and reduced."},
+{sec:"Q13: Redox", marks:"[2]", q:"Q13(c). Write the ionic half-equation for the oxidation of Fe²⁺ to Fe³⁺.", a:"Fe²⁺ → Fe³⁺ + e⁻", warn:"OIL RIG — Oxidation Is Loss, Reduction Is Gain."},
+{sec:"Q13: Redox", marks:"[2]", q:"Q13(d). Cl₂+2Br⁻→2Cl⁻+Br₂. Identify the oxidising agent and reducing agent.", a:"Oxidising agent: Cl₂ (it is reduced, Cl₂→Cl⁻)\nReducing agent: Br⁻ (it is oxidised, Br⁻→Br₂)", warn:"Critical rule: Oxidising agent = the substance that is ITSELF reduced. Reducing agent = the substance that is ITSELF oxidised."},
+
+// ===== Q14: GROUP 2 =====
+{sec:"Q14: Group 2", marks:"[1]", q:"Q14(a). State the trend in reactivity down Group 2.", a:"Reactivity increases down Group 2.", warn:""},
+{sec:"Q14: Group 2", marks:"[3]", q:"Q14(b). Explain the Group 2 reactivity trend (radius, shielding, attraction).", a:"Down the group, more shells → atomic radius increases; more shielding from inner shells; outer electron experiences weaker attraction to the nucleus and is easier to remove → reactivity increases.", warn:"Chain: shells↑ → radius↑ → shielding↑ → attraction↓ → reactivity↑"},
+{sec:"Q14: Group 2", marks:"[2]", q:"Q14(c). Write the equation (with state symbols) for calcium reacting with water.", a:"Ca(s) + 2H₂O(l) → Ca(OH)₂(aq) + H₂(g)", warn:"Calcium forms Ca²⁺, so the hydroxide is Ca(OH)₂ — don't forget the 2."},
+{sec:"Q14: Group 2", marks:"[2]", q:"Q14(d). Explain why Group 2 carbonate thermal stability INCREASES down the group.", a:"Larger cations down the group have lower charge density and lower polarising power. They distort the carbonate ion less, so the carbonate is more stable and needs more energy to decompose.", warn:"Key term: 'polarising power' is a high-value phrase examiners look for."},
+{sec:"Q14: Group 2", marks:"[2]", q:"Q14(e). State the flame colours of barium and calcium compounds.", a:"Barium: apple green\nCalcium: brick red / orange-red", warn:""},
+
+// ===== Q15: HALOGENS =====
+{sec:"Q15: Halogens", marks:"[1]", q:"Q15(a). State the trend in reactivity down Group 7.", a:"Reactivity DECREASES down Group 7.", warn:""},
+{sec:"Q15: Halogens", marks:"[2]", q:"Q15(b). Explain the Group 7 reactivity trend in terms of attraction for an incoming electron.", a:"Down the group, atomic radius and shielding increase, so the incoming electron experiences weaker nuclear attraction — it is gained less easily, so oxidising power and reactivity decrease.", warn:""},
+{sec:"Q15: Halogens", marks:"[3]", q:"Q15(c). Aqueous chlorine is added to KBr solution. State the observation and ionic equation.", a:"Observation: solution turns orange (bromine forms).\nCl₂(aq) + 2Br⁻(aq) → 2Cl⁻(aq) + Br₂(aq)", warn:""},
+{sec:"Q15: Halogens", marks:"[2]", q:"Q15(d). Explain why chlorine acts as an oxidising agent in the reaction with Br⁻.", a:"Chlorine gains electrons from bromide ions and is reduced (Cl₂→Cl⁻). A substance that gains electrons and is itself reduced acts as an oxidising agent.", warn:""},
+{sec:"Q15: Halogens", marks:"[1]", q:"Q15(e). State the colour of iodine in an organic solvent.", a:"Purple", warn:""},
+
+// ===== Q16: AMOUNT OF SUBSTANCE =====
+{sec:"Q16: Amount of Substance", marks:"[2]", q:"Q16(a). CaCO₃+2HCl→CaCl₂+CO₂+H₂O. Calculate moles of CaCO₃ in 2.50 g (Mr=100.0).", a:"n = m/Mr = 2.50/100.0 = 0.0250 mol", warn:""},
+{sec:"Q16: Amount of Substance", marks:"[1]", q:"Q16(b). Calculate the moles of CO₂ produced (1:1 ratio with CaCO₃).", a:"n(CO₂) = 0.0250 mol", warn:""},
+{sec:"Q16: Amount of Substance", marks:"[2]", q:"Q16(c). Calculate the volume of CO₂ at RTP (using 1 mol gas = 24.0 dm³).", a:"V = n×24.0 = 0.0250×24.0 = 0.600 dm³ (600 cm³)", warn:"The question explicitly gives 24.0 dm³ — do NOT use 22.4 dm³ here."},
+{sec:"Q16: Amount of Substance", marks:"[3]", q:"Q16(d). HCl is 0.500 mol dm⁻³. Find the minimum volume needed to react completely with 0.0250 mol CaCO₃ (ratio 1:2).", a:"n(HCl) = 2×0.0250 = 0.0500 mol\nV = n/c = 0.0500/0.500 = 0.100 dm³ = 100 cm³", warn:""},
+{sec:"Q16: Amount of Substance", marks:"[2]", q:"Q16(e). Only 0.510 dm³ CO₂ collected (theoretical = 0.600 dm³). Calculate % yield.", a:"% yield = (0.510/0.600)×100 = 85.0%", warn:""},
+{sec:"Q16: Amount of Substance", marks:"[2]", q:"Q16(f). Give two reasons why the experimental yield may be below 100%.", a:"Any two: some CO₂ escapes before collection; the reaction may not go to completion; some product lost during transfer; measurement uncertainty in the collected volume.", warn:"Don't just write 'human error' — give a specific chemical/experimental mechanism for full marks."},
+
+// ===== Q17: ENERGETICS =====
+{sec:"Q17: Energetics", marks:"[1]", q:"Q17(a). 50.0cm³ 1.00M HCl + 50.0cm³ 1.00M NaOH; T rises 19.5°C→26.2°C. Calculate ΔT.", a:"ΔT = 26.2 − 19.5 = 6.7°C", warn:""},
+{sec:"Q17: Energetics", marks:"[3]", q:"Q17(b). Calculate q using q=mcΔT (total volume 100.0 cm³, density 1.00 g/cm³, c=4.18 J/g/K).", a:"m = 100.0 g\nq = 100.0×4.18×6.7 = 2800.6 J = 2.80 kJ", warn:""},
+{sec:"Q17: Energetics", marks:"[1]", q:"Q17(c). Calculate the moles of water formed (n=cV, V=50.0cm³ of 1.00 mol dm⁻³ NaOH).", a:"n = cV = 1.00×0.0500 = 0.0500 mol", warn:""},
+{sec:"Q17: Energetics", marks:"[3]", q:"Q17(d). Calculate ΔH of neutralisation (with correct sign).", a:"ΔH = −q/n = −2.80/0.0500 = −56.0 kJ mol⁻¹\nNegative sign required because the reaction is exothermic.", warn:""},
+{sec:"Q17: Energetics", marks:"[2]", q:"Q17(e). Give two reasons why the experimental ΔH may differ from the accepted (data book) value.", a:"Heat lost to the surroundings; heat absorbed by the container/apparatus. (Also acceptable: thermometer uncertainty, assumptions about density/specific heat capacity.)", warn:""},
+
+// ===== Q18: KINETICS =====
+{sec:"Q18: Kinetics", marks:"[1]", q:"Q18(a). Define the rate of reaction.", a:"The change in concentration of a reactant or product per unit time.\nFor a gas-volume experiment: rate = ΔV/Δt", warn:""},
+{sec:"Q18: Kinetics", marks:"[3]", q:"Q18(b). Explain, using collision theory, why increasing temperature increases rate.", a:"Higher temperature → greater average kinetic energy → particles collide more frequently AND a greater proportion of particles have energy ≥ activation energy → more successful collisions per second → rate increases.", warn:"Never say 'all particles have enough energy to react' — only a greater PROPORTION have sufficient energy."},
+{sec:"Q18: Kinetics", marks:"[2]", q:"Q18(c). Explain how a catalyst increases the rate of reaction.", a:"A catalyst provides an alternative reaction pathway with a lower activation energy — at the same temperature, a greater proportion of particles can undergo successful collisions.", warn:""},
+
+// ===== Q19: EQUILIBRIUM =====
+{sec:"Q19: Equilibrium", marks:"[2]", q:"Q19(a). N₂+3H₂⇌2NH₃ (exothermic forward). Predict and explain the effect of increasing pressure on NH₃ yield.", a:"Increasing pressure shifts equilibrium to the side with FEWER gas moles. 4 mol gas on left, 2 mol on right → shifts right → NH₃ yield increases.", warn:""},
+{sec:"Q19: Equilibrium", marks:"[2]", q:"Q19(b). Predict and explain the effect of increasing temperature on NH₃ yield.", a:"The forward reaction is exothermic. Increasing T favours the endothermic (reverse) reaction → equilibrium shifts left → NH₃ yield DECREASES.", warn:""},
+{sec:"Q19: Equilibrium", marks:"[2]", q:"Q19(c). Explain why an industrial process doesn't simply use the lowest possible temperature.", a:"A lower temperature would increase equilibrium yield, but would make the reaction much slower. A compromise temperature is used to get a sufficiently high RATE while keeping an acceptable equilibrium YIELD.", warn:""},
+
+// ===== RAPID REVISION & TOP 10 TRAPS =====
+{sec:"Rapid Revision & Traps", marks:"", q:"Recite Jody's Must-Master Calculations from Paper 1 (6 formulae).", a:"n = m/Mr\nn = cV\nV = n×24.0\n% yield = (actual/theoretical)×100\nq = mcΔT\nΔH = −q/n\n\nPlus equilibrium rules: Pressure→shifts to fewer gas moles; Temperature→favours the endothermic direction; Catalyst→faster equilibrium, SAME equilibrium position.", warn:""},
+{sec:"Rapid Revision & Traps", marks:"", q:"List the Top 10 Exam Traps from Final Paper 1 — name at least 5.", a:"1. Mass number ≠ number of neutrons\n2. Al has a LOWER first IE than Mg (3p electron effect)\n3. Ionic compounds have giant lattices, not molecules\n4. Oxidation number totals must equal the overall charge\n5. A catalyst does NOT change the equilibrium position\n6. Equilibrium does not mean equal concentrations\n7. Group 2 reactivity increases down the group\n8. Br⁻ gives a CREAM AgBr precipitate\n9. Positive ΔH means endothermic\n10. NH₃ is trigonal pyramidal (107°); CO₂ is linear (180°)", warn:""},
+];
+
+let state = {};
+try{ state = JSON.parse(localStorage.getItem('jody_finalpaper1_flashcards')||'{}'); }catch(e){ state = {}; }
+
+const sections = [...new Set(DECK.map(c=>c.sec))];
+let activeFilter = 'All';
+let order = DECK.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+function cardKey(i){ return DECK[i].sec+"|"+DECK[i].q; }
+
+function buildTabs(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML='';
+  ['All', ...sections].forEach(s=>{
+    const el = document.createElement('div');
+    el.className = 'tab'+(s===activeFilter?' active':'');
+    el.textContent = s;
+    el.onclick = ()=>{ activeFilter=s; applyFilter(); };
+    tabs.appendChild(el);
+  });
+}
+
+function applyFilter(){
+  buildTabs();
+  order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].sec===activeFilter);
+  pos = 0; flipped=false;
+  render();
+}
+
+function filterReviewOnly(){
+  order = DECK.map((_,i)=>i).filter(i=> state[cardKey(i)]==='review' && (activeFilter==='All' || DECK[i].sec===activeFilter));
+  if(order.length===0){ alert("No cards marked 'Review' in this view yet."); order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].sec===activeFilter); }
+  pos=0; flipped=false; render();
+}
+
+function shuffleDeck(){
+  for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+  pos=0; flipped=false; render();
+}
+
+function render(){
+  if(order.length===0){ order=[0]; }
+  const idx = order[pos];
+  const c = DECK[idx];
+  document.getElementById('tagFront').textContent = c.sec;
+  document.getElementById('tagBack').textContent = c.sec;
+  document.getElementById('marksFront').textContent = c.marks;
+  document.getElementById('qtext').textContent = c.q;
+  document.getElementById('atext').textContent = c.a;
+  const warnBox = document.getElementById('warnBox');
+  if(c.warn){ warnBox.style.display='block'; document.getElementById('warnText').textContent = c.warn; }
+  else{ warnBox.style.display='none'; }
+  document.getElementById('card').classList.remove('flipped');
+  flipped=false;
+  document.getElementById('progLabel').textContent = `Card ${pos+1} of ${order.length}${activeFilter!=='All'?' · '+activeFilter:''}`;
+  document.getElementById('progBar').style.width = ((pos+1)/order.length*100)+'%';
+  updateStats();
+}
+
+function updateStats(){
+  const total = DECK.length;
+  let know=0, review=0;
+  DECK.forEach((c,i)=>{ const s = state[cardKey(i)]; if(s==='know') know++; else if(s==='review') review++; });
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statKnow').textContent = know;
+  document.getElementById('statReview').textContent = review;
+  document.getElementById('statSeen').textContent = total-know-review;
+  document.getElementById('countLabel').textContent = order.length+' cards in view';
+}
+
+document.getElementById('card').addEventListener('click', ()=>{
+  flipped = !flipped;
+  document.getElementById('card').classList.toggle('flipped', flipped);
+});
+
+function nextCard(){ pos = (pos+1)%order.length; flipped=false; render(); }
+function prevCard(){ pos = (pos-1+order.length)%order.length; flipped=false; render(); }
+
+function judge(result){
+  const idx = order[pos];
+  state[cardKey(idx)] = result;
+  try{ localStorage.setItem('jody_finalpaper1_flashcards', JSON.stringify(state)); }catch(e){}
+  nextCard();
+}
+
+function resetProgress(){
+  if(confirm("Reset all know/review progress?")){
+    state = {};
+    try{ localStorage.setItem('jody_finalpaper1_flashcards', JSON.stringify(state)); }catch(e){}
+    updateStats();
+  }
+}
+
+applyFilter();
+</script>
+</body>
+</html>
