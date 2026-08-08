@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jody's Final Paper 2 Flashcards (9CH0)</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --border:#2a2f3a;
+    --text:#e8eaf0; --muted:#9aa2b1; --accent:#5ec8c0; --accent2:#e8a33d;
+    --danger:#e35d5d; --good:#6bbf7a; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+    background:radial-gradient(1200px 600px at 10% -10%,#1a2530 0%,var(--bg) 55%);
+    color:var(--text);min-height:100vh;padding:24px 16px 60px;}
+  h1{font-size:1.4rem;margin:0 0 4px;}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px;}
+  .wrap{max-width:960px;margin:0 auto;}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:.82rem;color:var(--muted);}
+  .stat b{color:var(--text);font-size:1rem;display:block;}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;max-height:120px;overflow-y:auto;}
+  .tab{background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:6px 11px;border-radius:999px;font-size:.72rem;cursor:pointer;user-select:none;transition:.15s;white-space:nowrap;}
+  .tab:hover{border-color:var(--accent);color:var(--text);}
+  .tab.active{background:var(--accent);color:#0b1512;border-color:var(--accent);font-weight:600;}
+  .controls{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+  .btn{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.82rem;cursor:pointer;transition:.15s;}
+  .btn:hover{border-color:var(--accent);}
+  .btn.reset{color:var(--danger);border-color:#3a2323;}
+  .count{color:var(--muted);font-size:.82rem;margin-left:auto;}
+  .card-area{perspective:1600px;margin-bottom:18px;}
+  .card{position:relative;min-height:400px;border-radius:16px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);cursor:pointer;}
+  .card.flipped{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow);padding:26px 28px;display:flex;flex-direction:column;overflow-y:auto;}
+  .face.back{transform:rotateY(180deg);background:var(--panel2);}
+  .tag{display:inline-block;font-size:.64rem;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 10px;margin-bottom:10px;width:fit-content;}
+  .marks{color:var(--accent2);font-size:.78rem;font-weight:700;margin-bottom:8px;}
+  .qtext{font-size:1.02rem;line-height:1.55;flex:1;white-space:pre-wrap;}
+  .atext{font-size:.94rem;line-height:1.68;flex:1;white-space:pre-wrap;}
+  .hint{color:var(--muted);font-size:.75rem;margin-top:12px;}
+  .warn{margin-top:14px;background:#241717;border:1px solid #4a2a2a;color:#f2b3b3;border-radius:8px;padding:8px 12px;font-size:.78rem;}
+  .warn b{color:var(--danger);}
+  .judge{display:flex;gap:10px;margin-top:4px;}
+  .jbtn{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:.9rem;cursor:pointer;font-weight:600;transition:.15s;}
+  .jbtn.know{color:var(--good);border-color:#26492f;} .jbtn.know:hover{background:#16281b;}
+  .jbtn.review{color:var(--accent2);border-color:#4a3820;} .jbtn.review:hover{background:#2a2015;}
+  .progress-wrap{background:var(--panel);border:1px solid var(--border);border-radius:999px;height:8px;overflow:hidden;margin-bottom:6px;}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--good));width:0%;transition:width .3s;}
+  .progress-label{font-size:.72rem;color:var(--muted);margin-bottom:16px;}
+  .footer-note{color:var(--muted);font-size:.75rem;text-align:center;margin-top:30px;line-height:1.6;}
+  @media(max-width:600px){.card{min-height:460px;} .qtext{font-size:.96rem;} .atext{font-size:.88rem;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>🧪 Jody's Final Paper 2 Flashcards</h1>
+  <div class="sub">Pearson Edexcel 9CH0 Year 12 — Organic &amp; Analytical Chemistry, full 90-mark mock, Q1–19 with model answers · click to flip</div>
+
+  <div class="stats">
+    <div class="stat"><b id="statTotal">0</b>Total cards</div>
+    <div class="stat"><b id="statKnow">0</b>Marked "Know it"</div>
+    <div class="stat"><b id="statReview">0</b>Marked "Review"</div>
+    <div class="stat"><b id="statSeen">0</b>Unseen</div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="progress-wrap"><div class="progress-bar" id="progBar"></div></div>
+  <div class="progress-label" id="progLabel">Card 1 of 1</div>
+
+  <div class="card-area">
+    <div class="card" id="card">
+      <div class="face front">
+        <div class="tag" id="tagFront">SECTION</div>
+        <div class="marks" id="marksFront"></div>
+        <div class="qtext" id="qtext">Loading…</div>
+        <div class="hint">Tap card to reveal the model answer</div>
+      </div>
+      <div class="face back">
+        <div class="tag" id="tagBack">SECTION</div>
+        <div class="atext" id="atext"></div>
+        <div class="warn" id="warnBox" style="display:none;"><b>Exam trap:</b> <span id="warnText"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="judge">
+    <button class="jbtn review" onclick="judge('review')">🔁 Review again</button>
+    <button class="jbtn know" onclick="judge('know')">✅ Know it</button>
+  </div>
+
+  <div class="controls" style="margin-top:16px;">
+    <button class="btn" onclick="prevCard()">← Prev</button>
+    <button class="btn" onclick="nextCard()">Next →</button>
+    <button class="btn" onclick="shuffleDeck()">🔀 Shuffle</button>
+    <button class="btn" onclick="filterReviewOnly()">Show only "Review"</button>
+    <button class="btn reset" onclick="resetProgress()">Reset progress</button>
+    <span class="count" id="countLabel"></span>
+  </div>
+
+  <div class="footer-note">
+    Progress saved in this browser (localStorage). This deck covers the full 90-mark Final Paper 2 mock (Organic &amp;
+    Analytical Chemistry) — Section A (Q1–10 MCQ) and Section B (Q11–19 structured), plus the Rapid Revision table
+    and Top Mechanism Rules. Pairs with the Final Paper 1 deck (Inorganic &amp; Physical Chemistry).
+  </div>
+</div>
+
+<script>
+const DECK = [
+// ===== SECTION A: MULTIPLE CHOICE (Q1-10) =====
+{sec:"Section A: MCQ", marks:"[1]", q:"Q1. What is the molecular formula of propene?", a:"C₃H₆ (Answer A)\nAlkenes: general formula CnH2n. For n=3: C₃H₆.", warn:""},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q2. Which compound contains a hydroxyl functional group: CH₃CH₂Cl, CH₃CH₂OH, CH₃COCH₃, or CH₃COOCH₃?", a:"CH₃CH₂OH (Answer B)\nThe hydroxyl group is –OH, characteristic of alcohols.", warn:""},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q3. Which pair represents structural isomers: CH₄/C₂H₆, butane/2-methylpropane, ethanol/ethanoic acid, or ethene/ethyne?", a:"Butane and 2-methylpropane (Answer B) — both C₄H₁₀, but different structural arrangements.\nDefinition: structural isomers have the same molecular formula but different structural formulae.", warn:""},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q4. What type of reaction occurs when ethene reacts with bromine?", a:"Addition (Answer B) — the C=C double bond opens and two new bonds form.", warn:""},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q5. What observation occurs when bromine water is added to an alkene?", a:"Orange colour becomes colourless (Answer B) — the standard test for a C=C double bond (unsaturation).", warn:""},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q6. What information does the molecular ion peak in a mass spectrum give?", a:"Molecular mass (Answer B)\nFor a molecular ion with +1 charge: m/z ≈ Mr.", warn:""},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q7. Which absorption is characteristic of an O–H bond in an alcohol?", a:"Broad absorption around 3200–3600 cm⁻¹ (Answer A)", warn:""},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q8. Which product forms when a primary alcohol is COMPLETELY oxidised?", a:"Carboxylic acid (Answer C)\nPrimary alcohol → aldehyde → carboxylic acid (complete oxidation goes all the way).", warn:""},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q9. Which reagent commonly converts a halogenoalkane into an alcohol?", a:"Aqueous NaOH (Answer A)\nCH₃CH₂Br + OH⁻ → CH₃CH₂OH + Br⁻", warn:""},
+{sec:"Section A: MCQ", marks:"[1]", q:"Q10. Which species is an electrophile: OH⁻, Br⁻, H⁺, or NH₃?", a:"H⁺ (Answer C)\nAn electrophile is an electron-pair ACCEPTOR — the other three are all electron-pair donors (nucleophiles).", warn:""},
+
+// ===== Q11: NOMENCLATURE & ISOMERISM =====
+{sec:"Q11: Nomenclature & Isomerism", marks:"[2]", q:"Q11(a). Give the systematic IUPAC name of CH₃CH(CH₃)CH₂CH₃.", a:"2-methylbutane\nLongest chain = 4 carbons (butane); methyl substituent on carbon 2.", warn:"Always number from the end that gives the substituent the LOWEST possible locant."},
+{sec:"Q11: Nomenclature & Isomerism", marks:"[1]", q:"Q11(b). State the molecular formula of 2-methylbutane.", a:"C₅H₁₂", warn:""},
+{sec:"Q11: Nomenclature & Isomerism", marks:"[2]", q:"Q11(c). Name a structural isomer of 2-methylbutane (C₅H₁₂).", a:"Pentane (CH₃CH₂CH₂CH₂CH₃), or 2,2-dimethylpropane — both are valid structural isomers.", warn:""},
+{sec:"Q11: Nomenclature & Isomerism", marks:"[2]", q:"Q11(d). Explain what is meant by structural isomerism.", a:"Compounds that have the SAME molecular formula but DIFFERENT structural formulae — the atoms are connected in different ways.", warn:""},
+{sec:"Q11: Nomenclature & Isomerism", marks:"[1]", q:"Q11(e). State the general formula for alkanes.", a:"CnH2n+2", warn:""},
+{sec:"Q11: Nomenclature & Isomerism", marks:"[2]", q:"Q11(f). Explain why alkanes are described as saturated hydrocarbons.", a:"They contain only carbon and hydrogen (hydrocarbons), and only single C–C bonds — so they contain the maximum possible number of hydrogen atoms (saturated).", warn:""},
+
+// ===== Q12: ALKANES =====
+{sec:"Q12: Alkanes", marks:"[2]", q:"Q12(a). Write the balanced equation for complete combustion of propane.", a:"C₃H₈ + 5O₂ → 3CO₂ + 4H₂O\nCheck: C 3=3, H 8=8, O 10=6+4=10", warn:""},
+{sec:"Q12: Alkanes", marks:"[2]", q:"Q12(b). Explain why incomplete combustion can occur when oxygen is insufficient.", a:"There isn't enough oxygen for complete oxidation of all the carbon to CO₂, so incomplete combustion produces carbon monoxide and/or carbon (soot) instead.", warn:""},
+{sec:"Q12: Alkanes", marks:"[1]", q:"Q12(c). Give one environmental problem associated with incomplete combustion.", a:"Carbon monoxide is toxic (reduces blood's oxygen-carrying ability); OR carbon particles (soot) contribute to air pollution.", warn:""},
+{sec:"Q12: Alkanes", marks:"[3]", q:"Q12(d). Explain why alkanes are relatively unreactive.", a:"Alkanes contain strong C–C and C–H covalent bonds with relatively high bond enthalpies, which are difficult to break. Alkanes are also non-polar, so they are not readily attacked by polar or ionic reagents.", warn:""},
+
+// ===== Q13: ALKENES =====
+{sec:"Q13: Alkenes", marks:"[1]", q:"Q13(a). Draw/describe the displayed formula of ethene.", a:"H₂C=CH₂ — two carbons double-bonded, each carbon also bonded to 2 hydrogens (planar, trigonal arrangement around each C).", warn:""},
+{sec:"Q13: Alkenes", marks:"[2]", q:"Q13(b). Explain why ethene undergoes addition reactions.", a:"Ethene's C=C double bond consists of a σ bond and a π bond. The π bond has electron density above and below the plane of the molecule, making it relatively easy to attack. The π bond breaks and two new σ bonds form.", warn:""},
+{sec:"Q13: Alkenes", marks:"[2]", q:"Q13(c). Write the equation for ethene reacting with bromine.", a:"CH₂=CH₂ + Br₂ → CH₂BrCH₂Br (1,2-dibromoethane)", warn:""},
+{sec:"Q13: Alkenes", marks:"[1]", q:"Q13(d). Describe the observation when bromine water is added to ethene.", a:"The orange/brown bromine water becomes colourless.", warn:""},
+{sec:"Q13: Alkenes", marks:"[2]", q:"Q13(e). Explain, in terms of bonding, why bromine reacts with ethene.", a:"The electron-rich π bond in ethene attracts and polarises the approaching Br₂ molecule, making it susceptible to attack. The π bond breaks and new bonds form between the carbons and the bromine atoms.", warn:""},
+{sec:"Q13: Alkenes", marks:"[2]", q:"Q13(f). State one industrial use of alkenes.", a:"Making polymers (e.g. poly(ethene)); OR manufacturing other chemicals via addition reactions.", warn:""},
+
+// ===== Q14: HALOGENOALKANES =====
+{sec:"Q14: Halogenoalkanes", marks:"[2]", q:"Q14(a). Write the equation for bromoethane reacting with aqueous hydroxide ions.", a:"CH₃CH₂Br + OH⁻ → CH₃CH₂OH + Br⁻", warn:""},
+{sec:"Q14: Halogenoalkanes", marks:"[1]", q:"Q14(b). Name the organic product.", a:"Ethanol", warn:""},
+{sec:"Q14: Halogenoalkanes", marks:"[1]", q:"Q14(c). State the type of reaction.", a:"Nucleophilic substitution", warn:""},
+{sec:"Q14: Halogenoalkanes", marks:"[4]", q:"Q14(d). Explain the mechanism using curly arrows (4 essential points).", a:"1. OH⁻ has a lone pair of electrons\n2. Curly arrow FROM the lone pair on O TO the electrophilic carbon (bonded to Br)\n3. The C–Br bond breaks\n4. Curly arrow FROM the C–Br bond TO the Br atom (electrons move onto Br)", warn:"MAJOR TRAP: the first curly arrow starts from the lone pair on OH⁻, NOT from the carbon. Arrows always show electron pair movement, starting from the electron-rich species."},
+{sec:"Q14: Halogenoalkanes", marks:"[2]", q:"Q14(e). Explain why hydroxide ions act as nucleophiles.", a:"OH⁻ has a lone pair of electrons and a negative charge — it can donate the lone pair to an electron-deficient carbon atom, so it acts as a nucleophile.", warn:""},
+
+// ===== Q15: ALCOHOLS =====
+{sec:"Q15: Alcohols", marks:"[2]", q:"Q15(a). Write the equation for oxidation of ethanol to ethanal.", a:"CH₃CH₂OH + [O] → CH₃CHO + H₂O", warn:""},
+{sec:"Q15: Alcohols", marks:"[2]", q:"Q15(b). Write the equation for further oxidation of ethanal to ethanoic acid.", a:"CH₃CHO + [O] → CH₃COOH\n(Overall: CH₃CH₂OH + 2[O] → CH₃COOH + H₂O)", warn:""},
+{sec:"Q15: Alcohols", marks:"[1]", q:"Q15(c). State the oxidising agent commonly used in the lab for alcohol oxidation.", a:"Acidified potassium manganate(VII), KMnO₄/H⁺ (or acidified potassium dichromate(VI))", warn:""},
+{sec:"Q15: Alcohols", marks:"[2]", q:"Q15(d). State the colour change observed with acidified potassium manganate(VII).", a:"Purple → colourless (Mn(VII) is reduced to Mn²⁺ in acidic solution)", warn:""},
+{sec:"Q15: Alcohols", marks:"[3]", q:"Q15(e). Explain how the experimental procedure differs for preparing ethanal vs ethanoic acid.", a:"Ethanal: heat ethanol with the oxidising agent and DISTIL the ethanal off as it forms — this prevents further oxidation since ethanal has a lower boiling point than ethanol.\nEthanoic acid: heat under REFLUX, keeping everything in the flask so oxidation continues to completion.", warn:"Key distinction: ethanal → distil; ethanoic acid → reflux."},
+{sec:"Q15: Alcohols", marks:"[2]", q:"Q15(f). State the functional group present in (i) alcohols (ii) aldehydes (iii) carboxylic acids.", a:"(i) Alcohol: –OH\n(ii) Aldehyde: –CHO\n(iii) Carboxylic acid: –COOH", warn:""},
+
+// ===== Q16: ORGANIC MECHANISMS =====
+{sec:"Q16: Organic Mechanisms", marks:"[1]", q:"Q16(a). CH₃CH₂Br+OH⁻→CH₃CH₂OH+Br⁻. Identify the nucleophile.", a:"OH⁻", warn:""},
+{sec:"Q16: Organic Mechanisms", marks:"[1]", q:"Q16(b). Identify the electrophilic carbon atom.", a:"The carbon atom directly bonded to Br (CH₃–CH₂(δ+)–Br)", warn:""},
+{sec:"Q16: Organic Mechanisms", marks:"[2]", q:"Q16(c). Explain why the carbon bonded to bromine is electrophilic.", a:"Bromine is more electronegative than carbon, so the C–Br bond is polarised: Br becomes δ−, carbon becomes δ+. The electron-deficient carbon is susceptible to attack by an electron-pair donor.", warn:""},
+{sec:"Q16: Organic Mechanisms", marks:"[4]", q:"Q16(d). Describe the mechanism using curly arrows (4 essential points).", a:"1. Lone pair on OH⁻\n2. Arrow from the lone pair to the electrophilic carbon\n3. C–Br bond breaks\n4. Electron pair moves onto Br, forming Br⁻", warn:""},
+{sec:"Q16: Organic Mechanisms", marks:"[2]", q:"Q16(e). State what happens to the C–Br bond during the reaction.", a:"The C–Br bond breaks HETEROLYTICALLY, with both bonding electrons moving to bromine to form Br⁻.", warn:""},
+
+// ===== Q17: MASS SPECTROMETRY =====
+{sec:"Q17: Mass Spectrometry", marks:"[1]", q:"Q17(a). A compound's molecular ion peak is at m/z=74. What is its Mr?", a:"Mr = 74", warn:""},
+{sec:"Q17: Mass Spectrometry", marks:"[2]", q:"Q17(b). Explain what the molecular ion peak represents.", a:"The molecular ion forms when a molecule loses one electron to become a positive ion. Its peak corresponds to the mass-to-charge ratio of the whole (unfragmented) original molecule.", warn:""},
+{sec:"Q17: Mass Spectrometry", marks:"[3]", q:"Q17(c). Explain how fragmentation occurs in a mass spectrometer.", a:"The molecular ion has excess energy after ionisation, so it can break apart into smaller positive fragment ions and neutral species. The positive fragments are then separated and detected according to their mass-to-charge ratio, producing peaks.", warn:""},
+{sec:"Q17: Mass Spectrometry", marks:"[2]", q:"Q17(d). A fragment peak occurs at m/z=43, containing C, H, and O. Suggest a possible fragment ion.", a:"CH₃CO⁺ (mass = 12(2)+3+16 = 43)", warn:""},
+{sec:"Q17: Mass Spectrometry", marks:"[2]", q:"Q17(e). Explain why the molecular ion peak can sometimes be relatively small.", a:"The molecular ion may be unstable and fragment readily, so only a relatively small proportion of the original molecular ions survive intact — giving a small molecular ion peak.", warn:""},
+
+// ===== Q18: INFRARED SPECTROSCOPY =====
+{sec:"Q18: IR Spectroscopy", marks:"[1]", q:"Q18(a). Spectrum shows a broad absorption around 3300 cm⁻¹. Identify the bond responsible.", a:"O–H", warn:""},
+{sec:"Q18: IR Spectroscopy", marks:"[1]", q:"Q18(b). Spectrum shows a strong absorption around 1700 cm⁻¹. Identify the bond responsible.", a:"C=O", warn:""},
+{sec:"Q18: IR Spectroscopy", marks:"[2]", q:"Q18(c). Suggest a functional group containing BOTH an O–H and a C=O bond.", a:"Carboxylic acid, –COOH (contains both O–H and C=O)", warn:""},
+{sec:"Q18: IR Spectroscopy", marks:"[3]", q:"Q18(d). Explain how IR spectroscopy can be used to identify an organic compound.", a:"Different bonds absorb IR radiation at characteristic wavenumbers because they vibrate at different frequencies. Absorptions are compared with known characteristic values to identify functional groups, and the complete spectrum can be compared with a reference spectrum to identify the exact compound.", warn:""},
+{sec:"Q18: IR Spectroscopy", marks:"[3]", q:"Q18(e). Explain why the fingerprint region is useful.", a:"The region below ~1500 cm⁻¹ contains a complex pattern of absorptions highly characteristic of a particular molecule. It can be compared with the spectrum of a known sample — a close match provides strong evidence the two compounds are identical.", warn:"Don't claim the fingerprint region identifies ONE particular functional group — it's useful because the OVERALL PATTERN is unique to the compound."},
+
+// ===== Q19: ORGANIC PRACTICAL CHEMISTRY =====
+{sec:"Q19: Organic Practical", marks:"[2]", q:"Q19(a). Explain the purpose of reflux.", a:"Reflux allows the reaction mixture to be heated at its boiling temperature for an extended period WITHOUT significant loss of volatile reactants or products.", warn:""},
+{sec:"Q19: Organic Practical", marks:"[2]", q:"Q19(b). Explain why a condenser is used.", a:"The condenser cools vapour so it condenses and returns (drips back) to the reaction flask, preventing volatile substances from escaping.", warn:""},
+{sec:"Q19: Organic Practical", marks:"[2]", q:"Q19(c). After reflux, distillation is used to separate the product. Explain why distillation is suitable.", a:"Distillation separates substances according to differences in boiling point — the desired product vaporises, then condenses in the condenser, and is collected separately.", warn:""},
+{sec:"Q19: Organic Practical", marks:"[2]", q:"Q19(d). Student obtains 4.20 g product; theoretical yield is 5.00 g. Calculate % yield.", a:"% yield = (4.20/5.00)×100 = 84.0%", warn:""},
+{sec:"Q19: Organic Practical", marks:"[2]", q:"Q19(e). Give two reasons why the percentage yield is less than 100%.", a:"Any two: product lost during transfer; product remains in the apparatus; reaction doesn't go to completion; side reactions occur; product lost during purification.", warn:""},
+
+// ===== RAPID REVISION & MECHANISM RULES =====
+{sec:"Rapid Revision & Rules", marks:"", q:"Recite the alkane and alkene general formulae, and the alkene test.", a:"Alkane: CnH2n+2\nAlkene: CnH2n\nAlkene + bromine water: orange/brown decolourises (test for C=C)", warn:""},
+{sec:"Rapid Revision & Rules", marks:"", q:"Recite the primary alcohol oxidation pathway and the two experimental conditions needed for each product.", a:"Primary alcohol → aldehyde → carboxylic acid\nEthanal (aldehyde): DISTIL off as formed\nEthanoic acid (carboxylic acid): heat under REFLUX\nOxidising agent: acidified KMnO₄ (purple → colourless)", warn:""},
+{sec:"Rapid Revision & Rules", marks:"", q:"Recite the key facts about mass spec and IR from Paper 2: molecular ion, IR ~3300 cm⁻¹, IR ~1700 cm⁻¹, fingerprint region.", a:"Molecular ion → gives Mr\nIR ~3300 cm⁻¹ → O–H\nIR ~1700 cm⁻¹ → C=O\nFingerprint region → identifies the compound by its overall unique pattern (not a single functional group)", warn:""},
+{sec:"Rapid Revision & Rules", marks:"", q:"State the Top Mechanism Rules Jody must memorise for nucleophilic substitution.", a:"lone pair → electrophilic carbon (first arrow)\nC–X bond → X (second arrow)\nElectrophile = accepts an electron pair\nNucleophile = donates an electron pair\nA curly arrow ALWAYS shows movement of an electron pair — never draw it starting from the positive carbon.", warn:""},
+];
+
+let state = {};
+try{ state = JSON.parse(localStorage.getItem('jody_finalpaper2_flashcards')||'{}'); }catch(e){ state = {}; }
+
+const sections = [...new Set(DECK.map(c=>c.sec))];
+let activeFilter = 'All';
+let order = DECK.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+function cardKey(i){ return DECK[i].sec+"|"+DECK[i].q; }
+
+function buildTabs(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML='';
+  ['All', ...sections].forEach(s=>{
+    const el = document.createElement('div');
+    el.className = 'tab'+(s===activeFilter?' active':'');
+    el.textContent = s;
+    el.onclick = ()=>{ activeFilter=s; applyFilter(); };
+    tabs.appendChild(el);
+  });
+}
+
+function applyFilter(){
+  buildTabs();
+  order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].sec===activeFilter);
+  pos = 0; flipped=false;
+  render();
+}
+
+function filterReviewOnly(){
+  order = DECK.map((_,i)=>i).filter(i=> state[cardKey(i)]==='review' && (activeFilter==='All' || DECK[i].sec===activeFilter));
+  if(order.length===0){ alert("No cards marked 'Review' in this view yet."); order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].sec===activeFilter); }
+  pos=0; flipped=false; render();
+}
+
+function shuffleDeck(){
+  for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+  pos=0; flipped=false; render();
+}
+
+function render(){
+  if(order.length===0){ order=[0]; }
+  const idx = order[pos];
+  const c = DECK[idx];
+  document.getElementById('tagFront').textContent = c.sec;
+  document.getElementById('tagBack').textContent = c.sec;
+  document.getElementById('marksFront').textContent = c.marks;
+  document.getElementById('qtext').textContent = c.q;
+  document.getElementById('atext').textContent = c.a;
+  const warnBox = document.getElementById('warnBox');
+  if(c.warn){ warnBox.style.display='block'; document.getElementById('warnText').textContent = c.warn; }
+  else{ warnBox.style.display='none'; }
+  document.getElementById('card').classList.remove('flipped');
+  flipped=false;
+  document.getElementById('progLabel').textContent = `Card ${pos+1} of ${order.length}${activeFilter!=='All'?' · '+activeFilter:''}`;
+  document.getElementById('progBar').style.width = ((pos+1)/order.length*100)+'%';
+  updateStats();
+}
+
+function updateStats(){
+  const total = DECK.length;
+  let know=0, review=0;
+  DECK.forEach((c,i)=>{ const s = state[cardKey(i)]; if(s==='know') know++; else if(s==='review') review++; });
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statKnow').textContent = know;
+  document.getElementById('statReview').textContent = review;
+  document.getElementById('statSeen').textContent = total-know-review;
+  document.getElementById('countLabel').textContent = order.length+' cards in view';
+}
+
+document.getElementById('card').addEventListener('click', ()=>{
+  flipped = !flipped;
+  document.getElementById('card').classList.toggle('flipped', flipped);
+});
+
+function nextCard(){ pos = (pos+1)%order.length; flipped=false; render(); }
+function prevCard(){ pos = (pos-1+order.length)%order.length; flipped=false; render(); }
+
+function judge(result){
+  const idx = order[pos];
+  state[cardKey(idx)] = result;
+  try{ localStorage.setItem('jody_finalpaper2_flashcards', JSON.stringify(state)); }catch(e){}
+  nextCard();
+}
+
+function resetProgress(){
+  if(confirm("Reset all know/review progress?")){
+    state = {};
+    try{ localStorage.setItem('jody_finalpaper2_flashcards', JSON.stringify(state)); }catch(e){}
+    updateStats();
+  }
+}
+
+applyFilter();
+</script>
+</body>
+</html>
