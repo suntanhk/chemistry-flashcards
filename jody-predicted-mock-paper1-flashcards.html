@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Jody's Predicted Mock Paper 1 Flashcards (9CH0)</title>
+<style>
+  :root{
+    --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --border:#2a2f3a;
+    --text:#e8eaf0; --muted:#9aa2b1; --accent:#5ec8c0; --accent2:#e8a33d;
+    --danger:#e35d5d; --good:#6bbf7a; --shadow:0 10px 30px rgba(0,0,0,.35);
+  }
+  *{box-sizing:border-box;}
+  body{margin:0;font-family:"Segoe UI",system-ui,-apple-system,Arial,sans-serif;
+    background:radial-gradient(1200px 600px at 10% -10%,#1a2530 0%,var(--bg) 55%);
+    color:var(--text);min-height:100vh;padding:24px 16px 60px;}
+  h1{font-size:1.38rem;margin:0 0 4px;}
+  .sub{color:var(--muted);font-size:.9rem;margin-bottom:18px;}
+  .wrap{max-width:960px;margin:0 auto;}
+  .stats{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px;}
+  .stat{background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:8px 14px;font-size:.82rem;color:var(--muted);}
+  .stat b{color:var(--text);font-size:1rem;display:block;}
+  .tabs{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:16px;max-height:120px;overflow-y:auto;}
+  .tab{background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:6px 11px;border-radius:999px;font-size:.72rem;cursor:pointer;user-select:none;transition:.15s;white-space:nowrap;}
+  .tab:hover{border-color:var(--accent);color:var(--text);}
+  .tab.active{background:var(--accent);color:#0b1512;border-color:var(--accent);font-weight:600;}
+  .controls{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center;}
+  .btn{background:var(--panel2);border:1px solid var(--border);color:var(--text);padding:8px 14px;border-radius:8px;font-size:.82rem;cursor:pointer;transition:.15s;}
+  .btn:hover{border-color:var(--accent);}
+  .btn.reset{color:var(--danger);border-color:#3a2323;}
+  .count{color:var(--muted);font-size:.82rem;margin-left:auto;}
+  .card-area{perspective:1600px;margin-bottom:18px;}
+  .card{position:relative;min-height:380px;border-radius:16px;transform-style:preserve-3d;transition:transform .5s cubic-bezier(.4,.2,.2,1);cursor:pointer;}
+  .card.flipped{transform:rotateY(180deg);}
+  .face{position:absolute;inset:0;backface-visibility:hidden;border-radius:16px;background:var(--panel);border:1px solid var(--border);box-shadow:var(--shadow);padding:26px 28px;display:flex;flex-direction:column;overflow-y:auto;}
+  .face.back{transform:rotateY(180deg);background:var(--panel2);}
+  .tag{display:inline-block;font-size:.64rem;letter-spacing:.05em;text-transform:uppercase;color:var(--accent);border:1px solid var(--accent);border-radius:999px;padding:2px 10px;margin-bottom:10px;width:fit-content;}
+  .marks{color:var(--accent2);font-size:.78rem;font-weight:700;margin-bottom:8px;}
+  .qtext{font-size:1.02rem;line-height:1.55;flex:1;white-space:pre-wrap;}
+  .atext{font-size:.94rem;line-height:1.68;flex:1;white-space:pre-wrap;}
+  .hint{color:var(--muted);font-size:.75rem;margin-top:12px;}
+  .warn{margin-top:14px;background:#241717;border:1px solid #4a2a2a;color:#f2b3b3;border-radius:8px;padding:8px 12px;font-size:.78rem;}
+  .warn b{color:var(--danger);}
+  .judge{display:flex;gap:10px;margin-top:4px;}
+  .jbtn{flex:1;padding:11px;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:.9rem;cursor:pointer;font-weight:600;transition:.15s;}
+  .jbtn.know{color:var(--good);border-color:#26492f;} .jbtn.know:hover{background:#16281b;}
+  .jbtn.review{color:var(--accent2);border-color:#4a3820;} .jbtn.review:hover{background:#2a2015;}
+  .progress-wrap{background:var(--panel);border:1px solid var(--border);border-radius:999px;height:8px;overflow:hidden;margin-bottom:6px;}
+  .progress-bar{height:100%;background:linear-gradient(90deg,var(--accent),var(--good));width:0%;transition:width .3s;}
+  .progress-label{font-size:.72rem;color:var(--muted);margin-bottom:16px;}
+  .footer-note{color:var(--muted);font-size:.75rem;text-align:center;margin-top:30px;line-height:1.6;}
+  @media(max-width:600px){.card{min-height:440px;} .qtext{font-size:.96rem;} .atext{font-size:.88rem;}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <h1>📋 Jody's Predicted Mock Paper 1 Flashcards</h1>
+  <div class="sub">Pearson Edexcel 9CH0 Year 12 — Predicted Mock Paper 1, Q1–50, full answer key · click to flip</div>
+
+  <div class="stats">
+    <div class="stat"><b id="statTotal">0</b>Total cards</div>
+    <div class="stat"><b id="statKnow">0</b>Marked "Know it"</div>
+    <div class="stat"><b id="statReview">0</b>Marked "Review"</div>
+    <div class="stat"><b id="statSeen">0</b>Unseen</div>
+  </div>
+
+  <div class="tabs" id="tabs"></div>
+
+  <div class="progress-wrap"><div class="progress-bar" id="progBar"></div></div>
+  <div class="progress-label" id="progLabel">Card 1 of 1</div>
+
+  <div class="card-area">
+    <div class="card" id="card">
+      <div class="face front">
+        <div class="tag" id="tagFront">PART</div>
+        <div class="marks" id="marksFront"></div>
+        <div class="qtext" id="qtext">Loading…</div>
+        <div class="hint">Tap card to reveal the answer</div>
+      </div>
+      <div class="face back">
+        <div class="tag" id="tagBack">PART</div>
+        <div class="atext" id="atext"></div>
+        <div class="warn" id="warnBox" style="display:none;"><b>A* point:</b> <span id="warnText"></span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="judge">
+    <button class="jbtn review" onclick="judge('review')">🔁 Review again</button>
+    <button class="jbtn know" onclick="judge('know')">✅ Know it</button>
+  </div>
+
+  <div class="controls" style="margin-top:16px;">
+    <button class="btn" onclick="prevCard()">← Prev</button>
+    <button class="btn" onclick="nextCard()">Next →</button>
+    <button class="btn" onclick="shuffleDeck()">🔀 Shuffle</button>
+    <button class="btn" onclick="filterReviewOnly()">Show only "Review"</button>
+    <button class="btn reset" onclick="resetProgress()">Reset progress</button>
+    <span class="count" id="countLabel"></span>
+  </div>
+
+  <div class="footer-note">
+    Progress saved in this browser (localStorage). This is a NEW, separate 90-mark diagnostic mock (Predicted Mock
+    Paper 1) — distinct from the "Final Paper 1/2/3" deck set. Recommended use: sit the full paper timed first,
+    THEN use this deck to review and self-mark using the 5 error-category cards at the end.
+  </div>
+</div>
+
+<script>
+const DECK = [
+// ===== PART A: FUNDAMENTALS & CALCULATIONS (Q1-10) =====
+{p:"Part A: Fundamentals & Calcs", marks:"[3]", q:"Q1. Atom has atomic number 17, mass number 37. State protons, neutrons, and electrons (neutral atom).", a:"Protons = 17\nNeutrons = 37−17 = 20\nElectrons = 17 (neutral atom)", warn:""},
+{p:"Part A: Fundamentals & Calcs", marks:"[2]", q:"Q2. Explain what is meant by isotopes.", a:"Atoms of the same element with the same number of protons but different numbers of neutrons.", warn:""},
+{p:"Part A: Fundamentals & Calcs", marks:"[3]", q:"Q3. Chlorine: 75.8% ³⁵Cl, 24.2% ³⁷Cl. Calculate Ar.", a:"Ar = (35×0.758)+(37×0.242) = 26.53+8.954 = 35.48", warn:""},
+{p:"Part A: Fundamentals & Calcs", marks:"[3]", q:"Q4. Calculate the amount of substance in 4.90 g of H₂SO₄.", a:"Mr = 2+32+64 = 98\nn = 4.90/98 = 0.0500 mol", warn:""},
+{p:"Part A: Fundamentals & Calcs", marks:"[3]", q:"Q5. 2.00 g NaOH (Mr=40.0) dissolved to 250 cm³. Calculate concentration.", a:"n = 2.00/40.0 = 0.0500 mol\nV = 0.250 dm³\nc = 0.0500/0.250 = 0.200 mol dm⁻³", warn:""},
+{p:"Part A: Fundamentals & Calcs", marks:"[4]", q:"Q6. Compound: 52.2% C, 13.0% H, 34.8% O. Determine empirical formula.", a:"n(C)=52.2/12=4.35, n(H)=13.0, n(O)=34.8/16=2.175\nDivide by 2.175: C:H:O = 2:6:1\nEmpirical formula = C₂H₆O", warn:""},
+{p:"Part A: Fundamentals & Calcs", marks:"[2]", q:"Q7. Theoretical yield 12.5 g; actual yield 10.0 g. Calculate % yield.", a:"(10.0/12.5)×100 = 80.0%", warn:""},
+{p:"Part A: Fundamentals & Calcs", marks:"[3]", q:"Q8. Desired product Mr=80; total reactant Mr=125. Calculate atom economy.", a:"(80/125)×100 = 64.0%", warn:""},
+{p:"Part A: Fundamentals & Calcs", marks:"[3]", q:"Q9. Calculate the volume of 0.250 mol gas at 24.0 dm³ mol⁻¹ (RTP).", a:"V = n×24.0 = 0.250×24.0 = 6.00 dm³", warn:""},
+{p:"Part A: Fundamentals & Calcs", marks:"[4]", q:"Q10. 2Mg+O₂→2MgO. 0.150 mol Mg + 0.100 mol O₂. Identify limiting reagent and calculate n(MgO).", a:"0.100 mol O₂ needs 0.200 mol Mg; only 0.150 mol Mg available → Mg is limiting.\nMg:MgO = 1:1 → n(MgO) = 0.150 mol", warn:""},
+
+// ===== PART B: BONDING & STRUCTURE (Q11-18) =====
+{p:"Part B: Bonding & Structure", marks:"[3]", q:"Q11. Explain how sodium chloride forms from Na and Cl atoms.", a:"Na → Na⁺ + e⁻ (loses one electron)\nCl + e⁻ → Cl⁻ (gains one electron)\nThe oppositely charged ions attract via electrostatic attraction, forming an ionic lattice.", warn:""},
+{p:"Part B: Bonding & Structure", marks:"[3]", q:"Q12. Explain what is meant by a covalent bond.", a:"The strong electrostatic attraction between a shared pair of electrons and the nuclei of the bonded atoms.", warn:""},
+{p:"Part B: Bonding & Structure", marks:"[3]", q:"Q13. Explain why the H–Cl bond is polar.", a:"Chlorine is more electronegative than hydrogen, so the bonding electrons are attracted more strongly towards Cl: Hδ+–Clδ−", warn:""},
+{p:"Part B: Bonding & Structure", marks:"[4]", q:"Q14. Explain the shape and bond angle of methane, CH₄.", a:"4 bonding pairs, 0 lone pairs around carbon. Electron pairs repel equally and arrange as far apart as possible → tetrahedral shape, bond angle 109.5°.", warn:""},
+{p:"Part B: Bonding & Structure", marks:"[3]", q:"Q15. Explain why water has a bent molecular shape.", a:"Oxygen has 2 bonding pairs and 2 lone pairs. Lone-pair/bond-pair repulsion > bond-pair/bond-pair repulsion → bent shape.", warn:""},
+{p:"Part B: Bonding & Structure", marks:"[4]", q:"Q16. Explain why water has a higher boiling point than methane.", a:"Water molecules form hydrogen bonds; methane only has much weaker London (dispersion) forces. More energy is required to separate water molecules → higher boiling point.", warn:""},
+{p:"Part B: Bonding & Structure", marks:"[4]", q:"Q17. Explain why diamond is hard whereas graphite is soft.", a:"Diamond: giant covalent structure, each C forms 4 strong covalent bonds — breaking these needs considerable energy → hard.\nGraphite: strong covalent bonds WITHIN layers, but only weak forces BETWEEN layers — layers slide over each other → soft.", warn:""},
+{p:"Part B: Bonding & Structure", marks:"[3]", q:"Q18. Explain why graphite conducts electricity but diamond does not.", a:"In graphite, each C bonds to only 3 other carbons — one electron per carbon is delocalised and can move through the structure → conducts.\nIn diamond, all 4 outer electrons are used in covalent bonds — no mobile electrons → does not conduct.", warn:""},
+
+// ===== PART C: ORGANIC CHEMISTRY (Q19-30) =====
+{p:"Part C: Organic Chemistry", marks:"[2]", q:"Q19. Define a homologous series.", a:"A family of organic compounds with the same functional group, the same general formula, similar chemical properties, and successive members differing by CH₂.", warn:""},
+{p:"Part C: Organic Chemistry", marks:"[3]", q:"Q20. Give the molecular formula of butane and explain why it has structural isomers.", a:"Molecular formula: C₄H₁₀\nIt has structural isomers because its carbon atoms can be arranged differently while keeping the same molecular formula (e.g. butane vs 2-methylpropane).", warn:""},
+{p:"Part C: Organic Chemistry", marks:"[2]", q:"Q21. Describe a chemical test for an alkene.", a:"Add bromine water. Positive result: orange/brown → colourless.", warn:""},
+{p:"Part C: Organic Chemistry", marks:"[3]", q:"Q22. Write the equation for propene reacting with bromine.", a:"CH₃CH=CH₂ + Br₂ → CH₃CHBrCH₂Br", warn:""},
+{p:"Part C: Organic Chemistry", marks:"[2]", q:"Q23. Define a nucleophile and give one example.", a:"A nucleophile is an electron-pair donor. Example: OH⁻ (also acceptable: CN⁻, NH₃).", warn:""},
+{p:"Part C: Organic Chemistry", marks:"[4]", q:"Q24. Explain why bromoethane reacts with aqueous hydroxide ions by nucleophilic substitution.", a:"The C–Br bond is polar (Cδ+–Brδ−). OH⁻ is a nucleophile — it attacks the electron-deficient carbon and substitutes for Br⁻. Hence: nucleophilic substitution.", warn:""},
+{p:"Part C: Organic Chemistry", marks:"[5]", q:"Q25. Describe the mechanism for CH₃CH₂Br+OH⁻→CH₃CH₂OH+Br⁻, referring to electron movement.", a:"The hydroxide ion attacks the electrophilic carbon using its lone pair.\nArrow 1: O lone pair → C\nArrow 2 (simultaneous): C–Br bond → Br\nProducts: CH₃CH₂OH + Br⁻", warn:""},
+{p:"Part C: Organic Chemistry", marks:"[4]", q:"Q26. Describe what happens when ethanol is oxidised, including products under different conditions.", a:"Ethanol is a primary alcohol.\nControlled oxidation (distil) → ethanal: CH₃CH₂OH→CH₃CHO\nFurther oxidation (reflux) → ethanoic acid: CH₃CHO→CH₃COOH\nDistillation isolates the aldehyde; reflux allows further oxidation to the carboxylic acid.", warn:""},
+{p:"Part C: Organic Chemistry", marks:"[3]", q:"Q27. Explain why reflux is used to prepare ethanoic acid from ethanol.", a:"Reflux allows the mixture to be heated for an extended period without volatile substances escaping — vapours condense and return to the flask — allowing complete oxidation to ethanoic acid.", warn:""},
+{p:"Part C: Organic Chemistry", marks:"[4]", q:"Q28. An unknown compound gives a broad IR absorption ~3200–3600 cm⁻¹. Suggest and explain the functional group.", a:"O–H — characteristic of an alcohol.", warn:""},
+{p:"Part C: Organic Chemistry", marks:"[3]", q:"Q29. Explain how mass spectrometry can determine the Mr of an organic compound.", a:"The molecular ion peak gives the mass-to-charge ratio of the whole molecule. For a singly-charged molecular ion: Mr ≈ m/z.", warn:""},
+{p:"Part C: Organic Chemistry", marks:"[4]", q:"Q30. A hydrocarbon (C,H only) combusts completely: 4.40 g CO₂, 1.80 g H₂O produced. Determine the empirical formula.", a:"n(CO₂) = 4.40/44 = 0.100 → n(C) = 0.100\nn(H₂O) = 1.80/18 = 0.100 → n(H) = 0.200\nRatio C:H = 0.100:0.200 = 1:2 → CH₂", warn:""},
+
+// ===== PART D: ENERGETICS (Q31-36) =====
+{p:"Part D: Energetics", marks:"[3]", q:"Q31. Define standard enthalpy change of combustion.", a:"The enthalpy change when one mole of a substance is completely burned in oxygen under standard conditions, with all reactants and products in their standard states.", warn:""},
+{p:"Part D: Energetics", marks:"[4]", q:"Q32. 50.0 g water heated 20.0°C→35.0°C (c=4.18 J g⁻¹K⁻¹). Calculate q.", a:"q = mcΔT = 50.0×4.18×15.0 = 3135 J = 3.14 kJ", warn:""},
+{p:"Part D: Energetics", marks:"[5]", q:"Q33. H₂+Cl₂→2HCl. Bond enthalpies: H–H=436, Cl–Cl=242, H–Cl=431. Calculate ΔH.", a:"Broken: 436+242 = 678\nFormed: 2×431 = 862\nΔH = 678−862 = −184 kJ mol⁻¹", warn:""},
+{p:"Part D: Energetics", marks:"[3]", q:"Q34. Explain what is meant by an exothermic reaction.", a:"A reaction that releases energy to the surroundings (ΔH<0); the surroundings increase in temperature.", warn:""},
+{p:"Part D: Energetics", marks:"[4]", q:"Q35. Explain the principle behind Hess's Law.", a:"The enthalpy change of a reaction is independent of the route taken, provided the initial and final states are the same. Therefore reaction enthalpies can be combined algebraically.", warn:""},
+{p:"Part D: Energetics", marks:"[4]", q:"Q36. Experimental ΔH is LESS negative than accepted. Give two reasons and explain the effect of each.", a:"Heat loss: energy escapes to surroundings, so the measured temperature increase is too small → ΔH calculated as less negative.\nHeat absorbed by apparatus: some energy heats the apparatus rather than the solution → again, temperature increase measured is too small.", warn:""},
+
+// ===== PART E: RATES (Q37-42) =====
+{p:"Part E: Rates", marks:"[4]", q:"Q37. Explain why increasing temperature increases reaction rate.", a:"Increasing T: increases average kinetic energy; increases collision frequency; increases the FRACTION of particles with energy ≥ Ea → more successful collisions per second.", warn:""},
+{p:"Part E: Rates", marks:"[3]", q:"Q38. Explain why increasing concentration usually increases reaction rate.", a:"Higher concentration = more particles per unit volume → collisions occur more frequently → more successful collisions per second.", warn:""},
+{p:"Part E: Rates", marks:"[4]", q:"Q39. Explain how a catalyst increases reaction rate.", a:"A catalyst provides an alternative reaction pathway with LOWER activation energy — a greater proportion of collisions then have sufficient energy to react, so the rate increases.", warn:""},
+{p:"Part E: Rates", marks:"[2]", q:"Q40. Define activation energy.", a:"The minimum energy that colliding particles must possess for a successful reaction to occur.", warn:""},
+{p:"Part E: Rates", marks:"[4]", q:"Q41. Explain how the initial rate can be determined from a gas volume vs time graph.", a:"Draw a tangent to the volume-time curve at t=0. Initial rate = gradient of that tangent (ΔV/Δt).", warn:""},
+{p:"Part E: Rates", marks:"[4]", q:"Q42. Gas volume: 10s→18cm³, 30s→43cm³. Calculate the mean rate between 10s and 30s.", a:"ΔV = 43−18 = 25 cm³\nΔt = 30−10 = 20 s\nrate = 25/20 = 1.25 cm³ s⁻¹", warn:""},
+
+// ===== PART F: EQUILIBRIUM (Q43-50) =====
+{p:"Part F: Equilibrium", marks:"[3]", q:"Q43. Define dynamic equilibrium.", a:"Occurs in a closed system when forward rate = reverse rate. Concentrations remain constant, although both reactions continue.", warn:""},
+{p:"Part F: Equilibrium", marks:"[3]", q:"Q44. State Le Chatelier's principle.", a:"When a system at equilibrium is subjected to a change in conditions, the equilibrium position shifts to OPPOSE the change.", warn:""},
+{p:"Part F: Equilibrium", marks:"[4]", q:"Q45. N₂+3H₂⇌2NH₃. Explain the effect of increasing pressure.", a:"Left = 4 mol gas, right = 2 mol gas. Increasing pressure favours the side with fewer gas molecules → equilibrium shifts RIGHT.", warn:""},
+{p:"Part F: Equilibrium", marks:"[4]", q:"Q46. Forward reaction is exothermic. Explain the effect of increasing temperature on equilibrium position.", a:"Increasing T favours the ENDOTHERMIC reverse reaction → equilibrium shifts LEFT → NH₃ yield decreases.", warn:""},
+{p:"Part F: Equilibrium", marks:"[3]", q:"Q47. Explain why adding a catalyst does not alter the equilibrium position.", a:"A catalyst lowers the activation energy of BOTH forward and reverse reactions equally — changes the rates but not the relative equilibrium position → no change in equilibrium position.", warn:""},
+{p:"Part F: Equilibrium", marks:"[4]", q:"Q48. For A+B⇌2C, write the Kc expression.", a:"Kc = [C]² / ([A][B])", warn:""},
+{p:"Part F: Equilibrium", marks:"[5]", q:"Q49. H₂+I₂⇌2HI. Equilibrium: [H₂]=0.20, [I₂]=0.20, [HI]=0.80. Calculate Kc.", a:"Kc = [HI]²/([H₂][I₂]) = 0.80²/(0.20×0.20) = 0.64/0.04 = 16.0", warn:""},
+{p:"Part F: Equilibrium", marks:"[5]", q:"Q50. Explain why industrial processes often use a compromise temperature and pressure rather than maximising yield.", a:"Higher pressure may increase yield (fewer gas moles) but is expensive and needs strong equipment. Lower temperature may favour an exothermic product but reduces rate. Industry uses a compromise balancing: acceptable yield, sufficiently rapid rate, reasonable operating costs, and safe conditions.", warn:"A* point: the economically optimum condition is NOT necessarily the condition giving the maximum equilibrium yield."},
+
+// ===== SELF-ASSESSMENT ERROR CATEGORIES =====
+{p:"Self-Assessment Categories", marks:"", q:"🔴 What does a 'Knowledge error' mean when self-marking this paper?", a:"Jody did not know the chemistry — the underlying fact or concept was missing.", warn:""},
+{p:"Self-Assessment Categories", marks:"", q:"🟠 What does a 'Calculation error' mean when self-marking this paper?", a:"She knew the method but made an error in units, mole ratio, rearrangement, arithmetic, or significant figures.", warn:""},
+{p:"Self-Assessment Categories", marks:"", q:"🟡 What does an 'Application error' mean when self-marking this paper?", a:"She knew the theory but could not apply it to the unfamiliar context/question given.", warn:""},
+{p:"Self-Assessment Categories", marks:"", q:"🔵 What does an 'Exam-technique error' mean when self-marking this paper?", a:"She understood the chemistry but did not give enough marking points in her answer.", warn:""},
+{p:"Self-Assessment Categories", marks:"", q:"🟢 What does a 'Careless error' mean when self-marking this paper?", a:"She knew the answer but lost the mark through an avoidable mistake.", warn:""},
+{p:"Self-Assessment Categories", marks:"", q:"What is the recommended next step immediately after sitting and marking this paper?", a:"Do NOT move straight to another revision chapter. Diagnose weaknesses using the 5 error categories, do targeted correction, THEN proceed Paper 1 → Paper 2 → Paper 3 → final mixed mock, in that controlled sequence.", warn:""},
+];
+
+let state = {};
+try{ state = JSON.parse(localStorage.getItem('jody_predmock1_flashcards')||'{}'); }catch(e){ state = {}; }
+
+const parts = [...new Set(DECK.map(c=>c.p))];
+let activeFilter = 'All';
+let order = DECK.map((_,i)=>i);
+let pos = 0;
+let flipped = false;
+
+function cardKey(i){ return DECK[i].p+"|"+DECK[i].q; }
+
+function buildTabs(){
+  const tabs = document.getElementById('tabs');
+  tabs.innerHTML='';
+  ['All', ...parts].forEach(p=>{
+    const el = document.createElement('div');
+    el.className = 'tab'+(p===activeFilter?' active':'');
+    el.textContent = p;
+    el.onclick = ()=>{ activeFilter=p; applyFilter(); };
+    tabs.appendChild(el);
+  });
+}
+
+function applyFilter(){
+  buildTabs();
+  order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].p===activeFilter);
+  pos = 0; flipped=false;
+  render();
+}
+
+function filterReviewOnly(){
+  order = DECK.map((_,i)=>i).filter(i=> state[cardKey(i)]==='review' && (activeFilter==='All' || DECK[i].p===activeFilter));
+  if(order.length===0){ alert("No cards marked 'Review' in this view yet."); order = DECK.map((_,i)=>i).filter(i=> activeFilter==='All' || DECK[i].p===activeFilter); }
+  pos=0; flipped=false; render();
+}
+
+function shuffleDeck(){
+  for(let i=order.length-1;i>0;i--){ const j=Math.floor(Math.random()*(i+1)); [order[i],order[j]]=[order[j],order[i]]; }
+  pos=0; flipped=false; render();
+}
+
+function render(){
+  if(order.length===0){ order=[0]; }
+  const idx = order[pos];
+  const c = DECK[idx];
+  document.getElementById('tagFront').textContent = c.p;
+  document.getElementById('tagBack').textContent = c.p;
+  document.getElementById('marksFront').textContent = c.marks;
+  document.getElementById('qtext').textContent = c.q;
+  document.getElementById('atext').textContent = c.a;
+  const warnBox = document.getElementById('warnBox');
+  if(c.warn){ warnBox.style.display='block'; document.getElementById('warnText').textContent = c.warn; }
+  else{ warnBox.style.display='none'; }
+  document.getElementById('card').classList.remove('flipped');
+  flipped=false;
+  document.getElementById('progLabel').textContent = `Card ${pos+1} of ${order.length}${activeFilter!=='All'?' · '+activeFilter:''}`;
+  document.getElementById('progBar').style.width = ((pos+1)/order.length*100)+'%';
+  updateStats();
+}
+
+function updateStats(){
+  const total = DECK.length;
+  let know=0, review=0;
+  DECK.forEach((c,i)=>{ const s = state[cardKey(i)]; if(s==='know') know++; else if(s==='review') review++; });
+  document.getElementById('statTotal').textContent = total;
+  document.getElementById('statKnow').textContent = know;
+  document.getElementById('statReview').textContent = review;
+  document.getElementById('statSeen').textContent = total-know-review;
+  document.getElementById('countLabel').textContent = order.length+' cards in view';
+}
+
+document.getElementById('card').addEventListener('click', ()=>{
+  flipped = !flipped;
+  document.getElementById('card').classList.toggle('flipped', flipped);
+});
+
+function nextCard(){ pos = (pos+1)%order.length; flipped=false; render(); }
+function prevCard(){ pos = (pos-1+order.length)%order.length; flipped=false; render(); }
+
+function judge(result){
+  const idx = order[pos];
+  state[cardKey(idx)] = result;
+  try{ localStorage.setItem('jody_predmock1_flashcards', JSON.stringify(state)); }catch(e){}
+  nextCard();
+}
+
+function resetProgress(){
+  if(confirm("Reset all know/review progress?")){
+    state = {};
+    try{ localStorage.setItem('jody_predmock1_flashcards', JSON.stringify(state)); }catch(e){}
+    updateStats();
+  }
+}
+
+applyFilter();
+</script>
+</body>
+</html>
