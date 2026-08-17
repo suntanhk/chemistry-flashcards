@@ -1,0 +1,484 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry — Topic 1: Atomic Structure &amp; The Periodic Table</title>
+<style>
+  :root{
+    --bg:#0f1416;
+    --panel:#171f22;
+    --panel-2:#1d272b;
+    --border:#2a373c;
+    --text:#e8eef0;
+    --muted:#8fa3a9;
+    --accent:#4f9cd1;
+    --accent-dim:#2a5a6b;
+    --trap:#e8a23d;
+    --trap-bg:#3a2c15;
+    --know:#4f9cd1;
+    --review:#e8626a;
+    --card-front:#1a2027;
+    --card-back:#16202a;
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:60px;
+  }
+  header{
+    padding:22px 16px 14px;
+    text-align:center;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);
+  }
+  header h1{
+    margin:0 0 4px;
+    font-size:1.3rem;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  header p{
+    margin:0;
+    color:var(--muted);
+    font-size:0.85rem;
+  }
+  .deck-stats{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin-top:12px;
+    font-size:0.78rem;
+    color:var(--muted);
+  }
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+
+  nav.tabs{
+    display:flex;
+    overflow-x:auto;
+    gap:6px;
+    padding:12px 12px 8px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    flex:0 0 auto;
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:8px 13px;
+    border-radius:20px;
+    font-size:0.76rem;
+    white-space:nowrap;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .tab-btn .count{
+    display:inline-block;
+    margin-left:6px;
+    font-size:0.68rem;
+    color:var(--accent);
+    opacity:0.85;
+  }
+  .tab-btn.active{
+    background:var(--accent-dim);
+    border-color:var(--accent);
+    color:#eaf5ff;
+  }
+
+  .progress-wrap{
+    padding:0 16px 4px;
+  }
+  .progress-bar{
+    height:6px;
+    background:var(--panel);
+    border-radius:4px;
+    overflow:hidden;
+    border:1px solid var(--border);
+  }
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--accent-dim), var(--accent));
+    transition:width .3s ease;
+  }
+  .progress-label{
+    font-size:0.72rem;
+    color:var(--muted);
+    margin-top:4px;
+    display:flex;
+    justify-content:space-between;
+  }
+
+  main{
+    max-width:640px;
+    margin:0 auto;
+    padding:14px 16px 8px;
+  }
+
+  .card{
+    position:relative;
+    background:var(--card-front);
+    border:1px solid var(--border);
+    border-radius:14px;
+    margin-bottom:14px;
+    min-height:150px;
+    cursor:pointer;
+    transition:border-color .2s ease, transform .12s ease;
+    overflow:hidden;
+  }
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);}
+  .card.review{border-color:var(--review);}
+
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:12px 16px 0;
+  }
+  .card-id{
+    font-size:0.68rem;
+    color:var(--muted);
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+  }
+  .status-chip{
+    font-size:0.65rem;
+    padding:2px 8px;
+    border-radius:10px;
+    background:var(--panel-2);
+    color:var(--muted);
+  }
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+
+  .trap-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    font-size:0.68rem;
+    color:var(--trap);
+    background:var(--trap-bg);
+    padding:2px 8px;
+    border-radius:10px;
+    margin:8px 16px 0;
+    width:fit-content;
+    font-weight:600;
+  }
+
+  .card-body{
+    padding:10px 16px 16px;
+    font-size:0.95rem;
+    line-height:1.5;
+  }
+  .card-body.answer{
+    color:#cfe3f0;
+  }
+  .card-body .label{
+    display:block;
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--muted);
+    margin-bottom:4px;
+  }
+  .hint{
+    text-align:center;
+    font-size:0.72rem;
+    color:var(--muted);
+    padding:0 16px 12px;
+  }
+
+  .self-test{
+    display:flex;
+    gap:8px;
+    padding:0 16px 16px;
+  }
+  .st-btn{
+    flex:1;
+    padding:9px 0;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    color:var(--text);
+    font-size:0.82rem;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+
+  footer{
+    max-width:640px;
+    margin:10px auto 0;
+    padding:10px 16px 30px;
+    text-align:center;
+  }
+  .reset-btn{
+    background:none;
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:8px 16px;
+    border-radius:10px;
+    font-size:0.75rem;
+    cursor:pointer;
+  }
+
+  .section-note{
+    font-size:0.78rem;
+    color:var(--muted);
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 14px;
+    margin-bottom:14px;
+    line-height:1.5;
+  }
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 1 — Atomic Structure &amp; The Periodic Table</h1>
+  <p>Edexcel Chemistry A-level (9CH0) · Paper 1 &amp; 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+// ===================== ISOTOPES AND MASS SPECTROMETRY =====================
+{t:"iso", id:"iso-01", front:"Define the term 'isotopes'.", back:"Atoms of the same element (same number of protons/atomic number) that have a different number of neutrons (and therefore a different mass number)."},
+{t:"iso", id:"iso-02", front:"State the structure (protons, neutrons, electrons) of a 1+ ion of the carbon-13 isotope.", back:"Six protons, seven neutrons, five electrons. Carbon always has 6 protons (Z=6); mass number 13 means 13−6 = 7 neutrons; a 1+ ion has lost one electron, so 6−1 = 5 electrons."},
+{t:"iso", id:"iso-03", front:"Bromine has two stable isotopes, 79Br and 81Br. Give one similarity and one difference between these isotopes in terms of subatomic particles.", back:"Similarity: both have the same number of PROTONS (35) — and therefore the same number of electrons, since both are neutral atoms. Difference: they have a different number of NEUTRONS (79Br has 44 neutrons; 81Br has 46 neutrons)."},
+{t:"iso", id:"iso-04", front:"Explain why isotopes of the same element have identical chemical reactions despite differing in atomic structure.", back:"Chemical reactions depend on the number and arrangement of ELECTRONS (particularly the outer-shell/valence electrons), not on the number of neutrons. Since isotopes have the same number of protons and therefore the same number of electrons (and identical electron configuration), they have identical chemical properties — only their physical properties (e.g. mass, density) differ slightly."},
+{t:"iso", id:"iso-05", front:"State what is meant by the term 'relative isotopic mass'.", back:"The mass of an atom of a specific isotope, compared with (relative to) 1/12th of the mass of one atom of carbon-12."},
+{t:"iso", id:"iso-06", front:"State what is meant by the term 'relative atomic mass'.", back:"The weighted mean mass of an atom of an element, taking into account the relative abundance of all its naturally occurring isotopes, compared with 1/12th of the mass of one atom of carbon-12."},
+{t:"iso", id:"iso-07", front:"Give the general method/formula for calculating relative atomic mass from isotopic abundance data.", back:"Relative atomic mass = Σ (isotopic mass × % abundance) ÷ 100, i.e. multiply each isotope's relative isotopic mass by its percentage abundance, sum these values across all isotopes present, then divide by 100 (since abundances are percentages)."},
+{t:"iso", id:"iso-08", front:"A 5.000 g sample of lithium contains 0.460 g of lithium-6 (relative isotopic mass 6.02) and the rest lithium-7 (relative isotopic mass 7.02). Outline how you would calculate the relative atomic mass of lithium for this sample.", back:"Calculate the % abundance of each isotope by mass: % Li-6 = (0.460 ÷ 5.000) × 100 = 9.2%; % Li-7 = 100 − 9.2 = 90.8%. Then apply the weighted mean formula: RAM = [(6.02 × 9.2) + (7.02 × 90.8)] ÷ 100 ≈ 6.92 (to an appropriate number of significant figures)."},
+{t:"iso", id:"iso-09", front:"Explain why the relative abundance of two isotopes (e.g. of bromine) CANNOT be found using a chemical test.", back:"Because isotopes of the same element have identical chemical properties (same electron arrangement), no chemical test can distinguish between them or measure their relative proportions — mass spectrometry (a physical, not chemical, technique that separates species by mass) must be used instead."},
+{t:"iso", id:"iso-10", front:"Give the formulae and m/z ratios of the ions responsible for the molecular ion peaks in the mass spectrum of PCl₃, given phosphorus has one isotope (mass 31) and chlorine has two isotopes (35 and 37).", back:"Four molecular ion peaks are possible, depending on the combination of Cl isotopes: ³¹P³⁵Cl₃⁺ (m/z = 31+35×3 = 136), ³¹P³⁵Cl₂³⁷Cl⁺ (m/z = 138), ³¹P³⁵Cl³⁷Cl₂⁺ (m/z = 140), and ³¹P³⁷Cl₃⁺ (m/z = 142)."},
+{t:"iso", id:"iso-11", front:"Chlorine gas (Cl₂) contains the isotopes ³⁵Cl and ³⁷Cl, present in a 3:1 ratio (75% : 25%). Deduce the m/z values and relative peak heights for the molecular ion, Cl₂⁺.", back:"Three possible combinations exist: ³⁵Cl–³⁵Cl (m/z = 70), ³⁵Cl–³⁷Cl (m/z = 72), and ³⁷Cl–³⁷Cl (m/z = 74). Using the 3:1 isotope ratio, the probability of each combination gives approximate relative peak heights of 9:6:1 (since P(35,35) ∝ 3×3=9, P(35,37 or 37,35) ∝ 2×3×1=6, P(37,37) ∝ 1×1=1) — so the m/z=70 peak is the tallest, m/z=72 is intermediate, and m/z=74 is the smallest."},
+{t:"iso", id:"iso-12", front:"Explain how mass spectrometry can be used to determine the relative molecular mass of a molecule.", back:"The mass spectrometer ionises the sample and separates the resulting ions by their mass/charge (m/z) ratio. The molecular ion (M⁺) peak — the peak with the highest m/z value that corresponds to the whole, unfragmented molecule having lost only one electron — has an m/z value equal to the relative molecular mass of the compound."},
+{t:"iso", id:"iso-13", front:"Name the region of a mass spectrometer where positive ions are deflected according to their mass, and explain the three possible ion pathways (too little deflection, correct deflection, too much deflection) in this region.", back:"This is the magnetic field/ion deflection region. Ions with a low mass (or high charge) are deflected MORE strongly and curve too sharply, missing the detector; ions with the CORRECT mass/charge ratio for the field strength are deflected by exactly the right amount to reach the detector; ions with high mass (or low charge) are deflected too little (barely curve) and also miss the detector — only ions of the specific m/z the field is tuned for at that moment reach the detector, so the field strength is scanned across a range to record the full spectrum."},
+{t:"iso", id:"iso-14", front:"Give a reason why a mass spectrometer must be operated under vacuum.", back:"To prevent the ions from colliding with air molecules (e.g. oxygen, nitrogen), which would deflect them from their intended path, cause unwanted ionisation/scattering, and prevent them from reaching the detector accurately."},
+{t:"iso", id:"iso-15", front:"Complete the reasoning: the relative atomic mass of hydrogen in the Periodic Table (1.0) is actually slightly greater than 1.0 when calculated precisely from isotopic data. Explain why.", back:"Although the vast majority of hydrogen atoms are the isotope ¹H (relative isotopic mass ≈ 1.0), a small percentage exist as the heavier isotope ²H (deuterium, relative isotopic mass ≈ 2.0). Since relative atomic mass is a weighted MEAN including this small proportion of heavier deuterium atoms, the true value is very slightly above 1.0, even though it rounds to 1.0 at 2 significant figures."},
+{t:"iso", id:"iso-16", front:"⚠ EXAMINER TRAP: A student defines 'relative isotopic mass' and 'relative atomic mass' using identical wording, just swapping the word 'isotope' for 'element'. Why does this lose marks?", back:"The two definitions must be precisely distinguished: relative ISOTOPIC mass refers to the mass of ONE SPECIFIC isotope (a single, defined nuclide) compared with 1/12th the mass of carbon-12. Relative ATOMIC mass is a WEIGHTED MEAN across ALL the naturally-occurring isotopes of an element, weighted by their abundance. Simply swapping 'isotope' for 'element' in an otherwise identical sentence misses the crucial 'weighted mean, accounting for abundance' component of the atomic mass definition, which exam mark schemes specifically credit as a separate point.", trap:true},
+{t:"iso", id:"iso-17", front:"⚠ EXAMINER TRAP: In a relative-atomic-mass-from-abundance calculation, a student forgets to divide by 100 at the end. Why does this error happen, and how can it be avoided?", back:"If abundances are given as PERCENTAGES (summing to 100), each isotope's mass must be multiplied by its percentage, and the SUM of these products must then be divided by 100 to correctly weight the average (since percentages themselves sum to 100, not 1). Forgetting this final division by 100 gives an answer roughly 100× too large. To avoid this, always check whether the abundance data given are percentages (÷100 needed) or already given as decimal fractions/proportions that sum to 1 (no division needed) before setting up the calculation.", trap:true},
+
+// ===================== ELECTRON CONFIGURATION =====================
+{t:"elec", id:"elec-01", front:"Write the full electron configuration of a phosphorus atom (Z=15) using s,p,d notation.", back:"1s² 2s² 2p⁶ 3s² 3p³."},
+{t:"elec", id:"elec-02", front:"Write the full electron configuration of a bromine atom (Z=35) using s,p,d notation.", back:"1s² 2s² 2p⁶ 3s² 3p⁶ 3d¹⁰ 4s² 4p⁵."},
+{t:"elec", id:"elec-03", front:"How many electrons occupy the fourth quantum shell (n=4) of a bromine atom?", back:"7 — from the 4s² and 4p⁵ sub-shells (2 + 5 = 7). Note that the 3d¹⁰ electrons are part of the THIRD shell (n=3), not the fourth, even though they are filled after 4s in the Aufbau filling order — a common point of confusion."},
+{t:"elec", id:"elec-04", front:"In an 'electrons in boxes' diagram, what do the two arrows within a single box represent, and why must they point in opposite directions?", back:"The two arrows represent two electrons occupying the same orbital, paired together. They must point in opposite directions to represent OPPOSITE SPINS — this follows the Pauli exclusion principle, which states no two electrons in the same atom can have identical sets of quantum numbers (so two electrons sharing an orbital must differ in spin)."},
+{t:"elec", id:"elec-05", front:"Explain why the arrows in the three separate 3p orbitals of a phosphorus atom (3p³) all point in the SAME direction, rather than pairing up.", back:"This follows Hund's rule: electrons occupy separate orbitals of the same sub-shell (with parallel/same spin) singly before any pairing occurs, since electrons repel each other and placing them in separate orbitals first minimises this repulsion, giving a more stable (lower energy) arrangement."},
+{t:"elec", id:"elec-06", front:"Explain why iodine and chlorine (same group) have many similar chemical reactions.", back:"Both elements have the SAME NUMBER OF ELECTRONS IN THEIR OUTER (valence) SHELL — both are in Group 7, so both have 7 outer-shell electrons. Since chemical reactivity is primarily determined by the number and arrangement of outer-shell electrons, elements in the same group share similar chemical behaviour."},
+{t:"elec", id:"elec-07", front:"State what is meant by the term 'first ionisation energy'.", back:"The energy required to remove one electron from each atom in one mole of gaseous atoms of an element, to form one mole of gaseous 1+ ions."},
+{t:"elec", id:"elec-08", front:"A student's definition of first ionisation energy contains one incorrect word — commonly confusing which STATE the atoms/ions must be in. What is the correct state, and why does this matter?", back:"Atoms and the resulting ions must be in the GASEOUS state (not solid or liquid). This matters because ionisation energy specifically measures the energy to remove an electron from an ISOLATED atom, free from the influence of neighbouring atoms/intermolecular forces present in solid or liquid states — using the wrong state word (e.g. 'solid') is a very commonly tested single-word error in this definition."},
+{t:"elec", id:"elec-09", front:"Write a balanced equation, including state symbols, for the first ionisation energy of hydrogen.", back:"H(g) → H⁺(g) + e⁻"},
+{t:"elec", id:"elec-10", front:"Write a balanced equation, including state symbols, for the third ionisation energy of magnesium.", back:"Mg²⁺(g) → Mg³⁺(g) + e⁻ — note that the THIRD ionisation energy starts from the 2+ ion (having already lost two electrons), not from the neutral atom."},
+{t:"elec", id:"elec-11", front:"Write a balanced equation, including state symbols, for the second ionisation energy of oxygen.", back:"O⁺(g) → O²⁺(g) + e⁻"},
+{t:"elec", id:"elec-12", front:"Explain why the first ionisation energy of magnesium is higher than that of sodium.", back:"Magnesium has one more proton than sodium, giving it a greater nuclear charge, while the outer electron being removed is in the SAME shell (same distance/shielding) in both cases — the greater nuclear charge in magnesium therefore attracts the outer electron more strongly, so more energy is needed to remove it."},
+{t:"elec", id:"elec-13", front:"Explain why the first ionisation energy of sodium is greater than that of potassium.", back:"Although potassium has more protons (greater nuclear charge) than sodium, potassium's outer electron is in a HIGHER (further) energy level/shell (n=4, vs n=3 for sodium), which is further from the nucleus and experiences more electron shielding from inner shells. These two effects (greater distance and greater shielding) outweigh the increased nuclear charge, so potassium's outer electron is held less strongly, giving potassium a LOWER first ionisation energy than sodium."},
+{t:"elec", id:"elec-14", front:"Explain the general trend in first ionisation energy across Period 3 (left to right), and the underlying cause.", back:"First ionisation energy generally INCREASES across the period. This is because nuclear charge increases (one more proton added per element) while electrons are added to the SAME outer shell (n=3), so shielding stays roughly constant — the increasing nuclear charge attracts the outer electrons more strongly (across a similar distance), making them harder to remove."},
+{t:"elec", id:"elec-15", front:"Explain why the first ionisation energy of sulfur is LOWER than that of phosphorus, despite sulfur having one more proton.", back:"In phosphorus (3p³), each of the three 3p orbitals contains one unpaired electron. In sulfur (3p⁴), one of the 3p orbitals must now contain a PAIR of electrons. The repulsion between this pair of electrons (occupying the same orbital) makes it easier to remove one of them, so LESS energy is required — this repulsion effect outweighs the increased nuclear charge, giving sulfur a lower first ionisation energy than phosphorus."},
+{t:"elec", id:"elec-16", front:"Explain why the first ionisation energy of sulfur is LOWER than that of chlorine.", back:"Chlorine has one more proton (greater nuclear charge) than sulfur, and both have their outer electron being removed from the same 3p sub-shell/shielding environment — the greater nuclear charge in chlorine attracts the outer electrons more strongly, requiring more energy to remove one, giving chlorine a higher first ionisation energy than sulfur (this follows the standard 'increasing across the period' trend, distinct from the P→S drop, which is the orbital-pairing exception)."},
+{t:"elec", id:"elec-17", front:"Explain why the first ionisation energy of hydrogen is LESS than that of helium, but GREATER than that of lithium.", back:"Hydrogen vs helium: both have their single outer electron in the same shell (n=1), but helium has one more proton (greater nuclear charge) and no extra shielding, so helium's electron is held more strongly (higher ionisation energy than hydrogen). Hydrogen vs lithium: lithium's outer electron is in a higher energy level (n=2, further from the nucleus) and experiences shielding from the inner 1s² electrons, both of which outweigh lithium's greater nuclear charge, making lithium's outer electron easier to remove (lower ionisation energy) than hydrogen's single, unshielded, close 1s electron."},
+{t:"elec", id:"elec-18", front:"Explain why successive ionisation energies of an element always increase.", back:"As each successive electron is removed, the ion becomes more positively charged, while the number of remaining electrons decreases. This means there is a greater effective nuclear attraction per remaining electron (less electron-electron repulsion, and a fixed nuclear charge now shared among fewer electrons), so each subsequent electron is held more strongly and requires more energy to remove."},
+{t:"elec", id:"elec-19", front:"Explain why there is a much larger jump between the second and third ionisation energies of calcium than between the first and second.", back:"Calcium's electron configuration is [Ar] 4s². The first two ionisation energies remove the two 4s electrons (the outermost shell). The THIRD ionisation energy must remove an electron from the next shell IN — the full 3p⁶ sub-shell, which is closer to the nucleus and experiences much less shielding, so removing this electron requires substantially more energy, causing the large jump."},
+{t:"elec", id:"elec-20", front:"Explain why the logarithm of successive ionisation energies (rather than the raw values) is plotted on a graph.", back:"Successive ionisation energies span an enormous range of values (increasing by orders of magnitude, especially between shells), which would be very difficult to display clearly on a single linear scale. Plotting the LOGARITHM compresses this wide range into a more manageable scale, making the pattern of gradual increases within a shell and sharp jumps between shells much easier to see clearly on one graph."},
+{t:"elec", id:"elec-21", front:"⚠ EXAMINER TRAP: A student explains 'ionisation energy increases across Period 3 because more electrons repel each other.' Why is electron shielding/repulsion the wrong primary explanation here?", back:"Across a PERIOD, the dominant factor is INCREASING NUCLEAR CHARGE with roughly constant shielding (since electrons are added to the same outer shell) — this is what drives the general increase. Electron-electron repulsion (specifically, orbital PAIRING repulsion) is only the correct explanation for the small, SPECIFIC exceptions to the trend (e.g. the drop from phosphorus to sulfur, or from magnesium to aluminium), not for the general upward trend itself. Mixing up the general-trend explanation (nuclear charge/shielding) with the exception explanation (orbital pairing repulsion) is a very common and heavily-tested error.", trap:true},
+{t:"elec", id:"elec-22", front:"⚠ EXAMINER TRAP: A student says d-block elements and transition metals are the same thing, so scandium and zinc must be transition metals. Why is this incorrect?", back:"A transition metal is specifically defined as a d-block element that can form at least one STABLE ION WITH A PARTIALLY FILLED d SUB-SHELL. Scandium only forms the Sc³⁺ ion, which has the configuration [Ar] (an EMPTY d sub-shell, 3d⁰) — not partially filled. Zinc only forms the Zn²⁺ ion, which has the configuration [Ar]3d¹⁰ (a COMPLETELY FULL d sub-shell) — also not partially filled. Both are d-block elements by position in the periodic table, but neither meets the specific 'partially filled d sub-shell in a stable ion' definition required to be classified as a transition metal — this exact scandium/zinc exception is one of the most frequently examined points in this subtopic.", trap:true},
+
+// ===================== PERIODICITY =====================
+{t:"per", id:"per-01", front:"Define the term 'periodicity'.", back:"The repeating (periodic) trend in the physical and chemical properties of elements, observed at regular intervals when elements are arranged in order of increasing atomic (proton) number in the Periodic Table."},
+{t:"per", id:"per-02", front:"Describe the general trend in atomic radius across Period 2 and Period 3, and explain why.", back:"Atomic radius generally DECREASES across each period, from left to right. This is because nuclear charge increases (one more proton each element) while electrons are added to the SAME outer shell (roughly constant shielding), so the increased nuclear attraction pulls the outer electrons closer to the nucleus, decreasing atomic radius."},
+{t:"per", id:"per-03", front:"Give one argument in favour of, and two arguments against, placing hydrogen immediately above lithium in Group 1.", back:"In favour: hydrogen has one outer electron (like Group 1 elements) and can form a 1+ ion (H⁺), similar to Group 1 metals losing one electron. Against: (1) hydrogen is a non-metal/gas at room temperature, very different in physical properties from the solid, reactive Group 1 metals; (2) hydrogen can also GAIN an electron to form a 1− ion (H⁻, a hydride ion), a behaviour typical of Group 7 halogens, not Group 1 metals — showing hydrogen doesn't fit neatly into Group 1's typical chemical behaviour."},
+{t:"per", id:"per-04", front:"Explain the general trend in melting temperature across Period 2/3 in terms of structure and bonding (from metals, through the metalloid/covalent network element, to simple molecular non-metals).", back:"Melting temperature generally INCREASES from Group 1 to the giant covalent element (e.g. carbon/silicon), then DROPS SHARPLY for the simple molecular non-metals. Metals (e.g. Na, Mg, Al) have giant metallic structures with increasingly strong metallic bonding (more delocalised electrons, higher ionic charge) as you move right, requiring more energy to melt. The giant covalent element (e.g. carbon as diamond/graphite, or silicon) has an extremely high melting point due to many strong covalent bonds throughout the giant lattice needing to be broken. Simple molecular elements (e.g. P₄, S₈, Cl₂) have only weak van der Waals/London forces BETWEEN molecules, which require much less energy to overcome, giving much lower melting points, even though the covalent bonds WITHIN each molecule remain strong."},
+{t:"per", id:"per-05", front:"Discuss the suggestion that the difference in reaction rate of strontium and barium with water is due to the difference in the sum of their first and second ionisation energies.", back:"This IS a reasonable/creditable explanation: barium has a lower sum of first + second ionisation energies than strontium (larger atomic radius, more shielding, electrons further from the nucleus and less strongly held), meaning less energy is needed to form the Ba²⁺ ion — since the reaction with water involves the metal atom losing electrons to form a 2+ ion, a lower ionisation energy sum makes this process more energetically favourable/faster, consistent with barium reacting faster than strontium. A full 'discuss' answer should also acknowledge this is a plausible but not the ONLY possible factor (e.g. other factors like reaction mechanism/kinetics could also contribute), rather than asserting it as the single definitive cause."},
+{t:"per", id:"per-05b", front:"Describe, with a labelled diagram, how you would compare the thermal stability of two different Group 2 nitrates using simple laboratory equipment, including one safety precaution.", back:"Heat an equal, small mass of each nitrate separately in a test tube/boiling tube (clamped at an angle, mouth pointing away from people) over a Bunsen burner, using the same heating method/time for a fair comparison. Observe and time how long it takes for each nitrate to visibly decompose (e.g. production of brown NO₂ gas, or a colour/residue change), noting that a Group 2 metal with GREATER thermal stability will take LONGER to decompose (or require a hotter flame). Safety precaution: point the test tube away from yourself and others while heating (in case of spitting/spillage), since nitrates release toxic brown NO₂ gas on decomposition — ideally this should be done in a fume cupboard."},
+{t:"per", id:"per-06", front:"Explain the trend in first ionisation energy DOWN a group (e.g. Group 6, containing sulfur).", back:"First ionisation energy DECREASES down a group. Each successive element has its outer electron in a shell FURTHER from the nucleus, and there is MORE shielding from additional complete inner shells. Both these effects reduce the attraction between the nucleus and the outer electron, outweighing the increased nuclear charge, so less energy is needed to remove the outer electron — the outer electron is easier to remove going down the group."},
+{t:"per", id:"per-07", front:"Explain why sulfur and zinc/scandium-type elements are exceptions worth checking carefully: does the periodicity trend in melting point across Period 3 apply smoothly, or are there any structural discontinuities?", back:"The melting point trend across Period 3 is NOT perfectly smooth — it rises through the metals (Na<Mg<Al, increasing metallic bond strength), peaks sharply at silicon (giant covalent structure), then DROPS ABRUPTLY at phosphorus (simple molecular P₄), continuing at a low level through sulfur (S₈), chlorine (Cl₂) and argon (monatomic) — the transition from GIANT structures (metallic/covalent) to SIMPLE MOLECULAR structures is the key discontinuity to identify and explain in terms of the fundamentally different bonding/forces involved, rather than describing it as one smooth, continuous trend."},
+{t:"per", id:"per-08", front:"⚠ EXAMINER TRAP: A student explains the atomic radius trend across a period using 'more electron shells are added.' Why is this factually wrong for a period (as opposed to a group)?", back:"Moving ACROSS a period, electrons are added to the SAME outer shell (no new shell is added) — it is moving DOWN a GROUP that adds additional electron shells. Across a period, the correct explanation for decreasing atomic radius is increasing nuclear charge with roughly constant shielding (same shell). Confusing the 'across a period' mechanism (nuclear charge, same shell) with the 'down a group' mechanism (extra shells, more shielding) is one of the most fundamental and frequently tested errors across the whole of periodicity.", trap:true},
+{t:"per", id:"per-09", front:"⚠ EXAMINER TRAP: A student assumes melting point ALWAYS increases smoothly across a period, since 'periodicity' implies a regular pattern. Why must this assumption be checked against structure/bonding type each time?", back:"'Periodicity' refers to a REPEATING pattern across periods (i.e. the same shape of trend recurs in Period 2 and Period 3), NOT a claim that any single property changes smoothly/monotonically within one period. Melting point specifically shows a sharp PEAK at the giant covalent element and then a sharp DROP at the simple molecular elements — a smooth, continuously-increasing curve would be the wrong shape entirely. Always identify the STRUCTURE TYPE (metallic → giant covalent → simple molecular) of each element before predicting or explaining a melting point trend, rather than assuming a uniform gradient.", trap:true},
+];
+
+const TABS = [
+  {key:"iso", label:"Isotopes & Mass Spec"},
+  {key:"elec", label:"Electron Configuration"},
+  {key:"per", label:"Periodicity"},
+];
+
+const STORAGE_KEY = "chemT1AtomicStructureProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    progress = raw ? JSON.parse(raw) : {};
+  }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }
+  catch(e){ /* storage unavailable — continue silently */ }
+}
+
+function renderTabs(){
+  const bar = document.getElementById("tabBar");
+  bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+
+  if(activeTab==="elec"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> Ionisation energy explanations dominate this tab — always separate the GENERAL trend (nuclear charge, shielding, distance) from the SPECIFIC exceptions (orbital pairing repulsion at Mg→Al and P→S). Mixing these two explanations up is the single most common error across this whole topic.";
+    container.appendChild(note);
+  }
+
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id";
+    idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge";
+      badge.textContent = "⚠ Examiner Trap";
+      el.appendChild(badge);
+    }
+
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    if(!isFlipped){
+      body.innerHTML = `<span class="label">Question</span>${c.front}`;
+    } else {
+      body.innerHTML = `<span class="label">Answer</span>${c.back}`;
+    }
+    el.appendChild(body);
+
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn";
+      knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn";
+      reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn);
+      st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+
+    container.appendChild(el);
+  });
+}
+
+function renderAll(){
+  renderTabs();
+  renderProgressBar();
+  renderStats();
+  renderCards();
+}
+
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {};
+    saveProgress();
+    renderAll();
+  }
+}
+
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
