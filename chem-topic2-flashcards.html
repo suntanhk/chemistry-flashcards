@@ -1,0 +1,501 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry — Topic 2: Bonding and Structure</title>
+<style>
+  :root{
+    --bg:#0f1416;
+    --panel:#171f22;
+    --panel-2:#1d272b;
+    --border:#2a373c;
+    --text:#e8eef0;
+    --muted:#8fa3a9;
+    --accent:#4f9cd1;
+    --accent-dim:#2a5a6b;
+    --trap:#e8a23d;
+    --trap-bg:#3a2c15;
+    --know:#4f9cd1;
+    --review:#e8626a;
+    --card-front:#1a2027;
+    --card-back:#16202a;
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:60px;
+  }
+  header{
+    padding:22px 16px 14px;
+    text-align:center;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);
+  }
+  header h1{
+    margin:0 0 4px;
+    font-size:1.25rem;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  header p{
+    margin:0;
+    color:var(--muted);
+    font-size:0.85rem;
+  }
+  .deck-stats{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin-top:12px;
+    font-size:0.78rem;
+    color:var(--muted);
+  }
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+
+  nav.tabs{
+    display:flex;
+    overflow-x:auto;
+    gap:6px;
+    padding:12px 12px 8px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    flex:0 0 auto;
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:8px 12px;
+    border-radius:20px;
+    font-size:0.72rem;
+    white-space:nowrap;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .tab-btn .count{
+    display:inline-block;
+    margin-left:6px;
+    font-size:0.66rem;
+    color:var(--accent);
+    opacity:0.85;
+  }
+  .tab-btn.active{
+    background:var(--accent-dim);
+    border-color:var(--accent);
+    color:#eaf5ff;
+  }
+
+  .progress-wrap{
+    padding:0 16px 4px;
+  }
+  .progress-bar{
+    height:6px;
+    background:var(--panel);
+    border-radius:4px;
+    overflow:hidden;
+    border:1px solid var(--border);
+  }
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--accent-dim), var(--accent));
+    transition:width .3s ease;
+  }
+  .progress-label{
+    font-size:0.72rem;
+    color:var(--muted);
+    margin-top:4px;
+    display:flex;
+    justify-content:space-between;
+  }
+
+  main{
+    max-width:640px;
+    margin:0 auto;
+    padding:14px 16px 8px;
+  }
+
+  .card{
+    position:relative;
+    background:var(--card-front);
+    border:1px solid var(--border);
+    border-radius:14px;
+    margin-bottom:14px;
+    min-height:150px;
+    cursor:pointer;
+    transition:border-color .2s ease, transform .12s ease;
+    overflow:hidden;
+  }
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);}
+  .card.review{border-color:var(--review);}
+
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:12px 16px 0;
+  }
+  .card-id{
+    font-size:0.68rem;
+    color:var(--muted);
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+  }
+  .status-chip{
+    font-size:0.65rem;
+    padding:2px 8px;
+    border-radius:10px;
+    background:var(--panel-2);
+    color:var(--muted);
+  }
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+
+  .trap-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    font-size:0.68rem;
+    color:var(--trap);
+    background:var(--trap-bg);
+    padding:2px 8px;
+    border-radius:10px;
+    margin:8px 16px 0;
+    width:fit-content;
+    font-weight:600;
+  }
+
+  .card-body{
+    padding:10px 16px 16px;
+    font-size:0.95rem;
+    line-height:1.5;
+  }
+  .card-body.answer{
+    color:#cfe3f0;
+  }
+  .card-body .label{
+    display:block;
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--muted);
+    margin-bottom:4px;
+  }
+  .hint{
+    text-align:center;
+    font-size:0.72rem;
+    color:var(--muted);
+    padding:0 16px 12px;
+  }
+
+  .self-test{
+    display:flex;
+    gap:8px;
+    padding:0 16px 16px;
+  }
+  .st-btn{
+    flex:1;
+    padding:9px 0;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    color:var(--text);
+    font-size:0.82rem;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+
+  footer{
+    max-width:640px;
+    margin:10px auto 0;
+    padding:10px 16px 30px;
+    text-align:center;
+  }
+  .reset-btn{
+    background:none;
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:8px 16px;
+    border-radius:10px;
+    font-size:0.75rem;
+    cursor:pointer;
+  }
+
+  .section-note{
+    font-size:0.78rem;
+    color:var(--muted);
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 14px;
+    margin-bottom:14px;
+    line-height:1.5;
+  }
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 2 — Bonding and Structure</h1>
+  <p>Edexcel Chemistry A-level (9CH0) · Paper 1, 2 &amp; 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+// ===================== IONIC AND METALLIC BONDING =====================
+{t:"ionic", id:"ionic-01", front:"State the meaning of the term 'ionic bond'.", back:"The strong electrostatic force of attraction between oppositely charged ions (a cation and an anion), formed by the transfer of one or more electrons from a metal to a non-metal."},
+{t:"ionic", id:"ionic-02", front:"Describe the bonding in a metal such as platinum or chromium, and explain why this gives a high melting temperature.", back:"Metallic bonding consists of a lattice of positively charged metal ions surrounded by a 'sea' of delocalised outer-shell electrons, which are free to move throughout the whole structure. The strong electrostatic attraction between the positive ions and this sea of delocalised electrons extends throughout the giant metallic lattice, and a large amount of energy is needed to overcome these many strong attractions, giving metals a high melting temperature."},
+{t:"ionic", id:"ionic-03", front:"Explain how CHANGES IN THE CATION affect the strength of ionic bonding in different compounds (using bond-strength/lattice energy data as evidence).", back:"A smaller cation (smaller ionic radius) allows the oppositely charged ions to pack closer together, increasing the electrostatic attraction between them; a HIGHER cation charge also increases the electrostatic attraction. Both a smaller radius and/or higher charge on the cation therefore increase the strength of the ionic bond (and the energy needed to separate the ions)."},
+{t:"ionic", id:"ionic-04", front:"State ALL the conditions under which an ionic compound such as magnesium bromide will conduct electricity.", back:"When molten (liquid) or when dissolved in water (aqueous solution) — in both cases the ions are free to move and carry charge. Ionic compounds do NOT conduct electricity in the solid state, since the ions are held in fixed positions in the lattice and cannot move to carry charge."},
+{t:"ionic", id:"ionic-05", front:"Explain why the electrical conductivity of solid potassium bromide is poor, but an aqueous solution of potassium bromide is a good conductor.", back:"In the solid, the ions are held in fixed positions within the rigid ionic lattice and cannot move, so they cannot carry charge — giving poor conductivity. When dissolved in water, the ionic lattice breaks apart and the ions become free to move throughout the solution, allowing them to carry charge — giving good conductivity."},
+{t:"ionic", id:"ionic-06", front:"What does it mean for two ions/species to be 'isoelectronic'? Give an example.", back:"Isoelectronic species have the SAME NUMBER OF ELECTRONS as each other. Example: N³⁻, O²⁻, F⁻ and Na⁺, Mg²⁺, Al³⁺ are all isoelectronic — they all have 10 electrons, despite having different numbers of protons."},
+{t:"ionic", id:"ionic-07", front:"Explain the trend in ionic radius across the isoelectronic series N³⁻ → O²⁻ → F⁻ → Na⁺ → Mg²⁺ → Al³⁺.", back:"Ionic radius DECREASES across this series. All these ions have the same number of electrons (isoelectronic), but the number of PROTONS increases steadily from N (7) to Al (13). This increasing nuclear charge, acting on a constant number of electrons, pulls the electron cloud in more strongly, decreasing the ionic radius."},
+{t:"ionic", id:"ionic-08", front:"Give the formula of a stable ion that is isoelectronic with the magnesium ion, Mg²⁺.", back:"Any ion with 10 electrons, e.g. Na⁺, Al³⁺, O²⁻, F⁻, or N³⁻ (Mg²⁺ itself has 12 protons − 2 electrons lost = 10 electrons)."},
+{t:"ionic", id:"ionic-09", front:"Explain the difference in melting temperature between magnesium oxide (very high) and potassium bromide (lower), in terms of their ions.", back:"Magnesium oxide contains Mg²⁺ and O²⁻ ions — both smaller in radius AND higher in charge than the K⁺ and Br⁻ ions in potassium bromide. Both the higher ionic charges and smaller ionic radii in MgO result in much stronger electrostatic attraction between the ions, requiring much more energy to separate them and melt the lattice, giving MgO a much higher melting temperature than KBr."},
+{t:"ionic", id:"ionic-10", front:"Predict two distinct physical properties of a metal (other than its appearance) and explain each in terms of its structure and bonding.", back:"1) Good electrical conductivity — the delocalised 'sea' of electrons can move freely throughout the giant metallic lattice, carrying charge. 2) Malleable/ductile — the layers of positive ions can slide over one another when a force is applied, without breaking any specific/directional bonds, since the delocalised electrons continue to hold the structure together as the ion layers shift position (non-directional metallic bonding)."},
+{t:"ionic", id:"ionic-11", front:"Write a balanced equation, with state symbols, for the thermal decomposition of calcium carbonate, and name ALL the types of bond present in calcium carbonate.", back:"CaCO₃(s) → CaO(s) + CO₂(g). Calcium carbonate contains: IONIC bonding (between Ca²⁺ and CO₃²⁻ ions), COVALENT bonding (within the carbonate ion, between carbon and oxygen), and DATIVE COVALENT bonding (one of the C–O bonds in the carbonate ion is often described as dative, depending on the resonance structure drawn)."},
+{t:"ionic", id:"ionic-12", front:"Explain, in terms of bonding, why a high decomposition temperature is required to thermally decompose calcium carbonate.", back:"A large amount of energy is needed to break the strong ionic bonds (and covalent bonds within the carbonate ion) holding the giant ionic lattice together, so a high temperature (providing sufficient energy) is required for decomposition to occur."},
+{t:"ionic", id:"ionic-13", front:"⚠ EXAMINER TRAP: A student describing metallic bonding forgets to state that the electrons are DELOCALISED, writing only 'electrons surround the ions.' Why does this lose marks?", back:"The word 'delocalised' (or an equivalent phrase like 'free to move throughout the whole structure') is a specific, separately-credited marking point — it distinguishes metallic bonding's mobile, shared electron sea from a static arrangement. Simply saying electrons 'surround' the ions without specifying they are delocalised/mobile throughout the lattice misses this key conceptual and marking point, and doesn't properly explain WHY metals conduct electricity or are malleable.", trap:true},
+{t:"ionic", id:"ionic-14", front:"⚠ EXAMINER TRAP: A student says ionic compounds 'always' conduct electricity. What precise qualification is needed for full marks?", back:"Ionic compounds only conduct electricity when MOLTEN or in AQUEOUS SOLUTION (i.e. when the ions are free to move) — NOT in the solid state, where ions are fixed in the lattice. Omitting this state-dependent qualification (or claiming solid ionic compounds conduct) is one of the most frequently tested precision points in this subtopic — always specify the state(s) under which conduction occurs.", trap:true},
+
+// ===================== COVALENT BONDING =====================
+{t:"cov", id:"cov-01", front:"State what is meant by the term 'covalent bond'.", back:"The strong electrostatic attraction between the nuclei of two atoms and a shared pair of electrons between them (located in the region between the two nuclei)."},
+{t:"cov", id:"cov-02", front:"State what is meant by a 'dative covalent' (coordinate) bond, using the reaction of NH₃ with BF₃ as an example.", back:"A dative covalent bond is a covalent bond in which BOTH electrons in the shared pair come from the SAME atom. In NH₃, the nitrogen atom has a lone pair of electrons (a feature that allows it to donate both electrons). In BF₃, the boron atom has an incomplete outer shell (only 6 electrons, an empty orbital available to accept a pair). The nitrogen's lone pair is donated into boron's empty orbital, forming the dative covalent bond in NH₃BF₃."},
+{t:"cov", id:"cov-03", front:"When NH₃ and BF₃ react to form NH₃BF₃, the bond angles at both the nitrogen and boron atoms change. State the new bond angles.", back:"The H–N–H bond angle changes from 107° (in free NH₃, pyramidal) to 109.5° (tetrahedral, once nitrogen has four bonding pairs including the new dative bond, no lone pair remaining on N). The F–B–F bond angle changes from 120° (in free BF₃, trigonal planar) to 109.5° (tetrahedral, once boron now has four bonding pairs)."},
+{t:"cov", id:"cov-04", front:"State what is meant by the term 'electronegativity'.", back:"A measure of the ability of an atom (within a covalent bond) to attract the shared pair of electrons towards itself."},
+{t:"cov", id:"cov-05", front:"Explain the polarity (or otherwise) of the bonds in chlorine trifluoride, ClF₃.", back:"Fluorine is MORE electronegative than chlorine, so in each Cl–F bond, the shared electron pair is pulled more towards the fluorine atom, giving each bond a permanent dipole (Cl bears a slight positive charge, F a slight negative charge) — the Cl–F bonds are POLAR COVALENT bonds, since there is a significant electronegativity difference between chlorine and fluorine."},
+{t:"cov", id:"cov-06", front:"Explain why the melting temperature of silicon(IV) oxide (SiO₂) is much higher than that of iodine (I₂), even though the bonding in both is covalent.", back:"Silicon(IV) oxide has a GIANT COVALENT (macromolecular) structure, where every silicon and oxygen atom is joined by strong covalent bonds throughout the entire lattice — melting requires breaking these many strong covalent bonds, needing a large amount of energy. Iodine has a SIMPLE MOLECULAR structure: strong covalent bonds hold each I₂ molecule together, but only weak London (van der Waals) forces exist BETWEEN separate I₂ molecules — melting iodine only requires overcoming these weak intermolecular forces (not the strong covalent bonds within each molecule), needing much less energy, giving iodine a much lower melting temperature."},
+{t:"cov", id:"cov-07", front:"Estimate the bond angle around each nitrogen atom in hydrazine, N₂H₄, and justify your answer.", back:"Approximately 107° (pyramidal, similar to ammonia). Each nitrogen atom has three bonding pairs (two N–H bonds and one N–N bond) and one lone pair of electrons. Since lone pair–bonding pair repulsion is greater than bonding pair–bonding pair repulsion, the lone pair pushes the three bonding pairs slightly closer together than the ideal tetrahedral angle (109.5°), giving a bond angle of approximately 107°."},
+{t:"cov", id:"cov-08", front:"Explain why both water and carbon dioxide molecules contain polar BONDS, but only water is a polar MOLECULE overall.", back:"Both O–H bonds in water and both C=O bonds in CO₂ are individually polar (oxygen is more electronegative than both hydrogen and carbon). However, CO₂ is a LINEAR molecule with the two polar C=O bond dipoles pointing in exactly OPPOSITE directions — these dipoles CANCEL OUT (due to the molecule's symmetry), giving no overall (net) molecular dipole, so CO₂ is non-polar overall. Water is a BENT/V-shaped molecule (due to its two lone pairs on oxygen), so the two O–H bond dipoles do NOT point in opposite directions and do NOT cancel — they combine to give an overall net dipole, making water a polar molecule."},
+{t:"cov", id:"cov-09", front:"Explain, in terms of structure and bonding, the difference in melting temperature between two Period 3 elements on either side of the metal/non-metal boundary (e.g. silicon vs phosphorus).", back:"Silicon has a giant covalent (macromolecular) structure, with every atom joined to its neighbours by strong covalent bonds throughout the lattice — melting requires breaking many strong covalent bonds, giving a very high melting temperature. Phosphorus (as P₄) has a simple molecular structure, with only weak London forces between separate P₄ molecules — melting only requires overcoming these weak intermolecular forces, giving a much lower melting temperature, even though both elements are held together by covalent bonds at some level."},
+{t:"cov", id:"cov-10", front:"Explain why diamond has a much higher melting temperature than iodine, even though both are crystalline solids at room temperature.", back:"Diamond has a giant covalent (macromolecular) structure in which every carbon atom is covalently bonded to four other carbon atoms in a rigid 3D lattice extending throughout the whole crystal — melting requires breaking a very large number of strong covalent bonds, needing an enormous amount of energy. Iodine has a simple molecular structure: within each I₂ molecule the covalent bond is strong, but between separate I₂ molecules only weak London (van der Waals) forces exist — melting iodine only requires overcoming these weak intermolecular forces (the strong I–I covalent bonds remain intact), needing far less energy and giving a much lower melting point."},
+{t:"cov", id:"cov-11", front:"Using Pauling electronegativity values, explain why aluminium fluoride sublimes at a much higher temperature (1291°C) than aluminium chloride (178°C).", back:"Fluorine has a much higher electronegativity than chlorine, and a much greater electronegativity difference exists between aluminium and fluorine than between aluminium and chlorine. This larger electronegativity difference gives Al–F bonds significantly more IONIC character than Al–Cl bonds (which are more covalent, existing as simple AlCl₃/Al₂Cl₆ molecules with only weak intermolecular forces between them). Aluminium fluoride behaves more like a giant ionic lattice (stronger electrostatic attraction throughout the structure), requiring much more energy to separate the particles and sublime, giving it a far higher sublimation temperature than the more covalent, simple-molecular aluminium chloride."},
+{t:"cov", id:"cov-12", front:"⚠ EXAMINER TRAP: A student explains a dative covalent bond using only 'one atom has a lone pair and donates both electrons.' Why is this only half the required explanation?", back:"A complete answer needs BOTH features working together: the DONOR atom must have an available LONE PAIR (e.g. nitrogen in NH₃), AND the ACCEPTOR atom must have an EMPTY ORBITAL / incomplete outer shell able to receive that pair (e.g. boron in BF₃, which only has 6 outer electrons). Explaining only the donor's lone pair, without identifying the specific structural feature of the ACCEPTOR that makes the bond possible, is a very commonly incomplete answer for exactly this NH₃/BF₃ question.", trap:true},
+{t:"cov", id:"cov-13", front:"⚠ EXAMINER TRAP: A student says 'CO₂ has polar bonds so it must be a polar molecule.' Why is checking molecular SHAPE essential before concluding overall polarity?", back:"Overall molecular polarity depends on whether individual BOND dipoles cancel out due to molecular symmetry, not just on whether polar bonds are present. A molecule can have polar bonds but be non-polar overall if its symmetric shape causes the dipoles to cancel (e.g. linear CO₂, trigonal planar BF₃, tetrahedral CCl₄) — always check the 3D shape/symmetry of the molecule before concluding whether the bond dipoles cancel or combine, rather than assuming 'has polar bonds' automatically means 'is a polar molecule'.", trap:true},
+
+// ===================== SHAPES AND BOND ANGLES =====================
+{t:"shapes", id:"shapes-01", front:"Explain why the bond angle in water (104.5°) is less than the bond angle in ammonia (107°), even though both are based on a tetrahedral arrangement of electron pairs.", back:"Water has TWO lone pairs and two bonding pairs around the central oxygen atom, while ammonia has only ONE lone pair and three bonding pairs around nitrogen. Since lone pair–lone pair repulsion is greater than lone pair–bonding pair repulsion (which in turn is greater than bonding pair–bonding pair repulsion), water's two lone pairs push the bonding pairs (and therefore the H–O–H bond angle) closer together than ammonia's single lone pair does to its bonding pairs, giving water a smaller bond angle."},
+{t:"shapes", id:"shapes-02", front:"Explain the shape of the PCl₃ molecule (bond angle not required).", back:"Phosphorus has 5 outer-shell electrons; three form bonding pairs with the three chlorine atoms, leaving one lone pair. This gives four electron pairs total around the central phosphorus atom, which arrange themselves as far apart as possible (to minimise repulsion) in a tetrahedral electron-pair arrangement — but since one of these pairs is a lone pair (not counted when describing molecular shape), the MOLECULAR shape (based on the positions of the atoms only) is described as TRIGONAL PYRAMIDAL."},
+{t:"shapes", id:"shapes-03", front:"Explain why phosphorus can form PCl₅ but nitrogen cannot form NCl₅.", back:"Phosphorus is in Period 3 and has accessible 3d orbitals available, allowing it to expand its outer shell beyond 8 electrons (forming 5 bonds, using electrons from the 3s, 3p, and one 3d orbital). Nitrogen is in Period 2 and only has 2s and 2p orbitals available (no accessible d orbitals), so it cannot expand its outer shell beyond 8 electrons (the octet), meaning nitrogen can form a maximum of 4 bonds/lone pairs combined and cannot form NCl₅."},
+{t:"shapes", id:"shapes-04", front:"Describe the 3D shape of PCl₅ in the gas phase, including its bond angles.", back:"Trigonal bipyramidal shape: three chlorine atoms lie in a horizontal (equatorial) plane around the phosphorus, at 120° to each other, while the other two chlorine atoms lie above and below this plane (axial positions), each at 90° to the equatorial plane."},
+{t:"shapes", id:"shapes-05", front:"Predict the shape of an AlCl₃ molecule and its Cl–Al–Cl bond angle.", back:"Trigonal planar shape, with a bond angle of 120°. Aluminium has 3 outer electrons, all used to form three bonding pairs with chlorine, and NO lone pairs remain — three electron pairs arrange as far apart as possible in a plane, giving trigonal planar geometry with 120° angles."},
+{t:"shapes", id:"shapes-06", front:"Use your dot-and-cross diagram of BCl₃ to explain why it has a trigonal planar shape with bond angles of 120°.", back:"Boron has 3 outer-shell electrons, all used to form three covalent bonding pairs with the three chlorine atoms, leaving NO lone pairs on boron. With only three bonding pairs and no lone pairs to repel them further, the three bonding pairs arrange themselves as far apart as possible from each other (minimising electron pair repulsion) in a single plane, giving a trigonal planar shape with bond angles of exactly 120°."},
+{t:"shapes", id:"shapes-07", front:"State the O–H bond angle within a water molecule, and the O–H–O angle typically formed BETWEEN two water molecules joined by a hydrogen bond.", back:"The H–O–H angle WITHIN one water molecule is approximately 104.5°. The O–H–O angle formed BETWEEN two hydrogen-bonded water molecules (i.e. the hydrogen bond itself) is approximately 180° (roughly linear), since hydrogen bonds are strongest when the lone pair, hydrogen, and the electronegative atom it's attracted to are aligned in a straight line."},
+{t:"shapes", id:"shapes-08", front:"Explain why hydrogen bonding causes ice to be LESS dense than liquid water.", back:"In ice, hydrogen bonds hold water molecules in a fixed, open, rigid lattice/hexagonal structure, with each water molecule hydrogen-bonded to four neighbouring molecules at a relatively large, fixed distance apart, creating significant empty space within the structure. In liquid water, the hydrogen bonds are constantly breaking and reforming, allowing molecules to pack more closely/randomly together on average than the rigid, open lattice of ice — this closer packing in the liquid means liquid water is DENSER than solid ice, which is unusual (most substances are denser as solids than as liquids)."},
+{t:"shapes", id:"shapes-09", front:"What are the O–B–O and B–O–H bond angles in a molecule of boric acid, B(OH)₃?", back:"The O–B–O bond angle is 120° (boron has three bonding pairs, no lone pairs — trigonal planar around boron). The B–O–H bond angle is approximately 104.5° (each oxygen has two bonding pairs and two lone pairs — bent/V-shaped around oxygen, similar to water)."},
+{t:"shapes", id:"shapes-10", front:"⚠ EXAMINER TRAP: A student explains the shape of PCl₃ using the electron-pair geometry name ('tetrahedral') instead of the correct MOLECULAR shape name. Why does this lose marks?", back:"The ELECTRON-PAIR arrangement around phosphorus in PCl₃ IS tetrahedral (4 electron pairs total, including the lone pair) — but the MOLECULAR shape (describing only the positions of the ATOMS, ignoring the lone pair itself, which isn't a visible 'arm' of the shape) is TRIGONAL PYRAMIDAL. Exam questions asking for the 'shape of the molecule' specifically want the atom-only shape name, not the underlying electron-pair geometry — mixing these two different (though related) naming systems up is an extremely common error whenever any lone pairs are present.", trap:true},
+{t:"shapes", id:"shapes-11", front:"⚠ EXAMINER TRAP: A student assumes ALL Period 3 (or later) elements can expand their octet like phosphorus. Why must this be checked for the SPECIFIC element in the question, not assumed generally?", back:"Octet expansion (forming more than 4 bonds/8 electrons) requires accessible d orbitals of a similar energy to the bonding s/p orbitals — this becomes possible from Period 3 onwards (e.g. phosphorus, sulfur, chlorine), but is NOT automatic just because an element is 'further down' the periodic table; the comparison specifically tested (nitrogen cannot, phosphorus can) hinges on the PERIOD 2 vs PERIOD 3 boundary and d-orbital availability, not simply on atomic size or group position — always link back to orbital availability (d orbitals present or not) as the actual mechanism, not just 'it's a bigger atom.'", trap:true},
+
+// ===================== INTERMOLECULAR FORCES =====================
+{t:"imf", id:"imf-01", front:"Explain why water has a higher boiling temperature than hydrogen sulfide, H₂S, even though water is a smaller/lighter molecule.", back:"Water molecules form HYDROGEN BONDS between each other (since oxygen is highly electronegative and has lone pairs, and hydrogen is bonded directly to it), which are much stronger than the London (van der Waals) forces that are the only intermolecular force between H₂S molecules (sulfur is not electronegative enough to allow hydrogen bonding). Even though H₂S has more electrons (and therefore theoretically greater London forces alone), the presence of much stronger hydrogen bonding in water requires significantly more energy to overcome, giving water the higher boiling temperature overall."},
+{t:"imf", id:"imf-02", front:"Explain the large difference in boiling temperature between nitrogen trichloride, NCl₃ (344 K) and nitrogen trifluoride, NF₃ (144 K), referring to ALL intermolecular forces present.", back:"Both molecules have permanent dipole–permanent dipole forces and London forces. However, chlorine atoms have significantly more electrons than fluorine atoms, so NCl₃ has much STRONGER London (van der Waals) forces between its molecules than NF₃. Even though fluorine is more electronegative (giving NF₃ potentially stronger individual bond dipoles), the difference in London force strength (due to the much greater number of electrons in Cl compared with F) is the dominant factor, giving NCl₃ significantly higher boiling temperature than NF₃."},
+{t:"imf", id:"imf-03", front:"Explain why the boiling temperature of the halogens increases from chlorine to bromine to iodine.", back:"Going down the group, each successive halogen molecule has MORE electrons (larger electron cloud), which increases the strength of the London (van der Waals) forces between molecules (these forces arise from temporary/induced dipoles caused by electron movement, and are stronger with more electrons present). Stronger London forces require more energy to overcome, giving a higher boiling temperature going down the group."},
+{t:"imf", id:"imf-04", front:"Discuss the differences in boiling temperature of hydrogen fluoride, water, and methane (all simple molecular structures), using electronegativity values.", back:"Methane (CH₄) has only London forces between molecules (carbon and hydrogen have very similar, low electronegativity, so C–H bonds are essentially non-polar) — giving the lowest boiling temperature of the three. Both HF and H₂O can form hydrogen bonds, since both F and O are highly electronegative with available lone pairs, bonded directly to hydrogen — both have much higher boiling temperatures than methane as a result. Water has a HIGHER boiling temperature than HF despite fluorine being MORE electronegative than oxygen, because each water molecule can form TWO hydrogen bonds (via its two lone pairs and two O–H bonds), whereas each HF molecule can only form ONE-ish hydrogen bond on average (only one O–H-equivalent bond and, despite 3 lone pairs on F, only one H available per molecule to donate) — water's greater hydrogen bonding capacity per molecule outweighs fluorine's higher electronegativity, giving water the highest boiling temperature of the three."},
+{t:"imf", id:"imf-05", front:"Explain why ethene (boiling temperature −104°C) has a much lower boiling temperature than ethanol (boiling temperature 78°C).", back:"Ethene molecules are held together only by weak London forces. Ethanol contains an −OH group, which allows ethanol molecules to form hydrogen bonds with each other (oxygen is electronegative with lone pairs, bonded directly to hydrogen) — hydrogen bonds are much stronger than London forces, requiring significantly more energy to overcome, giving ethanol a much higher boiling temperature."},
+{t:"imf", id:"imf-06", front:"Explain why methanol and water are 'soluble in all proportions', including a diagram description of the interaction.", back:"Methanol has an −OH group, which (like water) is electronegative with lone pairs bonded directly to hydrogen, allowing methanol molecules to form HYDROGEN BONDS with water molecules. Since forming these new methanol–water hydrogen bonds releases roughly as much energy as was needed to break the original methanol–methanol and water–water hydrogen bonds, the two liquids mix completely and are miscible in all proportions. (Diagram: the O–H of methanol shown hydrogen bonding, via a dotted line, to a lone pair on the oxygen of a water molecule, or vice versa.)"},
+{t:"imf", id:"imf-07", front:"Explain why 2,2-dimethylpropane has a much lower boiling temperature than its structural isomer pentane (detailed force descriptions not required).", back:"2,2-dimethylpropane has a more branched, compact/spherical shape, whereas pentane has a longer, straighter chain shape. The more compact, branched molecules have a SMALLER surface area of contact between neighbouring molecules, resulting in WEAKER London forces between them (less area for the temporary dipoles to act over) — this gives 2,2-dimethylpropane a lower boiling temperature than the straight-chain pentane, despite both being isomers with the same molecular formula/number of electrons."},
+{t:"imf", id:"imf-08", front:"Describe how London (van der Waals) forces form between two non-polar halogen molecules.", back:"At any instant, the constantly moving electrons in a molecule may be unevenly distributed, creating a temporary/instantaneous dipole. This temporary dipole INDUCES a corresponding (opposite) dipole in a neighbouring molecule, and the resulting temporary, weak electrostatic attraction between these instantaneous and induced dipoles is a London force. Because electron distribution is constantly changing, these temporary dipoles and induced dipoles are also constantly forming and disappearing throughout the substance."},
+{t:"imf", id:"imf-09", front:"Explain why bromine has a higher boiling temperature than chlorine.", back:"Bromine molecules have MORE electrons than chlorine molecules, resulting in stronger London (van der Waals) forces between bromine molecules. These stronger intermolecular forces require more energy to overcome, giving bromine the higher boiling temperature."},
+{t:"imf", id:"imf-10", front:"State the strongest type of intermolecular force between molecules of methanol and molecules of water, and explain why sodium chloride is much less soluble in methanol than in water.", back:"The strongest force between methanol and water molecules is hydrogen bonding. Sodium chloride dissolves in water because the highly polar water molecules can surround and stabilise both the Na⁺ and Cl⁻ ions effectively (ion-dipole interactions strong enough to overcome the ionic lattice energy). Methanol is LESS polar overall than water (due to its non-polar CH₃ group alongside the polar −OH), so it forms weaker ion-dipole interactions with Na⁺ and Cl⁻ ions than water does — these weaker interactions are not sufficient to overcome the strong ionic lattice energy of NaCl as effectively, so sodium chloride is much less soluble in methanol."},
+{t:"imf", id:"imf-11", front:"Explain why ethanol is very soluble in water, whereas chloroethane is almost insoluble in water, comparing the intermolecular forces each forms with water.", back:"Ethanol has an −OH group, allowing it to form HYDROGEN BONDS with water molecules (a strong interaction, similar in strength to water's own hydrogen bonds, allowing it to mix in easily). Chloroethane has a C–Cl bond (a polar bond, but chlorine bonded to CARBON, not directly to hydrogen), so chloroethane can only form weaker PERMANENT DIPOLE–PERMANENT DIPOLE (or dipole-induced dipole) interactions with water, NOT hydrogen bonds — these weaker interactions are not strong enough to overcome water's own hydrogen bonding network, so chloroethane does not mix well/is nearly insoluble."},
+{t:"imf", id:"imf-12", front:"Explain why 4-nitrophenol has a higher boiling temperature than its isomer 2-nitrophenol.", back:"In 2-nitrophenol, the nitro group and the adjacent −OH group are positioned close together (ortho) and can form an INTRAMOLECULAR hydrogen bond WITHIN the same molecule, which reduces the −OH group's ability to form INTERmolecular hydrogen bonds with neighbouring molecules. In 4-nitrophenol, the nitro group and −OH group are on opposite (para) sides of the ring, too far apart for an intramolecular hydrogen bond to form, so the −OH group remains fully available to form INTERmolecular hydrogen bonds between separate 4-nitrophenol molecules — these stronger, more extensive intermolecular hydrogen bonds require more energy to overcome, giving 4-nitrophenol the higher boiling temperature."},
+{t:"imf", id:"imf-13", front:"Water has two significant 'anomalous' properties compared with similar-sized molecules: an unusually high melting/boiling temperature (compared with H₂S), and ice being less dense than liquid water. Explain both, referencing hydrogen bonding.", back:"Both anomalies arise from water's ability to form extensive hydrogen bonds (due to oxygen's high electronegativity, lone pairs, and direct bonding to hydrogen) — a much stronger intermolecular force than the London forces present in similar-sized non-hydrogen-bonding molecules like H₂S. The high melting/boiling temperature results from the large amount of energy needed to break these numerous strong hydrogen bonds. The lower density of ice results from hydrogen bonds locking water molecules into a rigid, open hexagonal lattice with significant empty space in the solid state, whereas the hydrogen bonds in liquid water constantly break/reform, allowing molecules to pack more closely on average — giving liquid water a higher density than solid ice."},
+{t:"imf", id:"imf-14", front:"⚠ EXAMINER TRAP: A student explains a boiling-point comparison using ONLY 'more electrons = stronger London forces', ignoring hydrogen bonding entirely, even when hydrogen bonding IS present in one or both substances. Why is this a critical omission?", back:"Whenever a molecule contains an −OH, −NH, or H–F group (hydrogen bonded directly to N, O or F), hydrogen bonding must be identified and considered — it is typically the DOMINANT intermolecular force wherever present, usually far outweighing any difference in London force strength from electron count alone. A 'compare the boiling points' question should always start by checking whether hydrogen bonding is possible in EACH substance before defaulting to a 'more electrons, therefore stronger London forces' explanation, which is only the correct primary factor when hydrogen bonding is absent from both substances being compared.", trap:true},
+{t:"imf", id:"imf-15", front:"⚠ EXAMINER TRAP: A student says water has a higher boiling point than HF simply because 'oxygen is in water and water is special.' Why does a proper answer need to reference the NUMBER of hydrogen bonds per molecule, not just 'hydrogen bonding is present'?", back:"Both water and HF form hydrogen bonds, so simply stating 'hydrogen bonding occurs in water' doesn't distinguish between them or explain why water's boiling point is HIGHER than HF's, despite fluorine being MORE electronegative than oxygen. The precise, creditable explanation is that each water molecule can form on average TWO hydrogen bonds (two O–H bonds to donate, two lone pairs to accept), while each HF molecule effectively forms fewer hydrogen bonds on average (only one H to donate, limiting how many hydrogen bonds can form per molecule even though F has three lone pairs) — the NUMBER of hydrogen bonds each molecule can participate in, not just their presence, is the key comparative point examiners look for.", trap:true},
+
+// ===================== STRUCTURE OF CARBON COMPOUNDS =====================
+{t:"carbon", id:"carbon-01", front:"Describe the structure and bonding of diamond, and explain how this gives diamond a very high melting temperature.", back:"In diamond, each carbon atom forms four strong covalent bonds to four other carbon atoms in a rigid, giant covalent (macromolecular) tetrahedral lattice extending throughout the whole crystal. Melting diamond requires breaking a very large number of these strong covalent bonds throughout the giant structure, needing an enormous amount of energy, giving diamond an extremely high melting temperature."},
+{t:"carbon", id:"carbon-02", front:"Describe the structure and bonding of graphite.", back:"In graphite, each carbon atom forms three strong covalent bonds to three other carbon atoms, arranged in flat hexagonal layers. Each carbon atom also has one delocalised electron (from its fourth outer electron, not used in the three covalent bonds), which is free to move within the plane of each layer. The layers themselves are held together only by weak London (van der Waals) forces, allowing the layers to slide over each other."},
+{t:"carbon", id:"carbon-03", front:"Describe the key feature of the bonding in graphite that allows it to conduct electricity.", back:"Each carbon atom in graphite contributes one DELOCALISED electron (not used in covalent bonding), which is free to move within the plane of each hexagonal layer. This mobile sea of delocalised electrons within each layer allows graphite to conduct electricity (along the layers), similar in principle to the delocalised electrons in metallic bonding."},
+{t:"carbon", id:"carbon-04", front:"Explain, in terms of structure and bonding, why graphene and graphite are good electrical conductors but diamond is a poor electrical conductor.", back:"In graphene and graphite, each carbon atom forms only THREE covalent bonds, leaving ONE outer electron per atom DELOCALISED and free to move across the layer/sheet, allowing these delocalised electrons to carry electrical charge — making both good conductors. In diamond, each carbon atom forms FOUR covalent bonds (using all four outer electrons), leaving NO delocalised/free electrons anywhere in the structure — with no mobile charge carriers available, diamond cannot conduct electricity, making it a poor (electrical insulator) conductor."},
+{t:"carbon", id:"carbon-05", front:"Deduce two possible reasons why the density of iron (7.86 g cm⁻³) is much greater than the density of graphite (2.2–2.8 g cm⁻³).", back:"1) Iron atoms are packed closely together in a giant metallic lattice in three dimensions throughout the whole structure, whereas graphite has significant empty space BETWEEN its layers (which are only weakly held together by London forces, spaced further apart than the strongly-bonded atoms within a layer). 2) Iron has a higher relative atomic mass (56) than carbon (12), so for a similar packing arrangement/volume, iron atoms contribute more mass per unit volume than the lighter carbon atoms in graphite."},
+{t:"carbon", id:"carbon-06", front:"Deduce possible reasons why two different, both experimentally valid, values exist for the compressive strength of graphite (2.3 GPa and 15.3 GPa).", back:"Graphite's structure is highly ANISOTROPIC (its properties differ depending on direction): compressing graphite PARALLEL to (along) the layers would primarily need to overcome the strong covalent bonds within each layer, giving a much HIGHER compressive strength value; compressing PERPENDICULAR to (across) the layers would only need to overcome the weak London forces holding the layers apart, giving a much LOWER compressive strength value. The two different reported values likely reflect measurements taken in these two different directions relative to graphite's layered structure."},
+{t:"carbon", id:"carbon-07", front:"⚠ EXAMINER TRAP: A student explains graphite's electrical conductivity using 'graphite has free electrons' without stating clearly WHERE these electrons come from or WHY only one per atom is free. Why does this lose marks?", back:"A complete, creditable answer must state that each carbon atom in graphite forms only THREE covalent bonds (not four, unlike diamond), which leaves exactly ONE outer-shell electron per atom that is NOT used in bonding and becomes delocalised. Vaguely stating 'there are free electrons' without linking this specifically to the three-bonds-per-atom structure (and therefore why graphite differs fundamentally from diamond's four-bonds-per-atom, zero-free-electron structure) misses the actual structural REASON the electrons are free, which is what mark schemes specifically credit.", trap:true},
+];
+
+const TABS = [
+  {key:"ionic", label:"Ionic & Metallic"},
+  {key:"cov", label:"Covalent Bonding"},
+  {key:"shapes", label:"Shapes & Bond Angles"},
+  {key:"imf", label:"Intermolecular Forces"},
+  {key:"carbon", label:"Structure of Carbon"},
+];
+
+const STORAGE_KEY = "chemT2BondingProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    progress = raw ? JSON.parse(raw) : {};
+  }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }
+  catch(e){ /* storage unavailable — continue silently */ }
+}
+
+function renderTabs(){
+  const bar = document.getElementById("tabBar");
+  bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+
+  if(activeTab==="imf"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> Intermolecular Forces is the largest, most exam-active tab here. Always check for hydrogen bonding FIRST (any −OH, −NH, or H–F group) before defaulting to a 'more electrons = stronger London forces' explanation — mixing these up is the single most common error across this whole topic.";
+    container.appendChild(note);
+  }
+
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id";
+    idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge";
+      badge.textContent = "⚠ Examiner Trap";
+      el.appendChild(badge);
+    }
+
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    if(!isFlipped){
+      body.innerHTML = `<span class="label">Question</span>${c.front}`;
+    } else {
+      body.innerHTML = `<span class="label">Answer</span>${c.back}`;
+    }
+    el.appendChild(body);
+
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn";
+      knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn";
+      reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn);
+      st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+
+    container.appendChild(el);
+  });
+}
+
+function renderAll(){
+  renderTabs();
+  renderProgressBar();
+  renderStats();
+  renderCards();
+}
+
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {};
+    saveProgress();
+    renderAll();
+  }
+}
+
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
