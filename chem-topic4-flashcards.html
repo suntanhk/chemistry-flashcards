@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry — Topic 4: Inorganic Chemistry &amp; The Periodic Table</title>
+<style>
+  :root{
+    --bg:#0f1416;
+    --panel:#171f22;
+    --panel-2:#1d272b;
+    --border:#2a373c;
+    --text:#e8eef0;
+    --muted:#8fa3a9;
+    --accent:#4f9cd1;
+    --accent-dim:#2a5a6b;
+    --trap:#e8a23d;
+    --trap-bg:#3a2c15;
+    --know:#4f9cd1;
+    --review:#e8626a;
+    --card-front:#1a2027;
+    --card-back:#16202a;
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:60px;
+  }
+  header{
+    padding:22px 16px 14px;
+    text-align:center;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);
+  }
+  header h1{
+    margin:0 0 4px;
+    font-size:1.2rem;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  header p{
+    margin:0;
+    color:var(--muted);
+    font-size:0.85rem;
+  }
+  .deck-stats{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin-top:12px;
+    font-size:0.78rem;
+    color:var(--muted);
+  }
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+
+  nav.tabs{
+    display:flex;
+    overflow-x:auto;
+    gap:6px;
+    padding:12px 12px 8px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    flex:0 0 auto;
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:8px 12px;
+    border-radius:20px;
+    font-size:0.74rem;
+    white-space:nowrap;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .tab-btn .count{
+    display:inline-block;
+    margin-left:6px;
+    font-size:0.66rem;
+    color:var(--accent);
+    opacity:0.85;
+  }
+  .tab-btn.active{
+    background:var(--accent-dim);
+    border-color:var(--accent);
+    color:#eaf5ff;
+  }
+
+  .progress-wrap{
+    padding:0 16px 4px;
+  }
+  .progress-bar{
+    height:6px;
+    background:var(--panel);
+    border-radius:4px;
+    overflow:hidden;
+    border:1px solid var(--border);
+  }
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--accent-dim), var(--accent));
+    transition:width .3s ease;
+  }
+  .progress-label{
+    font-size:0.72rem;
+    color:var(--muted);
+    margin-top:4px;
+    display:flex;
+    justify-content:space-between;
+  }
+
+  main{
+    max-width:640px;
+    margin:0 auto;
+    padding:14px 16px 8px;
+  }
+
+  .card{
+    position:relative;
+    background:var(--card-front);
+    border:1px solid var(--border);
+    border-radius:14px;
+    margin-bottom:14px;
+    min-height:150px;
+    cursor:pointer;
+    transition:border-color .2s ease, transform .12s ease;
+    overflow:hidden;
+  }
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);}
+  .card.review{border-color:var(--review);}
+
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:12px 16px 0;
+  }
+  .card-id{
+    font-size:0.68rem;
+    color:var(--muted);
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+  }
+  .status-chip{
+    font-size:0.65rem;
+    padding:2px 8px;
+    border-radius:10px;
+    background:var(--panel-2);
+    color:var(--muted);
+  }
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+
+  .trap-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    font-size:0.68rem;
+    color:var(--trap);
+    background:var(--trap-bg);
+    padding:2px 8px;
+    border-radius:10px;
+    margin:8px 16px 0;
+    width:fit-content;
+    font-weight:600;
+  }
+
+  .card-body{
+    padding:10px 16px 16px;
+    font-size:0.95rem;
+    line-height:1.5;
+  }
+  .card-body.answer{
+    color:#cfe3f0;
+  }
+  .card-body .label{
+    display:block;
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--muted);
+    margin-bottom:4px;
+  }
+  .hint{
+    text-align:center;
+    font-size:0.72rem;
+    color:var(--muted);
+    padding:0 16px 12px;
+  }
+
+  .self-test{
+    display:flex;
+    gap:8px;
+    padding:0 16px 16px;
+  }
+  .st-btn{
+    flex:1;
+    padding:9px 0;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    color:var(--text);
+    font-size:0.82rem;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+
+  footer{
+    max-width:640px;
+    margin:10px auto 0;
+    padding:10px 16px 30px;
+    text-align:center;
+  }
+  .reset-btn{
+    background:none;
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:8px 16px;
+    border-radius:10px;
+    font-size:0.75rem;
+    cursor:pointer;
+  }
+
+  .section-note{
+    font-size:0.78rem;
+    color:var(--muted);
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 14px;
+    margin-bottom:14px;
+    line-height:1.5;
+  }
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 4 — Inorganic Chemistry &amp; The Periodic Table</h1>
+  <p>Edexcel Chemistry A-level (9CH0) · AS &amp; A Level Paper 1, 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+// ===================== GROUP 2: REACTIVITY & THERMAL STABILITY =====================
+{t:"g2react", id:"g2react-01", front:"Explain how the trend in reactivity of the Group 2 elements is determined by their electronic configurations.", back:"Going down Group 2, atoms have an increasing number of electron shells, so the outer (valence) electrons are progressively FURTHER from the nucleus and experience MORE shielding from inner shells. Both effects reduce the attraction between the nucleus and the outer two electrons, making them easier to remove (lower ionisation energy) — since Group 2 reactivity involves losing these two outer electrons to form 2+ ions, reactivity INCREASES down the group."},
+{t:"g2react", id:"g2react-02", front:"State two changes you would observe after magnesium powder is added to water containing Universal Indicator and left standing for a few days.", back:"1) The Universal Indicator colour gradually changes towards blue/purple (the solution becomes alkaline), as Mg(OH)₂ (a weak base) forms and slowly dissolves. 2) A white precipitate/solid (magnesium hydroxide) forms and can be seen suspended in or settled at the bottom of the solution."},
+{t:"g2react", id:"g2react-03", front:"Explain whether magnesium carbonate is more or less thermally stable than barium carbonate.", back:"Magnesium carbonate is LESS thermally stable than barium carbonate. Mg²⁺ is a smaller ion with a higher charge density than Ba²⁺, so it polarises (distorts) the electron cloud of the neighbouring carbonate ion more strongly. This weakens the C–O bonds within the carbonate ion more in MgCO₃ than in BaCO₃, making MgCO₃ easier to decompose (i.e. less thermally stable, decomposing at a lower temperature)."},
+{t:"g2react", id:"g2react-04", front:"Explain why Group 1 carbonates are generally more thermally stable than Group 2 carbonates in the same period.", back:"Group 1 cations have a SINGLE positive charge (compared with Group 2's 2+ charge) and are generally larger, giving them a much lower charge density than the corresponding Group 2 cation. This means Group 1 cations polarise the carbonate ion's electron cloud much less strongly, weakening the C–O bonds within the carbonate ion far less — so Group 1 carbonates require a higher temperature to decompose (are more thermally stable) than Group 2 carbonates."},
+{t:"g2react", id:"g2react-05", front:"Explain why magnesium nitrate, Mg(NO₃)₂, decomposes more readily on heating than potassium nitrate, KNO₃.", back:"Mg²⁺ has a smaller ionic radius and higher charge than K⁺, giving Mg²⁺ a much higher charge density. This allows Mg²⁺ to polarise (distort) the electron cloud of the neighbouring nitrate ion more strongly than K⁺ can, weakening the N–O bonds within the nitrate ion more significantly — making Mg(NO₃)₂ decompose at a lower temperature (more readily) than KNO₃."},
+{t:"g2react", id:"g2react-06", front:"Explain the general trend in thermal stability of Group 2 nitrates going down the group.", back:"Thermal stability INCREASES going down Group 2. Cation radius increases down the group (more electron shells), so charge density DECREASES down the group. A lower charge density means the cation polarises the neighbouring nitrate ion's electron cloud LESS strongly, so the N–O bonds are weakened less, requiring a higher temperature to decompose — giving increasing thermal stability down the group."},
+{t:"g2react", id:"g2react-07", front:"State two observations you would make when heating hydrated magnesium nitrate, Mg(NO₃)₂·xH₂O.", back:"1) The solid initially loses its water of crystallisation (may appear to 'melt' or give off steam/condensation) before further heating. 2) On stronger heating, brown fumes (nitrogen dioxide, NO₂) are given off, along with a colourless gas (oxygen), and a white/pale solid residue (magnesium oxide) remains."},
+{t:"g2react", id:"g2react-08", front:"Write the balanced equation, including state symbols, for the thermal decomposition of calcium carbonate, and name all the types of bond present in calcium carbonate.", back:"CaCO₃(s) → CaO(s) + CO₂(g). Calcium carbonate contains IONIC bonding (between Ca²⁺ and CO₃²⁻ ions) and COVALENT bonding (between carbon and oxygen atoms within the carbonate ion)."},
+{t:"g2react", id:"g2react-09", front:"Give a reason, in terms of bonding, why a high decomposition temperature is required to thermally decompose calcium carbonate.", back:"A large amount of energy is needed to break the strong ionic bonds holding the giant ionic lattice together (and the covalent bonds within the carbonate ion), so a high temperature, supplying sufficient energy, is required for decomposition to occur."},
+{t:"g2react", id:"g2react-10", front:"Describe, with the aid of a labelled diagram, how you would compare the thermal stability of two different Group 2 nitrates using simple laboratory equipment, including one safety precaution.", back:"Heat an equal, small mass of each nitrate separately in a test tube (clamped at an angle, mouth pointing away from people) over a Bunsen burner using the same method/heating rate for a fair comparison. Time how long each takes to visibly begin decomposing (e.g. production of brown NO₂ fumes), or compare which requires a hotter flame — the nitrate that decomposes at a LOWER temperature/in LESS time is LESS thermally stable. Safety precaution: point the test tube away from yourself and others while heating (nitrates release toxic brown NO₂ gas), ideally working in a fume cupboard."},
+{t:"g2react", id:"g2react-11", front:"⚠ EXAMINER TRAP: A student explains Group 2 thermal stability trends using 'bigger ion, weaker ionic bond, easier to decompose.' Why is this reasoning backwards for THIS specific type of question?", back:"Thermal decomposition of a Group 2 nitrate/carbonate is about the POLARISING EFFECT of the cation on the ANION'S internal bonds (N–O or C–O), not about the strength of the ionic bond between cation and anion itself. A SMALLER, higher-charge-density cation polarises the anion MORE, weakening its internal covalent bonds MORE, making it decompose MORE EASILY (less stable) — so smaller cation = LESS stable, not more. Confusing 'ionic lattice strength' (which does relate to size in the opposite way) with 'polarisation of the anion's internal bonds' is the single most common error in this topic.", trap:true},
+
+// ===================== FLAME TESTS & ANALYTICAL TESTS =====================
+{t:"tests", id:"tests-01", front:"Describe how to carry out a flame test on an unknown solid.", back:"Dip a clean nichrome wire into concentrated hydrochloric acid, then heat it in a blue Bunsen flame until no colour is imparted (to clean it). Dip the clean wire into fresh concentrated hydrochloric acid again, then into a sample of the solid (so some sticks to the wire), and hold it in the edge of a blue, non-luminous Bunsen flame — observe and record the colour produced."},
+{t:"tests", id:"tests-02", front:"Give two reasons why the wire used in a flame test is made of nichrome rather than iron.", back:"1) Nichrome is chemically unreactive/inert, so it does not itself react with the test sample or produce its own flame colour that could interfere with the result. 2) Nichrome has a high melting point, so it does not melt in the heat of the Bunsen flame during repeated testing."},
+{t:"tests", id:"tests-03", front:"Explain the origin of flame test colours in terms of electron transitions.", back:"The heat of the flame provides energy that excites electrons in the metal ion's atoms from their ground state up to a higher energy level. This excited state is unstable, so the electrons quickly fall back down to a lower energy level, releasing the excess energy as a photon of light. The energy (and therefore wavelength/colour) of this emitted light corresponds to the specific, characteristic gap between those two energy levels in that particular element, giving each element a characteristic flame colour."},
+{t:"tests", id:"tests-04", front:"Give a reason why the magnesium ion does not produce a flame colour, and explain why the lack of a flame colour is NOT a valid positive test for the magnesium ion on its own.", back:"Magnesium's electron transitions release energy corresponding to light outside the visible spectrum (e.g. in the UV region), so no visible flame colour is produced. However, the absence of a flame colour is not conclusive proof of magnesium specifically, since many other substances (or an impure/incorrectly prepared sample) could also fail to produce a visible flame colour for other reasons — a negative result alone cannot positively confirm one specific identity without further supporting tests."},
+{t:"tests", id:"tests-05", front:"Give a reason why carrying out a flame test on a MIXTURE of potassium chloride and strontium chloride does not clearly show that two different metal ions are present.", back:"The red flame colour of strontium is much more intense/vivid than the lilac colour of potassium, so the strontium's red colour can mask/dominate over and obscure the weaker lilac colour from potassium, making it difficult to detect that a second (potassium) ion is also present in the mixture."},
+{t:"tests", id:"tests-06", front:"Describe the test and expected positive result for the presence of carbonate ions in a solution.", back:"Add dilute acid (e.g. dilute hydrochloric acid) to the sample. If carbonate ions are present, effervescence (bubbling) is observed, and the gas produced turns limewater cloudy (confirming it is CO₂), indicating a positive test for carbonate ions."},
+{t:"tests", id:"tests-07", front:"Describe the test and expected positive result for the presence of sulfate ions in a solution.", back:"Acidify the solution with dilute hydrochloric acid, then add barium chloride solution. If sulfate ions are present, a white precipitate (barium sulfate) forms, indicating a positive test for sulfate ions. (The acidification step first removes carbonate ions, which would otherwise also give a white precipitate with barium ions and cause a false positive.)"},
+{t:"tests", id:"tests-08", front:"Explain whether adding sulfuric acid to test for carbonate ions in a suspected sample of barium carbonate is a valid test.", back:"This is NOT a valid test, because adding sulfuric acid to a barium compound would immediately form BARIUM SULFATE, an insoluble white precipitate — this precipitate would form regardless of whether carbonate ions are actually present, and could be mistaken for (or would mask) any effervescence/gas evolution that would normally indicate carbonate ions. A different acid (e.g. hydrochloric or nitric acid, which don't form an insoluble barium salt) should be used instead to correctly test for the carbonate ion via gas evolution."},
+{t:"tests", id:"tests-09", front:"Describe the reagent and expected result of the silver nitrate test for halide ions, and how the results differ between chloride, bromide and iodide.", back:"Acidify the sample with dilute nitric acid, then add silver nitrate solution. Chloride ions give a WHITE precipitate (AgCl); bromide ions give a CREAM precipitate (AgBr); iodide ions give a PALE YELLOW precipitate (AgI)."},
+{t:"tests", id:"tests-10", front:"Describe additional tests (using aqueous ammonia) to confirm and distinguish silver halide precipitates.", back:"Add aqueous ammonia to the precipitate. Silver chloride dissolves readily in DILUTE ammonia. Silver bromide only dissolves in CONCENTRATED ammonia (and not dilute). Silver iodide does NOT dissolve even in concentrated ammonia — this differing solubility helps confirm/distinguish which halide precipitate is present."},
+{t:"tests", id:"tests-11", front:"A solution containing 0.010 mol of a halide ion was reacted with excess silver nitrate and produced 1.88 g of precipitate. Identify the halide ion, justifying your answer with a calculation.", back:"Molar mass of the precipitate = mass ÷ moles = 1.88 ÷ 0.010 = 188 g mol⁻¹. Silver's molar mass is 108, so the halide's contribution is 188 − 108 = 80 g mol⁻¹ — this matches the molar mass of BROMINE (Br, Ar = 80), so the halide ion is bromide, Br⁻, and the precipitate is AgBr."},
+{t:"tests", id:"tests-12", front:"⚠ EXAMINER TRAP: A student describing a flame test forgets to mention cleaning the wire with acid BEFORE testing the actual sample. Why does this specific step matter for the marking?", back:"The nichrome wire must first be dipped in concentrated HCl and heated (with no test sample) until it produces NO flame colour, confirming it is clean/free from contamination from any previous test — skipping this cleaning step risks a false-positive flame colour carried over from a prior sample, contaminating the result for the new sample. Mark schemes specifically credit this initial cleaning stage as a separate step from the actual testing stage.", trap:true},
+
+// ===================== HALOGENS: PHYSICAL PROPERTIES, DISPLACEMENT & REDOX =====================
+{t:"g7redox", id:"g7redox-01", front:"Explain why the boiling temperature of the halogens increases going down Group 7, from chlorine to iodine.", back:"Halogen molecules are simple diatomic molecules held together (between separate molecules) only by London (van der Waals) forces. Going down the group, each successive halogen has MORE electrons, giving a larger, more polarisable electron cloud and therefore STRONGER London forces between molecules. Stronger intermolecular forces require more energy to overcome, giving a higher boiling temperature."},
+{t:"g7redox", id:"g7redox-02", front:"Describe how London forces form between halogen molecules.", back:"At any instant, the constantly moving electrons within a molecule may be unevenly distributed, creating a temporary/instantaneous dipole. This temporary dipole INDUCES a corresponding dipole in a neighbouring molecule, and the resulting weak, constantly-forming-and-breaking electrostatic attraction between these temporary and induced dipoles is called a London (van der Waals) force."},
+{t:"g7redox", id:"g7redox-03", front:"Write the ionic equation for the extraction of bromine from seawater (containing bromide ions) using chlorine.", back:"Cl₂ + 2Br⁻ → 2Cl⁻ + Br₂ — chlorine displaces bromine from bromide ions, since chlorine is a stronger oxidising agent (higher in the group) than bromine."},
+{t:"g7redox", id:"g7redox-04", front:"Explain why aqueous potassium bromide added to aqueous iodine shows no reaction.", back:"Iodine is a WEAKER oxidising agent than bromine (oxidising power decreases down Group 7), so iodine is not able to oxidise bromide ions to bromine (it cannot displace a halogen that is a stronger oxidising agent than itself) — no displacement reaction occurs."},
+{t:"g7redox", id:"g7redox-05", front:"By referring to changes in oxidation numbers, explain how the reactions of potassium chloride, potassium bromide and potassium iodide with concentrated sulfuric acid show which halide ion is the strongest reducing agent.", back:"With KCl, only steamy fumes of HCl form — no change in sulfur's oxidation number (H₂SO₄ is not reduced), so chloride is too weak a reducing agent to reduce sulfuric acid. With KBr, some Br⁻ reduces sulfur from +6 (in H₂SO₄) down to +4 (in SO₂), alongside HBr and Br₂ forming — bromide is a moderate reducing agent. With KI, iodide reduces sulfur all the way from +6 down to −2 (forming toxic H₂S), the greatest oxidation-number change of the three — showing iodide is the STRONGEST reducing agent of the three halide ions, since it causes the most extensive reduction of sulfur."},
+{t:"g7redox", id:"g7redox-06", front:"State why the reaction KCl + H₂SO₄ → HCl + KHSO₄ is NOT a redox reaction.", back:"No element's oxidation number changes during this reaction (K stays +1, Cl stays −1, H stays +1, S stays +6, O stays −2 throughout) — this is a simple proton-transfer/ligand exchange reaction, not a redox reaction, since no electrons are transferred and no oxidation states change."},
+{t:"g7redox", id:"g7redox-07", front:"Write the ionic half-equation for the reduction of chlorine to chloride ions, and the half-equation for the oxidation of chlorine to chlorate(I) ions in cold aqueous hydroxide, then combine them.", back:"Reduction: Cl₂ + 2e⁻ → 2Cl⁻. Oxidation: Cl₂ + 2OH⁻ → 2ClO⁻ + 2H⁺ + 2e⁻ (or equivalently written with H₂O). Combining (adding, electrons cancel): 2Cl₂ + 2OH⁻ → 2Cl⁻ + 2ClO⁻ + ... which simplifies to the standard overall equation: Cl₂ + 2NaOH → NaCl + NaClO + H₂O."},
+{t:"g7redox", id:"g7redox-08", front:"Explain, using oxidation numbers, why the reaction Cl₂ + 2NaOH → NaClO + NaCl + H₂O (cold, dilute conditions) is a disproportionation reaction.", back:"Chlorine starts at oxidation number 0 in Cl₂. In the products, one Cl atom is reduced to −1 (in NaCl) while the other Cl atom is oxidised to +1 (in NaClO). Since the SAME element, starting from the SAME oxidation state (0), is simultaneously oxidised and reduced in the same reaction, this is disproportionation."},
+{t:"g7redox", id:"g7redox-09", front:"Complete and balance the equation for chlorine reacting with hot, concentrated sodium hydroxide, and state the conditions required.", back:"3Cl₂ + 6NaOH → 5NaCl + NaClO₃ + 3H�2O. This requires HOT (concentrated) sodium hydroxide solution, in contrast to cold, dilute conditions which instead give sodium chlorate(I), NaClO."},
+{t:"g7redox", id:"g7redox-10", front:"Give the formula of the chlorine-containing ion formed with hot aqueous sodium hydroxide, and the oxidation number of chlorine in it.", back:"ClO₃⁻ (chlorate(V) ion), in which chlorine has an oxidation number of +5."},
+{t:"g7redox", id:"g7redox-11", front:"Predict the shape and bond angle of the chlorate(V) ion, ClO₃⁻, justifying your answer.", back:"Trigonal pyramidal shape, with a bond angle of approximately 107°. The central chlorine atom has three bonding pairs (to the three oxygen atoms) and one lone pair, giving four electron pairs in a tetrahedral electron-pair arrangement — but since one is a lone pair (not counted in the molecular shape), and lone pair-bonding pair repulsion is greater than bonding pair-bonding pair repulsion (pushing the three O atoms slightly closer together than 109.5°), the molecular shape is trigonal pyramidal with a bond angle of approximately 107°."},
+{t:"g7redox", id:"g7redox-12", front:"Explain why disproportionation of bromine in water is not thermodynamically feasible under standard conditions (concept only, no calculation).", back:"Using the standard electrode potentials for the relevant half-equations, the overall EMF calculated for the disproportionation reaction (E°cell = E°reduction − E°oxidation, using the correct half-cells) comes out NEGATIVE, indicating the reaction is not thermodynamically feasible (spontaneous) under standard conditions — a negative overall EMF means the reaction as written would not proceed as written under standard conditions."},
+{t:"g7redox", id:"g7redox-13", front:"Give a possible reason why bromine still disproportionates in water to a SMALL extent at 298 K, despite being calculated as not thermodynamically feasible under standard conditions.", back:"Standard electrode potentials are measured under STANDARD conditions (1 mol dm⁻³ concentrations, 298 K, 100 kPa) — under the actual, non-standard conditions present (e.g. different concentrations of the species involved, as the small amount of product is continuously removed/diluted, shifting the position of equilibrium), the reaction may become marginally feasible/favourable to a small extent, even though it is not feasible under strict standard conditions."},
+{t:"g7redox", id:"g7redox-14", front:"A student determines the reactivity order of chlorine, bromine and iodine using potassium halide solutions, halogen solutions, and cyclohexane (with no access to chlorine gas/water). Outline the smallest number of experiments needed and expected observations.", back:"Two experiments suffice: 1) Add bromine solution to potassium iodide solution, then add cyclohexane and shake — a purple colour in the cyclohexane layer confirms iodine has been displaced (Br₂ + 2I⁻ → 2Br⁻ + I₂), showing bromine is more reactive/a stronger oxidising agent than iodine. 2) Add iodine solution to potassium bromide solution, then add cyclohexane and shake — NO colour change/no orange colour in the cyclohexane layer confirms no reaction occurs, showing iodine cannot displace bromine (consistent with iodine being the weaker oxidising agent). Together, these two results place chlorine (inferred, not tested directly, as the most reactive/strongest oxidising agent by extension of the trend) > bromine > iodine in reactivity."},
+{t:"g7redox", id:"g7redox-15", front:"⚠ EXAMINER TRAP: A student writing the half-equation for chlorine's oxidation to chlorate(I) forgets that HYDROXIDE ions (not just water) must be included as reactants, since the reaction only occurs in ALKALINE conditions. Why does this omission cause the half-equation to fail to balance?", back:"The oxidation of Cl₂ to ClO⁻ specifically requires OH⁻ ions as a reactant (not H₂O) to correctly balance both the oxygen atoms needed to form ClO⁻ AND the overall charge — omitting OH⁻ (or incorrectly substituting H₂O alone) leaves the half-equation's atoms and/or charge unbalanced. This reaction is specifically an ALKALINE disproportionation (occurring in aqueous hydroxide, not neutral water), so the half-equations must reflect hydroxide ions as reactants, distinguishing it from a generic 'chlorine plus water' half-equation.", trap:true},
+
+// ===================== PRECIPITATE ANALYSIS & DEDUCTION QUESTIONS =====================
+{t:"deduce", id:"deduce-01", front:"A white, water-soluble solid is thought to be magnesium bromide. Describe how a flame test would be used to confirm/rule out the cation, and explain a limitation of this specific test for THIS cation.", back:"Carry out a standard flame test (nichrome wire, cleaned with HCl, dipped in the sample, held in a blue Bunsen flame). If the cation is magnesium, NO flame colour would be observed, since magnesium's electron transitions release energy outside the visible spectrum — however, since a lack of colour is not conclusive proof on its own (many things could give no colour), this negative result alone cannot positively confirm magnesium is present; a supporting test (e.g. adding NaOH to look for a white precipitate insoluble in excess) would be needed."},
+{t:"deduce", id:"deduce-02", front:"A compound C is a pink crystalline solid containing two cations and one anion. Test 1 (adding NaOH) produces a gas that turns damp red litmus blue and a coloured precipitate. Explain how you would interpret this result.", back:"A gas turning damp red litmus paper BLUE indicates AMMONIA gas is released, confirming an AMMONIUM ion (NH₄⁺) is one of the two cations present (NH₄⁺ + OH⁻ → NH₃ + H₂O on warming with NaOH). The formation of a COLOURED precipitate with NaOH additionally indicates the presence of a TRANSITION METAL cation (e.g. a pink/pale precipitate suggesting a metal such as cobalt or manganese, consistent with the pink colour of the original solid) as the second cation."},
+{t:"deduce", id:"deduce-03", front:"Give a reason why dilute hydrochloric acid is needed before testing for sulfate or carbonate ions with barium chloride solution.", back:"Adding dilute HCl first removes/reacts with any carbonate ions present (which would otherwise also give a white precipitate — barium carbonate — with barium ions, causing a false positive for sulfate). Acidifying first ensures that any white precipitate subsequently observed with barium chloride is specifically due to SULFATE ions (barium sulfate, which does not dissolve in dilute acid, unlike barium carbonate)."},
+{t:"deduce", id:"deduce-04", front:"Excess aqueous potassium bromide was added to chlorine water and the solution turned orange. Silver nitrate was then added, followed by excess dilute ammonia — only SOME of the precipitate dissolved. Explain this observation.", back:"Chlorine displaces bromine from bromide ions (Cl₂ + 2Br⁻ → 2Cl⁻ + Br₂), so the resulting solution contains BOTH chloride ions (Cl⁻, from the original KBr and from the reaction) AND bromide ions (Br⁻, from any excess/undisplaced KBr) — adding silver nitrate produces a mixture of white AgCl and cream AgBr precipitate. Dilute ammonia dissolves AgCl (soluble in dilute ammonia) but NOT AgBr (which requires concentrated ammonia to dissolve) — so only the AgCl portion of the mixed precipitate dissolves, explaining why only SOME of the total precipitate dissolves."},
+{t:"deduce", id:"deduce-05", front:"Compare and contrast the origin of the colour of a copper(II) complex ion with the origin of the colour of copper(II) in a flame test (colours themselves not required).", back:"BOTH arise from electrons being excited to a higher energy level, then falling back down and releasing the energy difference as a photon of visible light. HOWEVER, in a flame test, electrons are excited by the THERMAL/heat energy of the flame, and the relevant transition is between different electron SHELLS/sub-shells of the free copper ATOM. In a copper(II) complex, colour arises because surrounding LIGANDS split the d-orbitals into two slightly different energy levels (d-orbital splitting) — light is absorbed (not emitted) as electrons are excited between these split d-orbitals, and the colour SEEN is due to the wavelengths of light NOT absorbed (transmitted/reflected), unlike the flame test where the colour seen IS the light directly emitted."},
+{t:"deduce", id:"deduce-06", front:"⚠ EXAMINER TRAP: A student sees a coloured precipitate form with NaOH and immediately concludes 'transition metal present' without checking whether the colour could instead indicate an ammonium ion reaction happening simultaneously. Why must BOTH observations (gas test AND precipitate colour) be interpreted together, not in isolation?", back:"In mixed-cation compounds (a very common exam scenario), NaOH can simultaneously release ammonia gas (from NH₄⁺) AND form a coloured precipitate (from a transition metal ion) in the SAME test — treating these as two entirely separate, unconnected observations (rather than combining them to deduce that TWO different cations are present together) misses the full deduction the question is asking for. Always check whether a gas test result and a precipitate result together point to two different cations in the same compound, rather than assuming only one type of result is relevant.", trap:true},
+];
+
+const TABS = [
+  {key:"g2react", label:"Group 2 Reactivity"},
+  {key:"tests", label:"Flame Tests & Ion Tests"},
+  {key:"g7redox", label:"Halogens & Redox"},
+  {key:"deduce", label:"Salt Deduction"},
+];
+
+const STORAGE_KEY = "chemT4InorganicProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    progress = raw ? JSON.parse(raw) : {};
+  }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }
+  catch(e){ /* storage unavailable — continue silently */ }
+}
+
+function renderTabs(){
+  const bar = document.getElementById("tabBar");
+  bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+
+  if(activeTab==="g7redox"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> The chlorine + cold/hot NaOH disproportionation reactions are the single most heavily tested content in this topic — know both equations, both half-equations, and both sets of conditions cold (from memory, without needing to look them up).";
+    container.appendChild(note);
+  }
+  if(activeTab==="deduce"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> These 'identify the unknown salt' questions reward combining MULTIPLE test results together (cation test + anion test + any secondary confirmation) rather than treating each observation in isolation — always ask what the FULL set of results rules in or out.";
+    container.appendChild(note);
+  }
+
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id";
+    idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge";
+      badge.textContent = "⚠ Examiner Trap";
+      el.appendChild(badge);
+    }
+
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    if(!isFlipped){
+      body.innerHTML = `<span class="label">Question</span>${c.front}`;
+    } else {
+      body.innerHTML = `<span class="label">Answer</span>${c.back}`;
+    }
+    el.appendChild(body);
+
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn";
+      knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn";
+      reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn);
+      st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+
+    container.appendChild(el);
+  });
+}
+
+function renderAll(){
+  renderTabs();
+  renderProgressBar();
+  renderStats();
+  renderCards();
+}
+
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {};
+    saveProgress();
+    renderAll();
+  }
+}
+
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
