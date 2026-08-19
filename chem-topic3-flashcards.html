@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry — Topic 3: Redox I</title>
+<style>
+  :root{
+    --bg:#0f1416;
+    --panel:#171f22;
+    --panel-2:#1d272b;
+    --border:#2a373c;
+    --text:#e8eef0;
+    --muted:#8fa3a9;
+    --accent:#4f9cd1;
+    --accent-dim:#2a5a6b;
+    --trap:#e8a23d;
+    --trap-bg:#3a2c15;
+    --know:#4f9cd1;
+    --review:#e8626a;
+    --card-front:#1a2027;
+    --card-back:#16202a;
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:60px;
+  }
+  header{
+    padding:22px 16px 14px;
+    text-align:center;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);
+  }
+  header h1{
+    margin:0 0 4px;
+    font-size:1.3rem;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  header p{
+    margin:0;
+    color:var(--muted);
+    font-size:0.85rem;
+  }
+  .deck-stats{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin-top:12px;
+    font-size:0.78rem;
+    color:var(--muted);
+  }
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+
+  nav.tabs{
+    display:flex;
+    overflow-x:auto;
+    gap:6px;
+    padding:12px 12px 8px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    flex:0 0 auto;
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:8px 13px;
+    border-radius:20px;
+    font-size:0.76rem;
+    white-space:nowrap;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .tab-btn .count{
+    display:inline-block;
+    margin-left:6px;
+    font-size:0.68rem;
+    color:var(--accent);
+    opacity:0.85;
+  }
+  .tab-btn.active{
+    background:var(--accent-dim);
+    border-color:var(--accent);
+    color:#eaf5ff;
+  }
+
+  .progress-wrap{
+    padding:0 16px 4px;
+  }
+  .progress-bar{
+    height:6px;
+    background:var(--panel);
+    border-radius:4px;
+    overflow:hidden;
+    border:1px solid var(--border);
+  }
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--accent-dim), var(--accent));
+    transition:width .3s ease;
+  }
+  .progress-label{
+    font-size:0.72rem;
+    color:var(--muted);
+    margin-top:4px;
+    display:flex;
+    justify-content:space-between;
+  }
+
+  main{
+    max-width:640px;
+    margin:0 auto;
+    padding:14px 16px 8px;
+  }
+
+  .card{
+    position:relative;
+    background:var(--card-front);
+    border:1px solid var(--border);
+    border-radius:14px;
+    margin-bottom:14px;
+    min-height:150px;
+    cursor:pointer;
+    transition:border-color .2s ease, transform .12s ease;
+    overflow:hidden;
+  }
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);}
+  .card.review{border-color:var(--review);}
+
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:12px 16px 0;
+  }
+  .card-id{
+    font-size:0.68rem;
+    color:var(--muted);
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+  }
+  .status-chip{
+    font-size:0.65rem;
+    padding:2px 8px;
+    border-radius:10px;
+    background:var(--panel-2);
+    color:var(--muted);
+  }
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+
+  .trap-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    font-size:0.68rem;
+    color:var(--trap);
+    background:var(--trap-bg);
+    padding:2px 8px;
+    border-radius:10px;
+    margin:8px 16px 0;
+    width:fit-content;
+    font-weight:600;
+  }
+
+  .card-body{
+    padding:10px 16px 16px;
+    font-size:0.95rem;
+    line-height:1.5;
+  }
+  .card-body.answer{
+    color:#cfe3f0;
+  }
+  .card-body .label{
+    display:block;
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--muted);
+    margin-bottom:4px;
+  }
+  .hint{
+    text-align:center;
+    font-size:0.72rem;
+    color:var(--muted);
+    padding:0 16px 12px;
+  }
+
+  .self-test{
+    display:flex;
+    gap:8px;
+    padding:0 16px 16px;
+  }
+  .st-btn{
+    flex:1;
+    padding:9px 0;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    color:var(--text);
+    font-size:0.82rem;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+
+  footer{
+    max-width:640px;
+    margin:10px auto 0;
+    padding:10px 16px 30px;
+    text-align:center;
+  }
+  .reset-btn{
+    background:none;
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:8px 16px;
+    border-radius:10px;
+    font-size:0.75rem;
+    cursor:pointer;
+  }
+
+  .section-note{
+    font-size:0.78rem;
+    color:var(--muted);
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 14px;
+    margin-bottom:14px;
+    line-height:1.5;
+  }
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 3 — Redox I</h1>
+  <p>Edexcel Chemistry A-level (9CH0) · AS Paper 1 · A Level Paper 1, 2 &amp; 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+// ===================== OXIDATION NUMBERS =====================
+{t:"oxnum", id:"oxnum-01", front:"State the meaning of the term 'oxidation number' (oxidation state).", back:"A number assigned to an atom in an element, compound or ion, representing the number of electrons it has lost, gained, or unequally shared, compared with the atom in its uncombined (elemental) state — used as a bookkeeping tool to track electron distribution and identify redox changes."},
+{t:"oxnum", id:"oxnum-02", front:"State the oxidation number rule for an atom of an element in its uncombined state (e.g. Cl₂, Fe, O₂).", back:"Zero. An atom of any element on its own (uncombined with any other element) always has an oxidation number of 0."},
+{t:"oxnum", id:"oxnum-03", front:"State the oxidation number rule for a neutral compound, and for a charged ion/complex ion.", back:"In a NEUTRAL compound, the oxidation numbers of all atoms present must sum to ZERO. In a charged ion (or complex ion), the oxidation numbers of all atoms present must sum to the OVERALL CHARGE on that ion."},
+{t:"oxnum", id:"oxnum-04", front:"State the usual oxidation number of hydrogen, and the exception to this rule.", back:"Hydrogen is usually +1. EXCEPTION: in metal hydrides (e.g. NaH, CaH₂), where hydrogen is bonded to a more electropositive metal, hydrogen has an oxidation number of −1."},
+{t:"oxnum", id:"oxnum-05", front:"State the usual oxidation number of oxygen, and two exceptions to this rule.", back:"Oxygen is usually −2. EXCEPTIONS: in peroxides (e.g. H₂O₂, Na₂O₂), oxygen has an oxidation number of −1; in compounds with fluorine (e.g. OF₂), oxygen has an oxidation number of +2 (since fluorine is more electronegative than oxygen)."},
+{t:"oxnum", id:"oxnum-06", front:"State the usual oxidation number of halogens, and the exception.", back:"Halogens are usually −1. EXCEPTION: when a halogen is bonded to oxygen or to a MORE electronegative halogen (e.g. in oxoanions like ClO₃⁻, or interhalogen compounds), it can have a positive oxidation number instead."},
+{t:"oxnum", id:"oxnum-07", front:"State the usual oxidation number of Group 1 and Group 2 metals in their compounds.", back:"Group 1 metals are always +1 in their compounds. Group 2 metals are always +2 in their compounds (these two rules have no exceptions on this specification)."},
+{t:"oxnum", id:"oxnum-08", front:"Determine the oxidation number of carbon in the ethanedioate ion, C₂O₄²⁻.", back:"+3. Using the rule that oxidation numbers sum to the ionic charge (−2): 4 oxygens × (−2) = −8. Overall charge is −2, so the two carbons together must contribute (−2) − (−8) = +6, giving +3 per carbon atom."},
+{t:"oxnum", id:"oxnum-09", front:"Determine the oxidation state of vanadium in the compound NH₄VO₃.", back:"+5. NH₄⁺ contributes an overall +1 charge; the compound is neutral overall, so VO₃⁻ must be −1. With three oxygens at −2 each (−6 total), vanadium must be (−1) − (−6) = +5."},
+{t:"oxnum", id:"oxnum-10", front:"Determine the oxidation number of chromium in Na₂Cr₂O₇ (sodium dichromate).", back:"+6. Two sodium atoms contribute +2 total; seven oxygens contribute 7 × (−2) = −14; the compound is neutral, so the two chromium atoms together must contribute +12 (to balance +2 and −14 to zero), giving +6 per chromium atom."},
+{t:"oxnum", id:"oxnum-11", front:"⚠ EXAMINER TRAP: A student assigns oxygen an oxidation number of −2 in hydrogen peroxide, H₂O₂. Why is this wrong, and what should it be?", back:"H₂O₂ is a PEROXIDE (O–O single bond present), so oxygen takes the EXCEPTION value of −1, not the usual −2. Applying the standard −2 rule without first checking whether the compound is a peroxide (or contains an O–F bond, the other exception) is one of the most common oxidation-number errors on this specification — always scan for these two named exceptions before defaulting to −2 for oxygen.", trap:true},
+
+// ===================== REDOX DEFINITIONS & IDENTIFYING REDOX REACTIONS =====================
+{t:"redoxdef", id:"redoxdef-01", front:"State the definitions of oxidation and reduction in terms of ELECTRONS (the OIL RIG mnemonic).", back:"Oxidation Is Loss (of electrons); Reduction Is Gain (of electrons) — OIL RIG. A species that LOSES electrons is oxidised; a species that GAINS electrons is reduced."},
+{t:"redoxdef", id:"redoxdef-02", front:"State the definitions of oxidation and reduction in terms of OXIDATION NUMBER.", back:"Oxidation is an INCREASE in oxidation number. Reduction is a DECREASE in oxidation number. This is an equivalent way of identifying redox changes to the electron-transfer definition, and is essential for reactions where clean electron transfer isn't obvious (e.g. covalent redox reactions)."},
+{t:"redoxdef", id:"redoxdef-03", front:"Explain, in terms of electrons, why the reaction Ca(s) + Cl₂(g) → CaCl₂(s) is a redox reaction.", back:"Calcium atoms each LOSE two electrons to form Ca²⁺ ions (oxidation), while chlorine molecules each GAIN two electrons (one per Cl atom) to form two Cl⁻ ions (reduction). Since electrons are transferred from calcium to chlorine, with one species oxidised and another reduced simultaneously, this is a redox reaction."},
+{t:"redoxdef", id:"redoxdef-04", front:"Explain, using oxidation numbers, whether the reaction 2AgF + S → Ag₂S + F₂ (silver fluoride reacting with sulfur to give silver sulfide and difluorine... or similar) is a redox reaction.", back:"Compare oxidation numbers before and after: silver changes from +1 (in AgF) to a different value if forming a compound, or fluorine changes from −1 (in AgF) to 0 (in F₂) — since fluorine's oxidation number INCREASES from −1 to 0, fluorine is oxidised; correspondingly another species must be reduced (e.g. sulfur decreasing from 0 to a negative oxidation state) — since at least one element's oxidation number changes, this IS a redox reaction. (Always show the specific before/after oxidation numbers for each atom that changes, not just assert the conclusion.)"},
+{t:"redoxdef", id:"redoxdef-05", front:"State why the reaction KCl + H₂SO₄ → HCl + KHSO₄ is NOT a redox reaction.", back:"None of the elements involved change oxidation number during this reaction (K remains +1, Cl remains −1, H remains +1, S remains +6, O remains −2, throughout) — this is a simple acid-base/ligand exchange (proton transfer) reaction, not a redox reaction, since no oxidation numbers change and no electrons are transferred."},
+{t:"redoxdef", id:"redoxdef-06", front:"Define 'reducing agent' and state what happens to it during a redox reaction (in terms of oxidation number and electrons).", back:"A reducing agent is a substance that REDUCES another species (causing the other species' oxidation number to decrease) by DONATING/losing electrons to it. During the reaction, the reducing agent itself is OXIDISED — its own oxidation number INCREASES, and it LOSES electrons."},
+{t:"redoxdef", id:"redoxdef-07", front:"Define 'oxidising agent' and state what happens to it during a redox reaction.", back:"An oxidising agent is a substance that OXIDISES another species (causing the other species' oxidation number to increase) by ACCEPTING/gaining electrons from it. During the reaction, the oxidising agent itself is REDUCED — its own oxidation number DECREASES, and it GAINS electrons."},
+{t:"redoxdef", id:"redoxdef-08", front:"Explain how the reactions of potassium chloride, potassium bromide and potassium iodide with concentrated sulfuric acid provide evidence that hydrogen halides become better reducing agents down Group 7 (no explanation of the trend itself required).", back:"With KCl, only steamy white fumes of HCl are observed (H₂SO₄ is not reduced at all — HCl alone is not a strong enough reducing agent). With KBr, HBr forms but is then further oxidised by H₂SO₄, producing some brown fumes of Br₂ and choking fumes of SO₂ (H₂SO₄ partially reduced). With KI, HI is a strong enough reducing agent to reduce H₂SO₄ further still, producing purple/black solid iodine, and the toxic gas H₂S (H₂SO₄ reduced all the way from S⁺⁶ to S⁻²) — progressively more extensive reduction of sulfuric acid down the group is direct evidence of increasing reducing power of the hydrogen halide formed."},
+{t:"redoxdef", id:"redoxdef-09", front:"⚠ EXAMINER TRAP: A student says 'the reducing agent is reduced' during a redox reaction. Why is this the opposite of what actually happens?", back:"This is backwards: the REDUCING agent CAUSES reduction in another species, but is itself OXIDISED in the process (it loses electrons, its own oxidation number increases). Similarly, the OXIDISING agent causes oxidation in another species but is itself REDUCED. Mixing up 'what an agent DOES to the other reactant' with 'what HAPPENS TO the agent itself' is an extremely common and easily-avoided error — always double check you're describing the agent's own oxidation-number change, not the change it causes in its partner.", trap:true},
+
+// ===================== DISPROPORTIONATION =====================
+{t:"dispro", id:"dispro-01", front:"State the meaning of the term 'disproportionation'.", back:"A redox reaction in which the SAME element, in the SAME starting species/oxidation state, is SIMULTANEOUSLY oxidised and reduced, ending up in two different oxidation states in the products."},
+{t:"dispro", id:"dispro-02", front:"Explain, using oxidation numbers, why the reaction of chlorine with cold, dilute sodium hydroxide (Cl₂ + 2NaOH → NaCl + NaClO + H�2O) is a disproportionation reaction.", back:"Chlorine starts at oxidation number 0 (Cl₂, an element). In the products, one chlorine atom ends up in NaCl with oxidation number −1 (reduced), while the other chlorine atom ends up in NaClO (sodium chlorate(I)) with oxidation number +1 (oxidised). Since the SAME element (chlorine), starting from the SAME oxidation state (0), is simultaneously oxidised (to +1) and reduced (to −1) in one reaction, this is disproportionation."},
+{t:"dispro", id:"dispro-03", front:"Balance and complete the equation for chlorine reacting with HOT, CONCENTRATED sodium hydroxide, and name the chlorine-containing product formed under these conditions.", back:"3Cl₂ + 6NaOH → 5NaCl + NaClO₃ + 3H₂O. The product is sodium chlorate(V), NaClO₃, in which chlorine has been oxidised all the way to +5 (while the other 5 chlorine atoms are reduced to −1 in NaCl) — hot, concentrated conditions favour this more extensive disproportionation to chlorate(V), rather than the chlorate(I) formed in cold, dilute conditions."},
+{t:"dispro", id:"dispro-04", front:"What conditions (temperature and concentration of NaOH) are required to produce sodium chlorate(V), NaClO₃, from chlorine and sodium hydroxide?", back:"HOT and CONCENTRATED sodium hydroxide solution (in contrast to COLD, DILUTE conditions, which instead produce sodium chlorate(I), NaClO)."},
+{t:"dispro", id:"dispro-05", front:"Deduce the ionic half-equations for the reduction of chlorine to chloride ions, and the oxidation of chlorine to chlorate(I) ions in cold aqueous hydroxide — then combine them to give the overall ionic equation.", back:"Reduction: Cl₂ + 2e⁻ → 2Cl⁻. Oxidation: Cl₂ + 2OH⁻ → 2ClO⁻ + 2H⁺ + 2e⁻ (or equivalently Cl₂ + 4OH⁻ → 2ClO⁻ + 2H₂O + 2e⁻ depending on how water/hydroxide balance is expressed). Combining (adding the two half-equations, electrons cancelling): 2Cl₂ + 4OH⁻ → 2Cl⁻ + 2ClO⁻ + 2H₂O, which simplifies to Cl₂ + 2OH⁻ → Cl⁻ + ClO⁻ + H₂O."},
+{t:"dispro", id:"dispro-06", front:"Explain why the reaction of manganese(IV) oxide (MnO₂) with manganate(VII) ions (MnO₄⁻) to form manganate(VI) ions (MnO₄²⁻) is NOT classified as disproportionation.", back:"Disproportionation requires the SAME starting oxidation state of one element splitting into two DIFFERENT product oxidation states. Here, manganese starts in TWO DIFFERENT oxidation states already (+4 in MnO₂ and +7 in MnO₄⁻) and both CONVERGE towards a single product oxidation state (+6, in MnO₄²⁻) — this is the reverse pattern (sometimes called comproportionation), not disproportionation, because it doesn't start from one single oxidation state splitting apart."},
+{t:"dispro", id:"dispro-07", front:"Explain, in terms of oxidation numbers, whether the reaction between bromate(V) ions (BrO₃⁻) and bromide ions (Br⁻) in acidic solution to form bromine is a disproportionation reaction.", back:"This is NOT disproportionation, for the same reason as the MnO₂/MnO₄⁻ example: bromine starts in TWO DIFFERENT oxidation states in the reactants (+5 in BrO₃⁻ and −1 in Br⁻), and both converge to the SAME product oxidation state (0, in Br₂) — disproportionation specifically requires ONE starting oxidation state splitting into two different products, not two different starting states converging into one product."},
+{t:"dispro", id:"dispro-08", front:"⚠ EXAMINER TRAP: A student sees two different oxidation states of the same element in one equation and immediately labels it 'disproportionation' without checking the direction of change. Why is this check essential?", back:"Disproportionation specifically means ONE starting oxidation state SPLITTING into two (or more) different product oxidation states of the same element. If instead the equation shows two DIFFERENT starting oxidation states CONVERGING into a single product oxidation state (the reverse direction), this is NOT disproportionation — always trace each individual atom's oxidation number from reactant side to product side, and confirm the pattern is 'one becomes two', not 'two become one', before applying the disproportionation label. This exact direction-check is tested repeatedly using manganese and bromine oxoanion examples.", trap:true},
+
+// ===================== REDOX TITRATIONS & CALCULATIONS =====================
+{t:"titr", id:"titr-01", front:"Write the standard half-equation for the reduction of manganate(VII) ions in acidic solution.", back:"MnO₄⁻ + 8H⁺ + 5e⁻ → Mn²⁺ + 4H₂O"},
+{t:"titr", id:"titr-02", front:"In a KMnO₄/sodium ethanedioate titration, why is no separate indicator needed to detect the end-point?", back:"KMnO₄ solution is intensely purple, while the Mn²⁺ ion it's reduced to is almost colourless. As KMnO₄ is added from the burette, it is reduced and decolourised as long as excess ethanedioate remains in the flask; once all the ethanedioate has reacted, the next drop of KMnO₄ added is NOT reduced, and its purple colour persists — giving a sharp, self-indicating colour change at the end-point (colourless to a faint permanent pink/purple)."},
+{t:"titr", id:"titr-03", front:"Why is the ethanedioate/sulfuric acid mixture WARMED before titrating with KMnO₄, rather than reacted at room temperature?", back:"The reaction between MnO₄⁻ and ethanedioate ions is slow at room temperature; warming increases the rate of reaction (more successful collisions with sufficient activation energy) so the reaction proceeds at a practical rate for titration, giving a sharp, timely end-point."},
+{t:"titr", id:"titr-04", front:"In the reaction 16H⁺ + 2MnO₄⁻ + 5C₂O₄²⁻ → 2Mn²⁺ + 10CO₂ + 8H₂O, state the mole ratio of MnO₄⁻ to C₂O₄²⁻, and explain how this is used to find an unknown concentration.", back:"The mole ratio is 2 : 5 (MnO₄⁻ : C₂O₄²⁻). Using the titre volume of KMnO₄ and its known concentration, calculate moles of MnO₄⁻ used; multiply by 5/2 to find moles of ethanedioate that reacted; since this equals the moles of ethanedioate originally in the flask (known volume/concentration), this can be used to verify the ethanedioate concentration, OR — if ethanedioate is used to standardise an unknown KMnO₄ concentration — the calculation is run in the opposite direction to find the unknown MnO₄⁻ concentration."},
+{t:"titr", id:"titr-05", front:"Calculate the atom economy, by mass, of sodium chlorate(V) (NaClO₃, Mr = 106.5) in the reaction 3Cl₂ + 6NaOH → 5NaCl + NaClO₃ + 3H₂O (NaOH Mr = 40, Cl₂ Mr = 71).", back:"Total Mr of reactants = (3 × 71) + (6 × 40) = 213 + 240 = 453. Atom economy = (Mr of desired product ÷ total Mr of all reactants) × 100% = (106.5 ÷ 453) × 100% ≈ 23.5%. (Note: most of the mass ends up in the 5 NaCl and 3 H₂O by-products, giving a relatively low atom economy for the desired NaClO₃ product.)"},
+{t:"titr", id:"titr-06", front:"Outline the calculation method for determining the final oxidation state of vanadium, given that a known volume/concentration of VCl₂(aq) is fully oxidised by a known volume of Cl₂(g) at r.t.p. (using Cl₂ + 2e⁻ → 2Cl⁻).", back:"1) Calculate moles of VCl₂ (from volume × concentration) — this equals moles of V²⁺ present. 2) Calculate moles of Cl₂ gas used (from volume ÷ molar gas volume at r.t.p.), then moles of ELECTRONS accepted by that Cl₂ (× 2, from the half-equation). 3) Since vanadium supplies these electrons as it's oxidised, moles of electrons LOST by vanadium = moles of electrons gained by Cl₂. 4) Electrons lost per mole of vanadium = (moles of electrons) ÷ (moles of V²⁺). 5) Final oxidation state of vanadium = starting oxidation state (+2) + (electrons lost per mole of V)."},
+{t:"titr", id:"titr-07", front:"A student reacted 5.0 cm³ of 5.0 mol dm⁻³ HCl with excess MnO₂ (4HCl + MnO₂ → MnCl₂ + Cl₂ + 2H₂O) and collected 70 cm³ of Cl₂ gas. The expected percentage yield is 75%. Outline how to determine whether the student achieved this, given molar gas volume = 24000 cm³ mol⁻¹.", back:"1) Calculate moles of HCl used: (5.0 ÷ 1000) × 5.0 = 0.025 mol. 2) Use the 4:1 mole ratio (HCl:Cl₂) to find theoretical moles of Cl₂: 0.025 ÷ 4 = 0.00625 mol. 3) Convert to theoretical volume of Cl₂: 0.00625 × 24000 = 150 cm³. 4) Calculate actual percentage yield: (70 ÷ 150) × 100% ≈ 46.7%. 5) Compare with the expected 75% — since 46.7% is well below 75%, the student did NOT achieve the expected percentage yield."},
+{t:"titr", id:"titr-08", front:"⚠ EXAMINER TRAP: A student calculates moles of MnO₄⁻ correctly but then multiplies by the WRONG side of the 2:5 mole ratio when finding moles of ethanedioate. What's the reliable way to avoid this error?", back:"Always write out the ratio explicitly as 'moles of X ÷ (coefficient of X) × (coefficient of Y) = moles of Y' using the BALANCED equation's actual coefficients, rather than trying to recall which way to multiply/divide from memory. For 2MnO₄⁻ : 5C₂O₄²⁻, moles of ethanedioate = moles of MnO₄⁻ × (5/2) — writing the full ratio out explicitly every time, rather than guessing the direction, avoids this very common calculation-flipping error.", trap:true},
+];
+
+const TABS = [
+  {key:"oxnum", label:"Oxidation Numbers"},
+  {key:"redoxdef", label:"Redox Definitions"},
+  {key:"dispro", label:"Disproportionation"},
+  {key:"titr", label:"Titrations & Calcs"},
+];
+
+const STORAGE_KEY = "chemT3RedoxProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    progress = raw ? JSON.parse(raw) : {};
+  }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }
+  catch(e){ /* storage unavailable — continue silently */ }
+}
+
+function renderTabs(){
+  const bar = document.getElementById("tabBar");
+  bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+
+  if(activeTab==="dispro"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> Always check the DIRECTION of oxidation-number change before calling a reaction 'disproportionation' — one starting state splitting into two is disproportionation; two different starting states converging into one (MnO₂/MnO₄⁻, or BrO₃⁻/Br⁻) is the opposite pattern and is NOT disproportionation.";
+    container.appendChild(note);
+  }
+
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id";
+    idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge";
+      badge.textContent = "⚠ Examiner Trap";
+      el.appendChild(badge);
+    }
+
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    if(!isFlipped){
+      body.innerHTML = `<span class="label">Question</span>${c.front}`;
+    } else {
+      body.innerHTML = `<span class="label">Answer</span>${c.back}`;
+    }
+    el.appendChild(body);
+
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn";
+      knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn";
+      reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn);
+      st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+
+    container.appendChild(el);
+  });
+}
+
+function renderAll(){
+  renderTabs();
+  renderProgressBar();
+  renderStats();
+  renderCards();
+}
+
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {};
+    saveProgress();
+    renderAll();
+  }
+}
+
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
