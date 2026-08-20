@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry — Topic 6: Organic Chemistry I</title>
+<style>
+  :root{
+    --bg:#0f1416; --panel:#171f22; --panel-2:#1d272b; --border:#2a373c;
+    --text:#e8eef0; --muted:#8fa3a9; --accent:#4f9cd1; --accent-dim:#2a5a6b;
+    --trap:#e8a23d; --trap-bg:#3a2c15; --know:#4f9cd1; --review:#e8626a;
+    --card-front:#1a2027; --card-back:#16202a; font-size:16px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+  header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);}
+  header h1{margin:0 0 4px;font-size:1.25rem;font-weight:700;letter-spacing:-0.01em;}
+  header p{margin:0;color:var(--muted);font-size:0.85rem;}
+  .deck-stats{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+  nav.tabs{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px 13px;border-radius:20px;font-size:0.76rem;white-space:nowrap;cursor:pointer;transition:all .15s ease;}
+  .tab-btn .count{display:inline-block;margin-left:6px;font-size:0.68rem;color:var(--accent);opacity:0.85;}
+  .tab-btn.active{background:var(--accent-dim);border-color:var(--accent);color:#eaf5ff;}
+  .progress-wrap{padding:0 16px 4px;}
+  .progress-bar{height:6px;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--accent-dim), var(--accent));transition:width .3s ease;}
+  .progress-label{font-size:0.72rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;}
+  main{max-width:640px;margin:0 auto;padding:14px 16px 8px;}
+  .card{position:relative;background:var(--card-front);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;min-height:150px;cursor:pointer;transition:border-color .2s ease, transform .12s ease;overflow:hidden;}
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);} .card.review{border-color:var(--review);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px 0;}
+  .card-id{font-size:0.68rem;color:var(--muted);letter-spacing:0.03em;text-transform:uppercase;}
+  .status-chip{font-size:0.65rem;padding:2px 8px;border-radius:10px;background:var(--panel-2);color:var(--muted);}
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+  .trap-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--trap);background:var(--trap-bg);padding:2px 8px;border-radius:10px;margin:8px 16px 0;width:fit-content;font-weight:600;}
+  .card-body{padding:10px 16px 16px;font-size:0.95rem;line-height:1.5;}
+  .card-body.answer{color:#cfe3f0;}
+  .card-body .label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:4px;}
+  .hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:0 16px 12px;}
+  .self-test{display:flex;gap:8px;padding:0 16px 16px;}
+  .st-btn{flex:1;padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:0.82rem;cursor:pointer;font-weight:600;}
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+  footer{max-width:640px;margin:10px auto 0;padding:10px 16px 30px;text-align:center;}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:10px;font-size:0.75rem;cursor:pointer;}
+  .section-note{font-size:0.78rem;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;line-height:1.5;}
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 6 — Organic Chemistry I</h1>
+  <p>Edexcel Chemistry A-level (9CH0) · AS &amp; A Level Paper 2, 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+// ===================== ALKANES =====================
+{t:"alkanes", id:"alk-01", front:"Explain why different alkanes in crude oil can be separated by fractional distillation.", back:"Different alkanes have different chain lengths, and therefore different strengths of London (van der Waals) forces between molecules — longer chains have more electrons and greater surface area of contact, giving stronger intermolecular forces and higher boiling temperatures. Fractional distillation separates the mixture based on these differing boiling temperatures, with each fraction condensing at a different height in the column."},
+{t:"alkanes", id:"alk-02", front:"Complete the equation for the cracking of octane, C₈H₁₈, to produce ethene and only one other organic compound.", back:"C₈H₁₈ → C₂H₄ + C₆H₁₄ (ethene + hexane). The total number of carbon and hydrogen atoms must balance on both sides."},
+{t:"alkanes", id:"alk-03", front:"Give the type of bond fission occurring in the initiation step of the free-radical substitution of an alkane with a halogen (e.g. propane + bromine).", back:"Homolytic fission — the covalent bond breaks with one electron going to each atom, producing two free radicals (each with an unpaired electron), rather than heterolytic fission (which would produce ions)."},
+{t:"alkanes", id:"alk-04", front:"Explain why the percentage yield of 1-bromopropane from the free-radical bromination of propane is typically low (e.g. around 31%).", back:"The reaction produces a MIXTURE of organic products — bromine can substitute at different carbon positions along the chain (giving 1-bromopropane, 2-bromopropane, and further substitution products with more than one Br atom), so only a fraction of the propane reacted actually ends up as the specific desired product, 1-bromopropane."},
+{t:"alkanes", id:"alk-05", front:"Describe two characteristics of a homologous series.", back:"1) Successive members differ by a CH₂ unit (and can be described by the same general formula). 2) Members show a gradual trend in physical properties (e.g. boiling point increasing with chain length) but have similar chemical properties, since they contain the same functional group."},
+{t:"alkanes", id:"alk-06", front:"Explain how oxides of sulfur and nitrogen can be formed from the combustion of fossil fuels.", back:"Sulfur oxides form when sulfur impurities present in the fossil fuel are oxidised during combustion. Nitrogen oxides form when nitrogen and oxygen from the AIR react together at the high temperatures generated inside the engine/furnace during combustion (not from nitrogen in the fuel itself)."},
+{t:"alkanes", id:"alk-07", front:"Explain why flue gas desulfurisation (FGD) using calcium carbonate is only an INCOMPLETE solution to the problem of burning fossil fuels.", back:"FGD removes sulfur dioxide from the flue gases (preventing acid rain from that specific pollutant), but it does NOT address carbon dioxide emissions (which continue to be released and contribute to global warming/climate change) — the underlying problem of greenhouse gas emissions from burning fossil fuels remains unsolved even when sulfur oxides are removed."},
+{t:"alkanes", id:"alk-08", front:"Give the two major reasons for cracking hydrocarbons.", back:"1) To convert longer-chain, less useful/less in-demand hydrocarbon fractions (e.g. from the higher-boiling fractions) into shorter-chain, more useful/higher-demand fractions such as petrol, better matching supply to market demand. 2) To produce alkenes (e.g. ethene, propene), which are much more reactive than alkanes and are important feedstocks for the petrochemical industry (e.g. for making polymers)."},
+{t:"alkanes", id:"alk-09", front:"Explain why isomers of hexane (e.g. branched-chain isomers) have LOWER boiling temperatures than the straight-chain (unbranched) hexane, and are therefore found in the lower-boiling petrol fraction.", back:"Branched isomers are more compact/spherical in shape, giving a SMALLER surface area of contact between neighbouring molecules than the straighter unbranched chain. This results in WEAKER London (van der Waals) forces between branched molecules, requiring less energy to overcome, giving branched isomers a lower boiling temperature than the straight-chain isomer."},
+{t:"alkanes", id:"alk-10", front:"State how some butane, C₄H₁₀, could be formed as a minor product during the free-radical chlorination of ethane.", back:"During a propagation/termination step, two ethyl radicals (•C₂H₅) can collide and combine (radical-radical termination), joining together to form butane, C₄H₁₀ (2 ×C₂H₅ → C₄H₁₀)."},
+{t:"alkanes", id:"alk-11", front:"State what is meant by the term 'hydrocarbon'.", back:"A compound that contains only the elements carbon and hydrogen."},
+{t:"alkanes", id:"alk-12", front:"Describe the stages by which the reaction between carbon monoxide and nitrogen monoxide occurs on the surface of a catalytic converter.", back:"The gas molecules (CO and NO) diffuse to and are ADSORBED onto the surface of the catalyst (typically platinum/rhodium/palladium), where they are held in place, weakening their bonds. This brings the reactant molecules close together in the correct orientation, allowing the reaction to occur (forming CO₂ and N₂) on the catalyst surface. The product molecules are then DESORBED (released) from the catalyst surface, freeing it up to catalyse further reactant molecules."},
+{t:"alkanes", id:"alk-13", front:"Give the reagent and condition required to convert ethane into chloroethane via free-radical substitution.", back:"Reagent: chlorine (Cl₂). Condition: ultraviolet (UV) light."},
+{t:"alkanes", id:"alk-14", front:"Identify the mechanism and type of reaction by which ethane is converted into chloroethane using chlorine and UV light.", back:"Free radical substitution."},
+{t:"alkanes", id:"alk-15", front:"⚠ EXAMINER TRAP: A student says the initiation step of radical substitution involves 'heterolytic fission to form ions.' Why is this wrong?", back:"Initiation in free-radical substitution ALWAYS involves HOMOLYTIC fission (each atom keeps one electron from the shared pair, producing two neutral species each with an unpaired electron — radicals), NOT heterolytic fission (which would produce oppositely-charged ions, characteristic of ionic mechanisms like nucleophilic/electrophilic reactions, not radical ones). Mixing up homolytic/radical with heterolytic/ionic fission is one of the most common errors across all organic mechanism questions.", trap:true},
+
+// ===================== ALKENES =====================
+{t:"alkenes", id:"alkene-01", front:"Identify the type of mechanism for the reaction of propene with hydrogen chloride.", back:"Electrophilic addition."},
+{t:"alkenes", id:"alkene-02", front:"Explain why 1-chloropropane and 2-chloropropane, formed from propene + HCl, are described as structural isomers (not stereoisomers).", back:"They have the SAME molecular formula (C₃H₇Cl) but a DIFFERENT structural arrangement of atoms (the chlorine is bonded to a different carbon in the chain) — this is the definition of structural isomerism, distinct from stereoisomerism, where the atoms are connected in the same order/structure but differ only in spatial arrangement."},
+{t:"alkenes", id:"alkene-03", front:"Explain why incineration is not a suitable method for disposing of poly(chloroethene), PVC.", back:"PVC contains chlorine; burning it releases toxic and corrosive hydrogen chloride gas (and can produce other toxic chlorinated by-products such as dioxins), causing air pollution and health/environmental hazards, unless the combustion gases are very carefully treated/scrubbed."},
+{t:"alkenes", id:"alkene-04", front:"Chloroethene has a boiling temperature of 260 K and is carcinogenic. State one precaution chemists should take when using this compound.", back:"Since 260 K is below room temperature, chloroethene is a gas at room temperature — because it is also carcinogenic, it should be handled in a fume cupboard (to avoid inhalation) with appropriate ventilation/extraction, and exposure should be minimised."},
+{t:"alkenes", id:"alkene-05", front:"State the link between vinyl chloride and polyvinyl chloride (PVC).", back:"Vinyl chloride (chloroethene) is the MONOMER; polyvinyl chloride (PVC) is the POLYMER formed by joining together (polymerising) many vinyl chloride monomer units."},
+{t:"alkenes", id:"alkene-06", front:"Give two uses of waste plastic other than cleaning and reusing it.", back:"1) Recycling — melting down and reprocessing the plastic into new products. 2) Using it as a fuel — burning the waste plastic to generate energy (e.g. in energy-from-waste incineration plants), sometimes with heat recovery."},
+{t:"alkenes", id:"alkene-07", front:"Explain what information it gives about an alcohol if, on oxidation, it forms a carboxylic acid (rather than stopping at an aldehyde, or forming no product).", back:"This shows the alcohol is a PRIMARY alcohol — primary alcohols can be oxidised first to an aldehyde and then further to a carboxylic acid (given sufficient oxidising agent and appropriate reflux conditions); secondary alcohols only oxidise as far as a ketone (which cannot be oxidised further under these conditions), and tertiary alcohols cannot be oxidised by this method at all."},
+{t:"alkenes", id:"alkene-08", front:"Which reagent could produce a diol from phenylethene (styrene)?", back:"Acidified potassium manganate(VII), KMnO₄(aq)/H⁺ — cold, dilute acidified KMnO₄ adds across the C=C double bond to form a diol (two −OH groups on adjacent carbons)."},
+{t:"alkenes", id:"alkene-09", front:"Predict the number of isoprene (2-methylbuta-1,3-diene) molecules needed to make a single geraniol molecule, and justify your answer.", back:"Two isoprene molecules. Isoprene has the molecular formula C₅H₈; geraniol has the molecular formula C₁₀H₁₈O. Since geraniol contains 10 carbon atoms (2 × 5 carbons from isoprene) — consistent with the terpene 'isoprene rule', where many natural terpenes are built from linked C₅ isoprene units — two isoprene units are needed to build the 10-carbon skeleton of geraniol."},
+{t:"alkenes", id:"alkene-10", front:"Give a possible reason why LiAlH₄ (a source of hydride ions, H⁻) cannot be used to reduce alkenes.", back:"LiAlH₄ is a NUCLEOPHILIC reducing agent (the hydride ion, H⁻, is an electron-pair donor/nucleophile). Alkenes have an electron-rich C=C double bond and undergo reactions with ELECTROPHILES (electron-pair acceptors), not nucleophiles — since H⁻ is a nucleophile, it is not attracted to/cannot react with the electron-rich double bond of an alkene, so LiAlH₄ cannot reduce alkenes."},
+{t:"alkenes", id:"alkene-11", front:"When plane-polarised light is passed through a sample of a single optical isomer, what happens to the plane of polarisation?", back:"It is ROTATED (either clockwise or anticlockwise, depending on which enantiomer is present)."},
+{t:"alkenes", id:"alkene-12", front:"Explain why using ethanolic (rather than aqueous) potassium hydroxide with a halogenoalkane favours ELIMINATION to form an alkene, rather than substitution to form an alcohol.", back:"In ethanol, the hydroxide ion acts primarily as a BASE (removing a hydrogen ion from a carbon adjacent to the C–X bond, forming a C=C double bond and eliminating HX) rather than as a nucleophile attacking the carbon bonded to the halogen — the ethanol solvent favours this base-like elimination behaviour, whereas in water, hydroxide more readily acts as a nucleophile, favouring substitution to form an alcohol instead."},
+{t:"alkenes", id:"alkene-13", front:"⚠ EXAMINER TRAP: A student says all reactions of alkenes with HX (hydrogen halides) or halogens are 'electrophilic substitution.' Why is this wrong?", back:"Reactions of ALKENES with electrophiles (HX, X₂, etc.) are electrophilic ADDITION (the double bond opens up and both atoms of the electrophile add across it, with no atom leaving) — 'electrophilic substitution' instead describes reactions of AROMATIC rings like benzene (where a hydrogen is replaced/substituted by the electrophile, and the ring's stability is retained). Confusing addition (alkenes) with substitution (arenes) as reaction TYPES for electrophiles is a very common and heavily-tested mix-up.", trap:true},
+
+// ===================== ALCOHOLS =====================
+{t:"alc", id:"alc-01", front:"Identify the type of reaction when an alcohol reacts with concentrated phosphoric acid to form an alkene.", back:"Elimination."},
+{t:"alc", id:"alc-02", front:"State what is meant by the term 'stereoisomers'.", back:"Compounds with the same structural formula (same molecular formula and same atoms bonded in the same order/sequence) but with a DIFFERENT spatial arrangement of atoms in 3D space."},
+{t:"alc", id:"alc-03", front:"Give the equation, name, and condition to oxidise butan-1-ol (a primary alcohol) fully to its carboxylic acid using acidified potassium dichromate(VI), using [O] to represent oxygen from the oxidising agent.", back:"CH₃CH₂CH₂CH₂OH + 2[O] → CH₃CH₂CH₂COOH + H₂O. Name: butanoic acid. Condition: excess oxidising agent, and heat under REFLUX (to prevent the volatile intermediate aldehyde escaping before further oxidation)."},
+{t:"alc", id:"alc-04", front:"State the colour of the solution at the end of a successful oxidation of a primary/secondary alcohol using acidified potassium/sodium dichromate(VI).", back:"Green (the dichromate(VI) ion, Cr₂O₇²⁻, orange, is reduced to the chromium(III) ion, Cr³⁺, which is green)."},
+{t:"alc", id:"alc-05", front:"Balance the ionic half-equation for the reduction of the dichromate(VI) ion, and give the colours of all species involved.", back:"Cr₂O₇²⁻ + 14H⁺ + 6e⁻ → 2Cr³⁺ + 7H₂O. Cr₂O₇²⁻ is ORANGE; H⁺ is colourless; Cr³⁺ is GREEN; H₂O is colourless."},
+{t:"alc", id:"alc-06", front:"Give one reason why an experimentally-determined percentage yield for an oxidation of an alcohol might be less than 100%.", back:"Some product may be lost during transfer between apparatus, during purification (e.g. distillation, drying), or side reactions/incomplete oxidation may occur, reducing the amount of pure desired product actually isolated compared with the theoretical maximum."},
+{t:"alc", id:"alc-07", front:"Explain why using distillation apparatus (instead of reflux) is NOT an efficient way to produce ethanoic acid from ethanol.", back:"Producing a carboxylic acid from a primary alcohol requires the FULL, extended oxidation (alcohol → aldehyde → carboxylic acid), which needs the reaction mixture to be kept in prolonged contact with the oxidising agent. Distillation removes volatile products (like the intermediate aldehyde) from the reaction mixture as soon as they form, before they can be oxidised further to the carboxylic acid — this would give mostly the aldehyde, not the fully-oxidised carboxylic acid, giving a low yield of ethanoic acid specifically."},
+{t:"alc", id:"alc-08", front:"Describe how to dry an organic layer (e.g. 2-chloro-2-methylpropane) to prepare it for distillation, naming a suitable drying agent.", back:"Add a small amount of an anhydrous drying agent (e.g. anhydrous sodium sulfate or anhydrous magnesium sulfate) to the organic layer, swirl/shake gently, and leave to stand — the drying agent absorbs any residual water present. Once the liquid becomes clear (rather than cloudy) and the solid no longer clumps, this indicates the layer is dry, and the liquid can be decanted/filtered away from the solid drying agent before distillation."},
+{t:"alc", id:"alc-09", front:"State a suitable temperature range over which to collect a pure organic product during a distillation/redistillation.", back:"A narrow range centred on (and just either side of) the known boiling temperature of the pure product (e.g. ±1–2°C of the literature boiling point) — collecting over too wide a range risks including impurities with different boiling points."},
+{t:"alc", id:"alc-10", front:"Give a reason why sodium hydrogencarbonate solution is added to an organic layer during the purification of a halogenoalkane product, and why it is important to open the tap of the separating funnel after adding it.", back:"Sodium hydrogencarbonate neutralises/removes any unreacted acid (e.g. residual HCl) remaining in the organic layer, producing CO₂ gas as a by-product. Opening the tap periodically releases this CO₂ gas pressure that builds up inside the separating funnel, preventing dangerous pressure build-up (which could otherwise force the stopper out or cause the funnel to leak/burst)."},
+{t:"alc", id:"alc-11", front:"Explain why there is no visible molecular ion peak in the mass spectrum of 2-methylpropan-2-ol (a tertiary alcohol), despite its Mr being 74.", back:"The molecular ion of a tertiary alcohol is often highly unstable and fragments extremely readily/rapidly (e.g. by loss of a methyl radical, forming a relatively stable tertiary carbocation) — because so few molecular ions survive intact long enough to be detected, no (or a negligible) molecular ion peak is observed in the spectrum."},
+{t:"alc", id:"alc-12", front:"Give a reason for carrying out the sequence: wash the organic layer with sodium hydrogencarbonate, then add anhydrous drying agent, then decant/redistil, when purifying a halogenoalkane prepared from an alcohol.", back:"Sodium hydrogencarbonate washing removes unreacted acid impurities; the anhydrous drying agent then removes any residual water left in the organic layer (including from the aqueous washing step itself); decanting/redistilling separates the pure, dry liquid product from the solid drying agent and gives a final purification/concentration step, ensuring the final product is both chemically pure and free of water."},
+{t:"alc", id:"alc-13", front:"Explain the main reason for the difference between an experimentally-determined enthalpy of combustion of an alcohol (using simple calorimetry) and the Data Book value.", back:"Heat loss to the surroundings during the experiment (e.g. via the sides of the container, or incomplete combustion producing soot/carbon monoxide rather than complete combustion to CO₂ and H₂O) means less of the true heat released is actually transferred to/measured by the water being heated, giving an experimentally-determined enthalpy change that is LESS EXOTHERMIC (a smaller magnitude) than the true Data Book value."},
+{t:"alc", id:"alc-14", front:"Describe how you would prepare 250.0 cm³ of a standard solution from a known mass of ethanedioic acid crystals for titration.", back:"Dissolve the weighed crystals in a small volume of distilled water in a beaker, stirring until fully dissolved. Transfer to a 250.0 cm³ volumetric flask via a funnel, rinsing the beaker and rod several times with distilled water and adding all washings to the flask. Make up to the graduation mark with distilled water (using a dropping pipette for the final few drops, checking the meniscus at eye level), then stopper and invert/shake to mix thoroughly."},
+{t:"alc", id:"alc-15", front:"Explain the effect on the titre, and on the calculated value of n (water of crystallisation), if the ethanedioic acid crystals used were slightly damp.", back:"Damp crystals mean the actual mass of PURE ethanedioic acid weighed out is LESS than the recorded (contaminated) mass — this results in FEWER moles of acid actually present than the calculation assumes, requiring a SMALLER titre than expected for that recorded mass. Since the calculation of n depends on comparing the recorded mass to the moles actually present (from the titre), using a damp (overstated) mass with an accordingly lower titre would lead to a calculated value of n that is too LOW."},
+{t:"alc", id:"alc-16", front:"⚠ EXAMINER TRAP: A student assumes any alcohol can be oxidised all the way to a carboxylic acid given enough oxidising agent. Why is this wrong for secondary and tertiary alcohols?", back:"Only PRIMARY alcohols can be oxidised as far as a carboxylic acid (via the aldehyde intermediate) — SECONDARY alcohols can only be oxidised as far as a KETONE (which has no hydrogen on the carbonyl carbon left to remove for further oxidation under these conditions), and TERTIARY alcohols CANNOT be oxidised by acidified dichromate(VI) at all (there is no hydrogen on the carbon bearing the −OH group for the oxidising agent to remove). Assuming 'more oxidising agent = more oxidation, regardless of alcohol type' ignores this fundamental structural limit.", trap:true},
+
+// ===================== HALOGENOALKANES =====================
+{t:"halo", id:"halo-01", front:"Explain why the rate of hydrolysis (with aqueous silver nitrate/ethanol) increases in the order chloroalkane < bromoalkane < iodoalkane.", back:"Going down the group, the carbon-halogen bond becomes progressively WEAKER (bond enthalpy decreases), because the halogen atom becomes larger, so the shared electron pair is, on average, further from both nuclei, and there is a poorer orbital overlap between the larger halogen atom and carbon. A weaker C–X bond is broken more easily/faster, so the rate of hydrolysis increases: C–Cl < C–Br < C–I."},
+{t:"halo", id:"halo-02", front:"Give a reason for the addition of ethanol to a mixture of a halogenoalkane and aqueous silver nitrate in a rate-of-hydrolysis comparison experiment.", back:"Ethanol acts as a common (miscible) SOLVENT for both the halogenoalkane (which is not very soluble in water alone) and the aqueous silver nitrate, allowing the two reactants to mix intimately and react, rather than remaining as separate immiscible layers."},
+{t:"halo", id:"halo-03", front:"Explain why halide ions are present in an aqueous mixture containing a halogenoalkane (which itself has only covalent bonds).", back:"As the halogenoalkane reacts with water (hydrolysis), the C–X covalent bond breaks HETEROLYTICALLY, with both electrons from the bond going to the more electronegative halogen atom — this releases the halogen as a free (ionic) halide ion, X⁻, into solution, even though the halogen was originally covalently bonded in the starting halogenoalkane."},
+{t:"halo", id:"halo-04", front:"Identify the role of the hydroxide ion, OH⁻, in the hydrolysis of a bromoalkane by aqueous potassium hydroxide.", back:"Nucleophile (it is an electron-pair donor, attracted to and attacking the slightly positive carbon atom bonded to the electronegative halogen)."},
+{t:"halo", id:"halo-05", front:"Compare and contrast the SN1 mechanism (used by tertiary halogenoalkanes, R₃CX) with the SN2 mechanism (used by primary halogenoalkanes, RCH₂X) for hydrolysis by hydroxide ions.", back:"SN1 (tertiary): a two-step mechanism. First, the C–X bond breaks heterolytically WITHOUT the nucleophile's involvement, forming a relatively stable tertiary CARBOCATION intermediate; then the nucleophile (OH⁻) attacks this carbocation rapidly in a second step. Rate depends only on [halogenoalkane] (first order overall). SN2 (primary): a single-step mechanism via a TRANSITION STATE — the nucleophile attacks the carbon from the opposite side to the leaving halogen SIMULTANEOUSLY as the C–X bond breaks, with no discrete intermediate formed. Rate depends on both [halogenoalkane] AND [nucleophile] (second order overall)."},
+{t:"halo", id:"halo-06", front:"Explain why the butan-2-ol produced from a SINGLE optical isomer of 2-bromobutane, via an SN1 mechanism, is NOT optically active (i.e. is racemic).", back:"In the SN1 mechanism, the C–Br bond breaks first to form a PLANAR (flat), trigonal carbocation intermediate — this planar intermediate has lost the original 3D chirality of the starting molecule. The nucleophile (OH⁻/H₂O) can then attack this planar carbocation from EITHER face with EQUAL probability, producing a 50:50 mixture of both optical isomers (a racemic mixture) of butan-2-ol — since equal amounts of both enantiomers are formed, their optical rotations cancel out, giving no NET optical activity overall."},
+{t:"halo", id:"halo-07", front:"Explain the trend in reactivity of primary chloro-, bromo- and iodoalkanes with aqueous hydroxide ions.", back:"Reactivity increases from chloro- to bromo- to iodoalkanes. This is because the C–X bond enthalpy DECREASES down the group (C–Cl > C–Br > C–I in bond strength), as the halogen atom gets larger with poorer orbital overlap with carbon — a weaker bond is easier/faster to break, so the rate of nucleophilic substitution (and therefore overall reactivity) increases down the group."},
+{t:"halo", id:"halo-08", front:"Devise an outline experiment (giving outline details only) to compare the relative rates of hydrolysis of a series of halogenoalkanes.", back:"Add equal volumes/amounts of ethanol and aqueous silver nitrate solution to several test tubes, placed in a water bath at a fixed, controlled temperature. Add an equal number of drops of a different halogenoalkane to each tube, start a timer, and record the time taken for a (silver halide) precipitate to first appear in each tube — a SHORTER time to form a precipitate indicates a FASTER rate of hydrolysis for that halogenoalkane."},
+{t:"halo", id:"halo-09", front:"Explain why the identity of the halogen (Cl, Br or I) in a halogenoalkane can be confirmed AFTER the silver nitrate/ethanol test, using aqueous ammonia.", back:"The three silver halide precipitates have different solubilities in ammonia of different concentrations: silver chloride dissolves in DILUTE ammonia; silver bromide only dissolves in CONCENTRATED ammonia; silver iodide does NOT dissolve even in concentrated ammonia — observing which concentration of ammonia (if any) dissolves the precipitate confirms which halide is present."},
+{t:"halo", id:"halo-10", front:"Devise an experiment to investigate how the rate of substitution (hydrolysis with water) depends on whether a bromoalkane is primary, secondary or tertiary, using a series of isomeric bromoalkanes.", back:"Add each isomeric bromoalkane (primary, secondary, tertiary — same number of carbons) to separate test tubes each containing the same volume of ethanol and aqueous silver nitrate solution, in a water bath at the same controlled temperature. Time how long it takes for a precipitate to appear in each tube. Compare the times: since SN1 (favoured by tertiary halogenoalkanes, via a stable carbocation) proceeds faster than SN2 (favoured by primary halogenoalkanes), the tertiary isomer is expected to react fastest (shortest time to precipitate), and the primary isomer slowest."},
+{t:"halo", id:"halo-11", front:"Give the reagent for converting 1-chloropropane into butanenitrile, CH₃CH₂CH₂CN.", back:"Potassium cyanide, KCN (dissolved in ethanol, under reflux) — the cyanide ion (CN⁻) acts as a nucleophile, substituting the chlorine, and extends the carbon chain by one carbon atom."},
+{t:"halo", id:"halo-12", front:"Explain why concentrated hydrochloric acid, rather than dilute, is used to convert 2-methylpropan-2-ol into 2-chloro-2-methylpropane.", back:"A high concentration of chloride ions (and H⁺, which helps protonate the −OH group of the alcohol to make it a better leaving group, forming water) is needed to drive the substitution reaction and achieve a good rate/yield — concentrated HCl provides a much higher concentration of both these reactive species than dilute acid would."},
+{t:"halo", id:"halo-13", front:"⚠ EXAMINER TRAP: A student explains the C–X bond strength trend down Group 7 using 'more electronegative halogens form stronger bonds.' Why is this the wrong explanation for THIS specific trend?", back:"Electronegativity DOES decrease down the group, but the correct explanation for the DECREASING C–X bond strength down the group (Cl>Br>I) is about ATOMIC SIZE and ORBITAL OVERLAP, not electronegativity directly: larger halogen atoms have their bonding orbital further from the nucleus and overlap less effectively with carbon's orbital, giving a weaker, longer bond. Citing electronegativity (a property about electron pull within an existing bond, not primarily about the bond's physical length/overlap/strength) as the direct cause of the bond-strength trend is a common conceptual substitution that doesn't correctly explain WHY the bond becomes weaker.", trap:true},
+];
+
+const TABS = [
+  {key:"alkanes", label:"Alkanes"},
+  {key:"alkenes", label:"Alkenes"},
+  {key:"alc", label:"Alcohols"},
+  {key:"halo", label:"Halogenoalkanes"},
+];
+
+const STORAGE_KEY = "chemT6OrganicIProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{ const raw = localStorage.getItem(STORAGE_KEY); progress = raw ? JSON.parse(raw) : {}; }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function renderTabs(){
+  const bar = document.getElementById("tabBar"); bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+  if(activeTab==="halo"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> SN1 vs SN2 mechanism (tertiary vs primary halogenoalkanes) is the single most-tested comparison in this tab — know both mechanisms, both rate equations, and the carbocation/racemisation link between them cold.";
+    container.appendChild(note);
+  }
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id"; idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge"; badge.textContent = "⚠ Examiner Trap";
+      el.appendChild(badge);
+    }
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    body.innerHTML = isFlipped ? `<span class="label">Answer</span>${c.back}` : `<span class="label">Question</span>${c.front}`;
+    el.appendChild(body);
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn"; knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn"; reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn); st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+    container.appendChild(el);
+  });
+}
+function renderAll(){ renderTabs(); renderProgressBar(); renderStats(); renderCards(); }
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {}; saveProgress(); renderAll();
+  }
+}
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
