@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry — Topic 5: Formulae, Equations &amp; Amount of Substance</title>
+<style>
+  :root{
+    --bg:#0f1416;
+    --panel:#171f22;
+    --panel-2:#1d272b;
+    --border:#2a373c;
+    --text:#e8eef0;
+    --muted:#8fa3a9;
+    --accent:#4f9cd1;
+    --accent-dim:#2a5a6b;
+    --trap:#e8a23d;
+    --trap-bg:#3a2c15;
+    --know:#4f9cd1;
+    --review:#e8626a;
+    --card-front:#1a2027;
+    --card-back:#16202a;
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:60px;
+  }
+  header{
+    padding:22px 16px 14px;
+    text-align:center;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);
+  }
+  header h1{
+    margin:0 0 4px;
+    font-size:1.15rem;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  header p{
+    margin:0;
+    color:var(--muted);
+    font-size:0.85rem;
+  }
+  .deck-stats{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin-top:12px;
+    font-size:0.78rem;
+    color:var(--muted);
+  }
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+
+  nav.tabs{
+    display:flex;
+    overflow-x:auto;
+    gap:6px;
+    padding:12px 12px 8px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    flex:0 0 auto;
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:8px 11px;
+    border-radius:20px;
+    font-size:0.7rem;
+    white-space:nowrap;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .tab-btn .count{
+    display:inline-block;
+    margin-left:6px;
+    font-size:0.64rem;
+    color:var(--accent);
+    opacity:0.85;
+  }
+  .tab-btn.active{
+    background:var(--accent-dim);
+    border-color:var(--accent);
+    color:#eaf5ff;
+  }
+
+  .progress-wrap{
+    padding:0 16px 4px;
+  }
+  .progress-bar{
+    height:6px;
+    background:var(--panel);
+    border-radius:4px;
+    overflow:hidden;
+    border:1px solid var(--border);
+  }
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--accent-dim), var(--accent));
+    transition:width .3s ease;
+  }
+  .progress-label{
+    font-size:0.72rem;
+    color:var(--muted);
+    margin-top:4px;
+    display:flex;
+    justify-content:space-between;
+  }
+
+  main{
+    max-width:640px;
+    margin:0 auto;
+    padding:14px 16px 8px;
+  }
+
+  .card{
+    position:relative;
+    background:var(--card-front);
+    border:1px solid var(--border);
+    border-radius:14px;
+    margin-bottom:14px;
+    min-height:150px;
+    cursor:pointer;
+    transition:border-color .2s ease, transform .12s ease;
+    overflow:hidden;
+  }
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);}
+  .card.review{border-color:var(--review);}
+
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:12px 16px 0;
+  }
+  .card-id{
+    font-size:0.68rem;
+    color:var(--muted);
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+  }
+  .status-chip{
+    font-size:0.65rem;
+    padding:2px 8px;
+    border-radius:10px;
+    background:var(--panel-2);
+    color:var(--muted);
+  }
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+
+  .trap-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    font-size:0.68rem;
+    color:var(--trap);
+    background:var(--trap-bg);
+    padding:2px 8px;
+    border-radius:10px;
+    margin:8px 16px 0;
+    width:fit-content;
+    font-weight:600;
+  }
+
+  .card-body{
+    padding:10px 16px 16px;
+    font-size:0.95rem;
+    line-height:1.5;
+  }
+  .card-body.answer{
+    color:#cfe3f0;
+  }
+  .card-body .label{
+    display:block;
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--muted);
+    margin-bottom:4px;
+  }
+  .hint{
+    text-align:center;
+    font-size:0.72rem;
+    color:var(--muted);
+    padding:0 16px 12px;
+  }
+
+  .self-test{
+    display:flex;
+    gap:8px;
+    padding:0 16px 16px;
+  }
+  .st-btn{
+    flex:1;
+    padding:9px 0;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    color:var(--text);
+    font-size:0.82rem;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+
+  footer{
+    max-width:640px;
+    margin:10px auto 0;
+    padding:10px 16px 30px;
+    text-align:center;
+  }
+  .reset-btn{
+    background:none;
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:8px 16px;
+    border-radius:10px;
+    font-size:0.75rem;
+    cursor:pointer;
+  }
+
+  .section-note{
+    font-size:0.78rem;
+    color:var(--muted);
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 14px;
+    margin-bottom:14px;
+    line-height:1.5;
+  }
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 5 — Formulae, Equations &amp; Amount of Substance</h1>
+  <p>Edexcel Chemistry A-level (9CH0) · AS &amp; A Level Paper 1, 2 &amp; 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+// ===================== MOLES, MASS & FORMULAE =====================
+{t:"moles", id:"moles-01", front:"State what is meant by the term 'molar volume' of a gas.", back:"The volume occupied by one mole of any gas, under specified/stated conditions of temperature and pressure."},
+{t:"moles", id:"moles-02", front:"Calculate the number of molecules in 55.2 kg of ethanol, C₂H₅OH (Mr = 46.0). [Avogadro constant = 6.02 × 10²³ mol⁻¹]", back:"Moles = mass ÷ Mr = 55200 g ÷ 46.0 = 1200 mol. Number of molecules = moles × Avogadro constant = 1200 × 6.02 × 10²³ = 7.22 × 10²⁶ molecules."},
+{t:"moles", id:"moles-03", front:"0.318 g of a gaseous oxide of sulfur, X, occupied 132 cm³ at 420 K and 105 kPa. Calculate the relative molecular mass of X and hence deduce its molecular formula.", back:"Using pV = nRT: n = pV ÷ RT = (105000 × 132×10⁻⁶) ÷ (8.31 × 420) ≈ 3.99×10⁻³ mol. Mr = mass ÷ n = 0.318 ÷ 0.00399 ≈ 80. Testing SO₃ (32 + 48 = 80) gives a match, so X is SO₃."},
+{t:"moles", id:"moles-04", front:"A sample of pent-1-ene, C₅H₁₀ (Mr = 70.0), with a mass of 1.33 g, is warmed to 60°C in a sealed 500 cm³ container. Calculate the pressure inside the container. [R = 8.31 J mol⁻¹ K⁻¹]", back:"Moles = 1.33 ÷ 70.0 = 0.0190 mol. T = 60+273 = 333 K; V = 500×10⁻⁶ m³. Rearranging pV=nRT: p = nRT ÷ V = (0.0190 × 8.31 × 333) ÷ (500×10⁻⁶) ≈ 105000 Pa (3 s.f.)."},
+{t:"moles", id:"moles-05", front:"1.000 g of a hydrocarbon, A, was burned completely to produce 3.143 g of CO₂ and 1.284 g of H₂O. The molar mass of A was found to be 84.0 g mol⁻¹. Calculate the empirical and molecular formula of A.", back:"Moles CO₂ = 3.143÷44.0 = 0.0714 mol → moles C = 0.0714. Moles H₂O = 1.284÷18.0 = 0.0713 mol → moles H = 0.1427. Ratio C:H ≈ 1:2, giving empirical formula CH₂ (mass 14.0). Since 84.0÷14.0 = 6, molecular formula is C₆H₁₂."},
+{t:"moles", id:"moles-06", front:"A 0.500 g sample of aluminium chloride contained 0.101 g of aluminium. When heated to 473 K, a 0.500 g sample produced a gas occupying 73.6 cm³ at 1.00×10² kPa. Determine the molecular formula of the gas. [R = 8.31 J mol⁻¹ K⁻¹]", back:"Moles Al = 0.101÷27.0 = 0.00374; mass Cl = 0.399 g, moles Cl = 0.399÷35.5 = 0.01124. Ratio Al:Cl ≈ 1:3, empirical formula AlCl₃ (Mr=133.5). Using pV=nRT on the gas: n = (100000×73.6×10⁻⁶)÷(8.31×473) = 0.00187 mol; molar mass = 0.500÷0.00187 ≈ 267 g mol⁻¹. Since 267÷133.5≈2, the gas is Al₂Cl₆ (dimer in vapour phase)."},
+{t:"moles", id:"moles-07", front:"Calculate the empirical formula of a compound of sulfur and fluorine containing 45.79% sulfur and 54.21% fluorine by mass.", back:"Assume 100 g: moles S = 45.79÷32.1 = 1.427; moles F = 54.21÷19.0 = 2.853. Dividing by smallest (1.427): S=1.00, F=2.00, giving empirical formula SF₂ (always show the mole calculation working, even if the resulting simple ratio doesn't match the most common known compound)."},
+{t:"moles", id:"moles-08", front:"Give the formula for calculating the number of moles in a solution of known concentration and volume.", back:"Moles = concentration (mol dm⁻³) × volume (dm³) — remember to convert any volume given in cm³ to dm³ first, by dividing by 1000."},
+{t:"moles", id:"moles-09", front:"Deduce the molecular formula of geraniol (C₁₀H₁₈O) from its structure, and calculate its molar mass.", back:"Molecular formula: C₁₀H₁₈O. Molar mass = (10×12.0)+(18×1.0)+16.0 = 120+18+16 = 154 g mol⁻¹."},
+{t:"moles", id:"moles-10", front:"A sample of xylene vapour has a mass of 0.271 g. At 165°C and 118 kPa, this sample has a volume of 70.5 cm³. Use the Ideal Gas Equation to calculate the molar mass of xylene. [R = 8.31 J mol⁻¹ K⁻¹]", back:"T = 165+273 = 438 K; V = 70.5×10⁻⁶ m³; p = 118000 Pa. n = pV÷RT = (118000×70.5×10⁻⁶)÷(8.31×438) ≈ 0.00228 mol. Molar mass = 0.271÷0.00228 ≈ 119 g mol⁻¹ (3 s.f.)."},
+{t:"moles", id:"moles-11", front:"Alcohol X has a molecular ion peak at m/z = 88. Outline the method used to determine the molecular formula for alcohol X from mass percentage composition data and this Mr value.", back:"Use the percentage composition to calculate moles of each element per 100 g sample, then find the simplest whole-number mole ratio to get the empirical formula. Calculate the empirical formula mass, then divide the molecular ion m/z (88) by this mass to find the scaling multiplier, and multiply each subscript by this factor to get the molecular formula (e.g. C₅H₁₂O, Mr = 60+12+16 = 88)."},
+{t:"moles", id:"moles-12", front:"0.420 g of nitrogen gas is present in a packet of crisps at 120 kPa and 20°C. Calculate the volume of nitrogen gas in the packet. [R = 8.31 J mol⁻¹ K⁻¹, Mr N₂ = 28.0]", back:"Moles = 0.420÷28.0 = 0.0150 mol. T = 20+273 = 293 K. V = nRT÷p = (0.0150×8.31×293)÷120000 ≈ 3.04×10⁻⁴ m³ = 304 cm³ (3 s.f.)."},
+{t:"moles", id:"moles-13", front:"Give a possible reason why nitrogen gas (rather than air) is used to fill packets of crisps.", back:"Nitrogen is unreactive/inert, so it does not react with the food (unlike the oxygen in air, which could oxidise fats/oils, causing rancidity) — it helps preserve freshness and cushions the crisps during transport."},
+{t:"moles", id:"moles-14", front:"Ice has a density of 0.92 g cm⁻³ and water 1.00 g cm⁻³. Calculate how many more molecules there are in 5.00 cm³ of water compared with 5.00 cm³ of ice. [Mr H₂O = 18.0, Avogadro constant = 6.02×10²³ mol⁻¹]", back:"Water: mass = 5.00 g, moles = 5.00÷18.0 = 0.2778 mol, molecules = 1.672×10²³. Ice: mass = 4.60 g, moles = 0.2556 mol, molecules = 1.539×10²³. Difference ≈ 1.34×10²² more molecules in the water."},
+{t:"moles", id:"moles-15", front:"Calculate the volume of one mole of an ideal gas at 60°C and 500 kPa pressure. [R = 8.31 J K⁻¹ mol⁻¹]", back:"T = 60+273 = 333 K; p = 500000 Pa; n = 1 mol. V = nRT÷p = (1×8.31×333)÷500000 ≈ 5.5×10⁻³ m³ (2 s.f.), i.e. 5.5 dm³."},
+{t:"moles", id:"moles-16", front:"A gas B, with formula XH₃, has a density of 1.42 g dm⁻³ at r.t.p. (molar volume = 24000 cm³ mol⁻¹). Calculate the molar mass of XH₃ and deduce the identity of element X.", back:"Molar mass = density × molar volume(dm³) = 1.42 × 24.0 = 34.1 g mol⁻¹ (≈34). Subtracting 3H (3.0): mass of X ≈ 31 — matching phosphorus (Ar=31), so X is phosphorus and the gas is PH₃."},
+{t:"moles", id:"moles-17", front:"⚠ EXAMINER TRAP: A student calculates moles of a gas using pV=nRT but forgets to convert the given volume from cm³ into m³ before substituting. Why is this critical?", back:"pV=nRT requires SI units throughout: pressure in Pa, volume in m³, temperature in K. Using cm³ directly (rather than ÷10⁶) makes the calculated moles wrong by a factor of a million, propagating through every subsequent step — always convert cm³→m³ and °C→K as the very first step.", trap:true},
+{t:"moles", id:"moles-18", front:"⚠ EXAMINER TRAP: In an empirical formula question giving combustion product masses (CO₂ and H₂O), a student uses the MASS of CO₂ directly as 'moles of carbon' without converting via Mr first. Why is this wrong?", back:"The masses given must first be converted into MOLES (mass÷Mr), and only then can moles of carbon (=moles CO₂) and moles of hydrogen (=2×moles H₂O) be deduced. Skipping the mass-to-moles step and using raw masses as if they were moles is a very common error.", trap:true},
+
+// ===================== EQUATIONS, YIELD & ATOM ECONOMY =====================
+{t:"yield", id:"yield-01", front:"Give the formula for percentage yield.", back:"Percentage yield = (actual yield ÷ theoretical yield) × 100%, where actual and theoretical yield must be in the same units (both mass, or both moles)."},
+{t:"yield", id:"yield-02", front:"Give the formula for atom economy (by mass).", back:"Atom economy = (molecular mass of desired product ÷ sum of molecular masses of all reactants) × 100%."},
+{t:"yield", id:"yield-03", front:"Calculate the atom economy, by mass, of sodium chlorate(V), NaClO₃ (Mr=106.5), in 3Cl₂ + 6NaOH → 5NaCl + NaClO₃ + 3H₂O (Cl₂ Mr=71.0, NaOH Mr=40.0).", back:"Total Mr reactants = (3×71.0)+(6×40.0) = 213+240 = 453. Atom economy = (106.5÷453)×100% ≈ 23.5%."},
+{t:"yield", id:"yield-04", front:"Give two possible reasons, other than an incomplete reaction, why a percentage yield is less than 100%.", back:"1) Side reactions forming unwanted by-products. 2) Loss of product during transfer between apparatus or during purification (e.g. recrystallisation, filtration)."},
+{t:"yield", id:"yield-05", front:"12.0 g of 2-methylpropan-2-ol (Mr=74.0) was reacted with excess HCl to form 2-chloro-2-methylpropane (Mr=92.5, density=0.842 g cm⁻³). 11.6 cm³ of product was collected. Calculate the percentage yield.", back:"Moles alcohol = 12.0÷74.0 = 0.1622 mol; theoretical mass product = 0.1622×92.5 = 15.00 g. Actual mass = 11.6×0.842 = 9.77 g. Percentage yield = (9.77÷15.00)×100% ≈ 65.1%."},
+{t:"yield", id:"yield-06", front:"Explain why the apparatus for oxidising propan-1-ol to propanal must use DISTILLATION (not reflux) to obtain a good yield of the aldehyde.", back:"Propanal has a lower boiling point than propan-1-ol and can be further oxidised to propanoic acid if left in contact with the oxidising agent. Distillation removes propanal as it forms, before further oxidation; reflux would keep it in contact, over-oxidising much of it and giving a low yield."},
+{t:"yield", id:"yield-07", front:"1.50 g of propan-1-ol (Mr=60.0) produced 0.609 g of propanal (Mr=58.0). Calculate the percentage yield of propanal by mass.", back:"Moles propan-1-ol = 1.50÷60.0 = 0.0250 mol. Theoretical mass propanal = 0.0250×58.0 = 1.45 g. Percentage yield = (0.609÷1.45)×100% ≈ 42.0%."},
+{t:"yield", id:"yield-08", front:"A student reacted 5.0 cm³ of 5.0 mol dm⁻³ HCl with excess MnO₂ (4HCl + MnO₂ → MnCl₂ + Cl₂ + 2H₂O) and collected 70 cm³ of Cl₂. Expected yield is 75%. Determine whether the student achieved this. [Molar volume = 24000 cm³ mol⁻¹]", back:"Moles HCl = 0.0250 mol. Theoretical moles Cl₂ (4:1 ratio) = 0.00625 mol; theoretical volume = 150 cm³. Actual percentage yield = (70÷150)×100% ≈ 46.7% — well below the expected 75%."},
+{t:"yield", id:"yield-09", front:"Malachite, Cu₂CO₃(OH)₂ (Mr=221), decomposes to 2CuO + CO₂ + H₂O. A 0.810 g sample of malachite ORE produced 0.571 g of CuO (Mr=79.5). Calculate the percentage purity of the ore.", back:"Moles CuO = 0.571÷79.5 = 0.00718 mol. Moles malachite (1:2 ratio) = 0.00359 mol; mass pure malachite = 0.00359×221 = 0.793 g. Percentage purity = (0.793÷0.810)×100% ≈ 97.9%."},
+{t:"yield", id:"yield-10", front:"Explain the type of reaction between metal oxides and silicon dioxide inside a car airbag, and why this reaction is necessary.", back:"An acid-base reaction (SiO₂ is acidic, reacting with basic metal oxides e.g. Na₂O). Earlier airbag stages produce reactive/corrosive metal oxide by-products; reacting these with SiO₂ converts them into stable, safe, unreactive glassy silicate, preventing harm to the vehicle occupant."},
+{t:"yield", id:"yield-11", front:"Outline the calculation method to find the minimum mass of sodium azide needed to inflate an airbag with 67 dm³ of gas at 300°C and 140000 Pa (2NaN₃ → 2Na + 3N₂).", back:"Convert T to K (573K) and V to m³ (0.067 m³). Use pV=nRT to find moles of N₂. Use the 2:3 mole ratio (NaN₃:N₂) to find moles NaN₃ needed. Calculate mass = moles × Mr(NaN₃=65.0)."},
+{t:"yield", id:"yield-12", front:"⚠ EXAMINER TRAP: A student calculates atom economy using the TOTAL mass of all PRODUCTS rather than all reactants. Why is this the wrong definition, even if it can give the same number?", back:"Atom economy is defined as mass of desired product ÷ total mass of REACTANTS, not products — by conservation of mass these totals are numerically equal, so the arithmetic may coincidentally match, but mark schemes specifically credit stating the definition correctly using reactants.", trap:true},
+
+// ===================== TITRATION PRACTICAL TECHNIQUE =====================
+{t:"titr", id:"titr-01", front:"Give two steps needed after pouring NaOH into a burette (via funnel) before the initial burette reading is taken.", back:"1) Remove the funnel (extra drops could otherwise fall in during titration). 2) Run solution through the tap to fill the jet/tip below the tap, removing any air bubble."},
+{t:"titr", id:"titr-02", front:"Explain the effect on a titre if an air bubble in the burette tip escapes DURING a titration.", back:"The bubble occupied space later filled by liquid as it escapes; since the burette reading measures the CHANGE in level, this makes the recorded volume LARGER than the true volume of titrant delivered, giving a titre that is too HIGH."},
+{t:"titr", id:"titr-03", front:"Explain why a burette should be rinsed with the solution it will contain (e.g. NaOH), not just distilled water.", back:"Residual water would dilute the NaOH as it's poured in, reducing its effective concentration. Rinsing with the actual solution first displaces any residual water, keeping the concentration accurate."},
+{t:"titr", id:"titr-04", front:"A student rinses a conical flask with distilled water only (leaving it wet) before pipetting in a measured volume of solution. Explain the effect, if any, on the titre.", back:"No effect. The flask only needs to be clean, not dry — the pipette delivers a fixed amount (moles) regardless of residual water already present, so the titre volume needed to reach the end-point is unaffected."},
+{t:"titr", id:"titr-05", front:"A student overshoots a volumetric flask's graduation mark and tries to remove the excess with a teat pipette. Explain why this is unacceptable once the solution has been mixed.", back:"Once mixed/homogeneous, any liquid removed necessarily contains a proportional share of dissolved solute too, permanently reducing the total solute below the intended amount and lowering the final concentration — the entire procedure must be restarted."},
+{t:"titr", id:"titr-06", front:"Explain why a mean titre should exclude a non-concordant result (e.g. use 23.15 cm³, not 23.43 cm³, if other results cluster near 23.15).", back:"A titre that differs significantly from other closely-agreeing (concordant) results is likely anomalous, due to a technique error in that titration — including it would skew the mean away from the true, more reliable value, so it should be excluded."},
+{t:"titr", id:"titr-07", front:"Describe how you would prepare 250.0 cm³ of a standard solution from a known mass of solid crystals.", back:"Dissolve the crystals in a small volume of distilled water, stirring until fully dissolved. Transfer to a 250.0 cm³ volumetric flask via a funnel, rinsing the beaker/rod several times and adding all washings. Make up to the mark with distilled water, using a dropping pipette for the final drops so the meniscus bottom sits on the mark (at eye level). Stopper and invert/shake to mix thoroughly."},
+{t:"titr", id:"titr-08", front:"Why is methyl orange NOT suitable for titrating a weak acid against a strong base?", back:"Methyl orange's colour-change pH range does not correspond to the steep part of a weak acid–strong base titration curve (equivalence lies above pH 7, where phenolphthalein changes colour instead) — using methyl orange would give an inaccurate end-point."},
+{t:"titr", id:"titr-09", front:"⚠ EXAMINER TRAP: A student assumes overshooting a volumetric flask can always be fixed by pipetting out the excess. Why must the timing of the mistake (before vs after mixing) be considered?", back:"If caught before mixing, correction may be less problematic, but ONCE mixed, any liquid removed proportionally removes solute too, permanently lowering the amount present — always restart after overshooting a mixed volumetric flask.", trap:true},
+
+// ===================== UNCERTAINTY & ERROR ANALYSIS =====================
+{t:"uncert", id:"uncert-01", front:"Give the formula for calculating percentage uncertainty in a single measurement.", back:"Percentage uncertainty = (uncertainty in the measuring instrument ÷ measured value) × 100%."},
+{t:"uncert", id:"uncert-02", front:"A burette has ±0.05 cm³ uncertainty PER READING. Explain why the TOTAL uncertainty in one titre is DOUBLE this, and calculate the percentage uncertainty for a titre of 23.15 cm³.", back:"A titre = final reading − initial reading; each reading carries ±0.05 cm³, and these combine (add) when subtracted, giving total uncertainty ±0.10 cm³. Percentage uncertainty = (0.10÷23.15)×100% ≈ 0.43%."},
+{t:"uncert", id:"uncert-03", front:"A gas syringe has a total uncertainty of ±0.5 cm³. Explain the effect on percentage uncertainty of repeating an experiment using twice the gas volume (same absolute uncertainty).", back:"If the absolute uncertainty stays the same (±0.5 cm³) but the measured volume doubles, the PERCENTAGE uncertainty HALVES, since percentage uncertainty = absolute uncertainty ÷ measured value — a larger measured value with the same absolute uncertainty gives a smaller percentage."},
+{t:"uncert", id:"uncert-04", front:"Explain how a student would know if a gas syringe had a leak, and the effect this would have on a calculated molar mass.", back:"A leak is indicated if the plunger keeps moving inward over time rather than staying steady, or if the recorded volume is lower than expected. A leak gives a smaller measured volume, underestimating moles — since molar mass = mass÷moles, this makes the calculated molar mass TOO HIGH."},
+{t:"uncert", id:"uncert-05", front:"Give a reason why a gas used to determine molar mass via the ideal gas equation should be DRY.", back:"Water vapour present would add to the measured mass/volume without being the gas of interest, distorting the calculated molar mass away from the true value for the target gas alone."},
+{t:"uncert", id:"uncert-06", front:"Explain why weighing a SMALL mass of solid (e.g. via spatula) gives a HIGHER percentage uncertainty than weighing a larger mass, using the same balance.", back:"The fixed absolute uncertainty of the balance represents a LARGER proportion of a small measured mass than of a larger one — smaller absolute values always give larger percentage uncertainties for the same instrument precision."},
+{t:"uncert", id:"uncert-07", front:"Identify two modifications that would LOWER the percentage uncertainty in a measured mass of solid residue from a thermal decomposition experiment.", back:"1) Use a LARGER starting mass of sample. 2) Use a balance with a SMALLER absolute uncertainty (more decimal places/precision)."},
+{t:"uncert", id:"uncert-08", front:"A volumetric flask (±0.30 cm³, 250.0 cm³), pipette (±0.04 cm³, 10.0 cm³), and burette (±0.10 cm³ per titre, 10.20 cm³) are compared. Show by calculation which gives the lowest percentage uncertainty.", back:"Flask: (0.30÷250.0)×100% = 0.12%. Pipette: (0.04÷10.0)×100% = 0.40%. Burette: (0.10÷10.20)×100% ≈ 0.98%. The volumetric flask gives the lowest percentage uncertainty."},
+{t:"uncert", id:"uncert-09", front:"⚠ EXAMINER TRAP: A student assumes larger apparatus always means lower percentage uncertainty, without checking the actual volume USED. Why is this unsafe?", back:"Percentage uncertainty depends on the ratio of absolute uncertainty to the ACTUAL volume measured, not the nominal apparatus size. A large burette delivering only a small titre (e.g. 0.30 cm³) gives a very HIGH percentage uncertainty — always calculate using the actual volume used, never assume from apparatus size alone.", trap:true},
+
+// ===================== EVALUATING EXPERIMENTAL METHODS =====================
+{t:"eval", id:"eval-01", front:"Give three reasons why an experimental gas volume might be LOWER than the theoretical value, with a corresponding improvement for each.", back:"1) Gas escapes before the seal is in place — work faster / better seal. 2) Some gas dissolves in the reaction mixture — often unavoidable, minimise where possible. 3) Reaction not complete in the time given (e.g. large solid lumps) — allow more time or use powdered solid to increase surface area."},
+{t:"eval", id:"eval-02", front:"Explain how forgetting the LID on a crucible during a dehydration experiment would affect the calculated value of n (water of crystallisation).", back:"Solid may be lost by spitting out of the crucible, making the final mass LOWER than it should be — this makes the apparent mass loss (and calculated n) TOO HIGH (an overestimate)."},
+{t:"eval", id:"eval-03", front:"Explain how heating for too SHORT a time during a dehydration experiment would affect the calculated value of n.", back:"If not all water of crystallisation is driven off, the final mass is HIGHER than the true anhydrous mass, giving an underestimated mass loss and therefore a calculated n that is TOO LOW."},
+{t:"eval", id:"eval-04", front:"A precipitation method to find x in a hydrate gives a different result from a titration method, despite no technique errors, because MgCO₃ is 'very slightly soluble'. Explain the effect.", back:"Some MgCO₃ dissolves back into the filtrate rather than remaining as solid precipitate, so the mass of precipitate collected is LOWER than the true amount formed, leading to an incorrect (too low) calculated value from that method."},
+{t:"eval", id:"eval-05", front:"A student proposes recovering 'lost' dissolved MgCO₃ by evaporating the filtrate and adding this residue's mass to the precipitate. Criticise this plan.", back:"Evaporating the filtrate leaves ALL dissolved solids (including excess reagent and other soluble by-products), not just MgCO₃ — the resulting residue is a mixture, so adding its mass would significantly OVERESTIMATE the true amount, introducing a new, larger error."},
+{t:"eval", id:"eval-06", front:"Evaluate two suggested reasons for a LOWER than expected value of z: (1) 'crystals jumped out while heating', (2) 'hard to tell when all water was lost'. Which actually explains a lower z?", back:"Suggestion 1 (crystals lost): would cause a LOWER final mass, making mass loss appear LARGER — this would give a HIGHER (not lower) calculated z, so it does NOT explain the observation. Suggestion 2 (stopped heating too early): leaves the sample not fully dehydrated, giving a HIGHER final mass, a smaller apparent mass loss, and therefore a LOWER calculated z — this DOES explain the observation."},
+{t:"eval", id:"eval-07", front:"Compare measuring 150 cm³ with ONE 250 cm³ cylinder (±1 cm³) vs SIX uses of a 25 cm³ cylinder (±0.2 cm³ each).", back:"Single cylinder: percentage uncertainty = (1÷150)×100% ≈ 0.67%. Six repeats: uncertainties ADD — total = 6×0.2 = ±1.2 cm³, giving (1.2÷150)×100% = 0.80%. Despite each small reading seeming more precise individually, repeating and summing accumulates uncertainty, giving a HIGHER overall percentage uncertainty than the single larger measurement."},
+{t:"eval", id:"eval-08", front:"⚠ EXAMINER TRAP: A student treats every discrepancy between an experimental and literature value as a measurement-uncertainty issue. Why must 'other reasons' (heat loss, incomplete reaction) be considered separately?", back:"Measurement uncertainty (apparatus precision) is a different category from systematic/physical errors (heat loss, incomplete reaction, evaporation, side reactions). Questions asking for reasons 'other than' uncertainty specifically want these physical/chemical explanations — answering only with instrument precision misses the actual marking points.", trap:true},
+];
+
+const TABS = [
+  {key:"moles", label:"Moles, Mass & Formulae"},
+  {key:"yield", label:"Equations & Yield"},
+  {key:"titr", label:"Titration Technique"},
+  {key:"uncert", label:"Uncertainty & Error"},
+  {key:"eval", label:"Evaluating Methods"},
+];
+
+const STORAGE_KEY = "chemT5MolesProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    progress = raw ? JSON.parse(raw) : {};
+  }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }
+  catch(e){ /* storage unavailable — continue silently */ }
+}
+
+function renderTabs(){
+  const bar = document.getElementById("tabBar");
+  bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+
+  if(activeTab==="moles"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> Always convert units to SI (cm³→m³, °C→K) as the FIRST step in any pV=nRT calculation — this single habit prevents the majority of errors in this tab.";
+    container.appendChild(note);
+  }
+  if(activeTab==="uncert"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> Percentage uncertainty depends on the ACTUAL volume/mass used, not the nominal size of the apparatus — and remember titre uncertainty is DOUBLE the single-reading uncertainty (two readings combine).";
+    container.appendChild(note);
+  }
+
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id";
+    idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge";
+      badge.textContent = "⚠ Examiner Trap";
+      el.appendChild(badge);
+    }
+
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    if(!isFlipped){
+      body.innerHTML = `<span class="label">Question</span>${c.front}`;
+    } else {
+      body.innerHTML = `<span class="label">Answer</span>${c.back}`;
+    }
+    el.appendChild(body);
+
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn";
+      knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn";
+      reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn);
+      st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+
+    container.appendChild(el);
+  });
+}
+
+function renderAll(){
+  renderTabs();
+  renderProgressBar();
+  renderStats();
+  renderCards();
+}
+
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {};
+    saveProgress();
+    renderAll();
+  }
+}
+
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
