@@ -1,0 +1,233 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry — Topic 7: Modern Analytical Techniques I</title>
+<style>
+  :root{
+    --bg:#0f1416; --panel:#171f22; --panel-2:#1d272b; --border:#2a373c;
+    --text:#e8eef0; --muted:#8fa3a9; --accent:#4f9cd1; --accent-dim:#2a5a6b;
+    --trap:#e8a23d; --trap-bg:#3a2c15; --know:#4f9cd1; --review:#e8626a;
+    --card-front:#1a2027; --card-back:#16202a; font-size:16px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+  header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);}
+  header h1{margin:0 0 4px;font-size:1.2rem;font-weight:700;letter-spacing:-0.01em;}
+  header p{margin:0;color:var(--muted);font-size:0.85rem;}
+  .deck-stats{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+  nav.tabs{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px 13px;border-radius:20px;font-size:0.76rem;white-space:nowrap;cursor:pointer;transition:all .15s ease;}
+  .tab-btn .count{display:inline-block;margin-left:6px;font-size:0.68rem;color:var(--accent);opacity:0.85;}
+  .tab-btn.active{background:var(--accent-dim);border-color:var(--accent);color:#eaf5ff;}
+  .progress-wrap{padding:0 16px 4px;}
+  .progress-bar{height:6px;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--accent-dim), var(--accent));transition:width .3s ease;}
+  .progress-label{font-size:0.72rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;}
+  main{max-width:640px;margin:0 auto;padding:14px 16px 8px;}
+  .card{position:relative;background:var(--card-front);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;min-height:150px;cursor:pointer;transition:border-color .2s ease, transform .12s ease;overflow:hidden;}
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);} .card.review{border-color:var(--review);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px 0;}
+  .card-id{font-size:0.68rem;color:var(--muted);letter-spacing:0.03em;text-transform:uppercase;}
+  .status-chip{font-size:0.65rem;padding:2px 8px;border-radius:10px;background:var(--panel-2);color:var(--muted);}
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+  .trap-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--trap);background:var(--trap-bg);padding:2px 8px;border-radius:10px;margin:8px 16px 0;width:fit-content;font-weight:600;}
+  .card-body{padding:10px 16px 16px;font-size:0.95rem;line-height:1.5;}
+  .card-body.answer{color:#cfe3f0;}
+  .card-body .label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:4px;}
+  .hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:0 16px 12px;}
+  .self-test{display:flex;gap:8px;padding:0 16px 16px;}
+  .st-btn{flex:1;padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:0.82rem;cursor:pointer;font-weight:600;}
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+  footer{max-width:640px;margin:10px auto 0;padding:10px 16px 30px;text-align:center;}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:10px;font-size:0.75rem;cursor:pointer;}
+  .section-note{font-size:0.78rem;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;line-height:1.5;}
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 7 — Modern Analytical Techniques I</h1>
+  <p>Edexcel Chemistry A-level (9CH0) · AS &amp; A Level Paper 2, 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+// ===================== MASS SPECTROMETRY =====================
+{t:"ms", id:"ms-01", front:"State how you would find the molar mass of a compound from its mass spectrum.", back:"Identify the molecular ion peak (M⁺) — the peak with the HIGHEST m/z value — and read off its m/z value; this equals the relative molecular mass of the compound."},
+{t:"ms", id:"ms-02", front:"3-methylbutan-2-one's mass spectrum shows a peak at m/z = 43. Suggest two different fragment ions that could be responsible.", back:"CH₃CO⁺ (an acylium ion) and C₃H₇⁺ (a propyl cation) — both have a mass of 43, so either could plausibly account for this peak depending on where the molecule fragments."},
+{t:"ms", id:"ms-03", front:"The mass spectra of the isomers 1,1-dichloroethane and 1,2-dichloroethane both show molecular ion peaks at m/z = 98, 100 and 102. Deduce the molecular formulae responsible.", back:"All three peaks correspond to C₂H₄Cl₂⁺, differing only in which chlorine isotopes are present: ³⁵Cl₂ combination gives m/z=98, one ³⁵Cl and one ³⁷Cl gives m/z=100, and ³⁷Cl₂ gives m/z=102."},
+{t:"ms", id:"ms-04", front:"Explain why the three molecular ion peaks (m/z 98, 100, 102) for a dichloro compound have different relative intensities.", back:"Chlorine's two isotopes (³⁵Cl and ³⁷Cl) occur in an approximate 3:1 natural abundance ratio. With two chlorine atoms in the molecule, the probability of each isotope COMBINATION differs — both ³⁵Cl is most likely, one of each is next, both ³⁷Cl is least likely — giving m/z=98 the greatest intensity, m/z=100 intermediate, and m/z=102 the smallest, roughly in a 9:6:1 ratio."},
+{t:"ms", id:"ms-05", front:"1,2-dichloroethane's mass spectrum shows peaks at m/z 83, 85, 87 that are ABSENT from 1,1-dichloroethane's spectrum. Explain how this allows the two isomers to be distinguished.", back:"These peaks correspond to loss of a CH₃-sized fragment (M−15), which is only structurally accessible from 1,2-dichloroethane's arrangement (chlorines on separate carbons) and not from 1,1-dichloroethane (both chlorines on one carbon) — since the two isomers fragment differently due to their different structures, the presence of these specific peaks in only one spectrum identifies which isomer produced it."},
+{t:"ms", id:"ms-06", front:"Deduce the relative molecular mass of a distillation product B (a ketone formed by oxidising cyclohexanol) using its mass spectrum, and justify your reasoning.", back:"Identify the molecular ion peak — the peak at the highest m/z value in the spectrum — its m/z value directly gives the relative molecular mass of compound B, since the molecular ion is the whole original molecule having lost only one electron."},
+{t:"ms", id:"ms-07", front:"In the mass spectrum of cyclohexanol (C₆H₁₂O, Mr=100), there is a peak at m/z=83. Suggest the formula of the fragment responsible.", back:"C₆H₁₁⁺ (loss of •OH, mass 17, from the molecular ion: 100−17=83) — a stable cyclic carbocation fragment."},
+{t:"ms", id:"ms-08", front:"2-methylpropan-2-ol has Mr=74, but shows NO molecular ion peak in its mass spectrum. Give a possible reason why.", back:"The molecular ion of a tertiary alcohol like this is highly unstable and fragments extremely readily (e.g. losing a methyl radical to form a relatively stable tertiary carbocation) — so few or no intact molecular ions survive long enough to reach the detector, meaning no molecular ion peak is observed."},
+{t:"ms", id:"ms-09", front:"Write the formula for a fragment that could be responsible for the peak at m/z=59 in the mass spectrum of 2-methylpropan-2-ol, (CH₃)₃COH.", back:"(CH₃)₂COH⁺ (mass 59) — formed by loss of a methyl radical (•CH₃, mass 15) from the molecular ion (74−15=59), giving a relatively stable tertiary cation."},
+{t:"ms", id:"ms-10", front:"Alcohol X has percentage composition data and a molecular ion peak at m/z=88. Outline how this data shows the molecular formula of X is C₅H₁₂O.", back:"Use the percentage composition to calculate moles of each element per 100 g, then find the simplest whole-number ratio for the empirical formula; calculate the empirical formula mass, then divide the molecular ion m/z (88) by this mass to find the scaling multiplier, and multiply each subscript by this factor — giving C₅H₁₂O (Mr = 60+12+16 = 88, confirming the match)."},
+{t:"ms", id:"ms-11", front:"If an alcohol X (Mr=88) is oxidised to form a carboxylic acid, what does this tell you about the structure of X?", back:"X must be a PRIMARY alcohol — primary alcohols can be oxidised all the way to a carboxylic acid (via an aldehyde intermediate); secondary alcohols only reach a ketone, and tertiary alcohols cannot be oxidised by this method at all."},
+{t:"ms", id:"ms-12", front:"Alcohol X (C₅H₁₂O, branched chain) has a major mass spectrum peak at m/z=45. Suggest a structure for the species responsible.", back:"An oxocarbenium-type fragment such as CH₃CH=OH⁺ or (CH₃)₂C=OH⁺ (mass 45) — formed by loss of an alkyl radical from the molecular ion, leaving a cation stabilised by the oxygen lone pair; the exact structure depends on which branched isomer X is."},
+{t:"ms", id:"ms-13", front:"A refrigerant compound contains 34.0% chlorine and 54.5% fluorine by mass, the remainder carbon. Calculate its empirical formula.", back:"Remaining % carbon = 100 − 34.0 − 54.5 = 11.5%. Moles: C = 11.5÷12.0 = 0.958; Cl = 34.0÷35.5 = 0.958; F = 54.5÷19.0 = 2.868. Dividing by smallest (0.958): C=1.00, Cl=1.00, F≈3.00 — giving empirical formula CClF₃."},
+{t:"ms", id:"ms-14", front:"Explain how the mass spectrum of the refrigerant CClF₃ (Mr=104.5) can be used to show its empirical and molecular formulae are the same.", back:"If the molecular ion peak (highest m/z value) matches the empirical formula mass (104.5), this confirms the molecular formula is the SAME as the empirical formula (not some whole-number multiple, such as C₂Cl₂F₆) — the molecular ion m/z value directly gives the true molecular mass for comparison."},
+{t:"ms", id:"ms-15", front:"⚠ EXAMINER TRAP: A student assumes the tallest peak in a mass spectrum is always the molecular ion peak. Why is this frequently wrong?", back:"The molecular ion peak is defined as the peak with the HIGHEST m/z VALUE, not necessarily the tallest (most intense) peak — fragment ion peaks are often MORE intense than the molecular ion peak (especially for compounds, like tertiary alcohols, where the molecular ion is unstable and fragments readily, sometimes leaving no visible M⁺ peak at all). Always scan for the peak furthest to the RIGHT on the m/z axis, not the tallest one.", trap:true},
+
+// ===================== INFRARED SPECTROSCOPY =====================
+{t:"ir", id:"ir-01", front:"State how infrared spectroscopy could be used to show that no starting alcohol remains in a distillate product.", back:"Check for the O–H stretch absorption (a broad peak, roughly 3200–3550 cm⁻¹, for a free/hydrogen-bonded alcohol O–H). If this peak is ABSENT from the IR spectrum of the distillate, this confirms no alcohol remains."},
+{t:"ir", id:"ir-02", front:"Give one advantage and one disadvantage of using a chemical test (rather than IR spectroscopy) to check whether an alcohol impurity remains in a product.", back:"Advantage: a chemical test is often quicker/cheaper and doesn't require access to an IR spectrometer. Disadvantage: a chemical test typically consumes/destroys part of the sample and only gives a qualitative (yes/no) result, whereas IR spectroscopy is non-destructive and gives more precise structural information."},
+{t:"ir", id:"ir-03", front:"Explain how an IR spectrum shows that a distillation product contains 3-methylbutan-2-one (a ketone), by reference to a relevant peak.", back:"A strong, sharp absorption peak in the range 1650–1750 cm⁻¹ is characteristic of a C=O (carbonyl) stretch — its presence confirms a ketone (or other carbonyl compound) is present."},
+{t:"ir", id:"ir-04", front:"A mixture is redistilled and the fraction boiling at 93–95°C (matching the desired ketone's boiling point) is collected. Predict the change(s) expected in the IR spectrum after redistillation, and justify.", back:"Any peak(s) associated with the impurity (e.g. an O–H stretch around 3200–3550 cm⁻¹, if the impurity was unreacted alcohol) should DISAPPEAR or reduce significantly, since collecting only the narrow boiling range matching the pure ketone should remove the impurity — leaving a spectrum showing only the peaks characteristic of the pure ketone."},
+{t:"ir", id:"ir-05", front:"A compound has molecular formula C₄H₈O₂ and could be a carboxylic acid, an ester, or a hydroxy-aldehyde. Explain how the wavenumber range 1800–1600 cm⁻¹ would differ between these possible structures.", back:"All three would show a C=O stretch in this broad region, but at slightly different specific wavenumbers: a carboxylic acid's C=O typically absorbs around 1710–1750 cm⁻¹ (often broadened due to hydrogen bonding); an ester's C=O typically around 1735–1750 cm⁻¹; an aldehyde's C=O typically around 1720–1740 cm⁻¹ — comparing the precise wavenumber alongside other peaks (e.g. whether a broad O–H is also present) helps distinguish the three."},
+{t:"ir", id:"ir-06", front:"Three isomers A, B, C (all C₄H₈O) all show an IR absorption at about 3500 cm⁻¹. A and B (but not C) show a peak at about 1650 cm⁻¹. Only A has a branched chain; B is the E-isomer of a pair of stereoisomers. Deduce structures for A, B and C.", back:"The 3500 cm⁻¹ peak (O–H stretch) shows all three contain an alcohol group. The 1650 cm⁻¹ peak (C=C stretch) in A and B shows both are unsaturated alcohols, while C has no C=C. A (branched, has C=C): 2-methylprop-2-en-1-ol. B (E-isomer, straight-chain, has C=C): (E)-but-2-en-1-ol. C (no C=C, so cyclic to use the one degree of unsaturation): cyclobutanol."},
+{t:"ir", id:"ir-07", front:"A compound shows an N–H stretch peak at 3220 cm⁻¹. Could this compound be an amide, an amine, either, or neither?", back:"Either an amide or an amine — both show N–H stretching absorptions in broadly overlapping ranges, so a single N–H peak alone cannot distinguish between them without also checking for a separate C=O stretch (which would confirm an amide)."},
+{t:"ir", id:"ir-08", front:"Geraniol's IR spectrum is used to identify two functional groups. Give the two functional groups likely present, with their characteristic wavenumber ranges.", back:"O–H (alcohol): a broad absorption around 3200–3550 cm⁻¹. C=C (alkene): a weaker, sharper absorption around 1620–1680 cm⁻¹."},
+{t:"ir", id:"ir-09", front:"Suggest a chemical test (and expected positive result) to confirm the presence of an O–H (alcohol) group and a C=C (alkene) group, as identified by IR spectroscopy in geraniol.", back:"Alcohol: add acidified potassium dichromate(VI) and warm — orange to green colour change confirms a primary/secondary alcohol. Alkene: add bromine water — the orange/brown colour rapidly decolourises as it adds across the C=C double bond."},
+{t:"ir", id:"ir-10", front:"An unknown carboxylic acid X has a molecular ion peak at m/z=116. State two wavenumber ranges of IR absorptions that would provide evidence X is a carboxylic acid.", back:"1) A broad O–H stretch, typically 2500–3300 cm⁻¹ (broader/lower than a simple alcohol O–H, due to hydrogen bonding in the acid dimer). 2) A C=O stretch, typically 1700–1725 cm⁻¹."},
+{t:"ir", id:"ir-11", front:"Three possible structures for compound X (Mr=116) are: (1) HOOCCH=CHCOOH, (2) HOCH₂CH=CHCH₂COOH, (3) CH₃CH₂CH₂CH₂CH₂COOH. Explain how the IR spectrum ALONE could identify which structure is correct.", back:"Structure 1 has two −COOH groups and no separate alcohol, so its spectrum shows only the broad acid-type O–H/C=O. Structure 2 has one −COOH AND one separate −CH₂OH alcohol, so its spectrum would show BOTH the broad acid O–H/C=O AND a distinct, sharper alcohol O–H peak (3200–3550 cm⁻¹). Structure 3 has one −COOH and no C=C, so it shows only the acid signature with no alkene C=C peak. Comparing which combination of peaks matches the given spectrum identifies X."},
+{t:"ir", id:"ir-12", front:"Give the formula of a fragment ion, with its m/z value, expected in the mass spectrum of benzoic acid (C₆H₅COOH) but NOT in phenol or phenylmethanol.", back:"C₆H₅CO⁺ (the benzoyl cation), at m/z = 105 — arising from loss of •OH from the carboxylic acid group, a fragmentation pathway not available to phenol or phenylmethanol, which lack a carboxylic acid group."},
+{t:"ir", id:"ir-13", front:"Student B overshoots a volumetric flask's graduation mark and removes the excess before pipetting for titration. Explain the effect on the titre if this happened AFTER mixing.", back:"Once mixed, any liquid removed proportionally contains dissolved solute too, permanently lowering the concentration below the intended value — this requires a LARGER titre than expected to reach the end-point. The correct procedure is to restart entirely, not attempt this correction."},
+{t:"ir", id:"ir-14", front:"Student C uses a conical flask rinsed with distilled water only (left wet) before pipetting in the NaOH solution for titration. Explain the effect, if any, on the titre.", back:"No effect. The flask only needs to be clean, not dry — the pipette delivers a fixed amount (moles) of NaOH regardless of residual water already present, so the titre needed to reach the end-point is unaffected."},
+{t:"ir", id:"ir-15", front:"A burette has ±0.05 cm³ uncertainty per reading (±0.10 cm³ per titre, 10.20 cm³), a volumetric flask ±0.30 cm³ (250.0 cm³), and a pipette ±0.04 cm³ (10.0 cm³). Show by calculation which has the LOWEST percentage uncertainty.", back:"Burette: (0.10÷10.20)×100% ≈ 0.98%. Volumetric flask: (0.30÷250.0)×100% = 0.12%. Pipette: (0.04÷10.0)×100% = 0.40%. The volumetric flask gives the lowest percentage uncertainty (0.12%)."},
+{t:"ir", id:"ir-16", front:"⚠ EXAMINER TRAP: A student compares three aromatic −OH compounds (phenol, phenylmethanol, benzoic acid) and describes their IR spectra using only 'they all have an O–H peak.' Why does this miss the actual comparison the question wants?", back:"'Compare and contrast' questions want the DIFFERENCES identified. Phenol's and phenylmethanol's O–H sit in distinguishable ranges within the alcohol region, while benzoic acid's O–H is much BROADER and shifted LOWER (2500–3300 cm⁻¹) due to strong dimeric hydrogen bonding — and benzoic acid uniquely shows a C=O stretch (~1700 cm⁻¹) the other two lack. A generic 'they all have O–H' answer misses all of these creditable distinguishing details.", trap:true},
+];
+
+const TABS = [
+  {key:"ms", label:"Mass Spectrometry"},
+  {key:"ir", label:"IR Spectroscopy"},
+];
+
+const STORAGE_KEY = "chemT7AnalyticalIProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{ const raw = localStorage.getItem(STORAGE_KEY); progress = raw ? JSON.parse(raw) : {}; }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function renderTabs(){
+  const bar = document.getElementById("tabBar"); bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+  if(activeTab==="ir"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> Always give the SPECIFIC wavenumber range AND name the bond when citing IR evidence — 'there's a peak' alone earns nothing; 'O–H stretch, 3200–3550 cm⁻¹' does.";
+    container.appendChild(note);
+  }
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id"; idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge"; badge.textContent = "⚠ Examiner Trap";
+      el.appendChild(badge);
+    }
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    body.innerHTML = isFlipped ? `<span class="label">Answer</span>${c.back}` : `<span class="label">Question</span>${c.front}`;
+    el.appendChild(body);
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn"; knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn"; reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn); st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+    container.appendChild(el);
+  });
+}
+function renderAll(){ renderTabs(); renderProgressBar(); renderStats(); renderCards(); }
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {}; saveProgress(); renderAll();
+  }
+}
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
