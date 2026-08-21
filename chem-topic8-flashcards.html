@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry — Topic 8: Energetics I</title>
+<style>
+  :root{
+    --bg:#0f1416; --panel:#171f22; --panel-2:#1d272b; --border:#2a373c;
+    --text:#e8eef0; --muted:#8fa3a9; --accent:#4f9cd1; --accent-dim:#2a5a6b;
+    --trap:#e8a23d; --trap-bg:#3a2c15; --know:#4f9cd1; --review:#e8626a;
+    --card-front:#1a2027; --card-back:#16202a; font-size:16px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+  header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);}
+  header h1{margin:0 0 4px;font-size:1.3rem;font-weight:700;letter-spacing:-0.01em;}
+  header p{margin:0;color:var(--muted);font-size:0.85rem;}
+  .deck-stats{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+  nav.tabs{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:20px;font-size:0.72rem;white-space:nowrap;cursor:pointer;transition:all .15s ease;}
+  .tab-btn .count{display:inline-block;margin-left:6px;font-size:0.66rem;color:var(--accent);opacity:0.85;}
+  .tab-btn.active{background:var(--accent-dim);border-color:var(--accent);color:#eaf5ff;}
+  .progress-wrap{padding:0 16px 4px;}
+  .progress-bar{height:6px;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--accent-dim), var(--accent));transition:width .3s ease;}
+  .progress-label{font-size:0.72rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;}
+  main{max-width:640px;margin:0 auto;padding:14px 16px 8px;}
+  .card{position:relative;background:var(--card-front);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;min-height:150px;cursor:pointer;transition:border-color .2s ease, transform .12s ease;overflow:hidden;}
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);} .card.review{border-color:var(--review);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px 0;}
+  .card-id{font-size:0.68rem;color:var(--muted);letter-spacing:0.03em;text-transform:uppercase;}
+  .status-chip{font-size:0.65rem;padding:2px 8px;border-radius:10px;background:var(--panel-2);color:var(--muted);}
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+  .trap-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--trap);background:var(--trap-bg);padding:2px 8px;border-radius:10px;margin:8px 16px 0;width:fit-content;font-weight:600;}
+  .card-body{padding:10px 16px 16px;font-size:0.95rem;line-height:1.5;}
+  .card-body.answer{color:#cfe3f0;}
+  .card-body .label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:4px;}
+  .hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:0 16px 12px;}
+  .self-test{display:flex;gap:8px;padding:0 16px 16px;}
+  .st-btn{flex:1;padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:0.82rem;cursor:pointer;font-weight:600;}
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+  footer{max-width:640px;margin:10px auto 0;padding:10px 16px 30px;text-align:center;}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:10px;font-size:0.75rem;cursor:pointer;}
+  .section-note{font-size:0.78rem;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;line-height:1.5;}
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 8 — Energetics I</h1>
+  <p>Edexcel Chemistry A-level (9CH0) · AS Paper 2 · A Level Paper 1, 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+// ===================== DEFINITIONS & KEY CONCEPTS =====================
+{t:"def", id:"def-01", front:"State what is meant by 'standard enthalpy change of combustion'.", back:"The enthalpy change when ONE MOLE of a substance is completely combusted (burned) in excess oxygen, under standard conditions (100 kPa, a stated temperature, usually 298 K), with all reactants and products in their standard states."},
+{t:"def", id:"def-02", front:"State what is meant by the standard enthalpy change of formation of aluminium oxide, Al₂O₃(s), including standard conditions.", back:"The enthalpy change when ONE MOLE of aluminium oxide is formed from its constituent elements in their standard states, under standard conditions (100 kPa, a stated temperature, usually 298 K)."},
+{t:"def", id:"def-03", front:"Write the equation, with state symbols, representing the standard enthalpy change of formation of ethanol.", back:"2C(s) + 3H₂(g) + ½O₂(g) → C₂H₅OH(l) — elements must be in their standard states, and exactly ONE MOLE of the compound (ethanol) must be formed."},
+{t:"def", id:"def-04", front:"Which equation correctly represents the standard enthalpy change of formation of aluminium oxide: 4Al(s)+3O₂(g)→2Al₂O₃(s), 4Al(s)+6O(g)→2Al₂O₃(s), 2Al(s)+1½O₂(g)→Al₂O₃(s), or 2Al(s)+3O(g)→Al₂O₃(s)?", back:"2Al(s) + 1½O₂(g) → Al₂O₃(s). This is correct because: (1) exactly ONE MOLE of the compound must be formed (ruling out the equations giving 2Al₂O₃), and (2) oxygen must be in its standard state, O₂ (ruling out the equations using O(g))."},
+{t:"def", id:"def-05", front:"Give a reason why bond enthalpy values are always positive.", back:"Breaking a covalent bond always requires energy to be put IN (energy must be absorbed to separate the bonded atoms) — this is by definition an endothermic process, so bond enthalpy (energy needed to break a bond) is always given a positive value."},
+{t:"def", id:"def-06", front:"Magnesium carbonate reacts with dilute hydrochloric acid at room temperature in a SEALED, constant-volume container. Give a reason why the heat energy change measured is not exactly the same as the enthalpy change for this reaction.", back:"The reaction produces a gas (CO₂), and in a sealed, CONSTANT VOLUME container, no expansion work can be done against the surroundings (unlike in an open, constant-pressure system) — enthalpy change (ΔH) specifically accounts for heat exchanged at CONSTANT PRESSURE, so measuring heat change at constant volume instead gives a value that differs slightly from the true enthalpy change."},
+{t:"def", id:"def-07", front:"Which two terms could be used to describe the reaction CaSO₄·2H₂O(s) → CaSO₄·½H₂O(s) + water (on heating in a crucible)?", back:"Endothermic and thermal decomposition — heating drives off water of crystallisation (requiring energy input, endothermic), and the reaction breaks down a single compound into two or more simpler substances using heat (thermal decomposition)."},
+{t:"def", id:"def-08", front:"⚠ EXAMINER TRAP: A student writes the enthalpy of formation equation for a compound but uses 2 mol of the product instead of 1 mol (e.g. '4Al + 3O₂ → 2Al₂O₃'). Why does this lose the mark even if otherwise balanced correctly?", back:"By definition, 'enthalpy change of formation' refers to the formation of exactly ONE MOLE of the compound — an equation producing 2 moles of product (even if correctly balanced with matching reactant coefficients) does not represent the formation enthalpy as defined, and will not be awarded credit. Always check the compound side shows a coefficient of 1 (using fractional coefficients on the reactant side, e.g. 1½O₂, if needed to balance).", trap:true},
+
+// ===================== HESS'S LAW & BORN-HABER CYCLES =====================
+{t:"hess", id:"hess-01", front:"State Hess's Law.", back:"The total enthalpy change for a reaction is independent of the route taken, provided the initial and final conditions (reactants and products) are the same."},
+{t:"hess", id:"hess-02", front:"Calculate the enthalpy change for the thermal decomposition PCl₅(g) → PCl₃(g) + Cl₂(g), given ΔfH(PCl₅,g) and ΔfH(PCl₃,g) as the enthalpies of formation of the two phosphorus chlorides.", back:"Using Hess's Law: ΔrH = ΔfH(products) − ΔfH(reactants) = ΔfH(PCl₃) − ΔfH(PCl₅) (since Cl₂ is an element in its standard state, its formation enthalpy is zero) — substitute the given values to calculate the answer, including the correct sign and units (kJ mol⁻¹)."},
+{t:"hess", id:"hess-03", front:"Outline how a Hess cycle is used to calculate an enthalpy change that cannot be measured directly, using standard enthalpy changes of COMBUSTION.", back:"Draw the reactants and products of the target reaction at the top of the cycle, and draw a second level below showing the same atoms as combustion PRODUCTS (CO₂ and H₂O), connected to both reactants and products by arrows representing their enthalpies of combustion (pointing DOWN, since combustion is exothermic). The target enthalpy change equals: Σ(ΔcH of reactants) − Σ(ΔcH of products), since both routes (direct, and via the combustion products) must give the same overall change (Hess's Law)."},
+{t:"hess", id:"hess-04", front:"A student determines the enthalpy change of solution for anhydrous sodium carbonate, then separately for hydrated sodium carbonate (Na₂CO₃·10H₂O). Outline how a Hess cycle combines these two results to find the enthalpy change of hydration.", back:"Draw a cycle with anhydrous Na₂CO₃(s) + 10H₂O(l) at one corner, hydrated Na₂CO₃·10H₂O(s) at another, and Na₂CO₃(aq) [the same final aqueous solution reached either way] at the third corner. The direct route (anhydrous → aqueous) has enthalpy change ΔH(solution, anhydrous); the indirect route (anhydrous → hydrated → aqueous) uses ΔH(hydration) then ΔH(solution, hydrated). By Hess's Law: ΔH(solution, anhydrous) = ΔH(hydration) + ΔH(solution, hydrated), rearranged to find ΔH(hydration) = ΔH(solution, anhydrous) − ΔH(solution, hydrated)."},
+{t:"hess", id:"hess-05", front:"Explain how an OLD (partially dehydrated, having lost some water of crystallisation to air) sample of hydrated sodium carbonate would affect the enthalpy change of solution measured in an experiment, compared with the data book value.", back:"If the 'hydrated' sample has already lost some water of crystallisation, it effectively contains a MIXTURE of hydrated and anhydrous compound rather than being pure hydrate. Since dissolving anhydrous Na₂CO₃ is a DIFFERENT (in this case, more exothermic) process than dissolving the fully hydrated form, the measured enthalpy change would be somewhere BETWEEN the two pure values — shifted towards the (more exothermic) anhydrous value — making the experimental result for the 'hydrated' sample differ from (more exothermic than) the true data book value for pure hydrate."},
+{t:"hess", id:"hess-06", front:"A Born-Haber cycle for sodium hydride, NaH, is drawn to calculate the first electron affinity of hydrogen, but contains two errors (numerical data correct). What TYPES of error are commonly found in Born-Haber cycles?", back:"Common errors include: an arrow pointing in the WRONG DIRECTION (e.g. an exothermic step drawn as if endothermic, or vice versa), or the WRONG STEP/SPECIES included (e.g. using atomisation energy of H₂ where electron affinity of a single H atom was needed, or vice versa, or missing/duplicating a step such as the lattice enthalpy or ionisation energy)."},
+{t:"hess", id:"hess-07", front:"Outline how to calculate the first electron affinity of hydrogen from a correctly-drawn Born-Haber cycle for NaH, given all other enthalpy values (atomisation of Na, atomisation of H, first ionisation energy of Na, lattice enthalpy of NaH, and enthalpy of formation of NaH).", back:"By Hess's Law, the sum of all the enthalpy changes around the cycle must equal zero (going out and back to the same starting point): ΔfH(NaH) = ΔatH(Na) + ΔatH(H) + IE1(Na) + EA1(H) + ΔlatticeH(NaH). Rearrange to make electron affinity the subject: EA1(H) = ΔfH(NaH) − ΔatH(Na) − ΔatH(H) − IE1(Na) − ΔlatticeH(NaH), then substitute the given values."},
+{t:"hess", id:"hess-08", front:"Complete the Hess cycle logic to calculate the enthalpy change of formation, ΔfH, of nitrosyl chloride, NOCl, from NO(g) + Cl₂(g) → NOCl(g) type data, given formation enthalpies of the reactants.", back:"Draw NO(g) + ½Cl₂(g) [reactants, at the top] and NOCl(g) [product, at the bottom], with a second level showing the elements (N₂, O₂, Cl₂) at the base of the cycle. By Hess's Law: ΔrH = ΔfH(NOCl) − ΔfH(NO) [since Cl₂ is already an element, its ΔfH = 0] — rearranged, ΔfH(NOCl) = ΔrH + ΔfH(NO), substituting the given data to calculate."},
+{t:"hess", id:"hess-09", front:"State why the enthalpy change for the reaction of anhydrous copper(II) sulfate with 5 moles of water to form hydrated copper(II) sulfate, CuSO₄·5H₂O, cannot be measured directly.", back:"When water is added to anhydrous copper(II) sulfate, the reaction proceeds too far/too fast and the resulting hydrated salt immediately DISSOLVES further into the excess water present, rather than stopping cleanly at the solid hydrate — so it's not possible to isolate/measure just the enthalpy change of forming the SOLID hydrate directly; it must instead be calculated indirectly via Hess's Law, using the two separate, measurable enthalpies of solution (of the anhydrous and of the hydrated salt, each dissolving fully in excess water)."},
+{t:"hess", id:"hess-10", front:"⚠ EXAMINER TRAP: A student sets up a Hess cycle using combustion data but adds (rather than subtracts) the combustion enthalpies of the products. Why is 'reactants minus products' (for combustion cycles specifically) essential to get right?", back:"For a Hess cycle built using enthalpies of COMBUSTION, the correct relationship is ΔrH = Σ ΔcH(reactants) − Σ ΔcH(products) — this is the OPPOSITE order to formation-enthalpy cycles (Σ ΔfH(products) − Σ ΔfH(reactants)), because combustion data represents a route THROUGH the products (down from reactants, and down from products, to the same combustion end-point), meaning the target reaction's enthalpy is the DIFFERENCE between the two 'downward' routes, with reactants' combustion enthalpies taking the positive/leading role. Mixing up which cycle type needs 'products minus reactants' vs 'reactants minus products' is one of the most common Hess's Law errors.", trap:true},
+
+// ===================== BOND ENTHALPY CALCULATIONS =====================
+{t:"bond", id:"bond-01", front:"Given the enthalpies for forming methane (CH₄) and propane (C₃H₈) from gaseous atoms, outline how to calculate the mean bond enthalpy of a C–H bond and a C–C bond.", back:"For methane (4 C–H bonds, no C–C bonds): mean C–H bond enthalpy = (energy released forming CH₄ from atoms) ÷ 4. For propane (8 C–H bonds + 2 C–C bonds): total energy = (8 × C–H value) + (2 × C–C value); rearrange using the propane formation energy and the C–H value already found to solve for the C–C bond enthalpy."},
+{t:"bond", id:"bond-02", front:"Using mean bond enthalpies, calculate the enthalpy change for 10Cl₂ + P₄ → 4PCl₅, given the P–P, Cl–Cl, and P–Cl bond enthalpies and the structure of P₄ (a tetrahedron with 6 P–P bonds).", back:"Bonds broken: 6 P–P bonds (in P₄) + 10 Cl–Cl bonds (energy IN, positive). Bonds formed: 20 P–Cl bonds (4 PCl₅ molecules × 5 P–Cl bonds each) (energy OUT, negative). ΔH = (energy to break bonds) − (energy released forming bonds) = [6×(P–P) + 10×(Cl–Cl)] − [20×(P–Cl)]."},
+{t:"bond", id:"bond-03", front:"Calculate the enthalpy change for the Haber process forward reaction, N₂(g) + 3H₂(g) → 2NH₃(g), using bond enthalpies for N≡N, H–H, and N–H.", back:"Bonds broken: 1×(N≡N) + 3×(H–H) (energy IN). Bonds formed: 6×(N–H) (2 NH₃ molecules × 3 N–H bonds each) (energy OUT). ΔH = [1×(N≡N) + 3×(H–H)] − [6×(N–H)]. Include a NEGATIVE sign in the final answer (since the Haber process is exothermic overall)."},
+{t:"bond", id:"bond-04", front:"Give two reasons for the difference between a bond-enthalpy-calculated value for ΔfH of ammonia and the Data Book value of −46.1 kJ mol⁻¹.", back:"1) Mean bond enthalpies are AVERAGE values taken across many different compounds/environments, not the EXACT bond enthalpy specific to ammonia's own N–H bonds (which may differ slightly from the mean value used). 2) Some/all reactants or products in the calculation may not be in their standard states as specified in the bond enthalpy data book values (e.g. bond enthalpy data typically assumes gaseous species, but formation enthalpy data may refer to different physical states)."},
+{t:"bond", id:"bond-05", front:"Explain why a student is incorrect to say the C=C bond enthalpy is 'just double the C–C bond enthalpy' when calculating combustion enthalpy for an alkene like prop-2-en-1-ol.", back:"A C=C double bond is NOT simply two independent C–C single bonds — the π-bond component of a double bond is generally WEAKER than a σ-bond (less effective orbital overlap), so the actual C=C bond enthalpy is LESS than double the C–C single bond enthalpy value; the two bond types have genuinely different, separately-tabulated bond enthalpy values that must be looked up individually, not derived by simple multiplication."},
+{t:"bond", id:"bond-06", front:"Calculate the C–O mean bond enthalpy for propan-1-ol dehydrating to form propene, given the overall enthalpy change of reaction and other relevant mean bond enthalpies (C–H, O–H, C=C, C–C).", back:"Set up the equation: ΔrH = (bonds broken) − (bonds formed), including the unknown C–O value as one of the bonds broken (since the C–O bond in the alcohol is broken during dehydration). Substitute all KNOWN bond enthalpy values and the given ΔrH, then rearrange algebraically to solve for the single unknown C–O value."},
+{t:"bond", id:"bond-07", front:"⚠ EXAMINER TRAP: A student calculating enthalpy change from bond enthalpies gets the sign backwards (bonds broken listed as exothermic, bonds formed as endothermic). What is the correct rule, and why is this a critical, frequently-tested error?", back:"BREAKING bonds always requires energy IN (endothermic, given a POSITIVE value in the calculation: 'bonds broken'); FORMING bonds always releases energy OUT (exothermic, given a NEGATIVE value: 'bonds formed'). The overall calculation is ΔH = Σ(bond enthalpies of bonds BROKEN) − Σ(bond enthalpies of bonds FORMED). Reversing this — treating bond-breaking as releasing energy — flips the sign of the whole answer, turning a correctly exothermic reaction into an apparently endothermic one (or vice versa) — always double-check which bonds are broken (reactant bonds) vs formed (product bonds) before assigning + or −.", trap:true},
+
+// ===================== CALORIMETRY EXPERIMENTS & CALCULATIONS =====================
+{t:"calo", id:"calo-01", front:"Give the formula for calculating heat energy released/absorbed (q) in a calorimetry experiment.", back:"q = mcΔT, where m = mass of the substance being heated (in g), c = specific heat capacity (in J g⁻¹ °C⁻¹), and ΔT = temperature change (in °C or K)."},
+{t:"calo", id:"calo-02", front:"25.0 cm³ of 1.00 mol dm⁻³ HCl was mixed with 25.0 cm³ of 1.00 mol dm⁻³ aqueous ammonia. The enthalpy change is −53.4 kJ mol⁻¹. Calculate the expected temperature change. [Assume density 1.00 g cm⁻³, specific heat capacity 4.18 J g⁻¹°C⁻¹]", back:"Moles HCl = (25.0/1000)×1.00 = 0.0250 mol (limiting, 1:1 ratio). Heat released = moles × |ΔH| = 0.0250 × 53400 = 1335 J. Total mass = 25.0+25.0 = 50.0 g. ΔT = q÷(mc) = 1335÷(50.0×4.18) ≈ 6.39°C (to 3 s.f.)."},
+{t:"calo", id:"calo-03", front:"In an enthalpy of neutralisation experiment, 25.0 cm³ of 1.00 mol dm⁻³ HNO₃ was mixed with 25.0 cm³ of 1.05 mol dm⁻³ NaOH, giving a temperature rise of 6.8°C. Calculate the enthalpy change of neutralisation. [c=4.18 J g⁻¹°C⁻¹, density 1.00 g cm⁻³]", back:"Moles HNO₃ (limiting) = (25.0/1000)×1.00 = 0.0250 mol. Total mass = 50.0 g. Heat released q = mcΔT = 50.0×4.18×6.8 = 1421.2 J = 1.4212 kJ. Enthalpy change = −q÷moles = −1.4212÷0.0250 ≈ −56.8 kJ mol⁻¹ (to 3 s.f., negative since exothermic)."},
+{t:"calo", id:"calo-04", front:"Give a reason why excess sodium hydroxide was used in an enthalpy of neutralisation experiment with nitric acid.", back:"Using excess NaOH ensures the HNO₃ (the limiting reagent, whose exact moles are known and used in the calculation) is fully/completely neutralised, so the full, maximum heat release corresponding to the calculated moles of acid is measured, rather than an incomplete reaction underestimating the enthalpy change."},
+{t:"calo", id:"calo-05", front:"Explain why the Data Book value for standard enthalpy change of neutralisation of ethanoic acid with NaOH (−55.2 kJ mol⁻¹) is less exothermic than that for hydrochloric acid with NaOH (−57.1 kJ mol⁻¹).", back:"Ethanoic acid is a WEAK acid and is only partially dissociated in solution — some of the energy released during neutralisation is used up (absorbed) to further ionise/dissociate the remaining undissociated ethanoic acid molecules, making the overall process less exothermic. Hydrochloric acid is a STRONG acid, already fully dissociated, so no such additional dissociation energy is needed, giving a more exothermic (more negative) neutralisation enthalpy."},
+{t:"calo", id:"calo-06", front:"Two students carry out identical spirit-burner combustion experiments to find ΔcH of methanol. Student 2 burns for FOUR minutes instead of the instructed THREE minutes. Explain the effect on Student 2's calculated enthalpy change compared with Student 1's.", back:"Burning for longer means MORE methanol is burned (greater mass loss) and the water absorbs MORE total heat, giving a LARGER temperature rise — however, since the calculation divides total heat released by the (also larger) moles of methanol burned, the calculated enthalpy change PER MOLE should, in principle, be very similar/consistent between the two experiments — the main practical effect is that a LONGER burn time typically allows MORE heat to be lost to the surroundings (proportionally, since the calorimeter isn't perfectly insulated over a longer time), so Student 2's value may end up LESS EXOTHERMIC (further from the true Data Book value) than Student 1's, due to greater cumulative heat loss."},
+{t:"calo", id:"calo-07", front:"A student's spirit-burner value for ΔcH of methanol is LESS exothermic than the Data Book value. Other than measurement uncertainty/human error, give three reasons for this difference.", back:"1) Heat loss to the surroundings (not all heat released by combustion is transferred to/absorbed by the water; some escapes to the air, the calorimeter itself, and is lost as radiation). 2) Incomplete combustion (some methanol may not burn completely, e.g. forming carbon/soot or carbon monoxide instead of fully oxidising to CO₂, releasing less energy than complete combustion would). 3) Evaporation of methanol (some fuel may evaporate from the wick/burner without being burned at all, meaning the recorded 'mass burned' overestimates the mass ACTUALLY combusted, making the calculated enthalpy change appear less exothermic than the true value)."},
+{t:"calo", id:"calo-08", front:"Explain, with a reason, how repeating the methanol combustion experiment but starting with the water already HOT (60.0°C initial temperature, same mass of methanol burned) would affect the calculated enthalpy change, if at all.", back:"Starting from a higher initial water temperature means there is a SMALLER temperature difference between the water and the surrounding air/room throughout the experiment, which REDUCES the rate of heat loss to the surroundings (heat loss to surroundings is generally greater when the temperature difference between the system and its environment is larger). This means a GREATER proportion of the heat released is actually captured by the water, giving a calculated enthalpy change that is MORE EXOTHERMIC (closer to the true Data Book value) than in the first (room-temperature start) experiment."},
+{t:"calo", id:"calo-09", front:"Give a reason why a COPPER calorimeter/beaker (rather than glass) is used in combustion enthalpy experiments.", back:"Copper is a much better THERMAL CONDUCTOR than glass, allowing heat from the flame to transfer more efficiently and rapidly into the water being heated, reducing heat loss and giving a more accurate/higher temperature rise reading for the same amount of fuel burned."},
+{t:"calo", id:"calo-10", front:"Student 3 uses the correct experimental results but incorrectly uses a molar mass of 46.0 g mol⁻¹ for methanol (true Mr = 32.0). State and justify how this mistake affects the calculated enthalpy change of combustion.", back:"Using an INCORRECTLY HIGHER molar mass means the calculated number of MOLES of methanol burned (mass ÷ Mr) is UNDERESTIMATED (too low) compared with the true value. Since enthalpy change = heat released ÷ moles, dividing the same (correct) heat value by a smaller (wrong) number of moles gives a LARGER magnitude enthalpy change — the calculated value would be MORE EXOTHERMIC (larger negative number) than the true value, due to this error alone."},
+{t:"calo", id:"calo-11", front:"A student burns 2.08 g of methanol to heat 75.0 g of water from 25.0°C to 91.0°C. Calculate the enthalpy change of combustion of methanol. [c=4.18 J g⁻¹°C⁻¹, Mr methanol=32.0]", back:"ΔT = 91.0−25.0 = 66.0°C. Heat released q = mcΔT = 75.0×4.18×66.0 = 20691 J = 20.691 kJ. Moles methanol = 2.08÷32.0 = 0.065 mol. Enthalpy change = −q÷moles = −20.691÷0.065 ≈ −318 kJ mol⁻¹ (3 s.f., large heat loss compared to Data Book value ≈−726 kJ mol⁻¹, typical of this simple apparatus)."},
+{t:"calo", id:"calo-12", front:"⚠ EXAMINER TRAP: A student assumes ANY temperature-based experiment showing 'less exothermic than expected' must be due to heat loss ALONE. Why must incomplete combustion and evaporation also be considered as SEPARATE, equally valid reasons?", back:"Exam mark schemes for 'give reasons other than uncertainty/human error for the difference' typically require MULTIPLE distinct physical/chemical reasons, each scoring separately: heat loss to surroundings, incomplete combustion (producing soot/CO instead of full oxidation to CO₂), and evaporation of unburned fuel are three DIFFERENT mechanisms that each independently make an experimental value less exothermic. Citing only 'heat loss' when three marks are available for three distinct reasons leaves marks unclaimed — always list all three where the question allows.", trap:true},
+
+// ===================== ENTROPY, PROFILES, CATALYSIS & INDUSTRIAL CONTEXT =====================
+{t:"other", id:"other-01", front:"Explain, in terms of entropy, why the combustion of prop-2-en-1-ol (a liquid or gas fuel) is always thermodynamically feasible.", back:"Combustion reactions of this type typically involve converting a smaller number of moles of reactant (fuel + O₂) into a LARGER number of moles of gaseous product (CO₂ and H₂O vapour), significantly INCREASING the disorder/entropy of the system (ΔS is strongly positive). Combined with a strongly exothermic ΔH (negative), the Gibbs free energy change (ΔG = ΔH − TΔS) remains NEGATIVE across all reasonable temperatures, making the reaction thermodynamically feasible under essentially all conditions."},
+{t:"other", id:"other-02", front:"Complete a reaction profile diagram for a catalysed exothermic reaction (e.g. SO₂ + O₂ → SO₃), describing what changes compared with the uncatalysed profile.", back:"The catalysed reaction profile shows a LOWER activation energy (Ea) peak/hump than the uncatalysed profile — the catalyst provides an alternative reaction pathway with lower Ea — but the overall enthalpy change (ΔrH, the vertical difference between reactant and product energy levels) remains EXACTLY THE SAME for both the catalysed and uncatalysed routes, since a catalyst does not affect the overall energy difference between reactants and products."},
+{t:"other", id:"other-03", front:"Give a reason why a copper catalyst is warmed to start the oxidation of ammonia (4NH₃+5O₂→6H₂O+4NO), and a reason why the catalyst may subsequently melt during the reaction.", back:"Warming provides sufficient initial energy for reactant molecules to overcome the activation energy and start reacting on the catalyst surface (getting the reaction started, after which it may become self-sustaining due to being exothermic). The reaction itself is highly exothermic (releasing substantial heat, −905.2 kJ mol⁻¹ as given), and if this heat is not removed/dissipated fast enough, the local temperature at the catalyst surface can rise so much that it exceeds copper's melting point, causing the catalyst to melt."},
+{t:"other", id:"other-04", front:"Describe the processes that occur on the surface of a heterogeneous catalyst (e.g. copper, in the oxidation of ammonia).", back:"Reactant gas molecules diffuse to and are ADSORBED onto active sites on the catalyst's surface, where their bonds are weakened. This holds reactant molecules close together in favourable orientations, lowering the activation energy needed for them to react (forming products while still adsorbed on the surface). Once formed, product molecules are DESORBED (released) from the catalyst surface, freeing up the active sites to adsorb further reactant molecules and continue the catalytic cycle."},
+{t:"other", id:"other-05", front:"Calculate the atom economy, by mass, for the formation of NO in the reaction 4NH₃(g) + 5O₂(g) → 4NO(g) + 6H₂O(g). [Mr: NH₃=17, O₂=32, NO=30, H₂O=18]", back:"Total Mr of reactants = (4×17)+(5×32) = 68+160 = 228. Mass of desired product (NO) = 4×30 = 120. Atom economy = (120÷228)×100% ≈ 52.6% (to 3 s.f.)."},
+{t:"other", id:"other-06", front:"Sketch the key difference between reaction profiles for an uncatalysed reaction (A) and the SAME reaction catalysed by vanadium(V) oxide (B), for 2SO₂+O₂⇌2SO₃.", back:"Both profiles A and B start and end at the SAME energy levels for reactants and products (same overall ΔrH). Profile B (catalysed) has a LOWER activation energy peak than profile A (uncatalysed) — the catalyst provides an alternative, lower-energy pathway, without changing the overall thermodynamics (ΔrH) of the reaction."},
+{t:"other", id:"other-07", front:"Give the equilibrium expression, Kc, for the Haber process, N₂(g) + 3H₂(g) ⇌ 2NH₃(g).", back:"Kc = [NH₃]² ÷ ([N₂][H₂]³)"},
+{t:"other", id:"other-08", front:"⚠ EXAMINER TRAP: A student says a catalyst 'increases the yield' of a reaction. Why is this a common but significant misconception?", back:"A catalyst speeds up the RATE at which equilibrium is reached (by lowering activation energy) but does NOT shift the position of equilibrium and does NOT change the overall equilibrium YIELD — since it lowers the activation energy equally for both the forward AND reverse reactions, equilibrium is reached faster, but the same final equilibrium amounts of reactants and products are obtained as without the catalyst. Confusing 'faster' with 'more product at equilibrium' is a very frequently tested misconception across kinetics, equilibrium and energetics questions.", trap:true},
+];
+
+const TABS = [
+  {key:"def", label:"Definitions & Concepts"},
+  {key:"hess", label:"Hess's Law & Born-Haber"},
+  {key:"bond", label:"Bond Enthalpy Calcs"},
+  {key:"calo", label:"Calorimetry Experiments"},
+  {key:"other", label:"Entropy, Profiles & Catalysis"},
+];
+
+const STORAGE_KEY = "chemT8EnergeticsIProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{ const raw = localStorage.getItem(STORAGE_KEY); progress = raw ? JSON.parse(raw) : {}; }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function renderTabs(){
+  const bar = document.getElementById("tabBar"); bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+  if(activeTab==="calo"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> Calorimetry is the exam-heaviest tab in this topic — practice the full q=mcΔT → moles → ΔH per mole calculation chain until it's automatic, and always give sign, units, and appropriate significant figures.";
+    container.appendChild(note);
+  }
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id"; idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge"; badge.textContent = "⚠ Examiner Trap";
+      el.appendChild(badge);
+    }
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    body.innerHTML = isFlipped ? `<span class="label">Answer</span>${c.back}` : `<span class="label">Question</span>${c.front}`;
+    el.appendChild(body);
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn"; knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn"; reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn); st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+    container.appendChild(el);
+  });
+}
+function renderAll(){ renderTabs(); renderProgressBar(); renderStats(); renderCards(); }
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {}; saveProgress(); renderAll();
+  }
+}
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
