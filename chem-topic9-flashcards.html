@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry — Topic 9: Kinetics I</title>
+<style>
+  :root{
+    --bg:#0f1416; --panel:#171f22; --panel-2:#1d272b; --border:#2a373c;
+    --text:#e8eef0; --muted:#8fa3a9; --accent:#4f9cd1; --accent-dim:#2a5a6b;
+    --trap:#e8a23d; --trap-bg:#3a2c15; --know:#4f9cd1; --review:#e8626a;
+    --card-front:#1a2027; --card-back:#16202a; font-size:16px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+  header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);}
+  header h1{margin:0 0 4px;font-size:1.3rem;font-weight:700;letter-spacing:-0.01em;}
+  header p{margin:0;color:var(--muted);font-size:0.85rem;}
+  .deck-stats{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+  nav.tabs{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:20px;font-size:0.72rem;white-space:nowrap;cursor:pointer;transition:all .15s ease;}
+  .tab-btn .count{display:inline-block;margin-left:6px;font-size:0.66rem;color:var(--accent);opacity:0.85;}
+  .tab-btn.active{background:var(--accent-dim);border-color:var(--accent);color:#eaf5ff;}
+  .progress-wrap{padding:0 16px 4px;}
+  .progress-bar{height:6px;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--accent-dim), var(--accent));transition:width .3s ease;}
+  .progress-label{font-size:0.72rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;}
+  main{max-width:640px;margin:0 auto;padding:14px 16px 8px;}
+  .card{position:relative;background:var(--card-front);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;min-height:150px;cursor:pointer;transition:border-color .2s ease, transform .12s ease;overflow:hidden;}
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);} .card.review{border-color:var(--review);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px 0;}
+  .card-id{font-size:0.68rem;color:var(--muted);letter-spacing:0.03em;text-transform:uppercase;}
+  .status-chip{font-size:0.65rem;padding:2px 8px;border-radius:10px;background:var(--panel-2);color:var(--muted);}
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+  .trap-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--trap);background:var(--trap-bg);padding:2px 8px;border-radius:10px;margin:8px 16px 0;width:fit-content;font-weight:600;}
+  .card-body{padding:10px 16px 16px;font-size:0.95rem;line-height:1.5;}
+  .card-body.answer{color:#cfe3f0;}
+  .card-body .label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:4px;}
+  .hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:0 16px 12px;}
+  .self-test{display:flex;gap:8px;padding:0 16px 16px;}
+  .st-btn{flex:1;padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:0.82rem;cursor:pointer;font-weight:600;}
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+  footer{max-width:640px;margin:10px auto 0;padding:10px 16px 30px;text-align:center;}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:10px;font-size:0.75rem;cursor:pointer;}
+  .section-note{font-size:0.78rem;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;line-height:1.5;}
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 9 — Kinetics I</h1>
+  <p>Edexcel Chemistry A-level (9CH0) · AS Paper 2 · A Level Paper 2, 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+// ===================== COLLISION THEORY & MAXWELL-BOLTZMANN =====================
+{t:"mb", id:"mb-01", front:"State the definition of activation energy.", back:"The minimum energy required for a reaction to take place when reactant particles collide (with the correct orientation)."},
+{t:"mb", id:"mb-02", front:"Two Maxwell-Boltzmann distributions are shown for the same gas at two different temperatures. Explain, with reference to the gaseous particles, the differences between the two distributions.", back:"At the HIGHER temperature, particles have a greater range/spread of kinetic energies, the peak of the curve is LOWER and shifted to the RIGHT (towards higher energy), and the curve is more spread out overall — this is because particles gain more kinetic energy on average at higher temperature, and the total area under both curves remains the same (same total number of particles)."},
+{t:"mb", id:"mb-03", front:"Which of the following is NOT a valid explanation of why increasing temperature increases the rate of a reaction: (A) area under the curve to the right of Ea is larger at higher temperature, (B) a greater percentage of collisions are successful at higher temperature, (C) molecules move faster and collide more often at higher temperature, (D) there are more collisions, all of which are successful, at higher temperature?", back:"(D) is NOT valid. Increasing temperature does NOT make ALL collisions successful — only a greater PROPORTION of collisions have energy ≥ activation energy; most collisions are still unsuccessful even at higher temperature. This is a very common misconception to watch for in exam answers."},
+{t:"mb", id:"mb-04", front:"Explain, in terms of collisions and energy, why LOWERING the temperature DECREASES the rate of reaction.", back:"At a lower temperature, particles have less kinetic energy on average, so they move more slowly, resulting in FEWER collisions per unit time (less frequent collisions). Additionally, a SMALLER proportion of particles have energy ≥ the activation energy, so a smaller fraction of collisions that do occur are successful — both effects combine to decrease the rate of reaction."},
+{t:"mb", id:"mb-05", front:"Use a Maxwell-Boltzmann diagram to explain why a SMALL increase in temperature results in a LARGE increase in the rate of a gaseous reaction.", back:"Even a small increase in temperature causes the whole distribution curve to shift slightly to the right (towards higher energies) — because the curve is not symmetrical (it has a long tail extending to high energies), this small shift causes a DISPROPORTIONATELY LARGE increase in the area under the curve beyond the activation energy, Ea — meaning a much larger proportion (not just a small extra amount) of molecules now have sufficient energy to react, causing a large increase in rate even from a modest temperature rise."},
+{t:"mb", id:"mb-06", front:"For a car airbag cooling down after deployment, describe the change in shape of the Maxwell-Boltzmann distribution curve.", back:"The peak of the curve shifts to the LEFT (towards lower energy) and becomes HIGHER/taller — as the gas cools, more molecules have lower energies (clustered more narrowly around a lower average), while the total area under the curve (total number of molecules) stays the same."},
+{t:"mb", id:"mb-07", front:"⚠ EXAMINER TRAP: A student explains a Maxwell-Boltzmann curve shift using 'the curve moves right because there are more molecules.' Why is this description wrong?", back:"Increasing temperature does NOT change the TOTAL NUMBER of molecules (the area under the curve stays constant) — it changes the DISTRIBUTION of energies among the same fixed number of molecules, shifting the curve's shape (lower peak, shifted right, more spread out) without adding or removing molecules. Describing the shift as 'more molecules' rather than 'redistributed energy among the same molecules' is a common and easily-corrected misconception.", trap:true},
+
+// ===================== CATALYSIS & REACTION PROFILES =====================
+{t:"cat", id:"cat-01", front:"State how a catalyst increases the rate of a chemical reaction.", back:"A catalyst provides an alternative reaction pathway with a LOWER activation energy, meaning a greater proportion of collisions have sufficient energy to react, increasing the rate — without the catalyst itself being used up or changed permanently by the reaction."},
+{t:"cat", id:"cat-02", front:"Draw/describe fully labelled reaction profiles for an exothermic reaction both with and without a catalyst.", back:"Both profiles start at the same reactant energy level and end at the same (lower) product energy level, giving the SAME overall enthalpy change, ΔH (negative, exothermic) for both. The catalysed profile shows a LOWER activation energy peak/hump than the uncatalysed profile — the catalyst provides a lower-energy alternative pathway, without altering the overall energy difference between reactants and products."},
+{t:"cat", id:"cat-03", front:"State why a solid (heterogeneous) catalyst is suitable for a reaction in the gas phase.", back:"A heterogeneous catalyst is in a DIFFERENT physical state/phase from the gaseous reactants, making it easy to physically separate the catalyst from the gaseous product stream afterwards (and it provides a distinct surface for adsorption to occur on)."},
+{t:"cat", id:"cat-04", front:"Describe the processes that occur on the surface of a heterogeneous catalyst (e.g. copper, in the oxidation of ammonia in air).", back:"Reactant gas molecules diffuse to and are ADSORBED onto active sites on the catalyst surface, weakening their bonds and holding them close together in favourable orientations, which lowers the activation energy needed for reaction. The reaction occurs on the surface, and product molecules are then DESORBED (released) from the surface, freeing the active sites for further reactant molecules."},
+{t:"cat", id:"cat-05", front:"Explain why a catalytic converter's internal structure uses a HONEYCOMB shape, rather than a simple solid block of catalyst.", back:"The honeycomb structure provides a very LARGE SURFACE AREA (many small channels) for a given volume of catalyst material, maximising the number of active sites available for reactant gas molecules to be adsorbed onto — this increases the rate at which the catalysed reaction can occur as exhaust gases pass through, while also reducing the amount of (often expensive precious metal) catalyst material needed."},
+{t:"cat", id:"cat-06", front:"Describe in outline a method to show that manganese(IV) oxide is NOT used up in the catalysed decomposition of hydrogen peroxide, and still functions as a catalyst afterwards.", back:"Weigh a sample of MnO₂ BEFORE the reaction. Add it to hydrogen peroxide and allow the decomposition to go to completion (e.g. until no more gas/oxygen is produced). Filter the mixture to recover the solid MnO₂, wash and dry it thoroughly, then reweigh it — if the mass after the reaction is UNCHANGED (the same as before), this shows the catalyst was not consumed. To confirm it still functions as a catalyst, add the recovered MnO₂ to a FRESH sample of hydrogen peroxide and confirm that decomposition still occurs (e.g. observable effervescence/gas production at a similar or comparable rate to the original)."},
+{t:"cat", id:"cat-07", front:"Explain the effect, if any, of an increase in pressure on the RATE of a gas-phase catalysed reaction (e.g. oxidation of ammonia on a platinum-rhodium catalyst).", back:"Increasing pressure increases the CONCENTRATION of gas molecules (more molecules packed into the same volume), increasing the frequency of collisions between reactant molecules and the catalyst surface (more molecules adsorbing/reacting per unit time) — this INCREASES the rate of reaction."},
+{t:"cat", id:"cat-08", front:"State what is meant by the term 'heterogeneous' catalyst, and explain why a catalyst has NO effect on the equilibrium YIELD of products in a reversible reaction.", back:"A heterogeneous catalyst is in a DIFFERENT physical state/phase from the reactants (e.g. a solid catalyst with gaseous reactants). A catalyst lowers the activation energy EQUALLY for both the forward AND reverse reactions, so it speeds up the rate at which equilibrium is REACHED but does not change the POSITION of equilibrium — the same equilibrium amounts (yield) of products and reactants are obtained either way, just reached faster with a catalyst present."},
+{t:"cat", id:"cat-09", front:"⚠ EXAMINER TRAP: A student says increasing pressure 'increases the yield' of a catalysed gas-phase reaction, citing the catalyst as the reason. Why does this conflate two separate effects?", back:"Pressure CAN affect equilibrium YIELD (by Le Chatelier's principle, shifting position of equilibrium if mole numbers of gas differ between sides) — but the CATALYST itself has NO effect on yield at all, only on the RATE at which equilibrium is reached. A full-mark answer must keep these two separate: describe pressure's effect on yield (via Le Chatelier, if relevant) AND pressure's effect on rate (via collision frequency) as two DISTINCT effects, and never attribute a yield change to the catalyst.", trap:true},
+
+// ===================== EXPERIMENTAL RATE DETERMINATION =====================
+{t:"exp", id:"exp-01", front:"Describe how to calculate the rate of reaction at a specific time point (e.g. 50 s) from a concentration-time graph.", back:"Draw a TANGENT to the curve at the specified time point. Calculate the GRADIENT of this tangent (change in concentration ÷ change in time, using two points read from the tangent line) — the magnitude of this gradient gives the rate of reaction at that instant, with units of concentration per unit time (e.g. mol dm⁻³ s⁻¹)."},
+{t:"exp", id:"exp-02", front:"In a titrimetric kinetics experiment (iodine + propanone, acid-catalysed), sodium hydrogencarbonate is added to each withdrawn sample before titrating with sodium thiosulfate. Explain why.", back:"Sodium hydrogencarbonate neutralises/quenches the sulfuric acid catalyst present in the sample, effectively STOPPING the reaction at that exact moment (removing the H⁺ catalyst prevents further reaction between iodine and propanone) — this allows an accurate 'snapshot' measurement of the iodine concentration remaining at that specific time, without the reaction continuing to proceed during the titration itself."},
+{t:"exp", id:"exp-03", front:"For the reaction rate = k[H⁺(aq)][CH₃COCH₃(aq)] (iodine + propanone, acid-catalysed), predict which of a proposed multi-step mechanism is the rate-determining step, and justify.", back:"The rate-determining step must be the step whose reactants match the species that appear in the rate equation — since the rate equation only involves H⁺ and propanone (NOT iodine), the rate-determining step must be the step in the mechanism involving ONLY H⁺ and propanone reacting together (not the step where iodine is involved, since iodine's concentration doesn't affect rate, meaning it must be involved only in a fast step AFTER the rate-determining step)."},
+{t:"exp", id:"exp-04", front:"A student claims 'hydrogen ions cannot be acting as a catalyst because one H⁺ is a reactant in Step 1 but two H⁺ ions are formed as products in Steps 1 and 3.' Explain whether this statement is valid.", back:"The statement is NOT valid (incorrect). For H⁺ to be classed as a catalyst, it doesn't need to be regenerated as EXACTLY the same amount it started as within each individual step — what matters is that OVERALL, across the WHOLE mechanism, H⁺ is used up in an early step but then REGENERATED (produced again) by a later step, so the NET amount of H⁺ is unchanged by the end of the overall reaction — since 2 H⁺ are produced overall for the 1 H⁺ consumed, netting a GAIN of H⁺ (still counts as a catalyst, since it is not consumed overall, and can be reused by further catalytic cycles)."},
+{t:"exp", id:"exp-05", front:"For a reaction where compound X reacts slowly with water (catalysed by H⁺) to give compound Y, the rate STARTS SLOW, then INCREASES, before DECREASING again. Explain this sequence (referring to manganate(VII) + ethanedioate autocatalysis as a similar example).", back:"Initially the reaction is slow because the (catalytic) product concentration is very low (autocatalysis — the reaction is catalysed by one of its own products, e.g. Mn²⁺ in the manganate(VII)/ethanedioate reaction). As the reaction proceeds, the concentration of this catalytic product BUILDS UP, increasingly catalysing/speeding up the reaction (rate increases). Eventually, as the reactant concentrations become significantly DEPLETED (used up) towards the end of the reaction, the rate DECREASES again despite the catalyst being present, since there is now too little reactant left for collisions to occur frequently."},
+{t:"exp", id:"exp-06", front:"Describe how you would find the INITIAL rate and the MAXIMUM rate of reaction from a concentration-time graph, without doing any actual calculations.", back:"Initial rate: draw a tangent to the curve at time = 0 (the very start of the graph) and measure its gradient. Maximum rate: identify the STEEPEST point on the curve (often not at t=0 for an autocatalytic or induction-period reaction), draw a tangent there, and measure its gradient — the steeper tangent corresponds to the higher (maximum) rate."},
+{t:"exp", id:"exp-07", front:"For many reactions, initial rate and maximum rate are the same, but in an experiment with an induction/lag period, they differ. Explain why.", back:"If the reaction shows an induction period (e.g. an autocatalytic reaction, or one needing an intermediate to build up first), the rate is initially SLOW (low gradient at t=0, giving a low 'initial rate') but then INCREASES as the reaction proceeds, reaching a genuinely FASTER, steeper gradient at some later point — this later, steeper point is the 'maximum rate', which is therefore GREATER than (and different from) the initial rate measured right at the start."},
+{t:"exp", id:"exp-08", front:"Give a reason why the measurement of the INITIAL rate of reaction is likely to be LESS accurate than the measurement of the MAXIMUM rate, when drawing tangents from a concentration-time graph with an induction period.", back:"At the very start of the graph (t=0), the curve is changing shape/gradient rapidly and may have a shallow, less well-defined slope over a short region, making it harder to draw an accurate, well-fitting tangent — at the point of MAXIMUM rate (typically where the curve is steepest and most linear over a wider stretch), the tangent line is easier to draw accurately and consistently."},
+{t:"exp", id:"exp-09", front:"⚠ EXAMINER TRAP: A student always draws the tangent for 'initial rate' exactly at t=0 without checking whether the graph shows an induction period first. Why can this default assumption be wrong?", back:"For a REGULAR (non-autocatalytic) reaction, the initial rate genuinely IS the steepest point, found by a tangent at t=0. But for reactions with an induction period or autocatalysis, the curve may start SHALLOW (slow) and only become steep LATER — always inspect the actual SHAPE of the given graph before assuming t=0 gives the fastest gradient; the 'maximum rate' tangent may need to be drawn at a different point along the curve entirely, not automatically at the start.", trap:true},
+
+// ===================== INDUSTRIAL CONTEXT: RATE, YIELD & COMPROMISE CONDITIONS =====================
+{t:"ind", id:"ind-01", front:"Evaluate changing the conditions for 2SO₂(g)+O₂(g)⇌2SO₃(g) (ΔrH=−197 kJ mol⁻¹) from 420°C/1.7 atm to 600°C/10 atm, in terms of rate, yield and economics.", back:"RATE: both higher temperature AND higher pressure increase the rate of reaction (more frequent, more energetic collisions). YIELD: the forward reaction is EXOTHERMIC, so INCREASING temperature to 600°C will DECREASE the equilibrium yield (shifts position of equilibrium backward, by Le Chatelier); since moles of gas DECREASE left-to-right (3 mol → 2 mol), INCREASING pressure to 10 atm will INCREASE the yield (favours the side with fewer gas moles). ECONOMICS: higher temperature and pressure both increase running/plant costs (more energy input, stronger/more expensive equipment needed to withstand higher pressure) — an overall evaluation must weigh the FASTER rate and pressure-driven yield increase against the temperature-driven yield DECREASE and the higher economic cost, concluding whether the proposed change is worthwhile on balance."},
+{t:"ind", id:"ind-02", front:"Explain why a catalyst is used in the industrial process to manufacture methanol from carbon monoxide and hydrogen.", back:"A catalyst increases the RATE of the reaction (by providing an alternative pathway with lower activation energy), allowing methanol to be produced more quickly/economically at a given (often lower, cost-saving) temperature, WITHOUT altering the equilibrium position/yield of the reaction — this improves the economic efficiency of the industrial process."},
+{t:"ind", id:"ind-03", front:"Step 2 of methanol synthesis is carried out at a 'compromise' temperature of 500 K. Explain why this is a compromise, considering what happens at higher and lower temperatures.", back:"At a HIGHER temperature, the RATE of reaction would be faster (more successful collisions), but if the forward reaction is exothermic, the EQUILIBRIUM YIELD would DECREASE (position shifts backward by Le Chatelier). At a LOWER temperature, the equilibrium YIELD would be higher (more product at equilibrium), but the RATE would be much slower (uneconomically slow, taking too long to reach equilibrium). 500 K is chosen as a compromise that gives an ACCEPTABLE combination of reasonable rate and reasonable yield, balancing these two competing factors for overall economic efficiency."},
+{t:"ind", id:"ind-04", front:"Explain the effects of increasing pressure on BOTH the yield and the rate of a gas-phase equilibrium reaction where moles of gas decrease from reactants to products (e.g. CO + 2H₂ ⇌ CH₃OH).", back:"YIELD: increasing pressure shifts the position of equilibrium towards the side with FEWER moles of gas (the product side, methanol, since 3 mol of gaseous reactant become 1 mol of gaseous product) — this INCREASES the equilibrium yield of methanol. RATE: increasing pressure increases the concentration of gas molecules in a given volume, increasing the frequency of successful collisions, which INCREASES the rate of reaction. (Both effects favour higher pressure, though the trade-off is the increased cost/engineering demands of operating at high pressure.)"},
+{t:"ind", id:"ind-05", front:"⚠ EXAMINER TRAP: A student explains a compromise temperature/pressure using ONLY the effect on rate, forgetting to also discuss the effect on equilibrium YIELD (or vice versa). Why do these 'evaluate' style questions specifically require BOTH factors?", back:"Extended 'evaluate the feasibility of these changes' questions (often worth 6 marks) specifically test whether a student can weigh MULTIPLE competing factors together — rate, yield, AND economics — rather than discussing just one in isolation. A conclusion based only on rate ('faster is always better') or only on yield ('more product is always better') misses the necessary trade-off reasoning the mark scheme rewards; a genuine EVALUATION must explicitly state which factors point one way, which point the other way, and reach a balanced, justified conclusion.", trap:true},
+];
+
+const TABS = [
+  {key:"mb", label:"Collision Theory & M-B"},
+  {key:"cat", label:"Catalysis & Profiles"},
+  {key:"exp", label:"Experimental Rate Determination"},
+  {key:"ind", label:"Industrial Rate/Yield Trade-offs"},
+];
+
+const STORAGE_KEY = "chemT9KineticsIProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{ const raw = localStorage.getItem(STORAGE_KEY); progress = raw ? JSON.parse(raw) : {}; }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function renderTabs(){
+  const bar = document.getElementById("tabBar"); bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+  if(activeTab==="ind"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> 'Evaluate' style industrial questions (worth up to 6 marks) always want RATE, YIELD, and ECONOMICS discussed together with a balanced conclusion — never answer with just one factor, even if it seems like the obvious point.";
+    container.appendChild(note);
+  }
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id"; idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge"; badge.textContent = "⚠ Examiner Trap";
+      el.appendChild(badge);
+    }
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    body.innerHTML = isFlipped ? `<span class="label">Answer</span>${c.back}` : `<span class="label">Question</span>${c.front}`;
+    el.appendChild(body);
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn"; knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn"; reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn); st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+    container.appendChild(el);
+  });
+}
+function renderAll(){ renderTabs(); renderProgressBar(); renderStats(); renderCards(); }
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {}; saveProgress(); renderAll();
+  }
+}
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
