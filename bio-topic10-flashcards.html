@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Biology — Topic 10: Ecosystems</title>
+<style>
+  :root{
+    --bg:#0f1416;
+    --panel:#171f22;
+    --panel-2:#1d272b;
+    --border:#2a373c;
+    --text:#e8eef0;
+    --muted:#8fa3a9;
+    --accent:#4fd1a5;
+    --accent-dim:#2a6b56;
+    --trap:#e8a23d;
+    --trap-bg:#3a2c15;
+    --know:#4fd1a5;
+    --review:#e8626a;
+    --card-front:#1a2327;
+    --card-back:#16232a;
+    font-size:16px;
+  }
+  *{box-sizing:border-box;}
+  html,body{margin:0;padding:0;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+    -webkit-font-smoothing:antialiased;
+    padding-bottom:60px;
+  }
+  header{
+    padding:22px 16px 14px;
+    text-align:center;
+    border-bottom:1px solid var(--border);
+    background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);
+  }
+  header h1{
+    margin:0 0 4px;
+    font-size:1.3rem;
+    font-weight:700;
+    letter-spacing:-0.01em;
+  }
+  header p{
+    margin:0;
+    color:var(--muted);
+    font-size:0.85rem;
+  }
+  .deck-stats{
+    display:flex;
+    justify-content:center;
+    gap:18px;
+    margin-top:12px;
+    font-size:0.78rem;
+    color:var(--muted);
+  }
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+
+  nav.tabs{
+    display:flex;
+    overflow-x:auto;
+    gap:6px;
+    padding:12px 12px 8px;
+    -webkit-overflow-scrolling:touch;
+    scrollbar-width:none;
+  }
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{
+    flex:0 0 auto;
+    background:var(--panel);
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:8px 13px;
+    border-radius:20px;
+    font-size:0.76rem;
+    white-space:nowrap;
+    cursor:pointer;
+    transition:all .15s ease;
+  }
+  .tab-btn .count{
+    display:inline-block;
+    margin-left:6px;
+    font-size:0.68rem;
+    color:var(--accent);
+    opacity:0.85;
+  }
+  .tab-btn.active{
+    background:var(--accent-dim);
+    border-color:var(--accent);
+    color:#eafff6;
+  }
+
+  .progress-wrap{
+    padding:0 16px 4px;
+  }
+  .progress-bar{
+    height:6px;
+    background:var(--panel);
+    border-radius:4px;
+    overflow:hidden;
+    border:1px solid var(--border);
+  }
+  .progress-fill{
+    height:100%;
+    background:linear-gradient(90deg, var(--accent-dim), var(--accent));
+    transition:width .3s ease;
+  }
+  .progress-label{
+    font-size:0.72rem;
+    color:var(--muted);
+    margin-top:4px;
+    display:flex;
+    justify-content:space-between;
+  }
+
+  main{
+    max-width:640px;
+    margin:0 auto;
+    padding:14px 16px 8px;
+  }
+
+  .card{
+    position:relative;
+    background:var(--card-front);
+    border:1px solid var(--border);
+    border-radius:14px;
+    margin-bottom:14px;
+    min-height:150px;
+    cursor:pointer;
+    transition:border-color .2s ease, transform .12s ease;
+    overflow:hidden;
+  }
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);}
+  .card.review{border-color:var(--review);}
+
+  .card-top{
+    display:flex;
+    justify-content:space-between;
+    align-items:flex-start;
+    padding:12px 16px 0;
+  }
+  .card-id{
+    font-size:0.68rem;
+    color:var(--muted);
+    letter-spacing:0.03em;
+    text-transform:uppercase;
+  }
+  .status-chip{
+    font-size:0.65rem;
+    padding:2px 8px;
+    border-radius:10px;
+    background:var(--panel-2);
+    color:var(--muted);
+  }
+  .status-chip.known{background:rgba(79,209,165,0.15);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+
+  .trap-badge{
+    display:inline-flex;
+    align-items:center;
+    gap:4px;
+    font-size:0.68rem;
+    color:var(--trap);
+    background:var(--trap-bg);
+    padding:2px 8px;
+    border-radius:10px;
+    margin:8px 16px 0;
+    width:fit-content;
+    font-weight:600;
+  }
+
+  .card-body{
+    padding:10px 16px 16px;
+    font-size:0.95rem;
+    line-height:1.5;
+  }
+  .card-body.answer{
+    color:#cfe8de;
+  }
+  .card-body .label{
+    display:block;
+    font-size:0.68rem;
+    text-transform:uppercase;
+    letter-spacing:0.05em;
+    color:var(--muted);
+    margin-bottom:4px;
+  }
+  .hint{
+    text-align:center;
+    font-size:0.72rem;
+    color:var(--muted);
+    padding:0 16px 12px;
+  }
+
+  .self-test{
+    display:flex;
+    gap:8px;
+    padding:0 16px 16px;
+  }
+  .st-btn{
+    flex:1;
+    padding:9px 0;
+    border-radius:10px;
+    border:1px solid var(--border);
+    background:var(--panel);
+    color:var(--text);
+    font-size:0.82rem;
+    cursor:pointer;
+    font-weight:600;
+  }
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+
+  footer{
+    max-width:640px;
+    margin:10px auto 0;
+    padding:10px 16px 30px;
+    text-align:center;
+  }
+  .reset-btn{
+    background:none;
+    border:1px solid var(--border);
+    color:var(--muted);
+    padding:8px 16px;
+    border-radius:10px;
+    font-size:0.75rem;
+    cursor:pointer;
+  }
+
+  .section-note{
+    font-size:0.78rem;
+    color:var(--muted);
+    background:var(--panel);
+    border:1px solid var(--border);
+    border-radius:10px;
+    padding:10px 14px;
+    margin-bottom:14px;
+    line-height:1.5;
+  }
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 10 — Ecosystems</h1>
+  <p>Edexcel Biology B (9BI0) · Spec points 10.1–10.4 · Paper 2 &amp; 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+// ===================== 10.1 THE NATURE OF ECOSYSTEMS =====================
+{t:"10.1", id:"10.1-01", front:"Define ecosystem, and name the size hierarchy from biosphere down to microhabitat.", back:"An ecosystem is all the organisms living in a particular area (the community) together with all the non-living (abiotic) conditions found there. Ecosystems vary in size, from the biosphere (all life-supporting environments on Earth) down to a biome (a major ecosystem type, e.g. tundra, desert), to a habitat, down to a microhabitat (a very small-scale specific environment, e.g. under a single rock)."},
+{t:"10.1", id:"10.1-02", front:"Distinguish species biodiversity (richness and evenness), habitat biodiversity, and genetic biodiversity.", back:"Species biodiversity: a measure of species richness (number of different species) AND species evenness (how equally represented individuals of each species are) within a habitat. Habitat biodiversity: a measure of the number of different habitats found within an area. Genetic biodiversity: a measure of the variety of alleles/genes within a species."},
+{t:"10.1", id:"10.1-03", front:"Describe the ACFOR scale, and state what type of sampling method it is used for.", back:"ACFOR is a category-based (non-numerical) method for estimating and comparing the rough abundance of a species in an area, scoring it as Abundant, Common, Frequent, Occasional, Rare, or None. It is a quicker, more subjective alternative to counting exact numbers, often used for mobile or hard-to-count organisms."},
+{t:"10.1", id:"10.1-04", front:"Distinguish random sampling and stratified sampling, and explain why each is used.", back:"Random sampling: sample points are chosen without bias (e.g. using random coordinates from a grid), avoiding the surveyor unconsciously choosing 'interesting-looking' areas — this gives a representative sample of a UNIFORM habitat. Stratified sampling: the area is first divided into distinct sub-habitats/zones (e.g. shaded vs sunny areas), and samples are then taken from each zone in proportion to its area — this is used when a habitat is NOT uniform, ensuring all sub-habitat types are proportionally represented rather than randomly missed."},
+{t:"10.1", id:"10.1-05", front:"Devise an investigation to show how the distribution of an organism (e.g. lichen on bare rock) is affected by a named abiotic factor (e.g. light intensity).", back:"Lay a transect line (or use random/stratified quadrat placement) across the area, from a location with high values of the factor to one with low values (e.g. from open, well-lit rock to shaded rock). At intervals along the transect, use a quadrat to record lichen abundance (e.g. % cover or ACFOR score), and at the same points, measure the abiotic factor (e.g. light intensity using a light meter/data logger, taking repeat readings at each point for reliability). Keep all other conditions as similar as possible between sample points, then plot lichen abundance against the measured abiotic factor to look for a relationship/correlation."},
+{t:"10.1", id:"10.1-06", front:"A student compares the height of a plant species growing in two different habitats (meadow vs sand dunes). State a suitable null hypothesis, and explain which statistical test would be most appropriate.", back:"Null hypothesis: there is no significant difference in the height of [named plant] growing in meadows compared with sand dunes. A t-test would be most appropriate, since this compares the MEANS of two independent sets of continuous (numerical) data (plant height in the two different habitats) to determine whether any difference between them is statistically significant or likely due to chance."},
+{t:"10.1", id:"10.1-07", front:"Explain how to calculate the total (estimated) number of individuals of a species in a large area, from a quadrat sample.", back:"Calculate the mean number of individuals per quadrat (from several quadrat samples), then multiply this mean by (total area of the habitat ÷ area of one quadrat) to scale up the sample density to the whole habitat area, giving an estimated total population."},
+{t:"10.1", id:"10.1-08", front:"A student's population estimate (calculated from one quadrat) is considered inaccurate. Explain how the method could be modified to obtain more accurate results.", back:"Take a LARGER NUMBER of quadrat samples (rather than just one), placed randomly or systematically across the whole area, and calculate the mean count per quadrat from this larger sample — a single quadrat is unlikely to be representative of the whole habitat, since distribution is rarely perfectly uniform, so increasing sample size reduces the impact of any localised unevenness in distribution on the final estimate."},
+{t:"10.1", id:"10.1-09", front:"Which statistical test should be used to determine if there is an ASSOCIATION between two variables (e.g. length of time since glacial ice melted, and soil depth)?", back:"A correlation coefficient (e.g. Spearman's rank correlation coefficient) — this is used to test for an association/relationship between two continuous variables, unlike Chi-squared (tests observed vs expected frequency in categories), standard deviation (measures spread/variability of a single data set), or a t-test (compares the means of two data sets)."},
+{t:"10.1", id:"10.1-10", front:"⚠ EXAMINER TRAP: A student picks Chi-squared to test whether there's an association between two continuous variables (e.g. soil depth and time since ice melted). Why is this the wrong test?", back:"Chi-squared is used to compare OBSERVED frequency data against EXPECTED frequency data in distinct CATEGORIES (e.g. genetic cross ratios) — it is not appropriate for testing a relationship/association between two continuous numerical variables. For that, a correlation coefficient (e.g. Spearman's rank) is the correct test. Picking the wrong statistical test for the type of data given is one of the most common errors across the whole specification, not just this subtopic.", trap:true},
+
+// ===================== 10.2 ENERGY TRANSFER IN ECOSYSTEMS =====================
+{t:"10.2", id:"10.2-01", front:"Define gross primary productivity (GPP), and state its typical units.", back:"Gross primary productivity is the total rate at which producers (e.g. plants) convert light energy into chemical energy (via photosynthesis) within a given area, over a given time. Typical units: kJ m⁻² yr⁻¹ (or year⁻¹)."},
+{t:"10.2", id:"10.2-02", front:"Define net primary productivity (NPP), and give the equation linking it to GPP.", back:"Net primary productivity is the energy remaining, available to primary consumers (or for the producers' own growth/storage), after respiratory losses by the producer have been subtracted from the gross primary productivity. NPP = GPP − R (where R is the energy lost by the producer through respiration)."},
+{t:"10.2", id:"10.2-03", front:"Describe what happens to the energy in plants that are NOT eaten by a primary consumer (e.g. cattle).", back:"This uneaten plant material eventually dies and is broken down by decomposers (saprophytic bacteria and fungi), which respire the organic matter, releasing the remaining chemical energy as heat to the environment (and recycling nutrients back into the soil/ecosystem) — it does not simply disappear or get passed further along the food chain untouched."},
+{t:"10.2", id:"10.2-04", front:"State the formula for calculating the percentage efficiency of energy transfer between two trophic levels.", back:"Percentage efficiency = (energy available at the higher trophic level ÷ energy available at the lower trophic level) × 100%."},
+{t:"10.2", id:"10.2-05", front:"Explain why the efficiency of energy transfer differs between different trophic levels/stages in a food chain.", back:"Not all energy taken in at one trophic level is available to be passed to the next: some energy is lost in respiration (as heat, used for movement/metabolism), some is lost in waste materials (faeces, urine) that are not digested/absorbed, and some parts of the organism (e.g. bones, some plant material) may not be eaten at all by the next consumer. The relative proportion of energy lost this way varies between different trophic levels/organisms/ecosystems, which is why transfer efficiency is not identical at every stage."},
+{t:"10.2", id:"10.2-06", front:"Give one reason why the transfer of energy from sunlight to producers (via photosynthesis) is far less than 100% efficient.", back:"Much of the light energy reaching a plant is not absorbed at all (e.g. it is reflected off the leaf surface, transmitted straight through the leaf, or is of a wavelength not absorbed by photosynthetic pigments), and even of the light that IS absorbed, only a fraction is actually converted into chemical energy in organic molecules via photosynthesis, with more lost as heat."},
+{t:"10.2", id:"10.2-07", front:"Explain why energy is lost between the producer and primary consumer trophic levels (i.e. why NPP available to a herbivore is less than the total energy captured by the plant).", back:"Some of the plant's energy is used up by the plant's own respiration before a consumer even eats it (this is the difference between GPP and NPP); some plant material is not eaten at all (e.g. roots, or parts inaccessible to the herbivore); and of what IS eaten, not all is digested/absorbed (some passes out as undigested waste/egestion) — only the energy actually absorbed and available for growth in the primary consumer's own biomass is passed on to be available to the next trophic level."},
+{t:"10.2", id:"10.2-08", front:"Explain the advantage to the ecosystem of fungal spores being spread in the faeces of an animal (e.g. Gilbert's potoroo, which eats mainly fungi).", back:"As the animal moves around its habitat, spores are deposited (in faeces) at NEW locations away from the parent fungus, allowing the fungus to colonise/germinate in new areas without competing directly with the parent, INCREASING the geographic distribution/range of the fungus. Since many fungi form mycorrhizal relationships that help plant roots absorb water/minerals, this can also help support wider plant growth and overall ecosystem health across a larger area."},
+{t:"10.2", id:"10.2-09", front:"Explain what net primary productivity (NPP) tells you about an ecosystem's growth, and how it might be affected by a parasitic plant (e.g. mistletoe) reducing a host tree's photosynthetic leaf area or increasing its water loss.", back:"NPP represents the energy available for a producer's own growth and for supporting primary consumers/other trophic levels. A parasite like mistletoe can increase the host tree's water loss (mistletoe draws water via the xylem and has its own high transpiration rate) and may reduce the effective photosynthetic capacity of the host (competing for resources), REDUCING the host tree's NPP compared with an uninfected control tree, since more of the tree's captured energy/resources are diverted to coping with the parasite rather than being available for the tree's own growth."},
+{t:"10.2", id:"10.2-10", front:"Explain why temperature can have different effects on NPP at different light intensities (e.g. in an investigation of willow trees at high vs low light).", back:"At LOW light intensity, light is the limiting factor for photosynthesis, so increasing temperature has little/no effect on NPP (since the rate is capped by light availability, not by enzyme-driven reaction rate). At HIGH light intensity, light is no longer limiting, so temperature CAN become the limiting factor — within the normal range, increasing temperature increases enzyme activity (e.g. RuBisCO and other Calvin cycle enzymes), increasing the rate of photosynthesis and therefore NPP, up to an optimum before enzymes begin to denature."},
+{t:"10.2", id:"10.2-11", front:"⚠ EXAMINER TRAP: A student explains 'energy lost between trophic levels' using only 'because of respiration.' Why does this single-reason answer lose marks?", back:"Full-mark answers on energy loss between trophic levels typically require MULTIPLE distinct reasons: energy lost as heat via respiration, energy lost in egested/undigested waste (faeces), and energy in body parts NOT eaten by the next consumer (e.g. bones, roots, indigestible material). Giving only 'respiration' as the sole reason, when the question is worth several marks, misses the other equally creditable marking points — always list all three categories of loss where the mark allocation suggests more than one reason is expected.", trap:true},
+
+// ===================== 10.3 CHANGES IN ECOSYSTEMS =====================
+{t:"10.3", id:"10.3-01", front:"Define ecological succession.", back:"The process by which an ecosystem changes over time, through a series of stages (seres), as different species colonise an area and gradually alter the abiotic conditions, allowing new species to out-compete and replace earlier ones, eventually reaching a relatively stable climax community."},
+{t:"10.3", id:"10.3-02", front:"Distinguish primary succession from secondary succession.", back:"Primary succession occurs on a completely new, previously uncolonised substrate with no existing soil or organisms present (e.g. bare rock left by a retreating glacier, or new volcanic rock). Secondary succession occurs on an area where soil already exists and organisms were previously present, but the existing community has been cleared/destroyed (e.g. by fire, or an abandoned agricultural field) — because soil and seed banks are already present, secondary succession typically proceeds much faster than primary succession."},
+{t:"10.3", id:"10.3-03", front:"Explain how lichens act as pioneer species in primary succession on bare rock, and how they contribute to soil formation.", back:"Lichens (a symbiosis of fungus and algae) can survive on bare rock with minimal nutrients, since the algal component photosynthesises and the fungal component can absorb minerals and retain water. As lichens grow, they physically and chemically break down (weather) the rock surface, and when they die, their organic remains decompose, adding organic matter (humus) — this combination of weathered rock particles and organic matter begins to form a thin, basic soil, which can then support small pioneer plants such as mosses."},
+{t:"10.3", id:"10.3-04", front:"Explain how succession brings about changes in soil composition over time (e.g. as observed on ground newly exposed by a retreating glacier).", back:"As successive generations of pioneer and then larger plant species colonise the area, colonising organisms die and decompose, progressively adding more organic matter (humus) to the soil, which increases the soil's water-holding capacity and nutrient (mineral ion) content. Plant roots also help stabilise the soil and increase its depth by breaking up the underlying rock/substrate further. Over time this increasingly fertile, deeper soil is able to support larger, more demanding plant species (e.g. shrubs, then trees), continuing the succession."},
+{t:"10.3", id:"10.3-05", front:"Describe the general trend in species diversity (index of diversity) as succession proceeds towards a climax community.", back:"Species diversity generally INCREASES as succession proceeds, since improving abiotic conditions (soil depth, nutrients, water retention) and increasing habitat complexity (e.g. more vertical layers of vegetation) allow a wider range of species to survive and coexist — though diversity may eventually plateau or even slightly decline in a mature climax community if a small number of dominant, highly competitive species (e.g. large trees) begin to out-compete and exclude some others."},
+{t:"10.3", id:"10.3-06", front:"Explain, using the example of mature coniferous forest replacing an abandoned agricultural field, why plant biomass INCREASES but the index of diversity of animals may eventually PLATEAU or DECREASE over 50 years of succession.", back:"As succession proceeds, larger, longer-lived plant species (e.g. coniferous trees) accumulate increasing amounts of biomass over time (increasing stem/branch/root mass), so total plant biomass rises steadily. However, dense coniferous canopy sheds few leaves and creates heavy shading, and produces less varied plant material/habitat structure at ground level than the diverse plant community present earlier in succession — this can REDUCE the variety of food sources and habitats available to animals, causing animal species diversity to plateau or even decline once the coniferous climax stage dominates, despite total biomass continuing to increase."},
+{t:"10.3", id:"10.3-07", front:"Give the formula for calculating an index of diversity (D), used to compare biodiversity in a succession/conservation investigation.", back:"D = N(N−1) ÷ Σn(n−1), where N is the total number of organisms of ALL species, and n is the number of organisms of EACH individual species (summed, Σ, across all species present)."},
+{t:"10.3", id:"10.3-08", front:"Explain why calculating an index of diversity is a better measure of biodiversity than simply counting the number of different species present.", back:"Species count alone (richness) doesn't account for how evenly individuals are distributed between the different species (evenness) — a habitat could contain many species but be dominated by just one or two of them, making it functionally less diverse than a habitat with the same number of species more evenly represented. The index of diversity incorporates both richness AND evenness into a single value, giving a more complete and meaningful measure of overall biodiversity."},
+{t:"10.3", id:"10.3-09", front:"Explain how the introduction of an invasive species (e.g. the brown tree snake introduced to Guam) can affect the biodiversity/index of diversity of native species.", back:"An invasive predator with no natural predators of its own in the new environment can prey heavily on native species (e.g. birds) that have no evolved defences against it, causing native population numbers/species richness to fall sharply. This directly reduces species evenness and richness among the native community, lowering the calculated index of diversity for that group, and can also have cascading effects on other species that depended on the now-declining prey species (e.g. loss of seed dispersal or pollination services previously provided by the affected birds)."},
+{t:"10.3", id:"10.3-10", front:"Explain why hedgerows around agricultural fields can benefit crop yield, based on typical trends in crop yield, temperature and wind speed measured moving away from a hedge into the centre of a field.", back:"Hedgerows can act as a windbreak, reducing wind speed in the area of field close to the hedge (reducing physical damage to crops and reducing excessive evaporative water loss/cooling), and may also buffer temperature extremes near the hedge — both effects can support higher crop yield near the hedge compared with the more exposed field centre. Hedgerows also provide habitat for pollinators and natural predators of crop pests, which can further support yield by improving pollination and reducing pest damage across the field, alongside supporting wider farmland biodiversity."},
+{t:"10.3", id:"10.3-11", front:"When comparing the mean growth rate of Christmas trees under two weed-control methods (hand-weeding vs herbicide), name two BIOTIC variables that should be controlled for a valid comparison.", back:"Examples include: using trees of the same species/genetic variety, starting with trees of the same initial age/size, controlling for the presence/absence of pests or disease between the two plots, and ensuring similar levels of competition from any remaining weed species not fully removed by either method — any biotic (living-organism-related) factor, other than the weed-control method itself, that could independently affect tree growth."},
+{t:"10.3", id:"10.3-12", front:"⚠ EXAMINER TRAP: A student says 'succession always increases biodiversity, all the way to the climax community.' Why is this an oversimplification worth qualifying carefully in an exam answer?", back:"While biodiversity generally increases through most of succession, in some cases (e.g. dense coniferous forest, or other cases where one strongly dominant/competitive species eventually excludes many others) diversity can PLATEAU or even DECLINE as the climax community is approached, because the dominant climax species reduces the range of available niches/resources for other species. Exam data-response questions on succession specifically test whether students can read the ACTUAL trend shown in the given data, rather than assuming the textbook 'diversity always increases' pattern applies universally without checking the graph.", trap:true},
+
+// ===================== 10.4 HUMAN EFFECTS ON ECOSYSTEMS =====================
+{t:"10.4", id:"10.4-01", front:"Give three ways humans have influenced ecosystems.", back:"1) Increasing atmospheric carbon dioxide and other pollutants, contributing to climate change. 2) Depleting biological resources through overexploitation (e.g. overfishing). 3) Destroying/fragmenting natural habitats for buildings, farmland, or resource extraction."},
+{t:"10.4", id:"10.4-02", front:"Define global warming.", back:"The gradual increase in the average temperature of the Earth's atmosphere and surface, largely attributed to increased concentrations of greenhouse gases (e.g. carbon dioxide, methane) from human activity enhancing the greenhouse effect."},
+{t:"10.4", id:"10.4-03", front:"Describe the role of international treaties such as CITES in maintaining global biodiversity.", back:"CITES (Convention on International Trade in Endangered Species) regulates and restricts international trade in endangered species and products derived from them, aiming to ensure that international trade does not threaten the survival of these species in the wild, and encourages international cooperation on conservation."},
+{t:"10.4", id:"10.4-04", front:"Describe two limitations of CITES in effectively conserving species such as elephants.", back:"CITES relies on individual countries agreeing to (and effectively enforcing) the restrictions, so it has no direct power in countries that haven't signed up or don't enforce it strictly; illegal trade/poaching can still continue outside the legal, monitored trade routes CITES regulates (i.e. it doesn't stop illegal black-market activity); and it primarily addresses TRADE, not other major threats to species survival such as habitat loss/destruction, which CITES does not directly control."},
+{t:"10.4", id:"10.4-05", front:"Give two advantages of in-situ conservation of a species (e.g. elephants) compared with ex-situ conservation.", back:"1) The species continues to live in its natural habitat, maintaining its natural behaviours and ecological role within that ecosystem (e.g. elephants' role in seed dispersal and vegetation management). 2) It conserves the WHOLE natural ecosystem/habitat and its full biodiversity, not just the single target species, and avoids the reduced genetic diversity typically seen in small, captive ex-situ breeding populations."},
+{t:"10.4", id:"10.4-06", front:"Explain why the Northern elephant seal population, despite recovering from around 20 individuals to over 100,000, still shows health problems such as high pup mortality, deformities and weak immune systems.", back:"When the population was reduced to only about 20 individuals (a genetic bottleneck), only the limited alleles present in those survivors could be passed on to all subsequent generations, severely reducing genetic diversity. Even though the population has since grown to a large number, every individual descends from that same narrow gene pool, so genetic diversity remains low — this increases the frequency of harmful recessive alleles being expressed (e.g. in immune function/development) and reduces the population's overall ability to resist disease or adapt to new challenges, since low genetic diversity provides less raw material for natural selection to act on."},
+{t:"10.4", id:"10.4-07", front:"Describe the general relationship shown between the percentage of land protected from deforestation and the percentage of species conserved.", back:"Protecting a greater percentage of land generally results in a higher percentage of species conserved, but the relationship shows diminishing returns: percentage of species conserved rises steeply for the first portion of land protected, but the curve then LEVELS OFF, meaning that protecting additional land beyond a certain point yields progressively smaller increases in the percentage of species conserved."},
+{t:"10.4", id:"10.4-08", front:"Explain why dung beetle populations in the UK have declined, and why scientists are concerned about the wider ecological consequences.", back:"Causes include: more land converted to crops/development (less grazing land for dung beetles), animals increasingly kept in sheds over winter rather than fields (removing dung beetles' food source seasonally), habitat fragmentation isolating dung beetle populations (reducing outbreeding/gene flow, similar to the elephant seal bottleneck problem), and routine use of anti-parasitic drugs on livestock that are toxic to dung beetles. Since dung beetles bury dung underground, they help recycle nutrients into soil and remove dung from pasture surfaces (reducing fly/parasite breeding grounds) — their decline could reduce this ecosystem service, potentially affecting soil fertility and pasture health."},
+{t:"10.4", id:"10.4-09", front:"Explain how organic farming (which avoids artificial insecticides, herbicides and fertilisers) tends to affect species diversity of butterflies and other invertebrates compared with conventional farming, and how this effect typically changes with the NUMBER OF YEARS organic methods have been used.", back:"Organic farming generally supports HIGHER species diversity of butterflies/invertebrates than conventional farming, since the absence of insecticides/herbicides preserves more wild plant species (food/host plants for insects) and doesn't directly kill non-target insects. This effect typically becomes MORE pronounced the LONGER organic methods have been used, as plant (and therefore insect) diversity takes time to recover/re-establish after switching away from conventional chemical use — diversity generally increases progressively with more years of organic management, rather than recovering instantly."},
+{t:"10.4", id:"10.4-10", front:"Analyse and evaluate the claim that increased greenhouse gases (climate change, e.g. less snow cover) are directly causing an increase in the frequency of the brown-feather allele in tawny owl populations.", back:"A genuine correlation between DECREASING mean snow depth over time and an INCREASING percentage of brown owls over the same period would SUPPORT the claim, especially if survival data show brown owls have HIGHER survival rates than grey owls specifically in LOW-snow conditions (consistent with natural selection favouring camouflage matching the changed environment). However, a full evaluation should also note: correlation alone doesn't prove causation (other factors could be changing at the same time); the sample/time period and any anomalies in the data should be checked; and the survival-rate data (showing a plausible SELECTION MECHANISM linking snow depth to differential survival) is what makes this a stronger-than-usual case for inferring causation, compared with a bare correlation alone."},
+{t:"10.4", id:"10.4-11", front:"⚠ EXAMINER TRAP: A student assumes a project like the elephant-dung paper scheme (which encourages controlled local access rather than a total exclusion zone) must automatically REDUCE biodiversity compared with a strict protected area. Why should this be checked against the data rather than assumed?", back:"Complete exclusion of local people can create conflict (e.g. farmers burning land in retaliation for crop damage by elephants), which can itself harm biodiversity — whereas a scheme that gives local people an economic incentive to protect the conservation area (e.g. selling elephant-dung paper) may encourage community-led protection and REDUCE damaging retaliatory practices, potentially resulting in an index of diversity that is comparable to or even higher than a strict exclusion zone. Exam questions on this exact Kenyan elephant-dung paper scenario specifically test whether students read the actual index-of-diversity data given, rather than assuming 'more restriction = more conservation success' by default.", trap:true},
+];
+
+const TABS = [
+  {key:"10.1", label:"10.1 Nature of Ecosystems"},
+  {key:"10.2", label:"10.2 Energy Transfer"},
+  {key:"10.3", label:"10.3 Changes in Ecosystems"},
+  {key:"10.4", label:"10.4 Human Effects"},
+];
+
+const STORAGE_KEY = "bioT10EcosystemsProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{
+    const raw = localStorage.getItem(STORAGE_KEY);
+    progress = raw ? JSON.parse(raw) : {};
+  }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }
+  catch(e){ /* storage unavailable — continue silently */ }
+}
+
+function renderTabs(){
+  const bar = document.getElementById("tabBar");
+  bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+
+  if(activeTab==="10.1"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> 10.1 leans heavily on 'devise an investigation' and 'which statistical test' style questions rather than pure recall — practice picking the right test (t-test vs correlation vs Chi-squared) for the data type described, not just memorising definitions.";
+    container.appendChild(note);
+  }
+  if(activeTab==="10.4"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> 10.4 questions are almost always built around a real data set to analyse and evaluate (tawny owls, elephant seals, Kenyan elephant-dung paper) rather than bare recall — practice the 'analyse the data to evaluate this conclusion' answer structure: what supports it, what limits it, what would strengthen the claim.";
+    container.appendChild(note);
+  }
+
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id";
+    idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge";
+      badge.textContent = "⚠ Examiner Trap";
+      el.appendChild(badge);
+    }
+
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    if(!isFlipped){
+      body.innerHTML = `<span class="label">Question</span>${c.front}`;
+    } else {
+      body.innerHTML = `<span class="label">Answer</span>${c.back}`;
+    }
+    el.appendChild(body);
+
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn";
+      knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn";
+      reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn);
+      st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+
+    container.appendChild(el);
+  });
+}
+
+function renderAll(){
+  renderTabs();
+  renderProgressBar();
+  renderStats();
+  renderCards();
+}
+
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {};
+    saveProgress();
+    renderAll();
+  }
+}
+
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
