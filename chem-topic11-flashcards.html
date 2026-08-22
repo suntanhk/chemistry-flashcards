@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry — Topic 11: Equilibrium II</title>
+<style>
+  :root{
+    --bg:#0f1416; --panel:#171f22; --panel-2:#1d272b; --border:#2a373c;
+    --text:#e8eef0; --muted:#8fa3a9; --accent:#4f9cd1; --accent-dim:#2a5a6b;
+    --trap:#e8a23d; --trap-bg:#3a2c15; --know:#4f9cd1; --review:#e8626a;
+    --card-front:#1a2027; --card-back:#16202a; font-size:16px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+  header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);}
+  header h1{margin:0 0 4px;font-size:1.3rem;font-weight:700;letter-spacing:-0.01em;}
+  header p{margin:0;color:var(--muted);font-size:0.85rem;}
+  .deck-stats{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+  nav.tabs{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:20px;font-size:0.72rem;white-space:nowrap;cursor:pointer;transition:all .15s ease;}
+  .tab-btn .count{display:inline-block;margin-left:6px;font-size:0.66rem;color:var(--accent);opacity:0.85;}
+  .tab-btn.active{background:var(--accent-dim);border-color:var(--accent);color:#eaf5ff;}
+  .progress-wrap{padding:0 16px 4px;}
+  .progress-bar{height:6px;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--accent-dim), var(--accent));transition:width .3s ease;}
+  .progress-label{font-size:0.72rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;}
+  main{max-width:640px;margin:0 auto;padding:14px 16px 8px;}
+  .card{position:relative;background:var(--card-front);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;min-height:150px;cursor:pointer;transition:border-color .2s ease, transform .12s ease;overflow:hidden;}
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);} .card.review{border-color:var(--review);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px 0;}
+  .card-id{font-size:0.68rem;color:var(--muted);letter-spacing:0.03em;text-transform:uppercase;}
+  .status-chip{font-size:0.65rem;padding:2px 8px;border-radius:10px;background:var(--panel-2);color:var(--muted);}
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+  .trap-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--trap);background:var(--trap-bg);padding:2px 8px;border-radius:10px;margin:8px 16px 0;width:fit-content;font-weight:600;}
+  .card-body{padding:10px 16px 16px;font-size:0.95rem;line-height:1.5;}
+  .card-body.answer{color:#cfe3f0;}
+  .card-body .label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:4px;}
+  .hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:0 16px 12px;}
+  .self-test{display:flex;gap:8px;padding:0 16px 16px;}
+  .st-btn{flex:1;padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:0.82rem;cursor:pointer;font-weight:600;}
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+  footer{max-width:640px;margin:10px auto 0;padding:10px 16px 30px;text-align:center;}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:10px;font-size:0.75rem;cursor:pointer;}
+  .section-note{font-size:0.78rem;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;line-height:1.5;}
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 11 — Equilibrium II</h1>
+  <p>Edexcel Chemistry A-level (9CH0) · A Level Paper 1 &amp; 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+// ===================== Kc FROM EXPERIMENTAL DATA & ICE TABLES =====================
+{t:"kc", id:"kc-01", front:"In an esterification Kc experiment (ethanoic acid + propan-1-ol, with dilute HCl added), state the role of the hydrochloric acid.", back:"HCl acts as a CATALYST for the esterification reaction — it speeds up the rate at which equilibrium is reached, but is not consumed and does NOT appear in the Kc expression, since it doesn't affect the equilibrium position or Kc value itself."},
+{t:"kc", id:"kc-02", front:"25.0 cm³ of the diluted (250.0 cm³) equilibrium mixture required 23.60 cm³ of 0.200 mol dm⁻³ NaOH to titrate. Calculate the total amount, in moles, of acid in the WHOLE 250.0 cm³ volumetric flask.", back:"Moles NaOH used = (23.60/1000)×0.200 = 0.004720 mol = moles of acid in the 25.0 cm³ sample (1:1 neutralisation). Scale up to the full 250.0 cm³ flask: 0.004720 × (250.0/25.0) = 0.0472 mol total acid in the flask."},
+{t:"kc", id:"kc-03", front:"The 2.0 cm³ of dilute HCl added originally contained 0.00400 mol of H⁺(aq). Use this and the total acid moles (0.0472 mol) to find the moles of ETHANOIC ACID present at equilibrium.", back:"Total acid titrated = ethanoic acid (CH₃COOH) + the catalytic HCl (H⁺) still present, both of which react with NaOH. Moles ethanoic acid = total acid − HCl moles = 0.0472 − 0.00400 = 0.0432 mol."},
+{t:"kc", id:"kc-04", front:"Given 0.105 mol ethanoic acid was used initially, and 0.0432 mol remains at equilibrium, calculate the moles of ethanoic acid that REACTED, then use an ICE-table approach to find the equilibrium moles of propan-1-ol, propyl ethanoate and water (initial: 0.105 mol acid, 0.080 mol alcohol, 0.111 mol water).", back:"Moles reacted = 0.105 − 0.0432 = 0.0618 mol (this equals moles of ester AND water formed, and moles of alcohol consumed, by 1:1:1:1 stoichiometry). Equilibrium propan-1-ol = 0.080 − 0.0618 = 0.0182 mol. Equilibrium propyl ethanoate = 0 + 0.0618 = 0.0618 mol. Equilibrium water = 0.111 + 0.0618 = 0.1728 mol."},
+{t:"kc", id:"kc-05", front:"Write the Kc expression for the esterification: CH₃COOH + C₃H₇OH ⇌ CH₃COOC₃H₇ + H₂O.", back:"Kc = ([CH₃COOC₃H₇][H₂O]) ÷ ([CH₃COOH][C₃H₇OH])"},
+{t:"kc", id:"kc-06", front:"Explain why it is possible to calculate this Kc using equilibrium AMOUNTS IN MOLES, rather than converting to concentrations first.", back:"Since all species (reactants and products) are present in the SAME total volume (the same 250.0 cm³ flask), and the reaction has an EQUAL number of moles on both sides (1 mol acid + 1 mol alcohol ⇌ 1 mol ester + 1 mol water — a total of 2 moles on each side), the volume terms that would convert moles to concentration CANCEL OUT exactly between the numerator and denominator of the Kc expression — so using raw mole amounts gives the identical numerical value as using concentrations would."},
+{t:"kc", id:"kc-07", front:"The pink colour of phenolphthalein fades some time after the titration end-point has been reached. Give a possible explanation.", back:"Adding NaOH at the end-point removes the H⁺ (catalyst) ions from the reaction mixture. Since esterification is a REVERSIBLE, EQUILIBRIUM reaction, removing H⁺ disturbs the (catalysed) equilibrium — without the catalyst present, any remaining ester can very slowly hydrolyse back to acid and alcohol, regenerating H⁺ ions over time, which reacts with the excess NaOH and causes the pink colour to fade back towards colourless."},
+{t:"kc", id:"kc-08", front:"Explain what you could do to confirm that ONE WEEK is sufficient time for the esterification mixture to reach equilibrium.", back:"Repeat the experiment (with a fresh, identical mixture) but leave it for a LONGER time (e.g. two weeks) before titrating. If the titre value (and therefore the calculated Kc) obtained after the longer time is THE SAME (unchanged) as after one week, this confirms one week was already sufficient for the mixture to have reached equilibrium."},
+{t:"kc", id:"kc-09", front:"A student repeated the esterification experiment but kept the mixture in a water bath at 40°C (rather than room temperature) until equilibrium was reached. Deduce the effect, if any, on the value of Kc obtained.", back:"The value of Kc will be DIFFERENT (unless the reaction happens to have ΔH = 0), since Kc is temperature-dependent — Kc is the ONLY equilibrium property that changes with temperature (concentration, pressure and catalysts do not change its VALUE). Whether Kc increases or decreases at 40°C depends on whether the forward (esterification) reaction is exothermic or endothermic: if exothermic, Kc would DECREASE at the higher temperature; if endothermic, Kc would INCREASE."},
+{t:"kc", id:"kc-10", front:"For CH₃COOH + C₂H₅OH ⇌ CH₃COOC₂H₅ + H₂O, Kc = 0.28. Starting with 1.2 mol of EACH reactant (and no products), use an ICE table and the Kc expression to find the equilibrium amounts of ester and water.", back:"Let x = moles reacted at equilibrium. ICE: acid (1.2−x), alcohol (1.2−x), ester (x), water (x). Kc = (x×x)÷((1.2−x)(1.2−x)) = x²÷(1.2−x)² = 0.28. Taking the square root of both sides: x÷(1.2−x) = √0.28 ≈ 0.529. Solving: x = 0.529×(1.2−x) → x = 0.635 − 0.529x → 1.529x = 0.635 → x ≈ 0.415 mol. So equilibrium moles of ester = water ≈ 0.415 mol each."},
+{t:"kc", id:"kc-11", front:"⚠ EXAMINER TRAP: A student assumes moles can ALWAYS be substituted directly into a Kc expression instead of concentrations, for any reaction. Why is this only valid in SPECIFIC circumstances?", back:"Using moles directly (instead of concentration = moles÷volume) only gives the SAME numerical Kc value when ALL species are in the SAME total volume AND the total number of moles of gas/aqueous species is EQUAL on both sides of the equation (so the volume terms cancel exactly). If the mole totals differ between reactant and product sides, the volume terms do NOT fully cancel, and using raw moles instead of true concentrations would give an INCORRECT value — always check both conditions (same volume, equal mole totals) before taking this shortcut.", trap:true},
+
+// ===================== Kp, PARTIAL PRESSURE & MOLE FRACTION =====================
+{t:"kp", id:"kp-01", front:"Give the formula for mole fraction of a gas within a mixture.", back:"Mole fraction of gas X = (moles of gas X) ÷ (total moles of all gases present in the mixture)."},
+{t:"kp", id:"kp-02", front:"Give the formula for the partial pressure of a gas within a mixture.", back:"Partial pressure of gas X = (mole fraction of gas X) × (total pressure of the mixture)."},
+{t:"kp", id:"kp-03", front:"Outline the method to calculate Kp for 2SO₂(g) + O₂(g) ⇌ 2SO₃(g) at 698 K and total pressure 2.40 atm, given the equilibrium composition (moles of each gas).", back:"1) Calculate the TOTAL moles of gas present at equilibrium (sum of SO₂, O₂, SO₃). 2) Calculate the MOLE FRACTION of each gas (moles of that gas ÷ total moles). 3) Calculate the PARTIAL PRESSURE of each gas (mole fraction × total pressure, 2.40 atm). 4) Substitute these partial pressures into the Kp expression: Kp = p(SO₃)² ÷ (p(SO₂)² × p(O₂)), and calculate, including appropriate units (found by cancelling atm units through the expression)."},
+{t:"kp", id:"kp-04", front:"Using Kp for 2SO₂(g) + O₂(g) ⇌ 2SO₃(g), deduce how the number of SO₂ molecules in the equilibrium mixture will change if MORE oxygen is added (at constant temperature).", back:"Since Kp must remain CONSTANT at constant temperature, adding more O₂ (increasing the O₂ term in the denominator) means the position of equilibrium must shift to the RIGHT (favouring SO₃ formation) to keep the Kp expression balanced at its fixed value — this consumes some SO₂ in the process, so the number of SO₂ molecules DECREASES."},
+{t:"kp", id:"kp-05", front:"For C(s) + H₂O(g) ⇌ H₂(g) + CO(g), give a reason why the partial pressure of carbon is NOT included in the Kp expression.", back:"Carbon is a pure SOLID, not a gas — Kp expressions only include the partial pressures of GASEOUS species. A solid does not have a meaningful 'partial pressure' in a gas mixture; its (constant) presence/activity is effectively incorporated into the value of Kp itself, similar to how pure solids are omitted from Kc expressions."},
+{t:"kp", id:"kp-06", front:"At 1000 K and total pressure 2.0 atm, 1.00 mol of steam reacted with excess carbon (C(s)+H₂O(g)⇌H₂(g)+CO(g)). At equilibrium, 0.81 mol of hydrogen was present. Outline how to calculate Kp, stating units.", back:"By stoichiometry (1:1:1), moles CO at equilibrium = moles H₂ = 0.81 mol; moles H₂O remaining = 1.00−0.81 = 0.19 mol. Total moles at equilibrium = 0.19+0.81+0.81 = 1.81 mol. Mole fractions: H₂O=0.19/1.81, H₂=0.81/1.81, CO=0.81/1.81. Partial pressures = mole fraction × 2.0 atm for each. Kp = (p(H₂)×p(CO)) ÷ p(H₂O), giving an answer with units of atm (since one atm term in numerator power total exceeds denominator by 1)."},
+{t:"kp", id:"kp-07", front:"A mixture of 1.0 mol N₂ and 3.0 mol H₂ reaches equilibrium at 700 K, forming 0.30 mol NH₃ (Kp=7.76×10⁻⁵ atm⁻²). Outline the method to calculate the total pressure needed to achieve this yield.", back:"By stoichiometry, moles N₂ remaining = 1.0−0.15=0.85 mol (since 2 mol NH₃ requires 1 mol N₂, so 0.30 mol NH₃ used 0.15 mol N₂); moles H₂ remaining = 3.0−0.45=2.55 mol (0.30 mol NH₃ needs 0.45 mol H₂). Total moles = 0.85+2.55+0.30 = 3.70 mol. Express each partial pressure as (moles/3.70)×P_total. Substitute into the Kp expression (Kp = p(NH₃)²÷(p(N₂)×p(H₂)³)) along with the given Kp value, and rearrange algebraically to solve for the unknown P_total."},
+{t:"kp", id:"kp-08", front:"For a reaction where Δn (moles gas products − moles gas reactants) = −1, what are the possible units of Kp?", back:"Since pressure units (atm) are raised to the power of Δn overall in the Kp expression, a Δn of −1 gives units of atm⁻¹ (i.e. 1/atm) — always derive Kp units by substituting atm for each partial pressure term and cancelling algebraically, based on the specific stoichiometry of the reaction in question, rather than assuming a fixed set of units apply universally."},
+{t:"kp", id:"kp-09", front:"⚠ EXAMINER TRAP: A student forgets to convert moles into MOLE FRACTIONS (and then partial pressures) before substituting into a Kp expression, using raw moles instead. Why is this a critical error specific to Kp (unlike some Kc calculations)?", back:"Kp is defined in terms of PARTIAL PRESSURES, not moles or concentrations directly — raw moles must always be converted via mole fraction (moles of gas ÷ total moles) and then multiplied by total pressure to get partial pressure, before substitution. Unlike some special-case Kc calculations (Topic 11 Q1, where equal mole totals let moles substitute directly), this shortcut does NOT apply to Kp — always complete the full mole → mole fraction → partial pressure chain for Kp questions.", trap:true},
+
+// ===================== EFFECT OF CONDITIONS ON K =====================
+{t:"cond", id:"cond-01", front:"State the ONLY factor that changes the VALUE of an equilibrium constant (Kc or Kp).", back:"TEMPERATURE. Changing concentration, pressure, or adding a catalyst can shift the POSITION of equilibrium (the relative amounts of reactants/products), but none of these change the numerical VALUE of Kc or Kp at a given temperature — only a change in temperature changes the value of K itself."},
+{t:"cond", id:"cond-02", front:"For H₂(g) + I₂(g) ⇌ 2HI(g), ΔH = −9.6 kJ mol⁻¹ (exothermic forward reaction), explain the effect, if any, on the value of Kc when temperature is INCREASED.", back:"Since the forward reaction is EXOTHERMIC, increasing temperature shifts the position of equilibrium to favour the ENDOTHERMIC (reverse) reaction — meaning LESS HI (product) and MORE H₂/I₂ (reactants) are present at the new equilibrium. Since Kc = [HI]²÷([H₂][I₂]), a smaller numerator and larger denominator means the value of Kc DECREASES as temperature increases."},
+{t:"cond", id:"cond-03", front:"For C(s)+H₂O(g)⇌H₂(g)+CO(g), ΔH=+131 kJ mol⁻¹ (endothermic forward reaction), explain, with reference to Kp, the effect of increasing temperature on the equilibrium position.", back:"Since the forward reaction is ENDOTHERMIC, increasing temperature increases the VALUE of Kp (the system favours the endothermic direction, producing more H₂ and CO relative to H₂O) — this increase in Kp reflects the equilibrium position shifting further towards the products (RIGHT) at higher temperature."},
+{t:"cond", id:"cond-04", front:"CO(g)+H₂O(g)⇌CO₂(g)+H₂(g), Kc=1.00 at 1100 K. A mixture initially contains 1 mol CO, 1 mol H₂O, 2 mol CO₂, and 2 mol H₂ (in a fixed volume). Deduce, with reasons, which direction the reaction will shift to reach equilibrium.", back:"Calculate the REACTION QUOTIENT, Qc, using the given (non-equilibrium) amounts in the same expression as Kc: Qc = ([CO₂][H₂])÷([CO][H₂O]) = (2×2)÷(1×1) = 4. Since Qc (4) is GREATER than Kc (1.00), there is currently TOO MUCH product relative to equilibrium — the reaction must shift LEFT (favouring the reverse reaction, consuming CO₂ and H₂, forming more CO and H₂O) to reduce Qc back down to match Kc=1.00."},
+{t:"cond", id:"cond-05", front:"Give the equation relating Kp and Kc, and define Δn within it.", back:"Kp = Kc(RT)^Δn, where Δn = (moles of gaseous PRODUCTS) − (moles of gaseous REACTANTS) in the balanced equation, R is the gas constant, and T is the temperature in Kelvin."},
+{t:"cond", id:"cond-06", front:"Calculate Kc at 500 K for the Haber process, given Kp = 3.55×10⁻² atm⁻² at 500 K. [R = 0.0821 dm³ atm K⁻¹ mol⁻¹]", back:"For N₂+3H₂⇌2NH₃, Δn = 2−(1+3) = −2. Kp = Kc(RT)^Δn → Kc = Kp ÷ (RT)^Δn = Kp × (RT)^(−Δn) = Kp × (RT)². RT = 0.0821×500 = 41.05. Kc = 3.55×10⁻² × (41.05)² ≈ 59.8 (to 3 s.f.), with units dm⁶ mol⁻² (derived from Δn=−2 in the Kc expression)."},
+{t:"cond", id:"cond-07", front:"State the Van't Hoff equation used to calculate an equilibrium constant at a second temperature, given its value at a first temperature and ΔH.", back:"ln(K₂/K₁) = −(ΔH/R) × (1/T₂ − 1/T₁), where K₁ and K₂ are the equilibrium constants at temperatures T₁ and T₂ (in Kelvin), ΔH is the enthalpy change of the forward reaction (J mol⁻¹), and R is the gas constant (J mol⁻¹ K⁻¹)."},
+{t:"cond", id:"cond-08", front:"K₁ = 6.76×10⁵ atm⁻² at T₁=298 K for ammonia formation, ΔH=−92400 J mol⁻¹. Outline the calculation to find K₂ at T₂=310 K. [R=8.31 J mol⁻¹ K⁻¹]", back:"Substitute into ln(K₂/K₁) = −(ΔH/R)×(1/T₂−1/T₁): ln(K₂/6.76×10⁵) = −(−92400/8.31)×(1/310−1/298). Calculate the right-hand side numerically, then take e^(that value) and multiply by K₁ = 6.76×10⁵ to find K₂ (which should come out SMALLER than K₁, consistent with an exothermic reaction and increasing temperature)."},
+{t:"cond", id:"cond-09", front:"The Haber process uses a pressure of 200 atm. Explain the effect, if any, of increasing pressure on the EQUILIBRIUM YIELD of ammonia — and clarify whether this changes Kp.", back:"Increasing pressure shifts the POSITION of equilibrium towards the side with FEWER moles of gas (2 mol NH₃ vs 4 mol total reactant gas, N₂+3H₂), INCREASING the equilibrium yield of ammonia. However, this does NOT change the VALUE of Kp itself — Kp remains constant at a fixed temperature; the increased YIELD simply reflects the new equilibrium AMOUNTS that still satisfy the same, unchanged Kp expression under the new (higher) partial pressures."},
+{t:"cond", id:"cond-10", front:"⚠ EXAMINER TRAP: A student explains an increased ammonia yield at higher pressure by saying 'Kp increases because pressure increases.' Why is this fundamentally wrong?", back:"Kp (like Kc) is UNAFFECTED by a change in pressure — it only changes with TEMPERATURE. Increasing pressure shifts the equilibrium POSITION (the actual amounts/partial pressures of reactants and products present), but the VALUE of Kp itself stays exactly the same at a given temperature; the new equilibrium partial pressures simply satisfy the SAME Kp expression under the new conditions. Confusing 'yield changes' with 'K value changes' when pressure is altered is one of the most fundamental and heavily-tested misconceptions in equilibrium chemistry — always keep 'what changes K' (temperature only) separate from 'what changes position/yield' (concentration, pressure, temperature all can).", trap:true},
+];
+
+const TABS = [
+  {key:"kc", label:"Kc from Experimental Data"},
+  {key:"kp", label:"Kp, Partial Pressure & Mole Fraction"},
+  {key:"cond", label:"Effect of Conditions on K"},
+];
+
+const STORAGE_KEY = "chemT11EquilibriumIIProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{ const raw = localStorage.getItem(STORAGE_KEY); progress = raw ? JSON.parse(raw) : {}; }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function renderTabs(){
+  const bar = document.getElementById("tabBar"); bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+  if(activeTab==="cond"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> The single most important idea in this whole topic: TEMPERATURE is the only thing that changes the VALUE of K. Pressure and concentration only shift the POSITION of equilibrium (yield) — never conflate the two, even when a question is really asking about yield.";
+    container.appendChild(note);
+  }
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id"; idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge"; badge.textContent = "⚠ Examiner Trap";
+      el.appendChild(badge);
+    }
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    body.innerHTML = isFlipped ? `<span class="label">Answer</span>${c.back}` : `<span class="label">Question</span>${c.front}`;
+    el.appendChild(body);
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn"; knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn"; reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn); st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+    container.appendChild(el);
+  });
+}
+function renderAll(){ renderTabs(); renderProgressBar(); renderStats(); renderCards(); }
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {}; saveProgress(); renderAll();
+  }
+}
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
