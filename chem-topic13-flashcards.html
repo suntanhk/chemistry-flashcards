@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry — Topic 13: Kinetics II</title>
+<style>
+  :root{
+    --bg:#0f1416; --panel:#171f22; --panel-2:#1d272b; --border:#2a373c;
+    --text:#e8eef0; --muted:#8fa3a9; --accent:#4f9cd1; --accent-dim:#2a5a6b;
+    --trap:#e8a23d; --trap-bg:#3a2c15; --know:#4f9cd1; --review:#e8626a;
+    --card-front:#1a2027; --card-back:#16202a; font-size:16px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+  header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);}
+  header h1{margin:0 0 4px;font-size:1.3rem;font-weight:700;letter-spacing:-0.01em;}
+  header p{margin:0;color:var(--muted);font-size:0.85rem;}
+  .deck-stats{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+  nav.tabs{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:20px;font-size:0.72rem;white-space:nowrap;cursor:pointer;transition:all .15s ease;}
+  .tab-btn .count{display:inline-block;margin-left:6px;font-size:0.66rem;color:var(--accent);opacity:0.85;}
+  .tab-btn.active{background:var(--accent-dim);border-color:var(--accent);color:#eaf5ff;}
+  .progress-wrap{padding:0 16px 4px;}
+  .progress-bar{height:6px;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--accent-dim), var(--accent));transition:width .3s ease;}
+  .progress-label{font-size:0.72rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;}
+  main{max-width:640px;margin:0 auto;padding:14px 16px 8px;}
+  .card{position:relative;background:var(--card-front);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;min-height:150px;cursor:pointer;transition:border-color .2s ease, transform .12s ease;overflow:hidden;}
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);} .card.review{border-color:var(--review);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px 0;}
+  .card-id{font-size:0.68rem;color:var(--muted);letter-spacing:0.03em;text-transform:uppercase;}
+  .status-chip{font-size:0.65rem;padding:2px 8px;border-radius:10px;background:var(--panel-2);color:var(--muted);}
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+  .trap-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--trap);background:var(--trap-bg);padding:2px 8px;border-radius:10px;margin:8px 16px 0;width:fit-content;font-weight:600;}
+  .card-body{padding:10px 16px 16px;font-size:0.95rem;line-height:1.5;}
+  .card-body.answer{color:#cfe3f0;}
+  .card-body .label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:4px;}
+  .hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:0 16px 12px;}
+  .self-test{display:flex;gap:8px;padding:0 16px 16px;}
+  .st-btn{flex:1;padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:0.82rem;cursor:pointer;font-weight:600;}
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+  footer{max-width:640px;margin:10px auto 0;padding:10px 16px 30px;text-align:center;}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:10px;font-size:0.75rem;cursor:pointer;}
+  .section-note{font-size:0.78rem;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;line-height:1.5;}
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 13 — Kinetics II</h1>
+  <p>Edexcel Chemistry A-level (9CH0) · A Level Paper 2 &amp; 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+// ===================== ORDERS, RATE EQUATIONS & RATE CONSTANT CALCULATIONS =====================
+{t:"orders", id:"orders-01", front:"Ethanal decomposes: CH₃CHO → CH₄ + CO. The reaction is second order with respect to ethanal and second order overall. Write the rate equation, and deduce the units of the rate constant (rate units = mol dm⁻³ s⁻¹).", back:"Rate = k[CH₃CHO]². Rearranging for units: k = rate ÷ [CH₃CHO]² → units = (mol dm⁻³ s⁻¹) ÷ (mol dm⁻³)² = mol⁻¹ dm³ s⁻¹."},
+{t:"orders", id:"orders-02", front:"For NO + Cl₂ reacting to form NOCl, rate = k[NO]²[Cl₂]. Using Experiment 1 data ([NO]=0.10, [Cl₂]=0.10 mol dm⁻³, rate=2.84×10⁻⁶ mol dm⁻³ s⁻¹), outline the calculation of k, including units.", back:"Rearrange: k = rate ÷ ([NO]²[Cl₂]) = 2.84×10⁻⁶ ÷ ((0.10)²×0.10) = 2.84×10⁻⁶ ÷ 1.0×10⁻³ = 2.84×10⁻³. Units: (mol dm⁻³ s⁻¹) ÷ (mol dm⁻³)³ = mol⁻² dm⁶ s⁻¹."},
+{t:"orders", id:"orders-03", front:"Outline the 'initial rates' method for determining the order of reaction with respect to three reactants, X, Y and Z, from a table of experiments.", back:"Compare pairs of experiments where the concentration of ONLY ONE reactant changes between them (all others held constant). Observe how the initial rate changes in response: if concentration doubles and rate is UNCHANGED, order = 0; if rate DOUBLES, order = 1; if rate QUADRUPLES, order = 2 — repeat this comparison separately for X, Y and Z using different pairs of experiments from the table."},
+{t:"orders", id:"orders-04", front:"Haemoglobin (Hb) reacts with carbon monoxide (CO). Doubling [Hb] (with [CO] constant) doubles the initial rate. State the order with respect to Hb, and explain how you would then determine the order with respect to CO from further data.", back:"Order with respect to Hb = 1 (FIRST order), since doubling [Hb] doubles the rate. To find the order with respect to CO: compare two experiments where [Hb] is the SAME but [CO] differs, and observe the resulting change in rate (e.g. if [CO] doubles and rate doubles, order w.r.t. CO = 1; if rate is unchanged, order = 0), using the same doubling-effect logic."},
+{t:"orders", id:"orders-05", front:"Given rate = k[X]²[Y] (third order overall) and a target rate of 4.08×10⁻³ mol dm⁻³ s⁻¹ at 298 K with a known k value and [X], outline how to calculate the required [Y].", back:"Rearrange the rate equation to make the unknown concentration the subject: [Y] = rate ÷ (k×[X]²). Substitute the known rate, k and [X] values, and calculate [Y] with appropriate significant figures and units (mol dm⁻³)."},
+{t:"orders", id:"orders-06", front:"For RBr + OH⁻ → ROH + Br⁻, rate = k[RBr]¹[OH⁻]ˣ. A graph of rate against [OH⁻] (with [RBr] constant) is a HORIZONTAL straight line. Deduce the value of x.", back:"x = 0 (ZERO order with respect to hydroxide ions). A horizontal line means the rate does NOT change as [OH⁻] changes — the rate is independent of hydroxide ion concentration, confirming zero order with respect to OH⁻."},
+{t:"orders", id:"orders-07", front:"State why the order of reaction with respect to iodide ions in the iodate(V)/iodide 'iodine clock' reaction cannot be assumed to be 5, even though the balanced equation shows 5 mol of iodide ions reacting.", back:"The order of reaction with respect to a species can ONLY be determined EXPERIMENTALLY (by observing how rate actually changes with concentration) — it CANNOT be deduced or assumed directly from the stoichiometric coefficients in the balanced overall equation. The overall equation only shows the OVERALL stoichiometry, not the mechanism or kinetics, so a coefficient of 5 does not imply a kinetic order of 5."},
+{t:"orders", id:"orders-08", front:"⚠ EXAMINER TRAP: A student assumes the order of reaction with respect to a reagent always equals its stoichiometric coefficient in the balanced equation. Why is this a fundamental and heavily-tested misconception?", back:"Reaction order can ONLY be found by EXPERIMENT (analysing how rate changes with concentration) — it depends on the REACTION MECHANISM (specifically, only species involved up to and including the rate-determining step affect the rate equation), which is often completely different from the simple stoichiometry of the overall balanced equation. Many reactions have orders that do NOT match their stoichiometric coefficients (e.g. the iodate(V)/iodide reaction, where iodide's coefficient is 5 but its actual kinetic order is different) — never infer order from a balanced equation alone.", trap:true},
+
+// ===================== HALF-LIFE & FIRST-ORDER GRAPHICAL ANALYSIS =====================
+{t:"halflife", id:"halflife-01", front:"Compound A decomposes in a first-order reaction with a constant half-life of 14 minutes. Calculate the time taken for the mass of A to decrease from 600 g to 37.5 g.", back:"600→300→150→75→37.5 g requires FOUR successive halvings (600÷2⁴=37.5). Since each half-life is 14 minutes: total time = 4×14 = 56 minutes."},
+{t:"halflife", id:"halflife-02", front:"Explain how a graph of [RBr] against time can be used to confirm a reaction is FIRST order with respect to RBr, referencing consecutive half-lives.", back:"If the reaction is first order with respect to RBr, the graph of [RBr] against time will show a CONSTANT (equal) HALF-LIFE — the time taken for the concentration to halve is the SAME regardless of the starting concentration at that point on the curve. Measuring two (or more) CONSECUTIVE half-lives directly from the graph (e.g. time to go from initial concentration to half, then from half to a quarter) and confirming they are EQUAL provides direct graphical evidence of first-order kinetics."},
+{t:"halflife", id:"halflife-03", front:"In the iodine/propanone titrimetric experiment, explain how a graph of volume of thiosulfate (proportional to [I₂]) against time confirms the reaction is ZERO order with respect to iodine.", back:"A ZERO order reaction has a rate that is INDEPENDENT of the reactant's concentration — this means the concentration (and therefore the proportional titre volume) DECREASES at a CONSTANT RATE over time, giving a STRAIGHT LINE (linear graph, constant negative gradient) rather than a curve. Observing that the graph of thiosulfate volume against time is a straight line (not curved/exponential decay, as would be seen for first order) confirms the reaction is zero order with respect to iodine."},
+{t:"halflife", id:"halflife-04", front:"For the reaction of a chloroalkane, RCl (in large excess) with hydroxide ions, a graph of [OH⁻] against time is a STRAIGHT LINE. State the order with respect to hydroxide ions, and deduce the type of mechanism (SN1 or SN2) and classification of the chloroalkane.", back:"A straight-line graph indicates ZERO order with respect to hydroxide ions (rate is constant, independent of [OH⁻]). This is consistent with an SN1 (unimolecular nucleophilic substitution) mechanism, where the rate-determining step involves only the chloroalkane (not the hydroxide ion) — SN1 mechanisms are typically associated with TERTIARY chloroalkanes (which form a relatively stable carbocation intermediate)."},
+{t:"halflife", id:"halflife-05", front:"Explain why an average rate calculated between two widely-spaced time points (e.g. 0–420 s) is NOT sufficient, by itself, to distinguish between a reaction being zero, first or second order.", back:"An AVERAGE rate over a time interval doesn't reveal HOW the rate is changing WITHIN that interval — analysing the PATTERN of change across multiple, sequential intervals (not a single average value) is needed to distinguish order — comparing how the rate changes as concentration falls across several intervals reveals whether the rate stays constant (zero order) or falls proportionally (first/second order), which a single average cannot show."},
+{t:"halflife", id:"halflife-06", front:"⚠ EXAMINER TRAP: A student measures only ONE half-life from a concentration-time graph and concludes the reaction is first order. Why is measuring just one half-life insufficient evidence?", back:"A SINGLE half-life measurement cannot distinguish first order from other orders — you need to confirm the half-life stays CONSTANT across at least TWO (ideally more) CONSECUTIVE intervals to demonstrate that half-life is independent of starting concentration, which is the defining signature of first-order kinetics. Always show and compare at least two consecutive half-life measurements from the graph, with working shown.", trap:true},
+
+// ===================== ARRHENIUS EQUATION & ACTIVATION ENERGY =====================
+{t:"arr", id:"arr-01", front:"State the Arrhenius equation, and its linearised (logarithmic) form used for graphical determination of activation energy.", back:"Arrhenius equation: k = Ae^(−Ea/RT). Linearised (taking natural logs of both sides): ln k = −(Ea/R)×(1/T) + ln A — this has the form of a straight line (y=mx+c), where plotting ln k (y-axis) against 1/T (x-axis) gives a straight line with gradient = −Ea/R and y-intercept = ln A."},
+{t:"arr", id:"arr-02", front:"Outline the method to determine the activation energy, Ea, in kJ mol⁻¹, from rate constant data measured at five different temperatures.", back:"Calculate 1/T (in K⁻¹) and ln k for each of the five data points. Plot a graph of ln k (y-axis) against 1/T (x-axis) and draw a best-fit straight line. Calculate the GRADIENT of this line (Δy/Δx), which equals −Ea/R. Rearrange to find Ea = −gradient × R (R=8.31 J mol⁻¹ K⁻¹), then convert the answer from J mol⁻¹ to kJ mol⁻¹ by dividing by 1000."},
+{t:"arr", id:"arr-03", front:"Explain, using the Arrhenius equation, how a catalyst increases the value of the rate constant, k.", back:"A catalyst provides an alternative reaction pathway with a LOWER activation energy, Ea. In the Arrhenius equation, k = Ae^(−Ea/RT), a SMALLER value of Ea makes the exponent (−Ea/RT) LESS negative, so the value of e^(−Ea/RT) INCREASES — since k is directly proportional to this exponential term, a lower Ea (from the catalyst) results in a LARGER value of k (a faster rate constant), without needing any change in temperature."},
+{t:"arr", id:"arr-04", front:"Explain how impurities in the gaseous reactants could make a heterogeneous catalyst (e.g. palladium) LESS effective over time.", back:"Impurity molecules can be strongly and often IRREVERSIBLY ADSORBED onto the active sites of the catalyst surface (catalyst poisoning), permanently blocking those sites from being available to adsorb and catalyse the intended reactant molecules. As more active sites become blocked by impurities over time, the effective SURFACE AREA available for catalysis decreases, reducing the rate of the catalysed reaction."},
+{t:"arr", id:"arr-05", front:"⚠ EXAMINER TRAP: A student calculates Ea from a ln k vs 1/T graph but forgets the NEGATIVE sign relationship (gradient = −Ea/R, not +Ea/R). Why does this error commonly produce a nonsensical (negative) activation energy?", back:"Since Ea is always a POSITIVE quantity, and the gradient of ln k vs 1/T is equal to −Ea/R (a NEGATIVE gradient, since ln k decreases as 1/T increases), forgetting to include this negative sign when rearranging (Ea = −gradient × R) will flip the sign of the final answer, giving an impossible negative Ea. Always double-check that a final Ea answer comes out positive — a negative result signals a sign error in the rearrangement, not a genuine physical result.", trap:true},
+
+// ===================== MECHANISM DEDUCTION & EXPERIMENTAL METHODS =====================
+{t:"mech", id:"mech-01", front:"For iodine + propanone (acid-catalysed), rate = k[H⁺(aq)][CH₃COCH₃(aq)]. A three-step mechanism is proposed. Predict which step is the rate-determining step, and justify.", back:"The rate-determining step must be the step whose reactants EXACTLY MATCH the species appearing in the rate equation — since the rate equation involves ONLY H⁺ and propanone (NOT iodine), the rate-determining step must be the step in the mechanism where H⁺ and propanone react together (any step involving iodine must occur in a FASTER step, either before or after the rate-determining step)."},
+{t:"mech", id:"mech-02", front:"A student claims 'hydrogen ions cannot be acting as a catalyst because one H⁺ is a reactant in Step 1 but two H⁺ ions are formed as products in Steps 1 and 3.' Explain whether this statement is valid.", back:"The statement is NOT valid. For a species to be classed as a catalyst, it must be regenerated OVERALL by the end of the whole reaction mechanism (used up in one step, replaced by a later step) — what matters is that it is NOT PERMANENTLY CONSUMED and is available to catalyse further reaction cycles. Even with a net gain of one extra H⁺ overall, H⁺ still qualifies as a catalyst since it was not consumed by the reaction."},
+{t:"mech", id:"mech-03", front:"A chloroalkane, RCl, reacts with KOH(aq). The order with respect to hydroxide ions is found to be zero. Deduce the mechanism type occurring, and the classification of the chloroalkane, with justification.", back:"Mechanism: SN1 (unimolecular nucleophilic substitution). Justification: since the rate is independent of [OH⁻] (zero order), hydroxide cannot be involved in the rate-determining step — this is consistent with SN1, where the RDS is the slow, unimolecular ionisation of the C–Cl bond (forming a carbocation), with the fast attack by OH⁻ occurring AFTER this slow step. Classification: TERTIARY chloroalkane — SN1 mechanisms are favoured by tertiary halogenoalkanes, since they form a relatively stable tertiary carbocation intermediate."},
+{t:"mech", id:"mech-04", front:"For RBr + OH⁻ → ROH + Br⁻, the reaction is found to be FIRST order with respect to BOTH RBr and hydroxide ions. Give the mechanism consistent with these orders (description, arrows not required in text).", back:"SN2 (bimolecular nucleophilic substitution) — a single-step mechanism via a transition state, where the hydroxide ion (nucleophile) attacks the carbon atom bonded to bromine from the OPPOSITE side to the leaving bromide ion, SIMULTANEOUSLY as the C–Br bond breaks. Since BOTH RBr and OH⁻ are involved together in this single rate-determining (and only) step, the rate equation is first order in each, giving second order overall."},
+{t:"mech", id:"mech-05", front:"Manganate(VII) ions react with ethanedioate ions in acidic solution. The reaction starts SLOWLY, then the rate INCREASES, before DECREASING again. Explain this sequence.", back:"This reaction is AUTOCATALYTIC — one of its own products, Mn²⁺, catalyses the reaction. Initially, [Mn²⁺] is very low (or zero), so the reaction proceeds slowly via its normal (uncatalysed) pathway. As the reaction proceeds, [Mn²⁺] builds up, increasingly catalysing the reaction and causing the RATE TO INCREASE. Eventually, as the reactant concentrations become significantly DEPLETED towards the end of the reaction, the rate DECREASES again, despite the catalyst still being present."},
+{t:"mech", id:"mech-06", front:"In the iodine-clock reaction involving hydrogen peroxide, potassium iodide, sodium thiosulfate and starch, explain the purpose of the starch, given it appears in neither the rate equation nor the overall reaction equation.", back:"Starch acts as an INDICATOR for this experiment (not a reactant in the main rate-determining kinetics). Iodine is produced by the main reaction but is immediately reduced back to iodide by the (limited, known amount of) thiosulfate present — once all the thiosulfate has been used up, any further iodine produced is no longer removed, and this free iodine forms an intense BLUE-BLACK complex with the starch, giving a sudden, sharp colour change that marks a precise, reproducible timing point."},
+{t:"mech", id:"mech-07", front:"State why the total volume of the reaction mixture should be kept constant across all experiments in a series designed to determine reaction order (e.g. by adding deionised water to compensate for varying volumes of one reagent).", back:"Keeping the total volume constant ensures that the CONCENTRATIONS of all the other reactants (which are meant to be held constant/in excess) genuinely stay the same across every experiment — if total volume varied, this would inadvertently also change the concentrations of the 'constant' reagents between experiments, introducing an extra, uncontrolled variable."},
+{t:"mech", id:"mech-08", front:"⚠ EXAMINER TRAP: A student identifies the rate-determining step by picking the step that 'looks slowest' or 'seems most complicated' in a proposed mechanism, rather than matching it to the given rate equation. Why is this the wrong approach?", back:"The rate-determining step must be identified by matching its REACTANTS to the species that actually appear in the EXPERIMENTALLY-DETERMINED rate equation — this is a matter of matching kinetic evidence to mechanism, not judging which step 'looks' complicated or intuitively slow. Always work FROM the given rate equation TO the mechanism, never guess the RDS from chemical intuition alone.", trap:true},
+];
+
+const TABS = [
+  {key:"orders", label:"Orders & Rate Equations"},
+  {key:"halflife", label:"Half-Life & Graphs"},
+  {key:"arr", label:"Arrhenius & Activation Energy"},
+  {key:"mech", label:"Mechanism Deduction"},
+];
+
+const STORAGE_KEY = "chemT13KineticsIIProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{ const raw = localStorage.getItem(STORAGE_KEY); progress = raw ? JSON.parse(raw) : {}; }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function renderTabs(){
+  const bar = document.getElementById("tabBar"); bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+  if(activeTab==="mech"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> Always work FROM the given rate equation TO the mechanism — match which species appear in the rate equation to identify the rate-determining step, rather than guessing from chemical intuition.";
+    container.appendChild(note);
+  }
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id"; idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge"; badge.textContent = "⚠ Examiner Trap";
+      el.appendChild(badge);
+    }
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    body.innerHTML = isFlipped ? `<span class="label">Answer</span>${c.back}` : `<span class="label">Question</span>${c.front}`;
+    el.appendChild(body);
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn"; knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn"; reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn); st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+    container.appendChild(el);
+  });
+}
+function renderAll(){ renderTabs(); renderProgressBar(); renderStats(); renderCards(); }
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {}; saveProgress(); renderAll();
+  }
+}
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
