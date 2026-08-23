@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry — Topic 12: Acid-Base Equilibria</title>
+<style>
+  :root{
+    --bg:#0f1416; --panel:#171f22; --panel-2:#1d272b; --border:#2a373c;
+    --text:#e8eef0; --muted:#8fa3a9; --accent:#4f9cd1; --accent-dim:#2a5a6b;
+    --trap:#e8a23d; --trap-bg:#3a2c15; --know:#4f9cd1; --review:#e8626a;
+    --card-front:#1a2027; --card-back:#16202a; font-size:16px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+  header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);}
+  header h1{margin:0 0 4px;font-size:1.2rem;font-weight:700;letter-spacing:-0.01em;}
+  header p{margin:0;color:var(--muted);font-size:0.85rem;}
+  .deck-stats{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+  nav.tabs{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:20px;font-size:0.72rem;white-space:nowrap;cursor:pointer;transition:all .15s ease;}
+  .tab-btn .count{display:inline-block;margin-left:6px;font-size:0.66rem;color:var(--accent);opacity:0.85;}
+  .tab-btn.active{background:var(--accent-dim);border-color:var(--accent);color:#eaf5ff;}
+  .progress-wrap{padding:0 16px 4px;}
+  .progress-bar{height:6px;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--accent-dim), var(--accent));transition:width .3s ease;}
+  .progress-label{font-size:0.72rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;}
+  main{max-width:640px;margin:0 auto;padding:14px 16px 8px;}
+  .card{position:relative;background:var(--card-front);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;min-height:150px;cursor:pointer;transition:border-color .2s ease, transform .12s ease;overflow:hidden;}
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);} .card.review{border-color:var(--review);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px 0;}
+  .card-id{font-size:0.68rem;color:var(--muted);letter-spacing:0.03em;text-transform:uppercase;}
+  .status-chip{font-size:0.65rem;padding:2px 8px;border-radius:10px;background:var(--panel-2);color:var(--muted);}
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+  .trap-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--trap);background:var(--trap-bg);padding:2px 8px;border-radius:10px;margin:8px 16px 0;width:fit-content;font-weight:600;}
+  .card-body{padding:10px 16px 16px;font-size:0.95rem;line-height:1.5;}
+  .card-body.answer{color:#cfe3f0;}
+  .card-body .label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:4px;}
+  .hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:0 16px 12px;}
+  .self-test{display:flex;gap:8px;padding:0 16px 16px;}
+  .st-btn{flex:1;padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:0.82rem;cursor:pointer;font-weight:600;}
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+  footer{max-width:640px;margin:10px auto 0;padding:10px 16px 30px;text-align:center;}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:10px;font-size:0.75rem;cursor:pointer;}
+  .section-note{font-size:0.78rem;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;line-height:1.5;}
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 12 — Acid-Base Equilibria</h1>
+  <p>Edexcel Chemistry A-level (9CH0) · A Level Paper 1 &amp; 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+// ===================== BRØNSTED-LOWRY, pH, Kw =====================
+{t:"basics", id:"basics-01", front:"State the Brønsted-Lowry definition of an acid, and of a base.", back:"A Brønsted-Lowry ACID is a PROTON DONOR (a species that donates H⁺). A Brønsted-Lowry BASE is a PROTON ACCEPTOR (a species that accepts H⁺)."},
+{t:"basics", id:"basics-02", front:"Define a conjugate acid-base pair.", back:"Two species that differ from each other by exactly ONE proton (H⁺) — the conjugate ACID is the species formed when a base ACCEPTS a proton; the conjugate BASE is the species formed when an acid DONATES a proton."},
+{t:"basics", id:"basics-03", front:"Give a reason why, in ethanoic acid (CH₃COOH), only the proton from the carboxylic acid group (−COOH) is donated to water, and not a proton from the methyl group (−CH₃).", back:"The O–H bond in the carboxylic acid group is significantly POLARISED (oxygen is highly electronegative, and the resulting carboxylate ion is stabilised by delocalisation of the negative charge across the −COO⁻ group), making that particular hydrogen much easier to lose as H⁺. The C–H bonds in the methyl group are essentially non-polar (carbon and hydrogen have very similar electronegativity) and the resulting anion would not be stabilised in the same way, so these hydrogens are not acidic and are not donated."},
+{t:"basics", id:"basics-04", front:"Write the expression that defines pH.", back:"pH = −log₁₀[H⁺], where [H⁺] is the concentration of hydrogen ions in mol dm⁻³."},
+{t:"basics", id:"basics-05", front:"Calculate the concentration of hydrogen ions, in mol dm⁻³, in a solution with pH = 9.43.", back:"[H⁺] = 10^(−pH) = 10^(−9.43) ≈ 3.72×10⁻¹⁰ mol dm⁻³."},
+{t:"basics", id:"basics-06", front:"Write the equation for the ionisation (autoionisation) of water, and the expression for the ionic product of water, Kw.", back:"H₂O(l) ⇌ H⁺(aq) + OH⁻(aq). Kw = [H⁺][OH⁻], with units mol² dm⁻⁶."},
+{t:"basics", id:"basics-07", front:"Kw at 310 K is 2.40×10⁻¹⁴ mol² dm⁻⁶. Calculate the pH of pure water at 310 K, to two decimal places.", back:"In pure water, [H⁺] = [OH⁻], so Kw = [H⁺]², giving [H⁺] = √Kw = √(2.40×10⁻¹⁴) ≈ 1.549×10⁻⁷ mol dm⁻³. pH = −log₁₀(1.549×10⁻⁷) ≈ 6.81."},
+{t:"basics", id:"basics-08", front:"Predict, with a reason, whether water at 310 K (pH=6.81, where pH=7.00 would be neutral at 298 K) is acidic, alkaline or neutral.", back:"Water at 310 K is still NEUTRAL. Although the pH (6.81) is numerically less than 7.00, [H⁺] still EQUALS [OH⁻] at this temperature (both come only from water's own autoionisation) — neutrality is defined by [H⁺]=[OH⁻], not by pH=7.00 specifically, since Kw (and therefore the neutral pH value) changes with temperature."},
+{t:"basics", id:"basics-09", front:"Predict, with a reason, the sign of the enthalpy change for the ionisation of water, given that Kw increases with increasing temperature.", back:"The enthalpy change is POSITIVE (endothermic). Since Kw INCREASES as temperature increases, by Le Chatelier's principle this means the FORWARD (ionisation) reaction is favoured by increasing temperature — a reaction whose equilibrium constant increases with temperature must have an endothermic forward reaction."},
+{t:"basics", id:"basics-10", front:"Explain why the pH of a 1×10⁻⁸ mol dm⁻³ solution of nitric acid, HNO₃, is NOT 8.", back:"At such a very low acid concentration, the concentration of H⁺ contributed by the acid itself (1×10⁻⁸ mol dm⁻³) is comparable to (not negligible compared with) the concentration of H⁺ produced by the AUTOIONISATION OF WATER ITSELF (~1×10⁻⁷ mol dm⁻³ at 298 K). The total [H⁺] in solution is therefore the SUM of both contributions, which is dominated by water's own ionisation — giving a pH close to (but slightly below) 7, not 8. The simple pH=−log[HA] approach only works when acid concentration is much greater than 10⁻⁷ mol dm⁻³."},
+{t:"basics", id:"basics-11", front:"⚠ EXAMINER TRAP: A student calculates pH for an extremely dilute strong acid (e.g. 1×10⁻⁸ mol dl⁻³) using pH = −log[acid] directly, ignoring water's own ionisation. Why does this give a wrong (and physically impossible) answer?", back:"At very low acid concentrations (comparable to or below ~10⁻⁶ to 10⁻⁷ mol dm⁻³), the H⁺ contributed by water's OWN autoionisation is no longer negligible and must be included — ignoring it can even give a calculated pH ABOVE 7 for an acid, which is impossible (an acid can never make a solution alkaline). Always check whether the acid concentration is high enough (generally >10⁻⁶ mol dm⁻³) for water's own ionisation to be safely ignored before applying the simple pH=−log[H⁺] shortcut.", trap:true},
+
+// ===================== WEAK ACIDS, Ka & pKa CALCULATIONS =====================
+{t:"weak", id:"weak-01", front:"Write the equilibrium and the Ka expression for a general weak acid, HA.", back:"HA(aq) ⇌ H⁺(aq) + A⁻(aq). Ka = ([H⁺][A⁻]) ÷ [HA], with units mol dm⁻³."},
+{t:"weak", id:"weak-02", front:"State the relationship between Ka and pKa.", back:"pKa = −log₁₀(Ka), the same style of relationship as pH and [H⁺] — a SMALLER pKa corresponds to a STRONGER (more dissociated) weak acid."},
+{t:"weak", id:"weak-03", front:"A solution of methanoic acid, HCOOH, has a concentration of 0.240 mol dm⁻³ and pH 2.20. Calculate pKa for methanoic acid.", back:"[H⁺] = 10^(−2.20) = 6.31×10⁻³ mol dm⁻³. Since HA⇌H⁺+A⁻ in a 1:1 ratio, [A⁻]≈[H⁺]=6.31×10⁻³ mol dm⁻³ (assuming dissociation is small, [HA]≈0.240 mol dm⁻³ still). Ka = (6.31×10⁻³)² ÷ 0.240 ≈ 1.66×10⁻⁴ mol dm⁻³. pKa = −log₁₀(1.66×10⁻⁴) ≈ 3.78."},
+{t:"weak", id:"weak-04", front:"Calculate the pH of a 0.100 mol dm⁻³ solution of propanoic acid at 298 K. [Ka = 1.35×10⁻⁵ mol dm⁻³]", back:"Assuming [H⁺]≈[A⁻] and [HA]≈0.100 (dissociation is small): Ka=[H⁺]²÷[HA] → [H⁺]=√(Ka×[HA])=√(1.35×10⁻⁵×0.100)=√(1.35×10⁻⁶)≈1.162×10⁻³ mol dm⁻³. pH=−log₁₀(1.162×10⁻³)≈2.93 (to appropriate s.f.)."},
+{t:"weak", id:"weak-05", front:"State the two assumptions made when calculating the pH of a weak acid using the simplified method (Ka = [H⁺]²÷[HA]).", back:"1) The dissociation of the weak acid is SMALL, so the equilibrium concentration of undissociated acid, [HA], is approximately equal to its INITIAL (stated) concentration. 2) The contribution of H⁺ ions from the autoionisation of WATER is negligible compared with the H⁺ produced by the acid's own dissociation, so [H⁺] ≈ [A⁻] (i.e. essentially all H⁺ comes from the acid, not from water)."},
+{t:"weak", id:"weak-06", front:"Boric acid, H₃BO₃, has pKa=9.24 for its first dissociation. Calculate the pH of a 0.0500 mol dm⁻³ solution of boric acid.", back:"Ka = 10^(−9.24) ≈ 5.75×10⁻¹⁰ mol dm⁻³. [H⁺] = √(Ka×[HA]) = √(5.75×10⁻¹⁰×0.0500) = √(2.875×10⁻¹¹) ≈ 5.36×10⁻⁶ mol dm⁻³. pH = −log₁₀(5.36×10⁻⁶) ≈ 5.27."},
+{t:"weak", id:"weak-07", front:"A solution of glycolic acid (0.1 mol dm⁻³) has pH 2.4. Predict the approximate pH after diluting it by a factor of 100.", back:"Approximately pH 3.4 (an increase of about 1 pH unit, NOT the full 2 units that a STRONG acid dilution of the same factor would give). Since glycolic acid is a WEAK acid, only partially dissociated, diluting it shifts its equilibrium to partially COUNTERACT the dilution (more of the acid dissociates as concentration falls, by Le Chatelier's principle), so the pH increases by LESS than the full log(dilution factor) that a strong acid would show."},
+{t:"weak", id:"weak-08", front:"Glycolic acid (Ka=1.5×10⁻⁴) has a Ka value roughly 10× larger than ethanoic acid (Ka=1.7×10⁻⁵). Suggest a reason for this difference.", back:"Glycolic acid (2-hydroxyethanoic acid) has an additional −OH group on the carbon adjacent to the carboxylic acid group. This −OH group is electron-WITHDRAWING (inductive effect via oxygen's electronegativity), which helps stabilise the negative charge on the resulting carboxylate ion (conjugate base) after H⁺ is lost, making it easier for the acid to dissociate — this increases Ka (and lowers pKa) compared with ethanoic acid, which lacks this additional electron-withdrawing group."},
+{t:"weak", id:"weak-09", front:"Devise an experiment to determine the acid dissociation constant, Ka, for a solution of ethanoic acid of unknown concentration, using a pH meter and a similar-concentration NaOH solution.", back:"Use a burette to add small, measured volumes of the NaOH solution to a known volume of the ethanoic acid, recording the pH after each addition using the pH meter (a full titration). At the HALF-EQUIVALENCE POINT (where exactly HALF the acid has been neutralised, i.e. half the volume of NaOH needed to reach the full equivalence point), the concentrations of the remaining acid, [HA], and its conjugate base, [A⁻], are EQUAL — at this specific point, Ka = [H⁺] (since Ka=[H⁺][A⁻]/[HA] simplifies when [A⁻]=[HA]), so simply reading the pH at the half-equivalence point and converting to [H⁺] gives Ka directly."},
+{t:"weak", id:"weak-10", front:"⚠ EXAMINER TRAP: A student always assumes [HA]equilibrium ≈ [HA]initial when calculating weak acid pH, even for a relatively STRONG weak acid or very dilute solution. Why must this assumption be checked, not applied automatically?", back:"The approximation [HA]eq≈[HA]initial (and [H⁺]≈[A⁻], ignoring water) is only valid when the degree of dissociation is genuinely SMALL — true for most weak acids at 'normal' concentrations (~0.01–1 mol dm⁻³), but it BREAKS DOWN for very dilute solutions or acids with a relatively large Ka, where a significant fraction of the acid actually dissociates. Exam mark schemes specifically credit STATING these assumptions when asked, precisely because they are approximations that don't always hold — never present the simplified calculation as if it were exact without at least acknowledging the assumptions.", trap:true},
+
+// ===================== STRONG ACIDS/BASES & MIXTURE pH CALCULATIONS =====================
+{t:"strong", id:"strong-01", front:"State how the pH of a strong monobasic acid (e.g. HCl) is calculated, given its concentration.", back:"A strong acid is assumed to DISSOCIATE COMPLETELY, so [H⁺] = the given ACID CONCENTRATION directly (for a monobasic acid). pH = −log₁₀[H⁺] using this concentration."},
+{t:"strong", id:"strong-02", front:"A commercial nitric acid solution has concentration 15.9 mol dm⁻³. A 15.0 cm³ sample is diluted to 100 cm³. Calculate the pH of the diluted solution.", back:"Moles HNO₃ = (15.0/1000)×15.9 = 0.2385 mol. New concentration after dilution = 0.2385÷(100/1000) = 2.385 mol dm⁻³. Since HNO₃ is a strong, monobasic acid, [H⁺]=2.385 mol dm⁻³. pH = −log₁₀(2.385) ≈ −0.377 (a negative pH, since the acid is highly concentrated)."},
+{t:"strong", id:"strong-03", front:"Calculate the pH of the solution formed when 51.2 cm³ of 0.927 mol dm⁻³ NaOH is mixed with 40.4 cm³ of 0.370 mol dm⁻³ H₂SO₄.", back:"Moles NaOH = (51.2/1000)×0.927 = 0.04746 mol. Moles H₂SO₄ = (40.4/1000)×0.370 = 0.01495 mol → moles H⁺ available = 2×0.01495 = 0.02990 mol (H₂SO₄ is diprotic). Moles NaOH exceeds moles H⁺, so NaOH is in EXCESS: excess OH⁻ = 0.04746−0.02990 = 0.01756 mol. Total volume = 51.2+40.4 = 91.6 cm³ = 0.0916 dm³. [OH⁻] = 0.01756÷0.0916 ≈ 0.1917 mol dm⁻³. pOH = −log₁₀(0.1917) ≈ 0.717. pH = 14.00−0.717 ≈ 13.28 (using Kw=1.00×10⁻¹⁴ at 298 K)."},
+{t:"strong", id:"strong-04", front:"Solutions J (pH=5) and K (pH=9) are equimolar salt solutions. Suggest what type of acid and base could form each salt.", back:"Solution J (acidic salt solution, pH<7): likely the salt of a STRONG acid and a WEAK base (e.g. ammonium chloride, NH₄Cl) — the conjugate acid of the weak base hydrolyses to release H⁺, making the solution acidic. Solution K (alkaline salt solution, pH>7): likely the salt of a WEAK acid and a STRONG base (e.g. sodium ethanoate) — the conjugate base of the weak acid hydrolyses to remove H⁺ (or release OH⁻), making the solution alkaline."},
+{t:"strong", id:"strong-05", front:"A weak acid HX (Ka=5.25×10⁻⁵) has 10.5 cm³ of 0.800 mol dm⁻³ NaOH mixed with 25.0 cm³ of 0.920 mol dm⁻³ HX. Outline the method to calculate the pH of the resulting solution.", back:"Moles NaOH = (10.5/1000)×0.800 = 0.00840 mol. Moles HX = (25.0/1000)×0.920 = 0.02300 mol. Since NaOH < HX, NaOH is fully consumed, converting 0.00840 mol of HX into its conjugate base, X⁻ (0.00840 mol), leaving unreacted HX = 0.02300−0.00840 = 0.01460 mol — this creates a BUFFER solution. Using the Henderson-Hasselbalch-style relationship (Ka=[H⁺][X⁻]/[HX], rearranged): [H⁺] = Ka×([HX]/[X⁻]) = 5.25×10⁻⁵×(0.01460/0.00840), then pH = −log₁₀[H⁺]."},
+{t:"strong", id:"strong-06", front:"⚠ EXAMINER TRAP: A student treats a mixture of a weak acid with SOME (but not excess) strong base as a simple 'weak acid pH' calculation, forgetting the base has partially converted the acid into its conjugate base. Why must this be recognised as a BUFFER calculation instead?", back:"Whenever a weak acid is partially neutralised by a strong base (with acid remaining in excess, not fully reacted), the resulting solution contains BOTH the remaining weak acid AND its conjugate base (salt) together — this is, by definition, a BUFFER SOLUTION, and must be solved using the buffer relationship (Ka=[H⁺][conjugate base]/[weak acid], NOT the simple weak-acid-alone formula Ka=[H⁺]²/[HA]). Failing to recognise a partial-neutralisation scenario as a buffer (and instead treating the leftover acid as if it were the WHOLE untouched acid) is one of the most common errors in this topic.", trap:true},
+
+// ===================== BUFFER SOLUTIONS =====================
+{t:"buffer", id:"buffer-01", front:"State what a buffer solution is, and how an acidic buffer (weak acid + salt) is typically made.", back:"A buffer solution resists changes in pH when small amounts of acid or base are added, or upon dilution. An acidic buffer is typically made by mixing a weak acid with a solution of one of its salts (providing a source of its conjugate base) — e.g. ethanoic acid + sodium ethanoate — OR by partially neutralising a weak acid with a strong base (converting some of the acid into its conjugate base, leaving some unreacted acid)."},
+{t:"buffer", id:"buffer-02", front:"Explain, using equations, how an ethanoic acid/ethanoate buffer resists a small addition of acid (H⁺).", back:"The buffer contains a reservoir of the conjugate base, CH₃COO⁻ (from sodium ethanoate). Added H⁺ ions react with this conjugate base: CH₃COO⁻ + H⁺ → CH₃COOH — this removes most of the added H⁺ by converting it into undissociated (weak) ethanoic acid, so the free [H⁺] in solution (and therefore the pH) changes only very slightly."},
+{t:"buffer", id:"buffer-03", front:"Explain, using equations, how an ethanoic acid/ethanoate buffer resists a small addition of base (OH⁻).", back:"The buffer contains a reservoir of the weak acid, CH₃COOH. Added OH⁻ ions react with this weak acid: CH₃COOH + OH⁻ → CH₃COO⁻ + H₂O — this removes most of the added OH⁻, replacing it with the (already-present) conjugate base, so the pH changes only very slightly."},
+{t:"buffer", id:"buffer-04", front:"Calculate the pH of a buffer solution formed by mixing 20.0 cm³ of 0.100 mol dm⁻³ NaOH with 25.0 cm³ of 0.150 mol dm⁻³ ethanoic acid. [Ka=1.74×10⁻⁵ mol dm⁻³]", back:"Moles NaOH = (20.0/1000)×0.100 = 0.00200 mol. Moles ethanoic acid = (25.0/1000)×0.150 = 0.00375 mol. NaOH reacts fully with acid (1:1), converting 0.00200 mol acid into 0.00200 mol ethanoate (CH₃COO⁻), leaving unreacted acid = 0.00375−0.00200 = 0.00175 mol. [H⁺] = Ka×([HA]/[A⁻]) = 1.74×10⁻⁵×(0.00175/0.00200) ≈ 1.523×10⁻⁵ mol dm⁻³. pH = −log₁₀(1.523×10⁻⁵) ≈ 4.82."},
+{t:"buffer", id:"buffer-05", front:"A buffer solution of pH 4.70 is required (500 cm³ total), from 0.800 mol dm⁻³ sodium ethanoate and 0.800 mol dm⁻³ ethanoic acid. Outline the method to find the volumes needed. [Ka=1.74×10⁻⁵]", back:"Calculate [H⁺] from pH: [H⁺]=10^(−4.70). Use Ka=[H⁺][A⁻]/[HA] to find the required RATIO [A⁻]/[HA] = Ka÷[H⁺]. Since both solutions have the SAME concentration (0.800 mol dm⁻³), the ratio of VOLUMES needed equals this same ratio ([A⁻]/[HA] ratio = volume ethanoate ÷ volume acid). Combine this ratio with the total volume required (500 cm³) to solve for the individual volumes of ethanoate solution and acid solution needed."},
+{t:"buffer", id:"buffer-06", front:"A buffer of pH 3.90 is required by adding sodium ethanoate to 50.0 cm³ of 0.800 mol dm⁻³ ethanoic acid. Outline the method to calculate the mass of sodium ethanoate needed. [Ka=1.74×10⁻⁵, Mr sodium ethanoate=82.0]", back:"Calculate [H⁺] from pH 3.90: [H⁺]=10^(−3.90). Calculate moles of ethanoic acid: (50.0/1000)×0.800=0.0400 mol. Rearrange Ka=[H⁺][A⁻]/[HA] to find moles of ethanoate needed: moles A⁻ = (Ka×moles HA)÷[H⁺]. Convert this to mass using Mr=82.0 (mass = moles × 82.0)."},
+{t:"buffer", id:"buffer-07", front:"A buffer is made from 20.0 cm³ of 0.100 mol dm⁻³ butanoic acid and 30.0 cm³ of 0.305 mol dm⁻³ sodium butanoate (Ka=1.52×10⁻⁵). Calculate its pH at 298 K.", back:"Moles butanoic acid = (20.0/1000)×0.100 = 0.00200 mol. Moles sodium butanoate = (30.0/1000)×0.305 = 0.00915 mol. [H⁺] = Ka×([HA]/[A⁻]) = 1.52×10⁻⁵×(0.00200/0.00915) ≈ 3.32×10⁻⁶ mol dm⁻³. pH = −log₁₀(3.32×10⁻⁶) ≈ 5.48."},
+{t:"buffer", id:"buffer-08", front:"Explain, with equations, why the carbonic acid–hydrogencarbonate buffer system in blood helps control pH when extra CO₂ is produced during strenuous exercise.", back:"CO₂ dissolves and reacts with water to form carbonic acid: CO₂ + H₂O ⇌ H₂CO₃, which partially dissociates: H₂CO₃ ⇌ H⁺ + HCO₃⁻. The extra CO₂ produced during exercise shifts BOTH equilibria to the right, increasing [H⁺] slightly — but the LARGE reservoir of HCO₃⁻ (hydrogencarbonate) already present reacts with (mops up) most of this extra H⁺ (H⁺ + HCO₃⁻ → H₂CO₃), preventing a large drop in blood pH despite the increased CO₂ production."},
+{t:"buffer", id:"buffer-09", front:"A disodium hydrogenphosphate/sodium dihydrogenphosphate buffer contains HPO₄²⁻ and H₂PO₄⁻ ions. Write the ionic equations showing how this buffer resists added acid and added base.", back:"Resisting added ACID (H⁺): HPO₄²⁻ + H⁺ → H₂PO₄⁻ (the more basic phosphate species mops up the added H⁺). Resisting added BASE (OH⁻): H₂PO₄⁻ + OH⁻ → HPO₄²⁻ + H₂O (the more acidic phosphate species reacts with the added OH⁻)."},
+{t:"buffer", id:"buffer-10", front:"⚠ EXAMINER TRAP: A student explains buffer action using only 'the buffer neutralises added acid/base' without writing the specific equation or naming which species reacts. Why does a vague description lose marks?", back:"Buffer-action questions specifically require the EXACT equation (or clearly-identified reacting species) showing WHICH component (the weak acid or its conjugate base) reacts with the added H⁺ or OH⁻ — a vague 'it neutralises it' answer doesn't demonstrate understanding of the actual mechanism (that it's an equilibrium shift consuming the added species via a specific reaction, not a generic acid-base neutralisation in the usual sense). Always name the two buffer components explicitly and show which one reacts with which added species.", trap:true},
+
+// ===================== TITRATION CURVES & INDICATOR SELECTION =====================
+{t:"titr", id:"titr-01", front:"Sketch/describe the general shape of a titration curve for a WEAK acid titrated with a STRONG base, identifying the equivalence point pH.", back:"The curve starts at a moderate pH (higher than a strong acid of the same concentration would give), rises GRADUALLY at first (a shallower initial slope, reflecting buffering as the weak acid and its conjugate base coexist), then shows a STEEP vertical rise around the equivalence point — the equivalence point itself occurs at a pH ABOVE 7 (alkaline), since the resulting salt solution (e.g. sodium ethanoate) is the salt of a weak acid and strong base, which hydrolyses to be slightly alkaline."},
+{t:"titr", id:"titr-02", front:"Explain how a weak-acid/strong-base titration curve can be used to find the Ka value of the weak acid, without calculation.", back:"At the HALF-EQUIVALENCE POINT (exactly half the volume of base needed to reach the full equivalence point), read off the pH from the curve at that specific volume — at this point [HA]=[A⁻], so pH = pKa (since Ka=[H⁺] when [HA]=[A⁻]) — converting this pH value to Ka (Ka=10^(−pH)) gives the acid dissociation constant directly from the graph."},
+{t:"titr", id:"titr-03", front:"Deduce a suitable indicator to identify the FIRST equivalence point in the titration of sodium carbonate with hydrochloric acid (Na₂CO₃+HCl→NaHCO₃+NaCl), justifying your choice using pKa/pH range data.", back:"An indicator such as PHENOLPHTHALEIN (colour change range roughly pH 8.2–10.0) would be suitable, since the first equivalence point of this titration occurs at a pH within this range (around pH 8–9, corresponding to the hydrogencarbonate/carbonate buffer region) — the indicator's colour-change range must overlap with the actual pH at that specific equivalence point on the curve."},
+{t:"titr", id:"titr-04", front:"Assess the suitability of methyl red (pKa≈5.1, colour change range approx pH 4.4–6.2) as an indicator for a titration of ethanoic acid with sodium hydroxide of equal concentration (equivalence point at pH>7).", back:"Methyl red is NOT suitable. Its colour-change range (approximately pH 4.4–6.2) does NOT overlap with the STEEP, vertical part of this weak-acid/strong-base titration curve, which occurs at a pH ABOVE 7 (since the equivalence point itself is alkaline, around pH 8–9). Using methyl red would cause the indicator to change colour well BEFORE the true equivalence point is reached, giving an inaccurate (too small) titre reading."},
+{t:"titr", id:"titr-05", front:"State a suitable indicator for the titration of a weak diprotic acid (e.g. ethanedioic acid) with sodium hydroxide, and the expected colour change at the end-point.", back:"Phenolphthalein is suitable (equivalence point of a weak acid/strong base titration is alkaline, within phenolphthalein's range). Colour change at the end-point: from COLOURLESS to PINK (phenolphthalein is colourless in acidic/neutral conditions and turns pink/magenta once the solution becomes sufficiently alkaline, around pH 8.2+)."},
+{t:"titr", id:"titr-06", front:"Give a reason why methyl orange would NOT be suitable for a titration used to determine the total acid content of pineapple juice using NaOH (equivalence point alkaline).", back:"Methyl orange changes colour over an ACIDIC pH range (approximately pH 3.1–4.4), which does not correspond to the pH at the equivalence point of this weak-acid/strong-base titration (which occurs at an ALKALINE pH, above 7) — using methyl orange would cause a premature colour change, well before the true equivalence point, giving an inaccurate (under-estimated) titre."},
+{t:"titr", id:"titr-07", front:"A student did not notice an air bubble in the burette tip before an accurate titration, and the bubble escaped DURING the titration. Explain the effect on the titre.", back:"The air bubble occupied space in the burette tip; as it escapes during the titration, this space is filled by liquid, but the burette READING only measures the apparent CHANGE in liquid level (not necessarily how much liquid actually left the burette into the flask) — this makes the recorded titre volume appear LARGER than the true volume of titrant that was actually delivered into the reaction flask, giving a titre value that is too HIGH."},
+{t:"titr", id:"titr-08", front:"Outline how the concentration of sodium hydroxide can be found by titrating with a standard solution of ethanedioic acid (a diprotic weak acid, Mr=90.0 g mol⁻¹, concentration 3.80 g dm⁻³).", back:"Calculate moles of ethanedioic acid used per titration (from its known concentration in g dm⁻³, converted using Mr=90.0, and the 25.0 cm³ volume pipetted). Using the balanced equation (ethanedioic acid + 2NaOH → sodium salt + 2H₂O, since it's diprotic — 1:2 mole ratio), calculate moles of NaOH that reacted (= 2 × moles ethanedioic acid). Divide moles NaOH by the mean titre volume (in dm³) to find the NaOH concentration in mol dm⁻³."},
+{t:"titr", id:"titr-09", front:"⚠ EXAMINER TRAP: A student selects an indicator for a titration based purely on 'it changes colour near pH 7' without checking the ACTUAL equivalence point pH for the specific acid/base combination in the question. Why is this a critical, frequently-tested error?", back:"The equivalence point pH is NOT always 7 — it is 7 only for a strong acid/strong base titration. For a WEAK acid/strong base titration, the equivalence point is ALKALINE (pH>7, e.g. phenolphthalein needed); for a STRONG acid/weak base titration, it is ACIDIC (pH<7, e.g. methyl orange needed). Always identify the specific acid-base TYPES involved in the given titration first, deduce the expected equivalence point pH region from that, and only then select an indicator whose colour-change range overlaps that specific region — never default to a 'pH 7' assumption.", trap:true},
+];
+
+const TABS = [
+  {key:"basics", label:"Brønsted-Lowry, pH & Kw"},
+  {key:"weak", label:"Weak Acids: Ka & pKa"},
+  {key:"strong", label:"Strong Acids & Mixtures"},
+  {key:"buffer", label:"Buffer Solutions"},
+  {key:"titr", label:"Titration Curves & Indicators"},
+];
+
+const STORAGE_KEY = "chemT12AcidBaseProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{ const raw = localStorage.getItem(STORAGE_KEY); progress = raw ? JSON.parse(raw) : {}; }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function renderTabs(){
+  const bar = document.getElementById("tabBar"); bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+  if(activeTab==="weak"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> Always state your assumptions ([HA]eq≈[HA]initial, and water's own [H⁺] is negligible) explicitly when asked — these are separately-credited marking points, not just background working.";
+    container.appendChild(note);
+  }
+  if(activeTab==="titr"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> Never assume the equivalence point is pH 7 — identify whether the titration is weak/strong acid vs weak/strong base FIRST, then pick an indicator whose range overlaps the actual equivalence point pH for that specific combination.";
+    container.appendChild(note);
+  }
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id"; idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge"; badge.textContent = "⚠ Examiner Trap";
+      el.appendChild(badge);
+    }
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    body.innerHTML = isFlipped ? `<span class="label">Answer</span>${c.back}` : `<span class="label">Question</span>${c.front}`;
+    el.appendChild(body);
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn"; knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn"; reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn); st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+    container.appendChild(el);
+  });
+}
+function renderAll(){ renderTabs(); renderProgressBar(); renderStats(); renderCards(); }
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {}; saveProgress(); renderAll();
+  }
+}
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
