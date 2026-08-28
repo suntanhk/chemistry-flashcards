@@ -1,0 +1,235 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry — Topic 14: Redox II</title>
+<style>
+  :root{
+    --bg:#0f1416; --panel:#171f22; --panel-2:#1d272b; --border:#2a373c;
+    --text:#e8eef0; --muted:#8fa3a9; --accent:#4f9cd1; --accent-dim:#2a5a6b;
+    --trap:#e8a23d; --trap-bg:#3a2c15; --know:#4f9cd1; --review:#e8626a;
+    --card-front:#1a2027; --card-back:#16202a; font-size:16px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+  header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);}
+  header h1{margin:0 0 4px;font-size:1.3rem;font-weight:700;letter-spacing:-0.01em;}
+  header p{margin:0;color:var(--muted);font-size:0.85rem;}
+  .deck-stats{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+  nav.tabs{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:20px;font-size:0.72rem;white-space:nowrap;cursor:pointer;transition:all .15s ease;}
+  .tab-btn .count{display:inline-block;margin-left:6px;font-size:0.66rem;color:var(--accent);opacity:0.85;}
+  .tab-btn.active{background:var(--accent-dim);border-color:var(--accent);color:#eaf5ff;}
+  .progress-wrap{padding:0 16px 4px;}
+  .progress-bar{height:6px;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--accent-dim), var(--accent));transition:width .3s ease;}
+  .progress-label{font-size:0.72rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;}
+  main{max-width:640px;margin:0 auto;padding:14px 16px 8px;}
+  .card{position:relative;background:var(--card-front);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;min-height:150px;cursor:pointer;transition:border-color .2s ease, transform .12s ease;overflow:hidden;}
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);} .card.review{border-color:var(--review);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px 0;}
+  .card-id{font-size:0.68rem;color:var(--muted);letter-spacing:0.03em;text-transform:uppercase;}
+  .status-chip{font-size:0.65rem;padding:2px 8px;border-radius:10px;background:var(--panel-2);color:var(--muted);}
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+  .trap-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--trap);background:var(--trap-bg);padding:2px 8px;border-radius:10px;margin:8px 16px 0;width:fit-content;font-weight:600;}
+  .card-body{padding:10px 16px 16px;font-size:0.95rem;line-height:1.5;}
+  .card-body.answer{color:#cfe3f0;}
+  .card-body .label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:4px;}
+  .hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:0 16px 12px;}
+  .self-test{display:flex;gap:8px;padding:0 16px 16px;}
+  .st-btn{flex:1;padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:0.82rem;cursor:pointer;font-weight:600;}
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+  footer{max-width:640px;margin:10px auto 0;padding:10px 16px 30px;text-align:center;}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:10px;font-size:0.75rem;cursor:pointer;}
+  .section-note{font-size:0.78rem;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;line-height:1.5;}
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 14 — Redox II</h1>
+  <p>Edexcel Chemistry A-level (9CH0) · A Level Paper 1 &amp; 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+{t:"epot", id:"epot-01", front:"State the meaning of 'standard electrode potential' of a half-cell.", back:"The voltage (EMF) measured when a half-cell, under standard conditions, is connected to a standard hydrogen electrode (which is assigned a value of exactly 0 V)."},
+{t:"epot", id:"epot-02", front:"State the standard conditions under which standard electrode potentials are measured.", back:"Temperature of 298 K (25°C), pressure of 100 kPa (for any gases involved), and solution concentrations of 1.00 mol dm⁻³."},
+{t:"epot", id:"epot-03", front:"State the rule for predicting which direction a redox reaction will go, given two half-equations and their standard electrode potentials.", back:"The half-equation with the MORE POSITIVE E° value proceeds in the FORWARD (reduction) direction as written; the half-equation with the MORE NEGATIVE E° value is REVERSED (proceeds as an oxidation) — electrons flow from the more negative (oxidation) half-cell to the more positive (reduction) half-cell."},
+{t:"epot", id:"epot-04", front:"Give the formula for calculating standard cell EMF (E°cell) from two standard electrode potentials.", back:"E°cell = E°(reduction half-cell, cathode) − E°(oxidation half-cell, anode) — i.e. the MORE POSITIVE E° value minus the MORE NEGATIVE E° value, always giving a positive E°cell for a thermodynamically feasible reaction as written."},
+{t:"epot", id:"epot-05", front:"Zinc metal is added to an acidified solution of potassium dichromate(VI). Given E°(Cr₂O₇²⁻/Cr³⁺)=+1.33 V and E°(Zn²⁺/Zn)=−0.76 V, write the overall ionic equation and calculate E°cell.", back:"Zn is oxidised (Zn→Zn²⁺+2e⁻, reversed from the reduction direction); Cr₂O₇²⁻ is reduced (Cr₂O₇²⁻+14H⁺+6e⁻→2Cr³⁺+7H₂O). Balancing electrons (×3 for Zn, ×1 for the Cr half-equation): Cr₂O₇²⁻ + 14H⁺ + 3Zn → 2Cr³⁺ + 7H₂O + 3Zn²⁺. E°cell = E°(reduction) − E°(oxidation) = 1.33 − (−0.76) = +2.09 V."},
+{t:"epot", id:"epot-06", front:"Using the electrochemical series, identify a species that will oxidise Fe²⁺(aq) to Fe³⁺(aq) (E°=+0.77 V), from: Br₂(aq) (E°=+1.09 V), Cl⁻(aq), I₂(aq) (E°=+0.54 V), Mn²⁺(aq).", back:"Br₂(aq). For a species to oxidise Fe²⁺ to Fe³⁺, it must have a MORE POSITIVE E° value than the Fe³⁺/Fe²⁺ couple (+0.77 V) so that it is preferentially reduced while Fe²⁺ is oxidised. Br₂ (+1.09 V) is the only option with a more positive E° than +0.77 V; I₂ (+0.54 V) is too low, and Cl⁻/Mn²⁺ are already in their reduced forms (not oxidising agents)."},
+{t:"epot", id:"epot-07", front:"The standard electrode potential for Cl₂/Cl⁻ is +1.36 V. Identify a suitable oxidising agent from the Data Booklet to convert Cl⁻ ions into Cl₂ under standard conditions, and calculate E°cell for this reaction.", back:"An oxidising agent with E° MORE POSITIVE than +1.36 V is needed — e.g. MnO₄⁻/Mn²⁺ (E°=+1.51 V) in acidic conditions. E°cell = E°(reduction, MnO₄⁻→Mn²⁺) − E°(oxidation, Cl₂/Cl⁻) = 1.51 − 1.36 = +0.15 V."},
+{t:"epot", id:"epot-08", front:"An electrochemical cell is built from a chromium/Cr³⁺(aq) half-cell and a metal X/X²⁺(aq) half-cell. After current flows, the chromium electrode GAINS 1.456 g and metal X LOSES 1.021 g. Outline the method to identify metal X.", back:"Since Cr³⁺ + 3e⁻ → Cr (mass gained), calculate moles of Cr deposited: moles Cr = 1.456 ÷ Ar(Cr, 52.0) = 0.0280 mol; moles of electrons transferred = 3 × 0.0280 = 0.0840 mol (by charge conservation, this equals the moles of electrons released by X being oxidised). If X is oxidised as X²⁺+2e⁻⇌X (losing mass, i.e. reaction runs X→X²⁺+2e⁻), moles of X reacted = 0.0840÷2 = 0.0420 mol. Molar mass of X = mass lost ÷ moles = 1.021÷0.0420 ≈ 24.3 g mol⁻¹ — matching magnesium (Ar=24.3), identifying X as magnesium."},
+{t:"epot", id:"epot-09", front:"⚠️ EXAMINER TRAP: A student calculates E°cell as E°(species being oxidised) − E°(species being reduced), the reverse of the correct rule. Why does this give the wrong (negative) answer for a feasible reaction?", back:"The correct rule is E°cell = E°(REDUCTION half-cell) − E°(OXIDATION half-cell), i.e. cathode minus anode — NOT simply 'product minus reactant' or based on which chemical happens to be written first in the question. Reversing this subtraction gives a NEGATIVE E°cell value for a reaction that is actually thermodynamically feasible (should be positive), which is a very common sign error — always identify which half-reaction is being reduced (has the more positive E°) and which is being oxidised (more negative E°) BEFORE subtracting, rather than subtracing in an arbitrary order.", trap:true},
+
+{t:"cell", id:"cell-01", front:"State the conventional layout rule for drawing/writing an electrochemical cell diagram.", back:"The half-cell where OXIDATION occurs (more negative E°, the anode) is written/drawn on the LEFT; the half-cell where REDUCTION occurs (more positive E°, the cathode) is written/drawn on the RIGHT, with the salt bridge (represented by a double vertical line, ‖) between them."},
+{t:"cell", id:"cell-02", front:"State what chemical is typically contained in a salt bridge, and its function.", back:"A concentrated solution of an unreactive salt (e.g. potassium nitrate, KNO₃), often set in a gel/agar to prevent it mixing directly with the half-cell solutions. Its function is to allow the movement of ions between the two half-cells, completing the electrical circuit and maintaining overall charge balance, WITHOUT the two half-cell solutions mixing directly."},
+{t:"cell", id:"cell-03", front:"Give a possible reason why the salt bridge cannot be replaced by a piece of unreactive metal wire.", back:"A metal wire would allow ELECTRONS to flow directly between the two half-cell solutions at that point (short-circuiting/bypassing the external circuit and voltmeter), rather than requiring the ion-based charge balance that a salt bridge provides — this would prevent the cell from generating a usable, measurable EMF through the external circuit, and could also allow the two solutions' species to react directly with the wire rather than via the intended electron-transfer pathway through the external circuit."},
+{t:"cell", id:"cell-04", front:"Describe the apparatus and conditions needed to measure the standard EMF of a cell made from a zinc/zinc(II) half-cell and a chromium(III)/dichromate(VI) half-cell.", back:"Zinc half-cell: a strip of zinc metal dipped in 1.00 mol dm⁻³ ZnSO₄(aq) (or similar Zn²⁺ solution). Chromium half-cell: since neither chromium(III) nor dichromate(VI) is itself a good conducting solid electrode, an INERT PLATINUM electrode is used, dipped into a solution containing BOTH Cr³⁺(aq) and Cr₂O₇²⁻(aq) (each at 1.00 mol dm⁻³, plus H⁺ at 1.00 mol dm⁻³ since the half-equation involves H⁺). The two half-cells are connected via a salt bridge, and a high-resistance voltmeter is connected between the two electrodes to measure the EMF, all at 298 K."},
+{t:"cell", id:"cell-05", front:"A student's diagram for measuring the standard electrode potential of the Ag⁺(aq)|Ag(s) half-cell contains three mistakes. Give three TYPES of common mistake to check for in such diagrams, with the correct alternative for each.", back:"1) Using a LOW-resistance ammeter instead of a HIGH-resistance voltmeter (a high-resistance voltmeter is needed to prevent significant current flowing, ensuring a true equilibrium/standard potential is measured, not a working-current voltage). 2) Using an incorrect concentration for the AgNO₃ solution (must be exactly 1.00 mol dm⁻³, not any arbitrary value). 3) Missing or incorrect reference half-cell (must be connected to a STANDARD HYDROGEN ELECTRODE — H₂ gas at 100 kPa bubbled over a platinised platinum electrode in 1.00 mol dm⁻³ H⁺(aq) — not just any other half-cell, if a true STANDARD electrode potential is being measured)."},
+{t:"cell", id:"cell-06", front:"⚠️ EXAMINER TRAP: A student sets up a cell with a species that is a strong oxidising OR reducing agent directly in contact with the salt bridge solution, risking a side reaction. Why must the salt bridge chemical be chosen carefully?", back:"The salt bridge ions must be UNREACTIVE with respect to BOTH half-cell solutions (e.g. potassium nitrate is chosen because K⁺ and NO₃⁻ are very unlikely to be oxidised/reduced or react with typical half-cell species) — if the salt bridge ions could react with either half-cell's contents, this would introduce an unwanted side reaction, contaminate the half-cells, or interfere with the intended electrode potential measurement, giving an inaccurate EMF reading.", trap:true},
+
+{t:"feas", id:"feas-01", front:"State the rule for using E°cell to predict whether a redox reaction is thermodynamically feasible under standard conditions.", back:"A reaction is thermodynamically feasible (spontaneous) under standard conditions if the calculated E°cell (using E°(reduction)−E°(oxidation) for the reaction as written) is POSITIVE. A NEGATIVE E°cell indicates the reaction is NOT feasible as written under standard conditions (though the REVERSE reaction would be feasible instead)."},
+{t:"feas", id:"feas-02", front:"Explain why the disproportionation of bromine in water is NOT thermodynamically feasible under standard conditions, given relevant electrode potentials for Br₂/Br⁻ and BrO⁻/Br₂ (or similar).", back:"Disproportionation of Br₂ would require both an oxidation (Br₂→BrO⁻, or similar) and a reduction (Br₂→Br⁻) to occur simultaneously. Calculating E°cell for this overall disproportionation reaction (E°(reduction half)−E°(oxidation half), using the two relevant half-equations) gives a NEGATIVE value — since a negative E°cell means the reaction is not feasible under standard conditions, bromine's disproportionation in water is not thermodynamically feasible as written."},
+{t:"feas", id:"feas-03", front:"Bromine still disproportionates in water to a SMALL extent at 298 K, despite this being calculated as not feasible under standard conditions. Give a possible reason why.", back:"Standard electrode potentials apply specifically under STANDARD conditions (1.00 mol dm⁻³ concentrations, 298 K, 100 kPa) — under the ACTUAL, non-standard conditions present (e.g. much lower concentrations of the disproportionation products as they form, continuously shifting the position of the underlying equilibrium), the reaction may become marginally feasible to a small extent, even though it is calculated as not feasible under strict standard conditions."},
+{t:"feas", id:"feas-04", front:"Manganese(IV) oxide, MnO₂, reacts with manganate(VII) ions, MnO₄⁻, in alkaline solution to form manganate(VI) ions, MnO₄²⁻. Give a reason why this reaction is NOT classified as disproportionation.", back:"Disproportionation requires ONE species, starting from a SINGLE oxidation state, to be SIMULTANEOUSLY oxidised and reduced into two different products. Here, manganese starts in TWO DIFFERENT oxidation states already (+4 in MnO₂ and +7 in MnO₄⁻) and both CONVERGE to the SAME single product oxidation state (+6, in MnO₄²⁻) — this is the opposite pattern (sometimes called comproportionation), not disproportionation, since it doesn't involve one starting state splitting into two."},
+{t:"feas", id:"feas-05", front:"Using standard electrode potentials for Cr³⁺/Cr²⁺ and Zn²⁺/Zn, predict whether Cr³⁺ ions (produced from reducing dichromate(VI) with zinc) will be FURTHER reduced to Cr²⁺ ions by excess zinc, and justify.", back:"Compare E°(Cr³⁺/Cr²⁺) with E°(Zn²⁺/Zn). If E°(Cr³⁺/Cr²⁺) is MORE POSITIVE than E°(Zn²⁺/Zn) (which it typically is, since Zn²⁺/Zn is strongly negative at −0.76 V), the calculated E°cell for this further reduction (E°(Cr³⁺/Cr²⁺)−E°(Zn²⁺/Zn)) will be POSITIVE, meaning YES — zinc CAN further reduce Cr³⁺ to Cr²⁺, since zinc is a strong enough reducing agent (positive E°cell for this specific reduction)."},
+{t:"feas", id:"feas-06", front:"Excess zinc powder is added to an acidified solution of ammonium vanadate(V), NH₄VO₃. Describe, in outline, the sequence of colour changes and reactions that occurs, using electrode potential data.", back:"Zinc is a strong reducing agent (very negative E°), so it progressively reduces vanadium through its oxidation states in sequence, provided each reduction step gives a positive E°cell: VO₂⁺ (V, yellow) → VO²⁺ (IV, blue) → V³⁺ (III, green) → V²⁺ (II, violet/lilac) — each step's ionic equation and calculated E°cell (using the relevant V and Zn half-equation E° values) should be checked to confirm feasibility at each stage, with the observed colour change confirming each successive reduction as excess zinc drives the sequence as far as thermodynamically possible."},
+{t:"feas", id:"feas-07", front:"State how to identify the strongest reducing agent from a list of standard electrode potentials (e.g. in the Data Booklet).", back:"The strongest reducing agent is the species that is REDUCING (on the right-hand/reduced side of its half-equation) in the couple with the MOST NEGATIVE standard electrode potential — the more negative the E° value, the more strongly that species wants to be OXIDISED (donate electrons), making it the strongest reducing agent."},
+{t:"feas", id:"feas-08", front:"⚠️ EXAMINER TRAP: A student assumes ALL reactions with a positive E°cell will definitely occur quickly/observably. Why must feasibility (thermodynamics) be distinguished from rate (kinetics)?", back:"A positive E°cell only indicates that a reaction is THERMODYNAMICALLY FEASIBLE (energetically favourable) — it says NOTHING about the RATE at which the reaction actually proceeds. A reaction can be thermodynamically feasible (positive E°cell) but still be extremely SLOW in practice due to a high activation energy (kinetic barrier) — e.g. some feasible redox titrations still require heating or a catalyst (like Mn²⁺ autocatalysis) to proceed at a usable rate, despite already having a positive E°cell. Never conclude a reaction 'will happen readily' from E°cell alone.", trap:true},
+
+{t:"apps", id:"apps-01", front:"Give the equation relating the equilibrium constant, K, to standard cell EMF, E°cell.", back:"ln K = (nFE°cell) ÷ (RT), where n = number of electrons transferred in the overall balanced equation, F = Faraday constant (96500 C mol⁻¹), R = gas constant (8.31 J mol⁻¹ K⁻¹), and T = temperature in Kelvin."},
+{t:"apps", id:"apps-02", front:"Outline the calculation of the equilibrium constant, K, at 298 K for the oxidation of chloride ions by manganate(VII) ions in acid solution (each MnO₄⁻ accepts 5 electrons; n=10 for the balanced overall equation combining with Cl⁻/Cl₂), given E°cell.", back:"Substitute n=10, F=96500 C mol⁻¹, R=8.31 J mol⁻¹ K⁻¹, T=298 K, and the calculated E°cell value into ln K = (nFE°cell)÷(RT). Calculate the right-hand side numerically to find ln K, then take e^(that value) to find K itself (units not required)."},
+{t:"apps", id:"apps-03", front:"For a Ag⁺(aq)|Ag(s) half-cell, E°=+0.80 V but measured E at 20°C is +0.72 V (non-standard [Ag⁺]). Given the relevant Nernst-type equation, outline how to calculate the actual [Ag⁺].", back:"Rearrange the given equation (of the form E=E°+(RT/nF)ln[Ag⁺], with n=1 for Ag⁺+e⁻⇌Ag) to make [Ag⁺] the subject: ln[Ag⁺] = (E−E°)×(nF/RT). Substitute E=0.72, E°=0.80, T=293 K (20°C+273), n=1, F and R as given, calculate the right-hand side, then take e^(that value) to find [Ag⁺] in mol dm⁻³ (the answer should come out below 1.00 mol dm⁻³, since a lower Ag⁺ concentration than standard explains the lower-than-standard measured E value)."},
+{t:"apps", id:"apps-04", front:"In a lead-acid battery, lead and lead(IV) oxide electrodes are both converted to solid lead(II) sulfate as the cell discharges, and the sulfuric acid concentration decreases. Deduce the two half-equations occurring.", back:"At the lead electrode (oxidation): Pb(s) + SO₄²⁻(aq) → PbSO₄(s) + 2e⁻. At the lead(IV) oxide electrode (reduction): PbO₂(s) + SO₄²⁻(aq) + 4H⁺(aq) + 2e⁻ → PbSO₄(s) + 2H₂O(l). (Both consume sulfate ions and H⁺, consistent with the sulfuric acid electrolyte concentration decreasing as the cell discharges.)"},
+{t:"apps", id:"apps-05", front:"In a methanol fuel cell, one electrode reaction is CH₃OH(g) + H₂O(l) → HCOOH(aq) + 4H⁺(aq) + 4e⁻ (oxidation of methanol). What reaction occurs at the OTHER electrode?", back:"O₂(g) + 4H⁺(aq) + 4e⁻ → 2H₂O(l) — the reduction of oxygen, balancing the 4 electrons released at the methanol-oxidation electrode and consuming the 4H⁺ produced there (via the electrolyte/proton exchange membrane)."},
+{t:"apps", id:"apps-06", front:"In an alkaline fuel cell using sodium hydride as a hydrogen source, the oxidation half-equation is H₂(g) + 2OH⁻(aq) → 2H₂O(l) + 2e⁻. Deduce the reduction half-equation.", back:"O₂(g) + 2H₂O(l) + 4e⁻ → 4OH⁻(aq) — the reduction of oxygen in ALKALINE conditions (using water and hydroxide ions, rather than H⁺, since the electrolyte is alkaline), balancing the electrons released at the hydrogen-oxidation electrode."},
+{t:"apps", id:"apps-07", front:"In the titration of manganate(VII) ions with ethanedioate ions, a textbook suggests heating the conical flask, but says this is important mainly at the START of the titration, less so as it proceeds. Explain why, referencing homogeneous catalysis.", back:"This reaction is AUTOCATALYTIC — the product Mn²⁺ acts as a homogeneous catalyst for the reaction. At the very START, no Mn²⁺ is yet present, so the (otherwise slow) uncatalysed reaction needs the extra energy from heating to proceed at a reasonable rate. As the titration proceeds, Mn²⁺ product builds up in the flask and increasingly catalyses the reaction itself (providing an alternative, lower activation energy pathway), so the reaction becomes progressively faster on its own — meaning continued heating becomes LESS necessary as more Mn²⁺ accumulates and takes over the role of speeding up the reaction."},
+{t:"apps", id:"apps-08", front:"⚠️ EXAMINER TRAP: A student calculating K from E°cell uses the WRONG value of n (number of electrons), e.g. using the electrons from only ONE half-equation rather than the number transferred in the fully-balanced OVERALL equation. Why is getting n right essential?", back:"The value of n in ln K = nFE°cell/RT must be the number of electrons transferred in the FULLY BALANCED OVERALL equation (after combining and balancing the two half-equations so electrons cancel exactly) — NOT simply the coefficient from one individual half-equation in isolation. Using the wrong n (e.g. forgetting that MnO₄⁻ accepts 5 electrons per ion, so an overall equation involving 2 MnO₄⁻ ions needs n=10, not n=5 or n=1) will scale the exponent incorrectly, giving a dramatically wrong value of K — always derive n from the final, fully-balanced overall equation.", trap:true},
+];
+
+const TABS = [
+  {key:"epot", label:"Electrode Potentials & EMF"},
+  {key:"cell", label:"Cell Diagrams & Apparatus"},
+  {key:"feas", label:"Feasibility & Disproportionation"},
+  {key:"apps", label:"K, Fuel Cells & Applications"},
+];
+
+const STORAGE_KEY = "chemT14RedoxIIProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{ const raw = localStorage.getItem(STORAGE_KEY); progress = raw ? JSON.parse(raw) : {}; }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function renderTabs(){
+  const bar = document.getElementById("tabBar"); bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + <span class="count">${known}/${cards.length}</span>;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = ${known} / ${cards.length} known in this tab;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+  if(activeTab==="epot"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> Always identify WHICH half-reaction is reduction (more positive E°) and which is oxidation (more negative E°) before subtracting — E°cell = E°(reduction) − E°(oxidation), never the reverse.";
+    container.appendChild(note);
+  }
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id"; idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge"; badge.textContent = "⚠️ Examiner Trap";
+      el.appendChild(badge);
+    }
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    body.innerHTML = isFlipped ? <span class="label">Answer</span>${c.back} : <span class="label">Question</span>${c.front};
+    el.appendChild(body);
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn"; knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn"; reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn); st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+    container.appendChild(el);
+  });
+}
+function renderAll(){ renderTabs(); renderProgressBar(); renderStats(); renderCards(); }
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {}; saveProgress(); renderAll();
+  }
+}
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
