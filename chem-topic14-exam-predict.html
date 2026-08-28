@@ -1,3 +1,4 @@
+```html
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -88,7 +89,7 @@ const DECK = [
 {t:"epot", id:"epot-06", front:"Using the electrochemical series, identify a species that will oxidise Fe²⁺(aq) to Fe³⁺(aq) (E°=+0.77 V), from: Br₂(aq) (E°=+1.09 V), Cl⁻(aq), I₂(aq) (E°=+0.54 V), Mn²⁺(aq).", back:"Br₂(aq). For a species to oxidise Fe²⁺ to Fe³⁺, it must have a MORE POSITIVE E° value than the Fe³⁺/Fe²⁺ couple (+0.77 V) so that it is preferentially reduced while Fe²⁺ is oxidised. Br₂ (+1.09 V) is the only option with a more positive E° than +0.77 V; I₂ (+0.54 V) is too low, and Cl⁻/Mn²⁺ are already in their reduced forms (not oxidising agents)."},
 {t:"epot", id:"epot-07", front:"The standard electrode potential for Cl₂/Cl⁻ is +1.36 V. Identify a suitable oxidising agent from the Data Booklet to convert Cl⁻ ions into Cl₂ under standard conditions, and calculate E°cell for this reaction.", back:"An oxidising agent with E° MORE POSITIVE than +1.36 V is needed — e.g. MnO₄⁻/Mn²⁺ (E°=+1.51 V) in acidic conditions. E°cell = E°(reduction, MnO₄⁻→Mn²⁺) − E°(oxidation, Cl₂/Cl⁻) = 1.51 − 1.36 = +0.15 V."},
 {t:"epot", id:"epot-08", front:"An electrochemical cell is built from a chromium/Cr³⁺(aq) half-cell and a metal X/X²⁺(aq) half-cell. After current flows, the chromium electrode GAINS 1.456 g and metal X LOSES 1.021 g. Outline the method to identify metal X.", back:"Since Cr³⁺ + 3e⁻ → Cr (mass gained), calculate moles of Cr deposited: moles Cr = 1.456 ÷ Ar(Cr, 52.0) = 0.0280 mol; moles of electrons transferred = 3 × 0.0280 = 0.0840 mol (by charge conservation, this equals the moles of electrons released by X being oxidised). If X is oxidised as X²⁺+2e⁻⇌X (losing mass, i.e. reaction runs X→X²⁺+2e⁻), moles of X reacted = 0.0840÷2 = 0.0420 mol. Molar mass of X = mass lost ÷ moles = 1.021÷0.0420 ≈ 24.3 g mol⁻¹ — matching magnesium (Ar=24.3), identifying X as magnesium."},
-{t:"epot", id:"epot-09", front:"⚠️ EXAMINER TRAP: A student calculates E°cell as E°(species being oxidised) − E°(species being reduced), the reverse of the correct rule. Why does this give the wrong (negative) answer for a feasible reaction?", back:"The correct rule is E°cell = E°(REDUCTION half-cell) − E°(OXIDATION half-cell), i.e. cathode minus anode — NOT simply 'product minus reactant' or based on which chemical happens to be written first in the question. Reversing this subtraction gives a NEGATIVE E°cell value for a reaction that is actually thermodynamically feasible (should be positive), which is a very common sign error — always identify which half-reaction is being reduced (has the more positive E°) and which is being oxidised (more negative E°) BEFORE subtracting, rather than subtracing in an arbitrary order.", trap:true},
+{t:"epot", id:"epot-09", front:"⚠️ EXAMINER TRAP: A student calculates E°cell as E°(species being oxidised) − E°(species being reduced), the reverse of the correct rule. Why does this give the wrong (negative) answer for a feasible reaction?", back:"The correct rule is E°cell = E°(REDUCTION half-cell) − E°(OXIDATION half-cell), i.e. cathode minus anode — NOT simply 'product minus reactant' or based on which chemical happens to be written first in the question. Reversing this subtraction gives a NEGATIVE E°cell value for a reaction that is actually thermodynamically feasible (should be positive), which is a very common sign error — always identify which half-reaction is being reduced (has the more positive E°) and which is being oxidised (more negative E°) BEFORE subtracting, rather than subtracting in an arbitrary order.", trap:true},
 
 {t:"cell", id:"cell-01", front:"State the conventional layout rule for drawing/writing an electrochemical cell diagram.", back:"The half-cell where OXIDATION occurs (more negative E°, the anode) is written/drawn on the LEFT; the half-cell where REDUCTION occurs (more positive E°, the cathode) is written/drawn on the RIGHT, with the salt bridge (represented by a double vertical line, ‖) between them."},
 {t:"cell", id:"cell-02", front:"State what chemical is typically contained in a salt bridge, and its function.", back:"A concentrated solution of an unreactive salt (e.g. potassium nitrate, KNO₃), often set in a gel/agar to prevent it mixing directly with the half-cell solutions. Its function is to allow the movement of ions between the two half-cells, completing the electrical circuit and maintaining overall charge balance, WITHOUT the two half-cell solutions mixing directly."},
@@ -141,7 +142,7 @@ function renderTabs(){
     const known = cards.filter(c=>progress[c.id]==="know").length;
     const btn = document.createElement("button");
     btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
-    btn.innerHTML = tab.label + <span class="count">${known}/${cards.length}</span>;
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
     btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
     bar.appendChild(btn);
   });
@@ -151,7 +152,7 @@ function renderProgressBar(){
   const known = cards.filter(c=>progress[c.id]==="know").length;
   const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
   document.getElementById("progressFill").style.width = pct + "%";
-  document.getElementById("progressText").textContent = ${known} / ${cards.length} known in this tab;
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
   document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
 }
 function renderStats(){
@@ -196,7 +197,7 @@ function renderCards(){
     }
     const body = document.createElement("div");
     body.className = "card-body" + (isFlipped ? " answer" : "");
-    body.innerHTML = isFlipped ? <span class="label">Answer</span>${c.back} : <span class="label">Question</span>${c.front};
+    body.innerHTML = isFlipped ? `<span class="label">Answer</span>${c.back}` : `<span class="label">Question</span>${c.front}`;
     el.appendChild(body);
     const hint = document.createElement("div");
     hint.className = "hint";
@@ -233,3 +234,5 @@ renderAll();
 </script>
 </body>
 </html>
+
+```
