@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry - Topic 15: Transition Metals</title>
+<style>
+  :root{
+    --bg:#0f1416; --panel:#171f22; --panel-2:#1d272b; --border:#2a373c;
+    --text:#e8eef0; --muted:#8fa3a9; --accent:#4f9cd1; --accent-dim:#2a5a6b;
+    --trap:#e8a23d; --trap-bg:#3a2c15; --know:#4f9cd1; --review:#e8626a;
+    --card-front:#1a2027; --card-back:#16202a; font-size:16px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+  header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);}
+  header h1{margin:0 0 4px;font-size:1.25rem;font-weight:700;letter-spacing:-0.01em;}
+  header p{margin:0;color:var(--muted);font-size:0.85rem;}
+  .deck-stats{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+  nav.tabs{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:20px;font-size:0.72rem;white-space:nowrap;cursor:pointer;transition:all .15s ease;}
+  .tab-btn .count{display:inline-block;margin-left:6px;font-size:0.66rem;color:var(--accent);opacity:0.85;}
+  .tab-btn.active{background:var(--accent-dim);border-color:var(--accent);color:#eaf5ff;}
+  .progress-wrap{padding:0 16px 4px;}
+  .progress-bar{height:6px;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--accent-dim), var(--accent));transition:width .3s ease;}
+  .progress-label{font-size:0.72rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;}
+  main{max-width:640px;margin:0 auto;padding:14px 16px 8px;}
+  .card{position:relative;background:var(--card-front);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;min-height:150px;cursor:pointer;transition:border-color .2s ease, transform .12s ease;overflow:hidden;}
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);} .card.review{border-color:var(--review);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px 0;}
+  .card-id{font-size:0.68rem;color:var(--muted);letter-spacing:0.03em;text-transform:uppercase;}
+  .status-chip{font-size:0.65rem;padding:2px 8px;border-radius:10px;background:var(--panel-2);color:var(--muted);}
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+  .trap-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--trap);background:var(--trap-bg);padding:2px 8px;border-radius:10px;margin:8px 16px 0;width:fit-content;font-weight:600;}
+  .card-body{padding:10px 16px 16px;font-size:0.95rem;line-height:1.5;}
+  .card-body.answer{color:#cfe3f0;}
+  .card-body .label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:4px;}
+  .hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:0 16px 12px;}
+  .self-test{display:flex;gap:8px;padding:0 16px 16px;}
+  .st-btn{flex:1;padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:0.82rem;cursor:pointer;font-weight:600;}
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+  footer{max-width:640px;margin:10px auto 0;padding:10px 16px 30px;text-align:center;}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:10px;font-size:0.75rem;cursor:pointer;}
+  .section-note{font-size:0.78rem;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;line-height:1.5;}
+  .section-note b{color:var(--accent);}
+  .diag{font-size:0.7rem;color:#e8a23d;text-align:center;padding:6px;display:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 15 - Transition Metals</h1>
+  <p>Edexcel Chemistry A-level (9CH0) - A Level Paper 1 and 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<div id="diagBox" class="diag"></div>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+try{
+
+var DECK = [
+  {t:"def", id:"def-01", front:"Define a transition element (transition metal).", back:"A d-block element that forms at least one stable ion with a partially filled d sub-shell (an incomplete set of d electrons)."},
+  {t:"def", id:"def-02", front:"Give the electron configuration of a chromium atom, noting the exception to the normal filling order.", back:"Chromium is [Ar] 4s1 3d5, NOT the expected [Ar] 4s2 3d4. This exception occurs because a half-filled d sub-shell (5 electrons, one in each of the 5 d orbitals) is a particularly stable arrangement, so one 4s electron moves into the d sub-shell to achieve this extra stability."},
+  {t:"def", id:"def-03", front:"Explain why scandium is classed as a d-block element but NOT as a transition metal.", back:"Scandium only forms one stable ion, Sc3+, which has the electron configuration [Ar] (an EMPTY d sub-shell, 3d0). Since Sc3+ does not have a PARTIALLY FILLED d sub-shell, scandium does not meet the definition of a transition metal, even though it is positioned in the d-block."},
+  {t:"def", id:"def-04", front:"Explain why zinc is classed as a d-block element but NOT as a transition metal.", back:"Zinc only forms one stable ion, Zn2+, which has the electron configuration [Ar] 3d10 (a COMPLETELY FULL d sub-shell). Since Zn2+ does not have a partially filled d sub-shell (it is full, not partial), zinc does not meet the definition of a transition metal."},
+  {t:"def", id:"def-05", front:"List the four special chemical properties shared by transition metals.", back:"1) They form complex ions. 2) They form coloured ions/compounds in solution. 3) They show variable oxidation states. 4) They are good catalysts (both as heterogeneous solid catalysts and homogeneous catalysts in solution)."},
+  {t:"def", id:"def-06", front:"Give a reason, in terms of ionisation energies, why chromium can show several different, variable oxidation states.", back:"The successive ionisation energies for removing the 4s and the first few 3d electrons of a transition metal are relatively CLOSE TOGETHER in value (unlike the large jump seen between removing outer-shell and inner-shell electrons in main-group elements) - this means several different numbers of electrons can be removed without requiring a dramatically different amount of energy, allowing multiple oxidation states to be reasonably accessible and stable."},
+  {t:"def", id:"def-07", front:"State the common oxidation states shown by chromium.", back:"+2, +3 and +6 (with +3 being the most stable/common state)."},
+  {t:"def", id:"def-08", front:"A student states 'the elements scandium and zinc are d-block elements but are not transition metals.' Discuss this statement using electronic configurations.", back:"This statement is CORRECT. Scandium forms only the Sc3+ ion, configuration [Ar] (3d0, an empty d sub-shell) - not partially filled. Zinc forms only the Zn2+ ion, configuration [Ar]3d10 (a full d sub-shell) - also not partially filled. Since the definition of a transition metal specifically requires a STABLE ION with a PARTIALLY FILLED d sub-shell, and neither Sc3+ nor Zn2+ meets this (one is empty, one is full), both scandium and zinc are d-block elements but fail to qualify as transition metals."},
+  {t:"def", id:"def-09", front:"EXAMINER TRAP: A student assumes every element in the d-block must automatically be a transition metal. Why is this incorrect, and what is the precise test to apply?", back:"Being in the d-block (position in the periodic table) is NOT the same as being a transition metal (a specific chemical definition). The precise test is: does the element form AT LEAST ONE STABLE ION with a PARTIALLY FILLED d sub-shell? Scandium and zinc are the two Period 4 exceptions that sit in the d-block but fail this test (empty and full d sub-shells respectively in their only stable ions) - always check the actual ion's electron configuration, not just the element's position on the periodic table.", trap:true},
+
+  {t:"complex", id:"complex-01", front:"Define the term ligand.", back:"An atom, ion or molecule that has at least one LONE PAIR of electrons, which it donates to form a DATIVE (coordinate) COVALENT bond to a central metal ion."},
+  {t:"complex", id:"complex-02", front:"Define coordination number.", back:"The total number of dative (coordinate) bonds formed between the ligands and the central metal ion in a complex."},
+  {t:"complex", id:"complex-03", front:"Distinguish monodentate, bidentate and multidentate (polydentate) ligands, giving one example of each.", back:"Monodentate: forms ONE coordinate bond per ligand (e.g. H2O, NH3, Cl-, OH-). Bidentate: forms TWO coordinate bonds per ligand (e.g. 1,2-diaminoethane, NH2CH2CH2NH2). Multidentate/polydentate: forms MORE THAN TWO coordinate bonds per ligand (e.g. EDTA4-, which is hexadentate, forming six coordinate bonds)."},
+  {t:"complex", id:"complex-04", front:"Explain the shape of the [Co(H2O)6]2+ ion using electron-pair repulsion theory.", back:"There are SIX bonding (coordinate) electron pairs around the central cobalt ion (one from each of the six water ligands), and no lone pairs on the central metal ion itself to consider. These six electron pairs repel each other equally and arrange themselves as far apart as possible in three dimensions, giving an OCTAHEDRAL shape with bond angles of 90 degrees."},
+  {t:"complex", id:"complex-05", front:"Explain why transition metal complex ions are coloured, in terms of d-orbital splitting.", back:"In a free transition metal ion, all five d orbitals have the same energy (are degenerate). When ligands bond to the metal ion, they cause the five d orbitals to SPLIT into two slightly different energy levels. An electron can be PROMOTED from the lower energy d orbital set to the higher energy set by absorbing a photon of visible light with EXACTLY the right amount of energy to match this gap. Since only certain wavelengths (colours) of white light are absorbed, the wavelengths that are NOT absorbed are transmitted/reflected, and this is the colour we observe."},
+  {t:"complex", id:"complex-06", front:"Give the shape of the [Cr(H2O)6]3+ complex ion.", back:"Octahedral (six water ligands, six coordinate bonds, no lone pairs on the central ion to distort the shape)."},
+  {t:"complex", id:"complex-07", front:"Explain why Zn2+ ions, [Zn(H2O)6]2+, form a colourless solution, unlike most other transition metal ions.", back:"Zinc's 3d sub-shell is COMPLETELY FULL (3d10) in the Zn2+ ion. Since there are no unoccupied d orbitals in the higher energy level for an electron to be promoted INTO, no d-to-d electron transition (and therefore no absorption of visible light) can occur - with no visible light absorbed, the solution appears colourless."},
+  {t:"complex", id:"complex-08", front:"Give a reason why the ammonium ion, NH4+, cannot act as a ligand.", back:"The ammonium ion has NO LONE PAIR of electrons available - all of nitrogen's electrons (including what would otherwise be its lone pair) are already used in four covalent/dative bonds to the four hydrogen atoms. Since a ligand must have a lone pair to donate to form a dative bond with the metal ion, NH4+ cannot act as a ligand (unlike NH3, which still has one lone pair available)."},
+  {t:"complex", id:"complex-09", front:"Explain why the complex ions [Co(NH3)6]2+ and [Co(H2O)6]2+ are both coloured, but have DIFFERENT colours from each other.", back:"Both complexes are coloured because their ligands cause d-orbital splitting, allowing d-to-d electron transitions that absorb visible light. However, NH3 and H2O are DIFFERENT ligands with different ligand field strengths - they cause a DIFFERENT SIZE of energy gap (splitting) between the d orbital sets. Since the wavelength of light absorbed depends on the exact size of this energy gap, the two complexes absorb different wavelengths of light and therefore show different observed colours."},
+  {t:"complex", id:"complex-10", front:"Compare and contrast the complex ions formed by cobalt(III) ions with the bidentate ligand ethane-1,2-diamine versus the hexadentate ligand EDTA4- (ignoring colour differences).", back:"Both give an OCTAHEDRAL complex with a coordination number of SIX (six coordinate bonds to the central Co3+ ion) - this is the SAME in both cases. The DIFFERENCE is the NUMBER of ligand molecules/ions needed to achieve this: since ethane-1,2-diamine is bidentate (2 bonds per molecule), THREE molecules of it are needed to provide the six coordinate bonds; since EDTA4- is hexadentate (6 bonds per ion), only ONE EDTA4- ion is needed to provide all six coordinate bonds."},
+  {t:"complex", id:"complex-11", front:"Discuss how cobalt(II) ions can form complex ions with different coordination numbers, referring to colour and shape.", back:"[Co(H2O)6]2+ has a coordination number of 6 (six water ligands), giving an OCTAHEDRAL shape, and is typically PINK in colour. [CoCl4]2- has a coordination number of 4 (four chloride ligands), giving a TETRAHEDRAL shape, and is typically BLUE in colour. The change in coordination number (6 to 4) and ligand identity (H2O to Cl-) both change the degree/pattern of d-orbital splitting, which changes which wavelengths of light are absorbed, giving a different observed colour."},
+  {t:"complex", id:"complex-12", front:"Give examples to illustrate how BOTH the oxidation number of the central metal ion AND the identity of the ligands affect the colour of a transition metal complex, using iron and/or copper examples.", back:"Oxidation number effect: [Fe(H2O)6]2+ (iron in +2 state) is pale green, while [Fe(H2O)6]3+ (iron in +3 state) is a different colour (yellow/brown) - same ligand, different oxidation state, different colour. Ligand effect: [Cu(H2O)6]2+ is pale blue, while [Cu(NH3)4(H2O)2]2+ (after ligand substitution with ammonia) is a deep/dark blue - same oxidation state (+2), different ligand, different colour."},
+  {t:"complex", id:"complex-13", front:"Compare and contrast the origin of the colour of a copper(II) complex ion with the origin of the colour of copper in a flame test.", back:"BOTH arise from an electron being excited/promoted to a higher energy level, then falling back down and releasing energy as a photon of visible light or by that gap corresponding to an absorption of light. HOWEVER: in a COMPLEX ION, ligands cause the d orbitals to SPLIT into two energy levels, and the process is ABSORPTION of specific wavelengths of light (electron promoted UP), with the OBSERVED colour being the wavelengths NOT absorbed (transmitted). In a FLAME TEST, heat energy from the flame excites an electron of the free copper atom/ion between its natural, unsplit atomic energy levels, and the observed colour is the light directly EMITTED as the electron falls back down - flame test colour is emission, complex ion colour is absorption (with the complementary colour observed)."},
+  {t:"complex", id:"complex-14", front:"EXAMINER TRAP: A student assumes NH3 cannot act as a ligand because it is chemically related to NH4+, which cannot. Why is this reasoning wrong?", back:"NH3 (ammonia) DOES have a lone pair of electrons on the nitrogen atom, so it CAN act as a monodentate ligand (as seen in [Co(NH3)6]2+, for example). It is specifically NH4+ (ammonium, the PROTONATED form) that cannot act as a ligand, because gaining that fourth bond to hydrogen uses up the lone pair that NH3 originally had. Never assume a related ion/molecule automatically shares the same ligand-forming ability - always check whether a lone pair is actually still present on that specific species.", trap:true},
+
+  {t:"react", id:"react-01", front:"Describe what you would see when dilute aqueous sodium hydroxide is added dropwise, then in excess, to a solution of copper(II) ions.", back:"A pale/light BLUE PRECIPITATE (of Cu(OH)2) forms immediately upon adding NaOH. Unlike some other metal hydroxides, this precipitate does NOT dissolve when excess NaOH is added - it remains as a blue precipitate even in excess sodium hydroxide."},
+  {t:"react", id:"react-02", front:"Describe what you would see when dilute aqueous ammonia is added dropwise, then in excess, to a solution of copper(II) sulfate, and give the ligand substitution equation.", back:"Initially, a pale blue precipitate forms (similar to the NaOH reaction, as ammonia acts as a base at low concentration). On adding EXCESS ammonia, this precipitate DISSOLVES to give a DEEP/DARK BLUE SOLUTION, as a ligand substitution occurs: [Cu(H2O)6]2+ + 4NH3 -> [Cu(NH3)4(H2O)2]2+ + 4H2O."},
+  {t:"react", id:"react-03", front:"Describe what you would see when concentrated hydrochloric acid is added to a solution of copper(II) ions, and give the ligand substitution equation.", back:"The pale blue solution changes to a YELLOW/GREEN solution as chloride ligands substitute for water ligands, and the coordination number changes from 6 to 4 (octahedral to tetrahedral): [Cu(H2O)6]2+ + 4Cl- -> [CuCl4]2- + 6H2O."},
+  {t:"react", id:"react-04", front:"Describe what you would see when aqueous sodium hydroxide is added dropwise, then in excess, to a solution of chromium(III) ions.", back:"A GREEN PRECIPITATE of Cr(OH)3 forms initially. On adding EXCESS sodium hydroxide, this precipitate DISSOLVES (unlike the copper(II) hydroxide case) to give a GREEN SOLUTION, as the amphoteric chromium(III) hydroxide reacts further with excess hydroxide ions to form the soluble complex [Cr(OH)6]3-."},
+  {t:"react", id:"react-05", front:"Write the ionic equation, with state symbols, for the reaction of solid chromium(III) hydroxide with dilute hydrochloric acid, and describe the observation.", back:"Cr(OH)3(s) + 3H+(aq) -> [Cr(H2O)3]3+... more precisely written as Cr(OH)3(s) + 6H3O+(aq) -> [Cr(H2O)6]3+(aq) + 3H2O(l) (or simplified with H+ and appropriate waters). Observation: the green solid precipitate DISSOLVES to give a green solution, as chromium(III) hydroxide acts as a BASE, reacting with the acid."},
+  {t:"react", id:"react-06", front:"Write the ionic equation, with state symbols, for the reaction of solid chromium(III) hydroxide with excess dilute sodium hydroxide solution, and state the final appearance.", back:"Cr(OH)3(s) + 3OH-(aq) -> [Cr(OH)6]3-(aq). The final appearance is a GREEN SOLUTION (the green precipitate has fully dissolved), as chromium(III) hydroxide acts as an ACID in this reaction (reacting with hydroxide ions), demonstrating its AMPHOTERIC character (it can react as both an acid and a base)."},
+  {t:"react", id:"react-07", front:"Deduce the oxidation half-equation for the oxidation of [Cr(OH)6]3- to chromate(VI) ions, CrO4 2-, by hydrogen peroxide in alkaline conditions.", back:"[Cr(OH)6]3- -> CrO4 2- + 4H2O + 3e- + 2OH- (chromium goes from +3 to +6, a loss of 3 electrons; the equation must be balanced for atoms/charge using OH- and H2O since the reaction occurs in alkaline conditions, not H+)."},
+  {t:"react", id:"react-08", front:"If a solution of chromate(VI) ions, CrO4 2- (yellow), is acidified, it changes colour to orange as dichromate(VI) ions, Cr2O7 2-, form. Write the equation for this change.", back:"2CrO4 2- + 2H+ -> Cr2O7 2- + H2O (an acid-base type equilibrium shift, not a change in chromium's oxidation state - chromium remains +6 throughout)."},
+  {t:"react", id:"react-09", front:"0.10 mol of a chromium(III) complex, [Cr(H2O)x(Cl)y](3-y)+, reacted with excess silver nitrate to produce 0.20 mol of silver chloride. Chloride ions acting as LIGANDS do not react with silver nitrate. Deduce the formula of the complex ion.", back:"Since 0.10 mol of complex produced 0.20 mol of AgCl, each complex ion must release 2 mol of FREE (uncoordinated) chloride ions per mole of complex (0.20/0.10 = 2). This means TWO chloride ions are OUTSIDE the coordination sphere (as free counter-ions), while the remaining chloride(s) - if any - and water molecules make up the coordinated ligands, consistent with a complex such as [Cr(H2O)5Cl]2+ (with 2 free Cl- counter-ions to balance the +2 charge, of the complex's total 3 chlorines only 1 is a coordinated ligand)."},
+  {t:"react", id:"react-10", front:"Deduce the colours of the solutions formed in the two electrode regions when an aqueous solution of copper(II) chromate(VI) is electrolysed.", back:"Cu2+ ions (positively charged) migrate towards the CATHODE (negative electrode), so that region becomes rich in copper(II) ions, turning BLUE. CrO4 2- / Cr2O7 2- ions (negatively charged) migrate towards the ANODE (positive electrode), so that region becomes rich in chromate/dichromate ions, turning YELLOW (or orange, depending on local pH changes from electrolysis)."},
+  {t:"react", id:"react-11", front:"Give two possible reasons, other than an incomplete reaction, why the percentage yield of a hydrated double salt crystallisation (e.g. ammonium cobalt(II) sulfate) is less than 100%.", back:"1) Some product is lost during the filtration and rinsing steps (e.g. small crystals passing through the filter paper, or some product dissolving in the rinse water used to wash the crystals). 2) Some product may be lost during transfer between apparatus (e.g. residue left behind in the evaporating basin or on stirring rods)."},
+  {t:"react", id:"react-12", front:"EXAMINER TRAP: A student assumes ligand substitution reactions always go to completion in one direction, like a simple precipitation reaction. Why must this assumption be checked, referring to the copper/ammonia reaction as an example?", back:"Some ligand substitutions are genuinely EQUILIBRIA that can be shifted by concentration (e.g. Le Chatelier-type behaviour) rather than simple one-way completions - for example, the copper/ammonia ligand substitution only proceeds to give the deep blue [Cu(NH3)4(H2O)2]2+ complex when ammonia is in EXCESS; with only a SMALL amount of ammonia added, the initial pale blue Cu(OH)2-type precipitate forms instead (ammonia acting as a base, not yet as a ligand in excess). Always note the specific CONDITIONS (dropwise vs excess) stated in a question, since the observation and equation can differ at each stage.", trap:true},
+
+  {t:"cat", id:"cat-01", front:"Explain why transition metals and their ions are good catalysts, in general terms.", back:"Transition metals can act as HETEROGENEOUS catalysts because their partially filled d orbitals allow reactant molecules to be ADSORBED onto the metal surface (via the d orbitals), weakening bonds and lowering activation energy. Transition metal IONS can act as HOMOGENEOUS catalysts because their VARIABLE OXIDATION STATES allow them to be oxidised and then reduced (or vice versa) during a reaction, providing an alternative reaction pathway via electron transfer, before being regenerated at the end of the catalytic cycle."},
+  {t:"cat", id:"cat-02", front:"Describe the stages by which reactions such as CO and NO are converted into less harmful gases on the surface of a catalytic converter.", back:"The reactant gas molecules (CO and NO) diffuse to and are ADSORBED onto active sites on the surface of the solid transition metal catalyst, which weakens the bonds within these molecules. This holds the reactant molecules close together in a favourable orientation, allowing the reaction to occur (forming CO2 and N2) while still adsorbed on the surface. The product molecules are then DESORBED (released) from the catalyst surface, freeing the active sites to adsorb further reactant molecules."},
+  {t:"cat", id:"cat-03", front:"The reaction between iodide ions and peroxodisulfate(VI) ions is catalysed by iron(II) ions. Write two ionic equations showing how iron(II) ions act as a catalyst.", back:"Step 1: 2Fe2+ + S2O8 2- -> 2Fe3+ + 2SO4 2- (iron(II) is oxidised to iron(III), reducing peroxodisulfate). Step 2: 2Fe3+ + 2I- -> 2Fe2+ + I2 (iron(III) is reduced back to iron(II), oxidising iodide to iodine) - the iron catalyst is regenerated at the end of the two-step cycle, having not been permanently consumed overall."},
+  {t:"cat", id:"cat-04", front:"Give a reason why the reaction between iodide ions and peroxodisulfate(VI) ions has a high activation energy and is very slow without a catalyst.", back:"Both iodide ions (I-) and peroxodisulfate ions (S2O8 2-) are NEGATIVELY CHARGED. The electrostatic REPULSION between these two similarly-charged (anion-anion) species makes it difficult for them to approach closely enough to react directly, requiring a large amount of energy to overcome this repulsion - giving a high activation energy and a very slow uncatalysed reaction."},
+  {t:"cat", id:"cat-05", front:"In the manganate(VII)/ethanedioate titration, explain why heating the flask is very important at the START of the titration but becomes less important as the titration proceeds.", back:"This reaction is AUTOCATALYTIC - the product, Mn2+, acts as a homogeneous catalyst for the reaction. At the very start, no Mn2+ is present yet, so the (otherwise slow) uncatalysed reaction needs the extra energy from heating to proceed at a workable rate. As the titration proceeds, Mn2+ builds up in the flask and increasingly catalyses the reaction itself (providing a faster, lower-activation-energy alternative pathway), so the reaction becomes progressively faster on its own, meaning continued heating becomes less necessary."},
+  {t:"cat", id:"cat-06", front:"Silver is not suitable as a catalytic converter catalyst because gas adsorption onto it is too WEAK. Give a possible reason why tungsten (with very STRONG gas adsorption) would also be unsuitable, referring to the mechanism of heterogeneous catalysis.", back:"If gas adsorption onto tungsten is too STRONG, the product molecules would not easily DESORB (be released) from the catalyst surface once formed - this would permanently occupy/block the active sites, preventing further reactant molecules from being adsorbed and reacting, and so the catalyst would quickly become ineffective (saturated with strongly-bound product) despite starting with strong adsorption."},
+  {t:"cat", id:"cat-07", front:"Explain how vanadium(V) oxide, V2O5, acts as a catalyst in the oxidation of sulfur dioxide to sulfur trioxide in the Contact Process (2SO2 + O2 -> 2SO3).", back:"V2O5 first oxidises SO2 to SO3, and in doing so is itself REDUCED to V2O4 (vanadium going from +5 to +4 oxidation state). The V2O4 is then RE-OXIDISED back to V2O5 by reacting with the oxygen gas present, regenerating the original catalyst - so overall, the vanadium oxide catalyst is not consumed, having gone through a cycle of reduction and re-oxidation (a homogeneous-style catalytic cycle occurring via the variable oxidation states of vanadium)."},
+  {t:"cat", id:"cat-08", front:"Distinguish homogeneous catalysis from heterogeneous catalysis.", back:"Homogeneous catalysis: the catalyst is in the SAME physical state/phase as the reactants (e.g. an aqueous ionic catalyst like Fe2+ or Mn2+ catalysing a reaction between other species also in aqueous solution). Heterogeneous catalysis: the catalyst is in a DIFFERENT physical state/phase from the reactants (e.g. a solid metal catalyst like platinum catalysing a reaction between gaseous reactants)."},
+  {t:"cat", id:"cat-09", front:"EXAMINER TRAP: A student says iron(II) ions are 'used up' in the first step of catalysing the iodide/peroxodisulfate reaction, so cannot be a true catalyst. Why is this reasoning incorrect?", back:"Although Fe2+ IS converted to Fe3+ in the first step (and so is temporarily 'used up' in that specific step), it is fully REGENERATED back to Fe2+ in the SECOND step of the cycle - looking at the OVERALL two-step cycle together, the net amount of Fe2+/Fe3+ present is unchanged, meaning iron has not been permanently consumed and can continue catalysing further reaction cycles. Always assess whether a species is consumed OVERALL (across the whole cycle), not just within one individual step in isolation.", trap:true},
+
+  {t:"calc", id:"calc-01", front:"Hydrated iron(II) ions, [Fe(H2O)6]2+, react with ethanedioate ions to form [Fe(C2O4)2(H2O)2]2-. Explain, in terms of entropy, why this ligand substitution reaction is feasible.", back:"Ethanedioate (C2O4 2-) is a BIDENTATE ligand replacing TWO monodentate water ligands each time it binds. Since fewer ligand particles (bidentate ethanedioate ions) are needed to occupy the same number of coordination positions previously held by MORE separate monodentate water molecules, water molecules are RELEASED into solution as free, independent particles. This increases the TOTAL NUMBER of independent particles present in the system, increasing the overall ENTROPY (disorder) - a positive entropy change contributes to making the reaction thermodynamically FEASIBLE (via the Gibbs free energy relationship, this chelate-type effect favours ligand substitution towards more, smaller ligands over fewer, larger polydentate ones... more precisely: multidentate ligands replacing several monodentate ligands increases the number of free particles, and this positive entropy change makes such substitutions favourable)."},
+  {t:"calc", id:"calc-02", front:"25.0 cm3 of 0.200 mol dm-3 sodium ethanedioate solution required a certain volume of KMnO4 solution to reach the end-point, using the equation 16H+ + 2MnO4- + 5C2O4 2- -> 2Mn2+ + 10CO2 + 8H2O. Outline the method to calculate the mass, in mg, of KMnO4 present in the original 100.0 cm3 solution (from 5 dissolved tablets), given the mean titre.", back:"Calculate moles of ethanedioate reacted: (25.0/1000) x 0.200 = 0.00500 mol. Use the 2:5 mole ratio (MnO4-:C2O4 2-) to find moles of MnO4- in the titre volume used: moles MnO4- = 0.00500 x (2/5) = 0.00200 mol. Use the titre volume and this moles value to find the concentration of the KMnO4 solution (mol dm-3). Scale up using the TOTAL volume of KMnO4 solution made (100.0 cm3) to find total moles of KMnO4, then convert to mass using Mr(KMnO4) = 158, and finally divide by 5 (five tablets) to find the mass per tablet in mg."},
+  {t:"calc", id:"calc-03", front:"40.0 cm3 of 0.100 mol dm-3 VCl2 solution was oxidised by 144 cm3 of chlorine gas at r.t.p (Cl2 + 2e- -> 2Cl-, molar volume = 24.0 dm3 mol-1). Outline the method to calculate the final oxidation state of vanadium.", back:"Moles VCl2 (= moles V2+) = (40.0/1000) x 0.100 = 0.00400 mol. Moles Cl2 gas = 144/24000 = 0.00600 mol; moles of electrons accepted by this Cl2 = 0.00600 x 2 = 0.0120 mol. Since vanadium supplies these electrons as it is oxidised: electrons lost per mole of vanadium = 0.0120 / 0.00400 = 3. Final oxidation state of vanadium = starting oxidation state (+2) + 3 = +5."},
+  {t:"calc", id:"calc-04", front:"State the initial and final colours you would see as chlorine gas bubbles through aqueous VCl2 (vanadium in the +2 state) and is oxidised all the way to vanadium in the +5 state.", back:"Initial colour: VIOLET/LILAC (V2+, the +2 oxidation state). Final colour: YELLOW (VO2+, the +5 oxidation state) - the solution would pass through intermediate colours (green for V3+, blue for VO2+/+4 state) on the way, but the question asks specifically for initial and final."},
+  {t:"calc", id:"calc-05", front:"For NO + Cl2 forming nitrosyl chloride, rate = k[NO]2[Cl2]. Using Experiment 1 data ([NO]=0.10 mol dm-3, [Cl2]=0.10 mol dm-3, rate=2.84x10^-6 mol dm-3 s-1), outline the calculation of the rate constant k, with units.", back:"Rearranging: k = rate / ([NO]^2 x [Cl2]) = 2.84x10^-6 / ((0.10)^2 x 0.10) = 2.84x10^-6 / 1.0x10^-3 = 2.84x10^-3. Units: (mol dm-3 s-1) / (mol dm-3)^3 = mol-2 dm6 s-1."},
+  {t:"calc", id:"calc-06", front:"Explain, using the Arrhenius-type relationship, how using a catalyst increases the rate constant, k, for a reaction.", back:"A catalyst provides an alternative reaction pathway with a LOWER activation energy, Ea. Since k = A x e^(-Ea/RT), a SMALLER Ea makes the exponent less negative, INCREASING the value of e^(-Ea/RT), and therefore increasing k - meaning the reaction proceeds faster at the same temperature, without needing any change in temperature itself."},
+  {t:"calc", id:"calc-07", front:"Give reasons for carrying out these two steps when preparing hydrated double-salt crystals: rinsing the crystals with a small amount of ICE-COLD water, then placing them in a WARM oven.", back:"Rinsing with ICE-COLD water removes soluble impurities from the crystal surface while minimising loss of the desired product - since the product is generally LESS SOLUBLE at lower temperatures, using cold (rather than warm) water for rinsing reduces how much of the actual product dissolves and is washed away during this step. Placing crystals in a WARM oven dries them (removes surface/loosely-held water) without providing enough heat to decompose the compound or drive off its ESSENTIAL water of crystallisation, which would change the correct hydrated formula."},
+  {t:"calc", id:"calc-08", front:"Give a reason why impurities in the gaseous reactants passing over a heterogeneous palladium catalyst could make the catalyst less effective over time.", back:"Impurity molecules can become strongly, often IRREVERSIBLY, adsorbed onto the active sites on the catalyst surface (catalyst poisoning), permanently blocking those sites from adsorbing and catalysing the intended reactant molecules. As more active sites become blocked over time, the effective surface area available for catalysis decreases, reducing the rate of the catalysed reaction."},
+  {t:"calc", id:"calc-09", front:"EXAMINER TRAP: A student calculating a final oxidation state from a redox titration forgets to convert the given gas VOLUME into MOLES using the molar gas volume before working out moles of electrons. Why is this a critical first step?", back:"All subsequent steps (moles of electrons, electrons lost per mole of the species being oxidised, and therefore the final oxidation state) depend on first correctly converting the given gas volume into MOLES (volume in dm3 divided by molar volume, or volume in cm3 divided by molar volume in cm3), and the given VOLUME of solution and CONCENTRATION into moles of the ion being oxidised. Skipping or mis-converting either of these two starting mole calculations propagates an error through the entire rest of the multi-step calculation, usually giving a nonsensical (non-whole-number) final oxidation state.", trap:true}
+];
+
+var TABS = [
+  {key:"def", label:"d-block and Oxidation States"},
+  {key:"complex", label:"Complex Ions, Ligands and Colour"},
+  {key:"react", label:"Reactions: Cu, Cr and Amphoterism"},
+  {key:"cat", label:"Catalysis"},
+  {key:"calc", label:"Calculations"}
+];
+
+var STORAGE_KEY = "chemT15TransitionMetalsProgress";
+var progress = {};
+var activeTab = TABS[0].key;
+var flippedIds = {};
+
+function loadProgress(){
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY);
+    progress = raw ? JSON.parse(raw) : {};
+  }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function cardsForTab(tabKey){
+  var out = [];
+  for(var i=0;i<DECK.length;i++){ if(DECK[i].t===tabKey) out.push(DECK[i]); }
+  return out;
+}
+function countKnown(cards){
+  var n=0;
+  for(var i=0;i<cards.length;i++){ if(progress[cards[i].id]==="know") n++; }
+  return n;
+}
+function renderTabs(){
+  var bar = document.getElementById("tabBar");
+  bar.innerHTML = "";
+  for(var i=0;i<TABS.length;i++){
+    (function(tab){
+      var cards = cardsForTab(tab.key);
+      var known = countKnown(cards);
+      var btn = document.createElement("button");
+      btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+      btn.innerHTML = tab.label + '<span class="count">' + known + "/" + cards.length + "</span>";
+      btn.onclick = function(){ activeTab = tab.key; flippedIds = {}; renderAll(); };
+      bar.appendChild(btn);
+    })(TABS[i]);
+  }
+}
+function renderProgressBar(){
+  var cards = cardsForTab(activeTab);
+  var known = countKnown(cards);
+  var pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = known + " / " + cards.length + " known in this tab";
+  var t = null;
+  for(var i=0;i<TABS.length;i++){ if(TABS[i].key===activeTab) t = TABS[i]; }
+  document.getElementById("tabTitle").textContent = t ? t.label : "";
+}
+function renderStats(){
+  var total = DECK.length;
+  var known = countKnown(DECK);
+  var review = 0;
+  for(var i=0;i<DECK.length;i++){ if(progress[DECK[i].id]==="review") review++; }
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+function renderCards(){
+  var container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+  var cards = cardsForTab(activeTab);
+  for(var i=0;i<cards.length;i++){
+    (function(c){
+      var state = progress[c.id];
+      var isFlipped = !!flippedIds[c.id];
+      var el = document.createElement("div");
+      el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+
+      var top = document.createElement("div");
+      top.className = "card-top";
+      var idEl = document.createElement("span");
+      idEl.className = "card-id";
+      idEl.textContent = c.id;
+      top.appendChild(idEl);
+      if(state){
+        var chip = document.createElement("span");
+        chip.className = "status-chip " + state;
+        chip.textContent = state==="know" ? "Known" : "Review";
+        top.appendChild(chip);
+      }
+      el.appendChild(top);
+
+      if(c.trap){
+        var badge = document.createElement("div");
+        badge.className = "trap-badge";
+        badge.textContent = "Examiner Trap";
+        el.appendChild(badge);
+      }
+
+      var body = document.createElement("div");
+      body.className = "card-body" + (isFlipped ? " answer" : "");
+      var label = document.createElement("span");
+      label.className = "label";
+      label.textContent = isFlipped ? "Answer" : "Question";
+      body.appendChild(label);
+      var txt = document.createElement("div");
+      txt.textContent = isFlipped ? c.back : c.front;
+      body.appendChild(txt);
+      el.appendChild(body);
+
+      var hint = document.createElement("div");
+      hint.className = "hint";
+      hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+      el.appendChild(hint);
+
+      el.onclick = function(e){
+        if(e.target && e.target.closest && e.target.closest(".st-btn")) return;
+        flippedIds[c.id] = !flippedIds[c.id];
+        renderCards();
+      };
+
+      if(isFlipped){
+        var st = document.createElement("div");
+        st.className = "self-test";
+        var knowBtn = document.createElement("button");
+        knowBtn.className = "st-btn know-btn";
+        knowBtn.textContent = "I know this";
+        knowBtn.onclick = function(e){ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+        var reviewBtn = document.createElement("button");
+        reviewBtn.className = "st-btn review-btn";
+        reviewBtn.textContent = "Review again";
+        reviewBtn.onclick = function(e){ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+        st.appendChild(knowBtn);
+        st.appendChild(reviewBtn);
+        el.appendChild(st);
+      }
+
+      container.appendChild(el);
+    })(cards[i]);
+  }
+}
+function renderAll(){ renderTabs(); renderProgressBar(); renderStats(); renderCards(); }
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {}; saveProgress(); renderAll();
+  }
+}
+
+loadProgress();
+renderAll();
+
+}catch(err){
+  var d = document.getElementById("diagBox");
+  if(d){ d.style.display="block"; d.textContent = "Script error: " + err.message; }
+}
+</script>
+</body>
+</html>
