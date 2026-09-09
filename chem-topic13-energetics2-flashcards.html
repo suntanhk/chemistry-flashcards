@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry - Topic 13: Energetics II</title>
+<style>
+  :root{
+    --bg:#0f1416; --panel:#171f22; --panel-2:#1d272b; --border:#2a373c;
+    --text:#e8eef0; --muted:#8fa3a9; --accent:#4f9cd1; --accent-dim:#2a5a6b;
+    --trap:#e8a23d; --trap-bg:#3a2c15; --know:#4f9cd1; --review:#e8626a;
+    --card-front:#1a2027; --card-back:#16202a; font-size:16px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+  header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);}
+  header h1{margin:0 0 4px;font-size:1.25rem;font-weight:700;letter-spacing:-0.01em;}
+  header p{margin:0;color:var(--muted);font-size:0.85rem;}
+  .deck-stats{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+  nav.tabs{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:20px;font-size:0.72rem;white-space:nowrap;cursor:pointer;transition:all .15s ease;}
+  .tab-btn .count{display:inline-block;margin-left:6px;font-size:0.66rem;color:var(--accent);opacity:0.85;}
+  .tab-btn.active{background:var(--accent-dim);border-color:var(--accent);color:#eaf5ff;}
+  .progress-wrap{padding:0 16px 4px;}
+  .progress-bar{height:6px;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--accent-dim), var(--accent));transition:width .3s ease;}
+  .progress-label{font-size:0.72rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;}
+  main{max-width:640px;margin:0 auto;padding:14px 16px 8px;}
+  .card{position:relative;background:var(--card-front);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;min-height:150px;cursor:pointer;transition:border-color .2s ease, transform .12s ease;overflow:hidden;}
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);} .card.review{border-color:var(--review);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px 0;}
+  .card-id{font-size:0.68rem;color:var(--muted);letter-spacing:0.03em;text-transform:uppercase;}
+  .status-chip{font-size:0.65rem;padding:2px 8px;border-radius:10px;background:var(--panel-2);color:var(--muted);}
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+  .trap-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--trap);background:var(--trap-bg);padding:2px 8px;border-radius:10px;margin:8px 16px 0;width:fit-content;font-weight:600;}
+  .card-body{padding:10px 16px 16px;font-size:0.95rem;line-height:1.5;}
+  .card-body.answer{color:#cfe3f0;}
+  .card-body .label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:4px;}
+  .hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:0 16px 12px;}
+  .self-test{display:flex;gap:8px;padding:0 16px 16px;}
+  .st-btn{flex:1;padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:0.82rem;cursor:pointer;font-weight:600;}
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+  footer{max-width:640px;margin:10px auto 0;padding:10px 16px 30px;text-align:center;}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:10px;font-size:0.75rem;cursor:pointer;}
+  .section-note{font-size:0.78rem;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;line-height:1.5;}
+  .section-note b{color:var(--accent);}
+  .diag{font-size:0.7rem;color:#e8a23d;text-align:center;padding:6px;display:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 13 - Energetics II</h1>
+  <p>Edexcel Chemistry A-level (9CH0) - A Level Paper 1 and 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<div id="diagBox" class="diag"></div>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+try{
+
+var DECK = [
+  {t:"lattice", id:"lattice-01", front:"Define lattice energy (lattice enthalpy of formation).", back:"The enthalpy change when ONE MOLE of an ionic compound is formed from its constituent gaseous ions, under standard conditions. Lattice energy is always a large, EXOTHERMIC (negative) value, since bringing oppositely charged gaseous ions together to form a solid lattice releases energy."},
+  {t:"lattice", id:"lattice-02", front:"Outline the Born-Haber cycle steps needed to calculate the lattice energy of magnesium chloride, MgCl2, from elements in their standard states.", back:"1) Atomisation of magnesium: Mg(s) to Mg(g). 2) Atomisation of chlorine: Cl2(g) to 2Cl(g) (note this must give ENOUGH chlorine atoms for 2 chloride ions, so it is often written as the atomisation enthalpy doubled, or as Cl2(g) to 2Cl(g) directly). 3) First ionisation energy of magnesium: Mg(g) to Mg+(g) + e-. 4) Second ionisation energy of magnesium: Mg+(g) to Mg2+(g) + e-. 5) First electron affinity of chlorine, done TWICE (for two chlorine atoms): Cl(g) + e- to Cl-(g). 6) Lattice energy: Mg2+(g) + 2Cl-(g) to MgCl2(s). The sum of all these steps must equal the enthalpy of formation of MgCl2 from its elements (Hess's Law)."},
+  {t:"lattice", id:"lattice-03", front:"Give the equation, with state symbols, representing the lattice energy of calcium oxide, CaO.", back:"Ca2+(g) + O2-(g) -> CaO(s)"},
+  {t:"lattice", id:"lattice-04", front:"Explain why the lattice energy of magnesium oxide, MgO, is much more exothermic (larger in magnitude) than the lattice energy of sodium chloride, NaCl.", back:"MgO contains ions with GREATER CHARGE (Mg2+ and O2-, both 2+ and 2- respectively) compared with NaCl (Na+ and Cl-, both singly charged). MgO's ions are also SMALLER in radius than NaCl's ions. Both a greater ionic charge and a smaller ionic radius increase the electrostatic force of attraction between the ions (following Coulomb's law), requiring much more energy to be released when the lattice forms - giving MgO a much more exothermic (more negative) lattice energy than NaCl."},
+  {t:"lattice", id:"lattice-05", front:"Explain the general trend in lattice energy magnitude down Group 2 (e.g. from MgO to BaO), in terms of ionic radius.", back:"Going down Group 2, the metal cation's ionic radius INCREASES (more electron shells). A larger cation means the oppositely charged ions cannot pack as closely together, decreasing the electrostatic force of attraction between them (following Coulomb's law, since force depends on the distance between charge centres) - this makes the lattice energy LESS EXOTHERMIC (smaller in magnitude) going down the group."},
+  {t:"lattice", id:"lattice-06", front:"Distinguish an experimental (Born-Haber cycle) lattice energy value from a theoretical lattice energy value, and explain what a large discrepancy between the two suggests.", back:"An experimental lattice energy is calculated indirectly using a Born-Haber cycle, built from measurable enthalpy changes (atomisation, ionisation, electron affinity, formation) and Hess's Law - it reflects the REAL bonding present in the actual compound. A theoretical lattice energy is calculated mathematically assuming the compound is PURELY IONIC (a perfect model of hard spherical ions with point charges, with no covalent character at all). A LARGE difference between the experimental and theoretical values suggests the compound has SIGNIFICANT COVALENT CHARACTER (some sharing/polarisation of electron density) in its bonding, rather than being purely ionic as the simple theoretical model assumes."},
+  {t:"lattice", id:"lattice-07", front:"Explain, in terms of ion polarisation, why silver iodide, AgI, shows a much larger difference between its experimental and theoretical lattice energies than sodium chloride, NaCl.", back:"The iodide ion, I-, is LARGE, and its outer electron cloud is easily distorted (polarised). The silver ion, Ag+, has a relatively high charge density AND (unlike a simple Group 1 cation of similar size) has an incompletely-shielding d-electron configuration, making it a strongly POLARISING cation. The combination of a highly polarising cation (Ag+) and a highly polarisable anion (I-) causes significant DISTORTION of the iodide ion's electron cloud, giving the Ag-I bond substantial COVALENT CHARACTER - this deviation from a purely ionic model causes a much larger discrepancy between the experimental (real) and theoretical (purely ionic model) lattice energies than seen for NaCl, where sodium's cation and chloride's anion behave much more like ideal, undistorted spherical ions."},
+  {t:"lattice", id:"lattice-08", front:"State two factors that increase the degree of polarisation of an anion by a neighbouring cation.", back:"1) A SMALLER cation (higher charge density), which can approach closer to the anion and exert a stronger distorting pull on its electron cloud. 2) A HIGHER cation charge, which increases the electrostatic attraction/pull on the anion's electron cloud. (On the anion's side: a LARGER anion, with a more diffuse/loosely held electron cloud, is more easily polarised.)"},
+  {t:"lattice", id:"lattice-09", front:"Outline how a Hess cycle (using enthalpy of solution data) can be used to calculate the enthalpy of hydration of a gaseous ion, given the lattice energy of the ionic compound and its measured enthalpy of solution.", back:"Draw a cycle with the solid ionic compound (e.g. NaCl(s)) at the top, its constituent gaseous ions (Na+(g) + Cl-(g)) at one corner, and the aqueous ions in solution (Na+(aq) + Cl-(aq)) at another. The DIRECT route (solid to aqueous ions) is the enthalpy of solution. The INDIRECT route goes via the gaseous ions: first breaking the lattice (the REVERSE of lattice energy, i.e. minus the lattice energy value) to form gaseous ions, then hydrating each gaseous ion (the sum of the enthalpies of hydration of the cation and the anion) to form the aqueous ions. By Hess's Law: enthalpy of solution = (minus lattice energy) + (enthalpy of hydration of cation) + (enthalpy of hydration of anion) - rearranging allows any one unknown value to be calculated if the other three are known."},
+  {t:"lattice", id:"lattice-10", front:"EXAMINER TRAP: A student writes the lattice energy equation for calcium chloride using gaseous calcium chloride 'molecules' reacting to form the solid, rather than separate gaseous ions. Why is this fundamentally wrong?", back:"Lattice energy is SPECIFICALLY defined as formation of the ionic solid from its constituent GASEOUS IONS (e.g. Ca2+(g) + 2Cl-(g), as separate, individual ions), NOT from a hypothetical gaseous 'molecule' of the compound. Ionic compounds do not exist as discrete molecules even in the gas phase in this definition - always write the reactant side of a lattice energy equation as the correctly-charged, separate gaseous ions in the correct stoichiometric ratio, never as a combined neutral 'molecule' unit.", trap:true},
+
+  {t:"entropy", id:"entropy-01", front:"Define entropy.", back:"A measure of the number of ways particles (and their energy) can be arranged in a system - in simpler terms, a measure of the disorder or randomness of a system. A system with more possible arrangements has higher entropy."},
+  {t:"entropy", id:"entropy-02", front:"State the general trend in entropy across the three states of matter (solid, liquid, gas), and explain why.", back:"Entropy increases in the order solid less than liquid less than gas. In a solid, particles are held in fixed positions with only vibrational motion (highly ordered, few possible arrangements). In a liquid, particles can move past one another (more possible arrangements, more disorder). In a gas, particles move freely and independently throughout a much larger volume (the most possible arrangements, the most disorder) - each state up the sequence allows progressively more ways for the particles and their energy to be distributed."},
+  {t:"entropy", id:"entropy-03", front:"Predict the sign of the entropy change, delta S, for the reaction CaCO3(s) -> CaO(s) + CO2(g), and justify.", back:"The entropy change is POSITIVE (an increase in entropy). One mole of solid reactant produces one mole of solid product PLUS one mole of GASEOUS product - since a gas has vastly more possible particle arrangements (higher inherent entropy) than a solid, and the total number of moles of gas increases from zero to one, the overall disorder of the system increases significantly."},
+  {t:"entropy", id:"entropy-04", front:"Give the equation for calculating the standard entropy change of a reaction, delta S, from standard entropy values of reactants and products.", back:"Delta S(reaction) = Sum of S(products) minus Sum of S(reactants), using the standard entropy (S, in J K-1 mol-1) of each species multiplied by its molar coefficient in the balanced equation."},
+  {t:"entropy", id:"entropy-05", front:"Give the equation linking Gibbs free energy change, enthalpy change, and entropy change (the Gibbs equation).", back:"Delta G = Delta H minus (T x Delta S), where Delta G is the Gibbs free energy change (kJ mol-1 or J mol-1), Delta H is the enthalpy change, T is the temperature in Kelvin, and Delta S is the entropy change (careful with units: if Delta H is in kJ mol-1 and Delta S is in J K-1 mol-1, convert one so the units match before substituting, usually by dividing Delta S by 1000)."},
+  {t:"entropy", id:"entropy-06", front:"State the criterion, in terms of Gibbs free energy, for a reaction to be thermodynamically feasible.", back:"A reaction is thermodynamically feasible when Delta G is NEGATIVE (zero or less than zero). A positive Delta G means the reaction is not feasible under those conditions."},
+  {t:"entropy", id:"entropy-07", front:"A reaction has Delta H = +178 kJ mol-1 and Delta S = +161 J K-1 mol-1. Calculate the minimum temperature at which this reaction becomes thermodynamically feasible.", back:"At the minimum feasible temperature, Delta G = 0, so Delta H = T x Delta S, giving T = Delta H / Delta S. Convert Delta H to J mol-1 (178000 J mol-1) to match the units of Delta S (J K-1 mol-1): T = 178000 / 161 = 1106 K (to 4 s.f.), i.e. the reaction becomes feasible at temperatures at or above approximately 1106 K."},
+  {t:"entropy", id:"entropy-08", front:"Explain why a reaction with a POSITIVE enthalpy change (endothermic) and a POSITIVE entropy change can still become thermodynamically feasible at sufficiently HIGH temperature.", back:"In the equation Delta G = Delta H minus (T x Delta S), if Delta S is positive, the term (T x Delta S) becomes LARGER (more positive) as temperature, T, increases. Since this term is SUBTRACTED from Delta H, a sufficiently large (T x Delta S) term can eventually exceed the positive Delta H value, making the overall Delta G NEGATIVE (feasible) - so even an endothermic reaction can become feasible if temperature is high enough and the entropy change is positive."},
+  {t:"entropy", id:"entropy-09", front:"Explain why a reaction with a NEGATIVE enthalpy change (exothermic) and a NEGATIVE entropy change might be feasible at LOW temperature but NOT feasible at HIGH temperature.", back:"With Delta H negative and Delta S negative, the term (T x Delta S) is always negative, and SUBTRACTING a negative number is equivalent to ADDING a positive amount to Delta G. At LOW temperature, this positive contribution (from -T x Delta S, which is positive when Delta S is negative) is small, so Delta G can still be negative overall (feasible, since the negative Delta H dominates). At sufficiently HIGH temperature, this positive contribution becomes large enough to outweigh the negative Delta H, making Delta G positive (not feasible) - so this type of reaction becomes LESS favourable as temperature increases, the opposite pattern to an endothermic, entropy-increasing reaction."},
+  {t:"entropy", id:"entropy-10", front:"A reaction is calculated to be feasible (negative Delta G) at 298 K, yet no reaction is observed to occur when the chemicals are mixed at room temperature. Explain this apparent contradiction.", back:"A negative Delta G only indicates that a reaction is THERMODYNAMICALLY FEASIBLE (energetically favourable overall) - it says NOTHING about the RATE (kinetics) at which the reaction proceeds. The reaction may have a very HIGH ACTIVATION ENERGY, meaning that even though the products are more stable overall, very few collisions have enough energy to actually get the reaction started - the reaction may simply be too SLOW to observe under these conditions, despite being thermodynamically favourable."},
+  {t:"entropy", id:"entropy-11", front:"Explain, in terms of entropy, why increasing the number of PARTICLES on the product side of a reaction (relative to the reactant side) generally increases entropy, using the thermal decomposition of ammonium nitrate as an example type of reaction.", back:"When a single solid or liquid reactant particle breaks apart into a GREATER NUMBER of separate product particles (especially if some or all of these products are gases), there are far more ways for these now-independent particles (and their associated energy) to be arranged and distributed - this increase in the number of independent, freely-moving particles increases the overall disorder (entropy) of the system, giving a positive entropy change."},
+  {t:"entropy", id:"entropy-12", front:"EXAMINER TRAP: A student assumes ALL reactions that release gas must have a large POSITIVE entropy change, without checking whether gas is also present as a REACTANT. Why is checking both sides of the equation essential?", back:"Entropy change depends on the NET change between reactants and products - if a reaction consumes one mole of gas and also produces one mole of a different gas (with no other significant particle number change), the entropy change might be close to ZERO, not strongly positive, since gas is present on both sides. Always compare the TOTAL entropy (accounting for state and number of moles) on the PRODUCT side against the REACTANT side as a whole, rather than assuming any reaction that happens to produce a gas automatically has a large positive entropy change - check what gas (if any) was already present among the reactants too.", trap:true},
+
+  {t:"gibbs", id:"gibbs-01", front:"Outline the method to determine, graphically, the temperature at which a reaction becomes thermodynamically feasible, given a set of Delta G values calculated at different temperatures.", back:"Plot a graph of Delta G (y-axis) against temperature, T, in Kelvin (x-axis) using the calculated Delta G values at each given temperature. Since Delta G = Delta H minus (T x Delta S) has the form of a straight line (y = c + mx, where the gradient is minus Delta S and the y-intercept is Delta H), draw a best-fit straight line through the plotted points. The temperature at which this line crosses Delta G = 0 (crosses the x-axis) is the minimum temperature at which the reaction becomes feasible - read this value directly off the graph."},
+  {t:"gibbs", id:"gibbs-02", front:"From the gradient and intercept of a Delta G vs T graph, explain how the values of Delta H and Delta S for the reaction can be determined.", back:"The Y-INTERCEPT of the graph (where T=0) gives the value of Delta H directly (since at T=0, Delta G = Delta H minus 0 = Delta H). The GRADIENT of the line equals MINUS Delta S (since Delta G = Delta H minus T x Delta S has the form y = c + (-Delta S) x T) - so Delta S = minus the gradient of the line."},
+  {t:"gibbs", id:"gibbs-03", front:"Predict and explain the sign of Delta S(system) for the thermal decomposition of a metal carbonate, MCO3(s) -> MO(s) + CO2(g), and hence explain why increasing temperature generally makes such decompositions more feasible.", back:"Delta S is POSITIVE, since one mole of gas (CO2) is produced from entirely solid reactants and one solid product, substantially increasing the disorder of the system. Since Delta S is positive, in the equation Delta G = Delta H minus (T x Delta S), increasing T makes the (T x Delta S) term larger and more positive, which is SUBTRACTED from Delta H - so Delta G becomes progressively MORE NEGATIVE (more feasible) as temperature increases, explaining why carbonates that don't decompose at room temperature can decompose readily when heated strongly."},
+  {t:"gibbs", id:"gibbs-04", front:"Explain why Group 2 carbonates decompose at a LOWER temperature going UP the group (e.g. magnesium carbonate decomposes more readily than barium carbonate), using both a lattice/polarisation argument and a thermodynamic (Delta G) argument.", back:"Polarisation argument: a smaller Group 2 cation (e.g. Mg2+) has a higher charge density and polarises the carbonate ion's electron cloud more strongly, weakening the C-O bonds within the carbonate ion, making decomposition easier (occurring at lower temperature). Thermodynamic argument: since the entropy change (Delta S) for decomposition is similarly positive for all Group 2 carbonates (same type of reaction, releasing one mole of CO2 gas each time), and the enthalpy of decomposition (Delta H) is generally LESS POSITIVE (less endothermic, i.e. requires less energy) for the smaller cations due to the weaker C-O bonds already discussed, Delta G becomes negative (feasible) at a LOWER minimum temperature for the smaller-cation carbonates (Delta H needing to be overcome by T x Delta S is a smaller hurdle)."},
+  {t:"gibbs", id:"gibbs-05", front:"EXAMINER TRAP: A student calculates Delta G using Delta H in kJ mol-1 and Delta S in J K-1 mol-1 WITHOUT converting the units to match. Why does this cause a large calculation error?", back:"Delta H is usually given/calculated in kJ mol-1, while standard entropy values (and Delta S) are usually given in J K-1 mol-1 - a factor of 1000 difference in the energy unit. If Delta S is not converted to kJ K-1 mol-1 (by dividing by 1000) before substituting into Delta G = Delta H minus (T x Delta S), the (T x Delta S) term will be roughly 1000 times too large (or Delta H effectively 1000 times too small by comparison), giving a wildly incorrect Delta G value. Always check and match units (usually by converting Delta S to kJ K-1 mol-1) before combining Delta H and Delta S numerically.", trap:true}
+];
+
+var TABS = [
+  {key:"lattice", label:"Lattice Energy and Born-Haber"},
+  {key:"entropy", label:"Entropy"},
+  {key:"gibbs", label:"Gibbs Free Energy and Feasibility"}
+];
+
+var STORAGE_KEY = "chemT13EnergeticsIIProgress";
+var progress = {};
+var activeTab = TABS[0].key;
+var flippedIds = {};
+
+function loadProgress(){
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY);
+    progress = raw ? JSON.parse(raw) : {};
+  }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function cardsForTab(tabKey){
+  var out = [];
+  for(var i=0;i<DECK.length;i++){ if(DECK[i].t===tabKey) out.push(DECK[i]); }
+  return out;
+}
+function countKnown(cards){
+  var n=0;
+  for(var i=0;i<cards.length;i++){ if(progress[cards[i].id]==="know") n++; }
+  return n;
+}
+function renderTabs(){
+  var bar = document.getElementById("tabBar");
+  bar.innerHTML = "";
+  for(var i=0;i<TABS.length;i++){
+    (function(tab){
+      var cards = cardsForTab(tab.key);
+      var known = countKnown(cards);
+      var btn = document.createElement("button");
+      btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+      btn.innerHTML = tab.label + '<span class="count">' + known + "/" + cards.length + "</span>";
+      btn.onclick = function(){ activeTab = tab.key; flippedIds = {}; renderAll(); };
+      bar.appendChild(btn);
+    })(TABS[i]);
+  }
+}
+function renderProgressBar(){
+  var cards = cardsForTab(activeTab);
+  var known = countKnown(cards);
+  var pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = known + " / " + cards.length + " known in this tab";
+  var t = null;
+  for(var i=0;i<TABS.length;i++){ if(TABS[i].key===activeTab) t = TABS[i]; }
+  document.getElementById("tabTitle").textContent = t ? t.label : "";
+}
+function renderStats(){
+  var total = DECK.length;
+  var known = countKnown(DECK);
+  var review = 0;
+  for(var i=0;i<DECK.length;i++){ if(progress[DECK[i].id]==="review") review++; }
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+function renderCards(){
+  var container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+  var cards = cardsForTab(activeTab);
+  for(var i=0;i<cards.length;i++){
+    (function(c){
+      var state = progress[c.id];
+      var isFlipped = !!flippedIds[c.id];
+      var el = document.createElement("div");
+      el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+
+      var top = document.createElement("div");
+      top.className = "card-top";
+      var idEl = document.createElement("span");
+      idEl.className = "card-id";
+      idEl.textContent = c.id;
+      top.appendChild(idEl);
+      if(state){
+        var chip = document.createElement("span");
+        chip.className = "status-chip " + state;
+        chip.textContent = state==="know" ? "Known" : "Review";
+        top.appendChild(chip);
+      }
+      el.appendChild(top);
+
+      if(c.trap){
+        var badge = document.createElement("div");
+        badge.className = "trap-badge";
+        badge.textContent = "Examiner Trap";
+        el.appendChild(badge);
+      }
+
+      var body = document.createElement("div");
+      body.className = "card-body" + (isFlipped ? " answer" : "");
+      var label = document.createElement("span");
+      label.className = "label";
+      label.textContent = isFlipped ? "Answer" : "Question";
+      body.appendChild(label);
+      var txt = document.createElement("div");
+      txt.textContent = isFlipped ? c.back : c.front;
+      body.appendChild(txt);
+      el.appendChild(body);
+
+      var hint = document.createElement("div");
+      hint.className = "hint";
+      hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+      el.appendChild(hint);
+
+      el.onclick = function(e){
+        if(e.target && e.target.closest && e.target.closest(".st-btn")) return;
+        flippedIds[c.id] = !flippedIds[c.id];
+        renderCards();
+      };
+
+      if(isFlipped){
+        var st = document.createElement("div");
+        st.className = "self-test";
+        var knowBtn = document.createElement("button");
+        knowBtn.className = "st-btn know-btn";
+        knowBtn.textContent = "I know this";
+        knowBtn.onclick = function(e){ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+        var reviewBtn = document.createElement("button");
+        reviewBtn.className = "st-btn review-btn";
+        reviewBtn.textContent = "Review again";
+        reviewBtn.onclick = function(e){ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+        st.appendChild(knowBtn);
+        st.appendChild(reviewBtn);
+        el.appendChild(st);
+      }
+
+      container.appendChild(el);
+    })(cards[i]);
+  }
+}
+function renderAll(){ renderTabs(); renderProgressBar(); renderStats(); renderCards(); }
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {}; saveProgress(); renderAll();
+  }
+}
+
+loadProgress();
+renderAll();
+
+}catch(err){
+  var d = document.getElementById("diagBox");
+  if(d){ d.style.display="block"; d.textContent = "Script error: " + err.message; }
+}
+</script>
+</body>
+</html>
