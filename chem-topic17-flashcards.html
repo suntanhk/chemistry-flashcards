@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry - Topic 17: Organic Chemistry II</title>
+<style>
+  :root{
+    --bg:#0f1416; --panel:#171f22; --panel-2:#1d272b; --border:#2a373c;
+    --text:#e8eef0; --muted:#8fa3a9; --accent:#4f9cd1; --accent-dim:#2a5a6b;
+    --trap:#e8a23d; --trap-bg:#3a2c15; --know:#4f9cd1; --review:#e8626a;
+    --card-front:#1a2027; --card-back:#16202a; font-size:16px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+  header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);}
+  header h1{margin:0 0 4px;font-size:1.2rem;font-weight:700;letter-spacing:-0.01em;}
+  header p{margin:0;color:var(--muted);font-size:0.85rem;}
+  .deck-stats{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+  nav.tabs{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:20px;font-size:0.72rem;white-space:nowrap;cursor:pointer;transition:all .15s ease;}
+  .tab-btn .count{display:inline-block;margin-left:6px;font-size:0.66rem;color:var(--accent);opacity:0.85;}
+  .tab-btn.active{background:var(--accent-dim);border-color:var(--accent);color:#eaf5ff;}
+  .progress-wrap{padding:0 16px 4px;}
+  .progress-bar{height:6px;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--accent-dim), var(--accent));transition:width .3s ease;}
+  .progress-label{font-size:0.72rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;}
+  main{max-width:640px;margin:0 auto;padding:14px 16px 8px;}
+  .card{position:relative;background:var(--card-front);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;min-height:150px;cursor:pointer;transition:border-color .2s ease, transform .12s ease;overflow:hidden;}
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);} .card.review{border-color:var(--review);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px 0;}
+  .card-id{font-size:0.68rem;color:var(--muted);letter-spacing:0.03em;text-transform:uppercase;}
+  .status-chip{font-size:0.65rem;padding:2px 8px;border-radius:10px;background:var(--panel-2);color:var(--muted);}
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+  .trap-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--trap);background:var(--trap-bg);padding:2px 8px;border-radius:10px;margin:8px 16px 0;width:fit-content;font-weight:600;}
+  .card-body{padding:10px 16px 16px;font-size:0.95rem;line-height:1.5;}
+  .card-body.answer{color:#cfe3f0;}
+  .card-body .label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:4px;}
+  .hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:0 16px 12px;}
+  .self-test{display:flex;gap:8px;padding:0 16px 16px;}
+  .st-btn{flex:1;padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:0.82rem;cursor:pointer;font-weight:600;}
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+  footer{max-width:640px;margin:10px auto 0;padding:10px 16px 30px;text-align:center;}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:10px;font-size:0.75rem;cursor:pointer;}
+  .section-note{font-size:0.78rem;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;line-height:1.5;}
+  .section-note b{color:var(--accent);}
+  .diag{font-size:0.7rem;color:#e8a23d;text-align:center;padding:6px;display:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 17 - Organic Chemistry II</h1>
+  <p>Edexcel Chemistry A-level (9CH0) - A Level Paper 2 and 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<div id="diagBox" class="diag"></div>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+try{
+
+var DECK = [
+  {t:"chiral", id:"chiral-01", front:"Define a chiral centre (asymmetric carbon atom).", back:"A carbon atom that is bonded to FOUR DIFFERENT groups (or atoms). A molecule containing a chiral centre can exist as two non-superimposable mirror-image forms, called enantiomers."},
+  {t:"chiral", id:"chiral-02", front:"Define optical isomers (enantiomers), and state their relationship to each other.", back:"Optical isomers are a pair of stereoisomers that are non-superimposable mirror images of each other (like a left hand and a right hand). They have identical physical and chemical properties EXCEPT for their effect on plane-polarised light and their reaction with other chiral molecules (e.g. in biological systems)."},
+  {t:"chiral", id:"chiral-03", front:"Explain why lactic acid (2-hydroxypropanoic acid), CH3CH(OH)COOH, is chiral, identifying the chiral centre.", back:"The central carbon atom (carbon 2) is bonded to FOUR DIFFERENT groups: a hydrogen atom, a hydroxyl group (-OH), a methyl group (-CH3), and a carboxylic acid group (-COOH). Since all four groups attached to this carbon are different, it is a chiral centre, and the molecule can exist as two non-superimposable mirror-image enantiomers."},
+  {t:"chiral", id:"chiral-04", front:"Describe the effect of a single, pure enantiomer on plane-polarised light, and explain the effect of a racemic mixture.", back:"A single pure enantiomer ROTATES the plane of polarised light by a specific angle, either CLOCKWISE (dextrorotatory, +) or ANTICLOCKWISE (levorotatory, -), depending on which enantiomer it is. A RACEMIC MIXTURE (an exactly equal 50:50 mixture of both enantiomers) produces NO NET rotation of plane-polarised light overall, since the equal and opposite rotations caused by each enantiomer exactly cancel out."},
+  {t:"chiral", id:"chiral-05", front:"Explain why the nucleophilic addition of hydrogen cyanide (HCN) to an unsymmetrical ketone such as butanone produces a RACEMIC MIXTURE of the resulting hydroxynitrile product.", back:"The carbonyl carbon in the ketone is part of a PLANAR (flat) C=O group. The cyanide ion (nucleophile) can attack this planar carbon from EITHER FACE (either side) with EQUAL PROBABILITY, since there is nothing to favour attack from one side over the other. Attack from one face produces one enantiomer, and attack from the other face produces the other enantiomer, in exactly equal amounts - giving a racemic (optically inactive) mixture of the two possible optical isomers of the product."},
+  {t:"chiral", id:"chiral-06", front:"Distinguish E/Z isomerism from optical isomerism in terms of the structural feature required for each.", back:"E/Z isomerism requires a C=C DOUBLE BOND where each carbon of the double bond is attached to two DIFFERENT groups (restricted rotation around the double bond creates distinct spatial arrangements). Optical isomerism requires a carbon atom (a chiral centre) bonded to FOUR DIFFERENT groups (with no double bond needed) - these are two entirely different structural requirements, so a molecule could show one, both, or neither type of isomerism depending on its structure."},
+  {t:"chiral", id:"chiral-07", front:"Explain why it is important, in the pharmaceutical industry, to produce a single enantiomer of a chiral drug molecule rather than a racemic mixture, using the general concept of biological chirality.", back:"Biological systems (e.g. enzymes, receptors) are themselves chiral and often interact very differently with the two enantiomers of a drug molecule - frequently, only ONE enantiomer produces the desired therapeutic effect, while the OTHER enantiomer may be inactive, or in more serious cases, may cause harmful side effects or toxicity (as famously seen with the drug thalidomide). Producing a single, pure enantiomer (rather than an unseparated racemic mixture) ensures the drug is both more effective and safer."},
+  {t:"chiral", id:"chiral-08", front:"Describe how a mixture of two enantiomers could, in principle, be distinguished from a single pure enantiomer using a polarimeter.", back:"Pass plane-polarised light through a sample of the substance in a polarimeter, and measure the angle through which the plane of polarisation is rotated. A single pure enantiomer will show a measurable rotation (either fully clockwise or fully anticlockwise, of a specific, larger magnitude). A racemic (50:50) mixture will show ZERO net rotation. A mixture that is NOT exactly 50:50 (an excess of one enantiomer) will show some rotation, but of a SMALLER magnitude than the pure single enantiomer would show, in the direction associated with whichever enantiomer is in excess."},
+  {t:"chiral", id:"chiral-09", front:"Suggest, with a reason, an appropriate method to obtain a single, optically pure enantiomer from a racemic mixture, or to synthesise it directly.", back:"One approach is to use a biological catalyst (e.g. an enzyme) during synthesis, since enzymes are themselves chiral and can selectively catalyse the formation of just ONE enantiomer (asymmetric/chiral synthesis) rather than producing a racemic mixture. Alternatively, a racemic mixture can sometimes be SEPARATED afterwards (resolved) by reacting it with another single, pure chiral compound to form two different, separable diastereomeric products, which (unlike the original enantiomers) have different physical properties and so can be physically separated."},
+  {t:"chiral", id:"chiral-10", front:"EXAMINER TRAP: A student assumes any molecule containing a carbon atom bonded to four DIFFERENT-LOOKING substituent groups is definitely chiral, without checking carefully. Why must each substituent be checked as genuinely, fully different?", back:"For a carbon to be a true chiral centre, all FOUR attached groups must be genuinely different from one another when compared as complete groups (not just superficially different at first glance) - for example, two seemingly different-looking alkyl chains might turn out to be identical once fully traced out, or a molecule might have an internal plane of symmetry elsewhere that makes it achiral overall (a meso compound) despite appearing to have chiral centres. Always carefully compare all four full substituent groups (not just the first atom of each) before concluding a carbon is a genuine chiral centre.", trap:true},
+
+  {t:"carbonyl", id:"carbonyl-01", front:"Describe a chemical test to distinguish an aldehyde from a ketone using Tollens' reagent, including the expected positive result.", back:"Add Tollens' reagent (an ammoniacal solution of silver nitrate, containing the complex ion [Ag(NH3)2]+) to the unknown compound and gently warm in a water bath. An ALDEHYDE gives a POSITIVE result: a SILVER MIRROR forms on the inside of the test tube (as Ag+ is reduced to metallic silver, while the aldehyde is oxidised to a carboxylic acid). A KETONE gives a NEGATIVE result (no silver mirror forms), since ketones cannot be oxidised in the same way."},
+  {t:"carbonyl", id:"carbonyl-02", front:"Describe a chemical test to distinguish an aldehyde from a ketone using Fehling's solution, including the expected positive result.", back:"Add Fehling's solution (containing blue Cu2+ ions in an alkaline tartrate solution) to the unknown compound and warm. An ALDEHYDE gives a POSITIVE result: a BRICK-RED PRECIPITATE of copper(I) oxide, Cu2O, forms (as Cu2+ is reduced to Cu+, while the aldehyde is oxidised to a carboxylate). A KETONE gives a NEGATIVE result (the solution remains blue, no precipitate forms)."},
+  {t:"carbonyl", id:"carbonyl-03", front:"Describe the use of 2,4-dinitrophenylhydrazine (2,4-DNP) as a test for the carbonyl group, and how the resulting product can help identify the SPECIFIC carbonyl compound present.", back:"Adding 2,4-DNP to a compound containing a carbonyl group (either an aldehyde or a ketone) produces an ORANGE/YELLOW PRECIPITATE (a positive test confirms a C=O group is present, but does NOT distinguish aldehyde from ketone). The precipitate formed can then be recrystallised (purified) and its MELTING POINT measured; this melting point can be compared against a database of known melting points for 2,4-DNP derivatives of specific aldehydes/ketones, allowing the exact identity of the original carbonyl compound to be confirmed."},
+  {t:"carbonyl", id:"carbonyl-04", front:"Describe the mechanism (nucleophilic addition) for the reaction of hydrogen cyanide with propanone, using curly arrows in your description.", back:"The cyanide ion, CN-, acts as a nucleophile: a lone pair on the carbon of CN- attacks the SLIGHTLY POSITIVE carbonyl carbon of propanone (curly arrow from the CN- lone pair to the carbonyl carbon), while the electrons in the C=O pi bond move onto the oxygen atom (curly arrow from the C=O bond to the oxygen), forming a negatively charged alkoxide intermediate with a C-C bond newly formed to the nitrile group and a C-O- group. This alkoxide intermediate then picks up a proton (H+, e.g. from HCN or water) to form the neutral hydroxynitrile product, 2-hydroxy-2-methylpropanenitrile."},
+  {t:"carbonyl", id:"carbonyl-05", front:"State the reagent and conditions used to reduce an aldehyde to a primary alcohol, and a ketone to a secondary alcohol.", back:"Sodium borohydride, NaBH4, in aqueous or alcoholic solution (acting as a source of hydride ions, H-, a nucleophile) - this reduces the C=O double bond of the carbonyl compound by nucleophilic addition, converting an aldehyde into a primary alcohol, and a ketone into a secondary alcohol."},
+  {t:"carbonyl", id:"carbonyl-06", front:"Explain why the reduction of an unsymmetrical ketone by NaBH4 produces a racemic mixture of the resulting secondary alcohol.", back:"The hydride ion (nucleophile) can attack the planar carbonyl carbon from EITHER face with EQUAL probability, just as with the HCN addition mechanism - this produces both possible optical isomers (enantiomers) of the secondary alcohol product in EQUAL amounts, giving a racemic (optically inactive) mixture."},
+  {t:"carbonyl", id:"carbonyl-07", front:"Describe the iodoform test, including the reagents, positive result, and the structural feature it detects.", back:"Add iodine and sodium hydroxide solution (or use potassium iodide with sodium chlorate(I)) to the compound and warm gently. A POSITIVE result is a PALE YELLOW PRECIPITATE of triiodomethane (iodoform, CHI3), with a distinctive antiseptic smell. This positive test indicates the presence of a CH3CO- group (a methyl ketone) directly bonded to a carbonyl carbon, OR a CH3CH(OH)- group (which is first oxidised by the iodine/alkali to the CH3CO- group before giving the positive result)."},
+  {t:"carbonyl", id:"carbonyl-08", front:"State what is meant by nucleophilic addition, in the context of carbonyl compound reactions.", back:"A reaction mechanism in which a nucleophile (an electron pair donor) attacks an electron-deficient carbon atom (here, the carbonyl carbon of a C=O group), and the double bond breaks heterolytically, with BOTH atoms originally joined by the double bond ending up in the SAME product molecule (nothing is eliminated/lost) - the overall result is the ADDITION of the nucleophile (and, after protonation, a hydrogen) across the C=O double bond."},
+  {t:"carbonyl", id:"carbonyl-09", front:"Explain why the carbon atom of a carbonyl group (C=O) is susceptible to nucleophilic attack.", back:"Oxygen is significantly more electronegative than carbon, so the shared electron density in the C=O double bond is pulled towards the oxygen atom, making the CARBON atom of the carbonyl group SLIGHTLY POSITIVELY CHARGED (an electrophilic carbon). This positive character on the carbon attracts and is attacked by electron-rich nucleophiles (species with a lone pair of electrons, such as CN- or H-)."},
+  {t:"carbonyl", id:"carbonyl-10", front:"Give the name and general formula of the class of compounds formed when a carbonyl compound reacts with hydrogen cyanide.", back:"Hydroxynitriles (cyanohydrins), general formula R2C(OH)CN, where R can be hydrogen or an alkyl group - the product contains both a hydroxyl group and a nitrile (cyano) group on the same carbon, which was originally the carbonyl carbon."},
+  {t:"carbonyl", id:"carbonyl-11", front:"Explain the importance of hydroxynitrile formation (via HCN addition to a carbonyl compound) as a synthetic route in organic chemistry, in terms of extending the carbon chain.", back:"This reaction ADDS ONE EXTRA CARBON ATOM to the original carbon skeleton (from the CN group), extending the chain length by one carbon - this is a useful method for lengthening a carbon chain by exactly one carbon in a synthetic route, and the resulting nitrile group can be subsequently hydrolysed (with acid or base) to convert it into a carboxylic acid group, providing a route to make new, longer carboxylic acids from a starting aldehyde or ketone."},
+  {t:"carbonyl", id:"carbonyl-12", front:"State an important safety precaution needed when working with hydrogen cyanide or its salts (e.g. potassium cyanide) in a laboratory experiment.", back:"Hydrogen cyanide (and cyanide salts, which release HCN gas when acidified) are HIGHLY TOXIC - the reaction should be carried out in a FUME CUPBOARD (to avoid inhaling toxic HCN gas/vapour), and skin contact should be avoided (e.g. wearing gloves), since cyanide can also be absorbed through the skin."},
+  {t:"carbonyl", id:"carbonyl-13", front:"Explain why but-2-enal, CH3CH=CHCHO, can undergo BOTH electrophilic addition (across the C=C bond) and nucleophilic addition (across the C=O bond).", back:"The molecule contains TWO different, separate functional groups/multiple bonds: a carbon-carbon double bond, C=C (which is electron-rich, since carbon and carbon/hydrogen have similar electronegativity, making it susceptible to attack by ELECTROPHILES, giving electrophilic addition, e.g. with Br2/HBr) and a carbon-oxygen double bond, C=O (which has an electron-deficient carbon, making it susceptible to attack by NUCLEOPHILES, giving nucleophilic addition, e.g. with HCN or NaBH4) - each functional group reacts according to its own characteristic electronic nature, independently of the other."},
+  {t:"carbonyl", id:"carbonyl-14", front:"EXAMINER TRAP: A student uses Tollens' reagent or Fehling's solution to try to distinguish a ketone from an ALCOHOL, expecting a clear result either way. Why is this the wrong test to choose for this comparison?", back:"Tollens' and Fehling's tests are specifically designed to distinguish an ALDEHYDE from a KETONE (based on whether the carbonyl compound can be further oxidised) - they are NOT appropriate for distinguishing a ketone from an alcohol, since a simple (non-aldehyde) alcohol would also give a negative result with both reagents, identical to a ketone's negative result, providing no useful distinguishing information between the two. A different test (e.g. acidified potassium dichromate, which oxidises a primary or secondary alcohol with a colour change but does not react with a ketone) would be needed to distinguish a ketone from an alcohol instead.", trap:true},
+
+  {t:"acid", id:"acid-01", front:"Describe the observation and give the equation for the reaction of a carboxylic acid with a metal carbonate (e.g. sodium carbonate).", back:"Effervescence (bubbling) is observed as carbon dioxide gas is released. General equation: 2CH3COOH + Na2CO3 -> 2CH3COONa + H2O + CO2 (using ethanoic acid as an example) - this is a standard acid-carbonate reaction, confirming the presence of an acidic -COOH group."},
+  {t:"acid", id:"acid-02", front:"Describe how an ester is prepared from a carboxylic acid and an alcohol, including the catalyst and the type of reaction.", back:"A carboxylic acid is heated under reflux with an alcohol, in the presence of a small amount of concentrated sulfuric acid (acting as a catalyst). This is an ESTERIFICATION (condensation) reaction, and is REVERSIBLE (an equilibrium): RCOOH + R'OH is in equilibrium with RCOOR' + H2O."},
+  {t:"acid", id:"acid-03", front:"State two ways the position of equilibrium in an esterification reaction could be shifted to increase the yield of ester.", back:"1) Use an EXCESS of one of the reactants (e.g. a large excess of the alcohol), shifting the equilibrium position towards the product (ester) side by Le Chatelier's principle. 2) REMOVE one of the products as it forms (e.g. by distilling off the ester as it forms, if it has a lower boiling point, or by removing water using a drying agent/Dean-Stark apparatus), which continuously shifts the equilibrium further towards the products to replace what has been removed."},
+  {t:"acid", id:"acid-04", front:"Describe acid hydrolysis of an ester, including reagents/conditions and the type of reaction.", back:"An ester is heated under reflux with a dilute acid (e.g. dilute sulfuric or hydrochloric acid) and water. This is the REVERSE of esterification (a reversible/equilibrium reaction): RCOOR' + H2O is in equilibrium with RCOOH + R'OH, producing the carboxylic acid and the alcohol."},
+  {t:"acid", id:"acid-05", front:"Describe base (alkaline) hydrolysis of an ester, including reagents/conditions, the type of reaction, and why it is preferred industrially over acid hydrolysis.", back:"An ester is heated under reflux with aqueous sodium hydroxide (or another strong alkali). Unlike acid hydrolysis, this reaction goes to COMPLETION (it is NOT an equilibrium/reversible reaction), producing the SALT (carboxylate ion) of the carboxylic acid, plus the alcohol: RCOOR' + NaOH -> RCOONa + R'OH. Since this reaction is irreversible and goes to completion, it gives a much higher, more reliable yield than the reversible acid hydrolysis, making it generally preferred (this is also the basis of 'saponification', the traditional method of making soap from fats/oils, which are esters)."},
+  {t:"acid", id:"acid-06", front:"Explain why base hydrolysis of an ester is NOT reversible, unlike acid hydrolysis.", back:"Base hydrolysis produces a CARBOXYLATE ION (RCOO-) rather than the neutral carboxylic acid. This carboxylate ion is a much poorer electrophile/is stabilised by delocalisation of its negative charge, and is a much weaker target for nucleophilic attack by the alcohol - the reverse reaction (the alcohol re-attacking the stable carboxylate ion to reform the ester) does not occur to any significant extent under these conditions, so the reaction proceeds effectively to completion in the forward (hydrolysis) direction only."},
+  {t:"acid", id:"acid-07", front:"Give the general reagents and conditions for converting a carboxylic acid into an acyl chloride.", back:"React the carboxylic acid with either phosphorus(V) chloride (PCl5, at room temperature, producing steamy white fumes of HCl as a visible sign of reaction) or with sulfur dichloride oxide / thionyl chloride (SOCl2, often preferred since the by-products, SO2 and HCl, are both gases and easily removed, giving a purer product): RCOOH + SOCl2 -> RCOCl + SO2 + HCl."},
+  {t:"acid", id:"acid-08", front:"Describe how you would prepare a pure, dry sample of an ester in the laboratory from a carboxylic acid and an alcohol, outlining the key purification steps after the reflux reaction.", back:"After heating the carboxylic acid, alcohol and concentrated sulfuric acid catalyst under reflux, the mixture is distilled to separate the (usually more volatile) ester product from unreacted starting materials. The distillate is then shaken with sodium carbonate solution (to neutralise/remove any unreacted acid and remaining sulfuric acid catalyst, producing CO2 gas as a visible sign this is happening), and the resulting organic (ester) layer separated using a separating funnel. The ester layer is then dried using an anhydrous drying agent (e.g. anhydrous magnesium sulfate) to remove any remaining water, before being decanted/filtered and, if needed, redistilled to obtain a pure, dry product."},
+  {t:"acid", id:"acid-09", front:"State the general trend in boiling temperature of carboxylic acids compared with alcohols and alkanes of similar relative molecular mass, and explain why.", back:"Carboxylic acids generally have HIGHER boiling temperatures than alcohols or alkanes of similar Mr. Carboxylic acid molecules can form STRONG hydrogen bonds with each other (via both the C=O and O-H parts of the -COOH group), and typically form stable, doubly-hydrogen-bonded DIMERS (pairs of molecules linked by two hydrogen bonds), which effectively doubles the molecular mass being moved and requires significantly more energy to separate compared with the single hydrogen bonds available to alcohol molecules, giving carboxylic acids a higher boiling point."},
+  {t:"acid", id:"acid-10", front:"Explain why esters generally have LOWER boiling temperatures than the carboxylic acids and alcohols they are made from, despite similar or greater molecular mass.", back:"Esters CANNOT form hydrogen bonds with each other, since although they contain electronegative oxygen atoms, they have NO O-H or N-H bond available to act as a hydrogen bond DONOR (the ester's hydrogen atoms are all attached to carbon, not to oxygen). Esters can only experience weaker permanent dipole-dipole and London (van der Waals) forces between molecules, requiring less energy to overcome, giving them a lower boiling temperature than the hydrogen-bonding carboxylic acid and alcohol they were made from."},
+  {t:"acid", id:"acid-11", front:"Give an important industrial or everyday use of esters, linked to a relevant physical property.", back:"Esters are widely used as FLAVOURINGS and FRAGRANCES (e.g. in foods and perfumes), since many naturally-occurring esters have pleasant, characteristic fruity smells, and their relatively LOW boiling points (compared with the parent acid/alcohol) mean they are sufficiently VOLATILE to evaporate and be detected by smell at room temperature."},
+  {t:"acid", id:"acid-12", front:"EXAMINER TRAP: A student assumes acid hydrolysis and base (alkaline) hydrolysis of an ester always give exactly the SAME final products in the SAME form. Why is this an oversimplification?", back:"While BOTH acid and base hydrolysis break the ester back down into an alcohol and a carboxylic-acid-related species, the PRODUCT FORM differs: acid hydrolysis gives the NEUTRAL carboxylic acid (RCOOH) directly, while base hydrolysis gives the carboxylate SALT/ion (RCOO- Na+, not the free acid) - to obtain the free carboxylic acid from a base hydrolysis, a subsequent acidification step would be needed. Always specify which product form (acid vs salt) results from which hydrolysis method, rather than treating the two methods as interchangeable in every respect.", trap:true},
+
+  {t:"acyl", id:"acyl-01", front:"State what is meant by an acyl chloride, giving its general formula and functional group.", back:"An acyl chloride is a carboxylic acid derivative in which the -OH group of the carboxylic acid has been replaced by a chlorine atom. General formula: RCOCl. The functional group is -COCl."},
+  {t:"acyl", id:"acyl-02", front:"Explain why acyl chlorides are MORE REACTIVE than the corresponding carboxylic acids towards nucleophiles, in terms of the leaving group.", back:"In an acyl chloride, chlorine is a much BETTER LEAVING GROUP than the hydroxide/oxygen-based leaving group involved in a carboxylic acid's reactions - chlorine is a larger, more electronegative atom that can stabilise the negative charge as it departs more effectively, and the C-Cl bond is generally easier to break heterolytically than the equivalent bond situation in a carboxylic acid. This makes the nucleophilic addition-elimination reaction proceed much more readily (faster, under milder conditions) for acyl chlorides."},
+  {t:"acyl", id:"acyl-03", front:"Describe the observation and give the equation for the reaction of an acyl chloride with cold water.", back:"A VIGOROUS (often violent) reaction occurs, producing STEAMY WHITE FUMES of hydrogen chloride gas, and the acyl chloride is hydrolysed to the corresponding carboxylic acid: RCOCl + H2O -> RCOOH + HCl."},
+  {t:"acyl", id:"acyl-04", front:"Describe the reaction of an acyl chloride with an alcohol, including the product formed and observable evidence of reaction.", back:"The acyl chloride reacts with the alcohol (often at room temperature, without needing a catalyst, unlike esterification from a carboxylic acid) to form an ESTER, with STEAMY WHITE FUMES of HCl gas given off as visible evidence: RCOCl + R'OH -> RCOOR' + HCl."},
+  {t:"acyl", id:"acyl-05", front:"Describe the reaction of an acyl chloride with concentrated ammonia solution, including the product formed.", back:"The acyl chloride reacts with ammonia to form a PRIMARY AMIDE, with white steamy fumes of HCl (or, since excess ammonia is often present, the HCl reacts further with ammonia to form white smoke/fumes of ammonium chloride, NH4Cl): RCOCl + 2NH3 -> RCONH2 + NH4Cl (using excess ammonia to mop up the HCl by-product)."},
+  {t:"acyl", id:"acyl-06", front:"Describe the reaction of an acyl chloride with a primary amine, including the product formed.", back:"The acyl chloride reacts with the primary amine to form a SECONDARY (N-substituted) AMIDE: RCOCl + R'NH2 -> RCONHR' + HCl (this reaction, forming an amide bond, is directly analogous to the type of bond-forming reaction used to make peptide/protein bonds in biological systems)."},
+  {t:"acyl", id:"acyl-07", front:"Name the general type of mechanism by which acyl chlorides react with water, alcohols and amines, and briefly outline its two key stages.", back:"Nucleophilic addition-elimination. Stage 1 (addition): the nucleophile (e.g. the oxygen of water/alcohol, or the nitrogen of ammonia/amine, using its lone pair) attacks the electron-deficient carbonyl carbon of the acyl chloride, forming a tetrahedral intermediate (as the C=O pi electrons move onto the oxygen). Stage 2 (elimination): the tetrahedral intermediate collapses, re-forming the C=O double bond and expelling the chloride ion, Cl-, as the leaving group (which then typically picks up a proton to form HCl, observed as fumes)."},
+  {t:"acyl", id:"acyl-08", front:"Give a reason why acyl chlorides, rather than carboxylic acids, are often preferred in industrial or laboratory synthesis of esters and amides.", back:"Acyl chlorides react MUCH FASTER (are much more reactive) with nucleophiles such as alcohols and amines than the corresponding carboxylic acids do, and these reactions with acyl chlorides typically go to COMPLETION in one direction (not as an equilibrium, unlike esterification from a carboxylic acid, which is reversible and requires a catalyst/reflux and gives a lower/limited yield) - using acyl chlorides gives faster reactions, milder conditions, and typically higher, more complete yields of the desired ester or amide product."},
+  {t:"acyl", id:"acyl-09", front:"State a necessary safety precaution when handling acyl chlorides in the laboratory, with a reason.", back:"Acyl chlorides should be handled in a FUME CUPBOARD, since they react vigorously (and can react violently) with moisture, including atmospheric water vapour, releasing toxic and corrosive hydrogen chloride gas/fumes - working in a fume cupboard protects against inhaling these fumes and limits uncontrolled exposure to the reactive acyl chloride itself."},
+  {t:"acyl", id:"acyl-10", front:"EXAMINER TRAP: A student writes the reaction of an acyl chloride with ammonia and forgets to account for the SECOND equivalent of ammonia needed to neutralise the HCl by-product. Why does this omission matter for a fully-balanced equation?", back:"If only ONE mole of ammonia is used per mole of acyl chloride, the initial amide-forming reaction produces HCl as a by-product, which would then react with any EXCESS ammonia present in the reaction mixture (since ammonia is typically used in excess/concentrated solution) to form ammonium chloride, NH4Cl, rather than free HCl gas remaining in solution. A fully accurate overall equation for the reaction with excess ammonia should show TWO moles of NH3 reacting (one forming the amide, one mopping up the HCl as NH4Cl) - omitting this second equivalent gives an equation that, while sometimes accepted in simplified form, doesn't fully account for what is actually observed (white smoke of ammonium chloride, rather than free HCl gas escaping) when excess ammonia is present.", trap:true}
+];
+
+var TABS = [
+  {key:"chiral", label:"Chirality and Optical Isomerism"},
+  {key:"carbonyl", label:"Aldehydes and Ketones"},
+  {key:"acid", label:"Carboxylic Acids and Esters"},
+  {key:"acyl", label:"Acyl Chlorides"}
+];
+
+var STORAGE_KEY = "chemT17OrganicIIProgress";
+var progress = {};
+var activeTab = TABS[0].key;
+var flippedIds = {};
+
+function loadProgress(){
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY);
+    progress = raw ? JSON.parse(raw) : {};
+  }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function cardsForTab(tabKey){
+  var out = [];
+  for(var i=0;i<DECK.length;i++){ if(DECK[i].t===tabKey) out.push(DECK[i]); }
+  return out;
+}
+function countKnown(cards){
+  var n=0;
+  for(var i=0;i<cards.length;i++){ if(progress[cards[i].id]==="know") n++; }
+  return n;
+}
+function renderTabs(){
+  var bar = document.getElementById("tabBar");
+  bar.innerHTML = "";
+  for(var i=0;i<TABS.length;i++){
+    (function(tab){
+      var cards = cardsForTab(tab.key);
+      var known = countKnown(cards);
+      var btn = document.createElement("button");
+      btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+      btn.innerHTML = tab.label + '<span class="count">' + known + "/" + cards.length + "</span>";
+      btn.onclick = function(){ activeTab = tab.key; flippedIds = {}; renderAll(); };
+      bar.appendChild(btn);
+    })(TABS[i]);
+  }
+}
+function renderProgressBar(){
+  var cards = cardsForTab(activeTab);
+  var known = countKnown(cards);
+  var pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = known + " / " + cards.length + " known in this tab";
+  var t = null;
+  for(var i=0;i<TABS.length;i++){ if(TABS[i].key===activeTab) t = TABS[i]; }
+  document.getElementById("tabTitle").textContent = t ? t.label : "";
+}
+function renderStats(){
+  var total = DECK.length;
+  var known = countKnown(DECK);
+  var review = 0;
+  for(var i=0;i<DECK.length;i++){ if(progress[DECK[i].id]==="review") review++; }
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+function renderCards(){
+  var container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+  var cards = cardsForTab(activeTab);
+  for(var i=0;i<cards.length;i++){
+    (function(c){
+      var state = progress[c.id];
+      var isFlipped = !!flippedIds[c.id];
+      var el = document.createElement("div");
+      el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+
+      var top = document.createElement("div");
+      top.className = "card-top";
+      var idEl = document.createElement("span");
+      idEl.className = "card-id";
+      idEl.textContent = c.id;
+      top.appendChild(idEl);
+      if(state){
+        var chip = document.createElement("span");
+        chip.className = "status-chip " + state;
+        chip.textContent = state==="know" ? "Known" : "Review";
+        top.appendChild(chip);
+      }
+      el.appendChild(top);
+
+      if(c.trap){
+        var badge = document.createElement("div");
+        badge.className = "trap-badge";
+        badge.textContent = "Examiner Trap";
+        el.appendChild(badge);
+      }
+
+      var body = document.createElement("div");
+      body.className = "card-body" + (isFlipped ? " answer" : "");
+      var label = document.createElement("span");
+      label.className = "label";
+      label.textContent = isFlipped ? "Answer" : "Question";
+      body.appendChild(label);
+      var txt = document.createElement("div");
+      txt.textContent = isFlipped ? c.back : c.front;
+      body.appendChild(txt);
+      el.appendChild(body);
+
+      var hint = document.createElement("div");
+      hint.className = "hint";
+      hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+      el.appendChild(hint);
+
+      el.onclick = function(e){
+        if(e.target && e.target.closest && e.target.closest(".st-btn")) return;
+        flippedIds[c.id] = !flippedIds[c.id];
+        renderCards();
+      };
+
+      if(isFlipped){
+        var st = document.createElement("div");
+        st.className = "self-test";
+        var knowBtn = document.createElement("button");
+        knowBtn.className = "st-btn know-btn";
+        knowBtn.textContent = "I know this";
+        knowBtn.onclick = function(e){ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+        var reviewBtn = document.createElement("button");
+        reviewBtn.className = "st-btn review-btn";
+        reviewBtn.textContent = "Review again";
+        reviewBtn.onclick = function(e){ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+        st.appendChild(knowBtn);
+        st.appendChild(reviewBtn);
+        el.appendChild(st);
+      }
+
+      container.appendChild(el);
+    })(cards[i]);
+  }
+}
+function renderAll(){ renderTabs(); renderProgressBar(); renderStats(); renderCards(); }
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {}; saveProgress(); renderAll();
+  }
+}
+
+loadProgress();
+renderAll();
+
+}catch(err){
+  var d = document.getElementById("diagBox");
+  if(d){ d.style.display="block"; d.textContent = "Script error: " + err.message; }
+}
+</script>
+</body>
+</html>
