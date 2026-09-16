@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry - Topic 18: Organic Chemistry III</title>
+<style>
+  :root{
+    --bg:#0f1416; --panel:#171f22; --panel-2:#1d272b; --border:#2a373c;
+    --text:#e8eef0; --muted:#8fa3a9; --accent:#4f9cd1; --accent-dim:#2a5a6b;
+    --trap:#e8a23d; --trap-bg:#3a2c15; --know:#4f9cd1; --review:#e8626a;
+    --card-front:#1a2027; --card-back:#16202a; font-size:16px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+  header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);}
+  header h1{margin:0 0 4px;font-size:1.2rem;font-weight:700;letter-spacing:-0.01em;}
+  header p{margin:0;color:var(--muted);font-size:0.85rem;}
+  .deck-stats{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+  nav.tabs{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:20px;font-size:0.72rem;white-space:nowrap;cursor:pointer;transition:all .15s ease;}
+  .tab-btn .count{display:inline-block;margin-left:6px;font-size:0.66rem;color:var(--accent);opacity:0.85;}
+  .tab-btn.active{background:var(--accent-dim);border-color:var(--accent);color:#eaf5ff;}
+  .progress-wrap{padding:0 16px 4px;}
+  .progress-bar{height:6px;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--accent-dim), var(--accent));transition:width .3s ease;}
+  .progress-label{font-size:0.72rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;}
+  main{max-width:640px;margin:0 auto;padding:14px 16px 8px;}
+  .card{position:relative;background:var(--card-front);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;min-height:150px;cursor:pointer;transition:border-color .2s ease, transform .12s ease;overflow:hidden;}
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);} .card.review{border-color:var(--review);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px 0;}
+  .card-id{font-size:0.68rem;color:var(--muted);letter-spacing:0.03em;text-transform:uppercase;}
+  .status-chip{font-size:0.65rem;padding:2px 8px;border-radius:10px;background:var(--panel-2);color:var(--muted);}
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+  .trap-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--trap);background:var(--trap-bg);padding:2px 8px;border-radius:10px;margin:8px 16px 0;width:fit-content;font-weight:600;}
+  .card-body{padding:10px 16px 16px;font-size:0.95rem;line-height:1.5;}
+  .card-body.answer{color:#cfe3f0;}
+  .card-body .label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:4px;}
+  .hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:0 16px 12px;}
+  .self-test{display:flex;gap:8px;padding:0 16px 16px;}
+  .st-btn{flex:1;padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:0.82rem;cursor:pointer;font-weight:600;}
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+  footer{max-width:640px;margin:10px auto 0;padding:10px 16px 30px;text-align:center;}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:10px;font-size:0.75rem;cursor:pointer;}
+  .section-note{font-size:0.78rem;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;line-height:1.5;}
+  .section-note b{color:var(--accent);}
+  .diag{font-size:0.7rem;color:#e8a23d;text-align:center;padding:6px;display:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 18 - Organic Chemistry III</h1>
+  <p>Edexcel Chemistry A-level (9CH0) - A Level Paper 2 and 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<div id="diagBox" class="diag"></div>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+try{
+
+var DECK = [
+  {t:"arene", id:"arene-01", front:"Describe the Kekule model of benzene, and give one piece of evidence AGAINST this model.", back:"The Kekule model describes benzene as a six-membered ring with ALTERNATING single and double carbon-carbon bonds (three C=C and three C-C). Evidence against this model: X-ray diffraction shows ALL SIX carbon-carbon bond lengths in benzene are actually EQUAL (at an intermediate length between a typical single and double C-C bond) - this is inconsistent with the Kekule model, which predicts two clearly different bond lengths (shorter C=C, longer C-C) alternating around the ring."},
+  {t:"arene", id:"arene-02", front:"Describe the modern (delocalised) model of benzene's structure and bonding.", back:"Each of the six carbon atoms in the ring is sp2 hybridised, forming three sigma bonds (two to neighbouring ring carbons, one to a hydrogen atom), leaving one electron in a p-orbital perpendicular to the plane of the ring on each carbon. These six p-orbitals overlap sideways with each other, forming a DELOCALISED system of pi electrons spread over a ring-shaped electron cloud above and below the plane of the ring, rather than existing as three separate, localised C=C double bonds."},
+  {t:"arene", id:"arene-03", front:"Give a reason, based on enthalpy of hydrogenation data, for preferring the delocalised model of benzene over the Kekule model.", back:"The experimentally-measured enthalpy of hydrogenation of benzene is significantly LESS EXOTHERMIC than the value predicted/calculated by assuming benzene contains three separate, localised C=C double bonds (as the Kekule model would predict, based on three times the hydrogenation enthalpy of a single C=C bond in, e.g., cyclohexene). This difference (sometimes called the resonance/delocalisation energy) shows that the delocalised ring in real benzene is MORE STABLE (lower in energy) than the hypothetical Kekule structure with three isolated double bonds would be - consistent with the extra stability provided by the delocalised pi system."},
+  {t:"arene", id:"arene-04", front:"Explain why benzene undergoes ELECTROPHILIC SUBSTITUTION reactions rather than the electrophilic ADDITION reactions typical of simple alkenes.", back:"Benzene's delocalised ring of pi electrons is particularly STABLE (lower in energy than a set of localised double bonds would be). If benzene underwent addition (like an alkene), this stable delocalised system would be PERMANENTLY DISRUPTED/broken, which is energetically unfavourable. SUBSTITUTION reactions, in contrast, allow one hydrogen atom to be replaced by another group while the delocalised ring system is REGENERATED/restored once the reaction is complete, preserving benzene's extra stability - this is why substitution is favoured over addition for benzene and its derivatives."},
+  {t:"arene", id:"arene-05", front:"Describe the mechanism for the nitration of benzene, including the electrophile generated and the role of the catalyst.", back:"Concentrated nitric acid reacts with concentrated sulfuric acid (the catalyst) to generate the electrophile, the nitronium ion, NO2+: HNO3 + 2H2SO4 -> NO2+ + H3O+ + 2HSO4-. This electrophile is attacked by the delocalised pi electrons of the benzene ring, forming a positively charged, non-aromatic intermediate (with the delocalised system temporarily disrupted over 5 carbons). A hydrogen ion is then lost from this intermediate (regenerating the stable, fully delocalised aromatic ring) and reacts with HSO4- to regenerate the H2SO4 catalyst, alongside the nitrobenzene product."},
+  {t:"arene", id:"arene-06", front:"Describe the conditions and catalyst needed for the Friedel-Crafts acylation of benzene, and name the type of catalyst used.", back:"Benzene is reacted with an acyl chloride (e.g. ethanoyl chloride, CH3COCl) in the presence of a Lewis acid catalyst, most commonly anhydrous aluminium chloride, AlCl3, under reflux (anhydrous conditions are essential, as AlCl3 reacts violently with water). AlCl3 acts as the catalyst by helping to generate a more powerful electrophile (an acylium ion) from the acyl chloride."},
+  {t:"arene", id:"arene-07", front:"Explain the role of aluminium chloride, AlCl3, in generating the electrophile for Friedel-Crafts acylation.", back:"AlCl3 is a Lewis acid (an electron-pair acceptor) that accepts a lone pair from the chlorine atom of the acyl chloride, polarising and eventually breaking the C-Cl bond heterolytically. This generates a positively charged ACYLIUM ION (RCO+), a much stronger/more reactive electrophile than the acyl chloride alone, along with an AlCl4- ion - the acylium ion is the species that actually attacks the benzene ring's pi electron system."},
+  {t:"arene", id:"arene-08", front:"Explain why phenol reacts much more readily with bromine water (undergoing substitution without needing a catalyst) compared with benzene, which requires a halogen carrier catalyst.", back:"In phenol, one of the lone pairs on the oxygen atom of the -OH group is DELOCALISED (donated) into the benzene ring's pi system, INCREASING the electron density of the ring. This higher electron density makes the ring a much stronger nucleophile, able to attack and polarise the Br-Br bond directly (inducing a dipole in the approaching bromine molecule without needing a separate catalyst) - unlike plain benzene, whose ring electron density alone is not sufficient to do this, requiring a halogen carrier catalyst (e.g. FeBr3 or AlCl3) to first generate a fully-formed Br+ electrophile instead."},
+  {t:"arene", id:"arene-09", front:"Explain why the presence of a nitro group, -NO2, on a benzene ring makes further electrophilic substitution reactions occur MORE SLOWLY (deactivates the ring), compared with unsubstituted benzene.", back:"The nitro group is STRONGLY ELECTRON-WITHDRAWING (due to the electronegative oxygen atoms and the positive nitrogen within the group), which pulls electron density AWAY from the delocalised ring system (by an inductive and/or resonance withdrawing effect), DECREASING the electron density of the ring. Since electrophilic substitution reactions rely on the ring's pi electrons attacking/polarising the approaching electrophile, this reduced electron density makes the ring a WEAKER nucleophile, slowing down the rate of further electrophilic substitution reactions compared with benzene itself."},
+  {t:"arene", id:"arene-10", front:"EXAMINER TRAP: A student explains benzene's resistance to addition reactions using only 'benzene is aromatic, so it doesn't react like an alkene', without giving the underlying energetic reason. Why is this insufficient for full marks?", back:"A full-mark answer must explain WHY aromaticity resists addition, specifically in terms of the STABILITY of the delocalised pi electron system: addition would require permanently breaking up this extra-stable, lower-energy delocalised arrangement, which is energetically unfavourable compared to substitution (which preserves/regenerates the delocalised ring). Simply asserting 'it's aromatic so it's different' without linking to the actual energetic stability argument (supported by enthalpy of hydrogenation evidence) misses the reasoning examiners are specifically looking for.", trap:true},
+
+  {t:"amine", id:"amine-01", front:"Compare and contrast the preparation of phenylamine from nitrobenzene with the preparation of butylamine from butanenitrile.", back:"Phenylamine from nitrobenzene: this is a REDUCTION reaction, using tin (Sn) and concentrated hydrochloric acid, followed by addition of excess NaOH to free the amine from its salt (or using other reducing agents such as Fe/HCl). Butylamine from butanenitrile: this is ALSO a reduction reaction, but typically uses a different reducing agent, such as LiAlH4 in dry ether (or H2 with a nickel catalyst) - both preparations are reductions, but they use DIFFERENT reducing agents/conditions suited to reducing a nitro group versus a nitrile group respectively."},
+  {t:"amine", id:"amine-02", front:"Give the reagent(s) and essential conditions for preparing propylamine from a nitrile (propanenitrile), including the equation.", back:"Reagent: LiAlH4 (lithium aluminium hydride) in dry ether (anhydrous conditions are essential, since LiAlH4 reacts violently/explosively with water). Equation: CH3CH2CN + 4[H] -> CH3CH2CH2NH2 (using [H] to represent hydrogen from the reducing agent) - this reduces the nitrile group directly to a primary amine, extending no carbon atoms (the nitrile's carbon becomes the amine's terminal CH2NH2 carbon)."},
+  {t:"amine", id:"amine-03", front:"Give the reagent(s) and essential conditions for preparing propylamine from a halogenoalkane (1-chloropropane), including the equation.", back:"Reagent: excess concentrated ammonia, NH3, dissolved in ethanol, heated under pressure (in a sealed tube, since ammonia is normally a gas at room temperature and pressure and would otherwise escape). Equation: CH3CH2CH2Cl + 2NH3 -> CH3CH2CH2NH2 + NH4Cl (excess ammonia is needed both to act as the nucleophile and to mop up the HCl by-product as ammonium chloride, otherwise further substitution could occur to form secondary/tertiary amines)."},
+  {t:"amine", id:"amine-04", front:"Explain why phenylamine is a WEAKER base than butylamine (an aliphatic amine).", back:"In phenylamine, the LONE PAIR of electrons on the nitrogen atom is partially DELOCALISED into the benzene ring's pi electron system (since the nitrogen is directly attached to the ring). This delocalisation makes the lone pair LESS AVAILABLE to accept a proton (H+) - the defining feature of basicity - compared with butylamine, where the nitrogen's lone pair is fully localised and freely available to accept a proton, plus the electron-donating alkyl group in butylamine further increases the electron density (and therefore availability) of the lone pair. Both effects make phenylamine a significantly weaker base than butylamine."},
+  {t:"amine", id:"amine-05", front:"Write the equation for the reaction of butylamine with water that explains why an aqueous solution of butylamine has a pH greater than 7.", back:"C4H9NH2 + H2O is in equilibrium with C4H9NH3+ + OH- (butylamine acts as a base, accepting a proton from water and releasing hydroxide ions, OH-, into solution, making the solution alkaline)."},
+  {t:"amine", id:"amine-06", front:"Draw/describe the mechanism for the reaction of 1-chloropropane with excess ammonia to form propylamine, including curly arrows.", back:"The lone pair of electrons on the nitrogen atom of ammonia attacks the SLIGHTLY POSITIVE carbon atom (bonded to the electronegative chlorine) of 1-chloropropane (curly arrow from the N lone pair to that carbon), while the C-Cl bond breaks heterolytically, with both electrons going to the chlorine atom to form a chloride ion (curly arrow from the C-Cl bond to the Cl atom). This forms an intermediate positively-charged ammonium-type ion (propylammonium chloride, CH3CH2CH2NH3+ Cl-), which then reacts with a second molecule of ammonia (acting as a base, its lone pair attacking one of the N-H hydrogens of the intermediate) to remove a proton, forming the neutral primary amine, propylamine, and a new ammonium ion, NH4+."},
+  {t:"amine", id:"amine-07", front:"Explain how the reaction of butylamine with ethanoyl chloride illustrates that butylamine acts as BOTH a nucleophile and a base.", back:"As a NUCLEOPHILE: the lone pair of electrons on butylamine's nitrogen atom attacks the electron-deficient carbonyl carbon of ethanoyl chloride, forming a new C-N bond (part of the nucleophilic addition-elimination mechanism that produces the amide). As a BASE: since 2 moles of butylamine typically react with 1 mole of ethanoyl chloride, the SECOND mole of butylamine acts as a base, accepting the H+ (from the HCl by-product generated when the amide bond forms), forming butylammonium chloride as a second product alongside the amide."},
+  {t:"amine", id:"amine-08", front:"Write the equation for the reaction between propanoyl chloride and pentylamine, and name the amide product formed.", back:"CH3CH2COCl + 2CH3(CH2)4NH2 -> CH3CH2CONH(CH2)4CH3 + CH3(CH2)4NH3+Cl- (one mole of pentylamine reacts to form the amide bond; a second mole of pentylamine acts as a base, mopping up the HCl by-product as pentylammonium chloride). The amide product formed is N-pentylpropanamide."},
+  {t:"amine", id:"amine-09", front:"Explain why lysine requires a LARGER volume of hydrochloric acid to fully react than serine, for equal concentrations and volumes of each amino acid solution.", back:"Lysine has an additional BASIC side-chain group (a second -NH2 group in its side chain), in addition to the main amine group present in all amino acids - this gives lysine TWO basic sites capable of reacting with (accepting a proton from) hydrochloric acid, compared with serine, which (having no additional basic side-chain group, only a neutral -OH side chain) has only ONE basic site (its main amine group). Since lysine needs twice as many moles of HCl per mole of amino acid to fully react, a LARGER volume of the same concentration HCl is required for lysine than for serine."},
+  {t:"amine", id:"amine-10", front:"Give the structural formula (or describe the structure) of the product formed when an amino acid reacts with (a) aqueous sodium hydroxide, and (b) excess dilute hydrochloric acid.", back:"(a) With NaOH: the -COOH group of the amino acid reacts (loses a proton) to form the carboxylate ion, -COO-, giving the amino acid's SALT form (with the amine group remaining as -NH2, assuming no separate basic side chain) - an overall NEGATIVELY charged species. (b) With excess HCl: the -NH2 group of the amino acid is protonated to form -NH3+, giving the PROTONATED (positively charged) form of the amino acid (with the -COOH group remaining unionised in strongly acidic conditions) - an overall POSITIVELY charged species."},
+  {t:"amine", id:"amine-11", front:"Explain why a hot aqueous solution of glycinate ions, formed by deprotonating glycine, would have NO EFFECT on plane-polarised light.", back:"Glycine (and its glycinate ion) is the SIMPLEST amino acid, with a structure of H2NCH2COOH (or its ionised forms) - the central carbon is bonded to TWO IDENTICAL hydrogen atoms (as well as an amine group and a carboxylic acid/carboxylate group), meaning it is NOT bonded to four different groups, and therefore is NOT a chiral centre. Since glycine has no chiral centre, it is achiral (optically inactive), and a solution of glycinate ions would have no effect on plane-polarised light."},
+  {t:"amine", id:"amine-12", front:"Two students prepare copper(II) glycinate crystals; the expected yield is 82%, but Student 1 obtains 102.6% and Student 2 obtains 56.4% (both calculated correctly). Suggest possible reasons for each result.", back:"Student 1 (yield greater than 100%, impossible for a truly pure product): this suggests the crystals obtained were NOT PURE - likely still containing residual water (not fully dried) or other impurities/unreacted starting material, adding extra mass beyond the pure product, artificially inflating the apparent yield above the true maximum possible. Student 2 (yield well below expected, 56.4% vs 82%): this suggests SIGNIFICANT LOSS of product during the practical procedure - for example, loss of dissolved product during filtration/rinsing (if the product is somewhat soluble even in cold water), incomplete crystallisation (not enough time given/not cooled enough for crystals to fully form), or transfer losses between apparatus."},
+  {t:"amine", id:"amine-13", front:"Explain why, in the acid hydrolysis of a dipeptide (e.g. alanine-lysine) followed by column chromatography using a polar stationary phase, lysine leaves the column AFTER alanine.", back:"Lysine has an ADDITIONAL basic amine side-chain group (making it more polar/more strongly interacting with a polar stationary phase, and also potentially existing with an additional positive charge under the acidic hydrolysis conditions used) compared with alanine (which has only a simple, small, non-polar methyl side chain). Since lysine interacts more strongly with the POLAR stationary phase (being retained more strongly/adsorbed more), it takes LONGER to travel through and elute from the column, meaning lysine leaves (elutes from) the column AFTER the less strongly retained, less polar alanine."},
+  {t:"amine", id:"amine-14", front:"Describe how amino acids join together to form a dipeptide, naming the type of reaction and the bond formed.", back:"Two amino acid molecules join together via a CONDENSATION reaction: the -COOH group of one amino acid reacts with the -NH2 group of another amino acid, releasing a molecule of water and forming a new C-N bond, called a PEPTIDE BOND (which is the same type of bond as an amide bond, -CONH-, linking the two amino acid residues together into a dipeptide)."},
+  {t:"amine", id:"amine-15", front:"Deduce the single amino-acid-type monomer needed to form a polyamide via condensation polymerisation, given the polymer contains a repeating -NH-(CH2)x-CO- type unit.", back:"A single monomer capable of forming this type of polyamide by self-condensation must contain BOTH an amine group (-NH2) AND a carboxylic acid group (-COOH) within the SAME molecule (an amino acid, e.g. H2N-(CH2)x-COOH) - each monomer's -COOH reacts with the next monomer's -NH2 (releasing water each time), joining many molecules together into a long-chain polyamide with a repeating -NH-(CH2)x-CO- unit."},
+  {t:"amine", id:"amine-16", front:"Deduce the TWO monomers needed to form a polyamide (such as nylon-6,6) via condensation polymerisation, given the polymer contains alternating diamine and diacyl/diacid-derived units.", back:"TWO different monomers are needed: a DIAMINE (a molecule with an -NH2 group at EACH end, e.g. 1,6-diaminohexane, H2N(CH2)6NH2) and a DICARBOXYLIC ACID or DIACYL CHLORIDE (a molecule with a -COOH or -COCl group at EACH end, e.g. hexanedioic acid or hexanedioyl dichloride) - these two monomers react alternately, each forming an amide (peptide-type) bond at each end, joining together into a long-chain polyamide."},
+  {t:"amine", id:"amine-17", front:"EXAMINER TRAP: A student assumes ALL amino acids will react in a 1:1 mole ratio with hydrochloric acid, regardless of their side chain. Why must the specific side chain of each amino acid be checked first?", back:"The standard 1:1 ratio (one basic amine group reacting with one HCl) only applies to amino acids WITHOUT any additional basic group in their side chain (e.g. glycine, alanine, serine). Amino acids with an EXTRA basic side-chain group (e.g. lysine, which has a second -NH2 group in its side chain) will react with HCl in a DIFFERENT ratio (e.g. 1:2, since there are now two basic sites available to be protonated) - always check the specific side chain (R group) of the named amino acid for any additional acidic or basic functional groups before assuming a simple 1:1 reacting ratio with acid or base.", trap:true},
+
+  {t:"synth", id:"synth-01", front:"Explain why paracetamol (which contains an amide/amine-derived group attached to a benzene ring) can be synthesised in a route starting from phenol, via a nitration-type or amine-forming step.", back:"A typical synthetic route to paracetamol from phenol involves: nitrating phenol (or a protected form of it) to introduce a nitro group onto the ring in the correct position, REDUCING this nitro group to an amine group (e.g. using tin/HCl or a similar reducing agent, converting -NO2 to -NH2), and then reacting this amine with an ACYLATING AGENT (e.g. ethanoic anhydride or ethanoyl chloride) to form the amide bond (-NHCOCH3) that is characteristic of paracetamol's structure."},
+  {t:"synth", id:"synth-02", front:"Give the formula for calculating the OVERALL percentage yield of a multi-step synthesis, given the percentage yield of each individual step.", back:"Overall percentage yield = (percentage yield of step 1 / 100) x (percentage yield of step 2 / 100) x (percentage yield of step 3 / 100) x ... x 100%, i.e. multiply together the yield FRACTIONS (as decimals) of every individual step in the synthetic route, then convert the final result back into a percentage."},
+  {t:"synth", id:"synth-03", front:"Explain why a synthetic route with several steps, each individually having a high percentage yield (e.g. 90% each), can still result in a much lower OVERALL yield.", back:"Percentage yields COMPOUND (multiply together) across a multi-step synthesis, rather than simply averaging - for example, three consecutive steps each at 90% yield give an overall yield of only 0.90 x 0.90 x 0.90 x 100% = 72.9%, not 90%. The more steps a synthetic route has, the more this compounding effect reduces the overall yield, even if every individual step is reasonably efficient - this is an important practical consideration when planning or evaluating a multi-step organic synthesis route."},
+  {t:"synth", id:"synth-04", front:"Outline a general strategy for planning a multi-step organic synthesis route from a given starting material to a target molecule.", back:"Identify the functional group(s) present in the starting material and the functional group(s) required in the target molecule. Work out the SEQUENCE of functional group interconversions needed to get from one to the other (sometimes working BACKWARDS from the target molecule, considering what functional group/reaction could have been used to form each part of it in the previous step). For each step, identify the specific reagents and conditions needed for that particular transformation, and consider whether any functional groups need to be temporarily PROTECTED (to prevent unwanted side reactions at a different part of the molecule) during a particular step, being deprotected again later in the route."},
+  {t:"synth", id:"synth-05", front:"Give a reason, other than a low starting yield, why a synthetic route might be considered impractical or undesirable for large-scale industrial use, even if it gives an acceptable overall percentage yield.", back:"The route might use hazardous, toxic, or environmentally damaging reagents (e.g. requiring careful, costly safety/disposal measures), require expensive starting materials or catalysts, need extreme conditions (very high temperature/pressure, requiring costly specialised equipment), or generate large amounts of unwanted by-products/waste (poor atom economy) - all of which can make a route economically or environmentally undesirable for large-scale industrial production, regardless of the percentage yield achieved."},
+  {t:"synth", id:"synth-06", front:"EXAMINER TRAP: A student calculates overall yield for a 3-step synthesis by simply AVERAGING the three individual percentage yields (e.g. averaging 90%, 80% and 70% to get 80%). Why is this the wrong method?", back:"Percentage yields must be MULTIPLIED together (as fractions/decimals) across the steps of a synthesis, NOT averaged - each step's yield applies to the amount of material remaining AFTER the losses from all previous steps, so the effect compounds multiplicatively. Using the example figures: the correct overall yield is 0.90 x 0.80 x 0.70 x 100% = 50.4%, which is substantially LOWER than the (incorrect) simple average of 80% - always multiply the yield fractions of every step together, never average the percentages directly.", trap:true}
+];
+
+var TABS = [
+  {key:"arene", label:"Arenes and Benzene Chemistry"},
+  {key:"amine", label:"Amines, Amides and Amino Acids"},
+  {key:"synth", label:"Organic Synthesis Routes"}
+];
+
+var STORAGE_KEY = "chemT18OrganicIIIProgress";
+var progress = {};
+var activeTab = TABS[0].key;
+var flippedIds = {};
+
+function loadProgress(){
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY);
+    progress = raw ? JSON.parse(raw) : {};
+  }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function cardsForTab(tabKey){
+  var out = [];
+  for(var i=0;i<DECK.length;i++){ if(DECK[i].t===tabKey) out.push(DECK[i]); }
+  return out;
+}
+function countKnown(cards){
+  var n=0;
+  for(var i=0;i<cards.length;i++){ if(progress[cards[i].id]==="know") n++; }
+  return n;
+}
+function renderTabs(){
+  var bar = document.getElementById("tabBar");
+  bar.innerHTML = "";
+  for(var i=0;i<TABS.length;i++){
+    (function(tab){
+      var cards = cardsForTab(tab.key);
+      var known = countKnown(cards);
+      var btn = document.createElement("button");
+      btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+      btn.innerHTML = tab.label + '<span class="count">' + known + "/" + cards.length + "</span>";
+      btn.onclick = function(){ activeTab = tab.key; flippedIds = {}; renderAll(); };
+      bar.appendChild(btn);
+    })(TABS[i]);
+  }
+}
+function renderProgressBar(){
+  var cards = cardsForTab(activeTab);
+  var known = countKnown(cards);
+  var pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = known + " / " + cards.length + " known in this tab";
+  var t = null;
+  for(var i=0;i<TABS.length;i++){ if(TABS[i].key===activeTab) t = TABS[i]; }
+  document.getElementById("tabTitle").textContent = t ? t.label : "";
+}
+function renderStats(){
+  var total = DECK.length;
+  var known = countKnown(DECK);
+  var review = 0;
+  for(var i=0;i<DECK.length;i++){ if(progress[DECK[i].id]==="review") review++; }
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+function renderCards(){
+  var container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+  var cards = cardsForTab(activeTab);
+  for(var i=0;i<cards.length;i++){
+    (function(c){
+      var state = progress[c.id];
+      var isFlipped = !!flippedIds[c.id];
+      var el = document.createElement("div");
+      el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+
+      var top = document.createElement("div");
+      top.className = "card-top";
+      var idEl = document.createElement("span");
+      idEl.className = "card-id";
+      idEl.textContent = c.id;
+      top.appendChild(idEl);
+      if(state){
+        var chip = document.createElement("span");
+        chip.className = "status-chip " + state;
+        chip.textContent = state==="know" ? "Known" : "Review";
+        top.appendChild(chip);
+      }
+      el.appendChild(top);
+
+      if(c.trap){
+        var badge = document.createElement("div");
+        badge.className = "trap-badge";
+        badge.textContent = "Examiner Trap";
+        el.appendChild(badge);
+      }
+
+      var body = document.createElement("div");
+      body.className = "card-body" + (isFlipped ? " answer" : "");
+      var label = document.createElement("span");
+      label.className = "label";
+      label.textContent = isFlipped ? "Answer" : "Question";
+      body.appendChild(label);
+      var txt = document.createElement("div");
+      txt.textContent = isFlipped ? c.back : c.front;
+      body.appendChild(txt);
+      el.appendChild(body);
+
+      var hint = document.createElement("div");
+      hint.className = "hint";
+      hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+      el.appendChild(hint);
+
+      el.onclick = function(e){
+        if(e.target && e.target.closest && e.target.closest(".st-btn")) return;
+        flippedIds[c.id] = !flippedIds[c.id];
+        renderCards();
+      };
+
+      if(isFlipped){
+        var st = document.createElement("div");
+        st.className = "self-test";
+        var knowBtn = document.createElement("button");
+        knowBtn.className = "st-btn know-btn";
+        knowBtn.textContent = "I know this";
+        knowBtn.onclick = function(e){ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+        var reviewBtn = document.createElement("button");
+        reviewBtn.className = "st-btn review-btn";
+        reviewBtn.textContent = "Review again";
+        reviewBtn.onclick = function(e){ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+        st.appendChild(knowBtn);
+        st.appendChild(reviewBtn);
+        el.appendChild(st);
+      }
+
+      container.appendChild(el);
+    })(cards[i]);
+  }
+}
+function renderAll(){ renderTabs(); renderProgressBar(); renderStats(); renderCards(); }
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {}; saveProgress(); renderAll();
+  }
+}
+
+loadProgress();
+renderAll();
+
+}catch(err){
+  var d = document.getElementById("diagBox");
+  if(d){ d.style.display="block"; d.textContent = "Script error: " + err.message; }
+}
+</script>
+</body>
+</html>
