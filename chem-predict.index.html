@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chemistry Exam-Predict Index</title>
+<style>
+  :root {
+    --bg: #0f1115;
+    --card: #1a1d24;
+    --card-hover: #23272f;
+    --accent: #4fd1c5;
+    --text: #e6e8eb;
+    --muted: #8a8f98;
+    --border: #2a2e37;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 24px 16px 60px;
+    background: var(--bg);
+    color: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+  h1 {
+    font-size: 1.4rem;
+    margin: 0 0 4px;
+    text-align: center;
+  }
+  p.subtitle {
+    text-align: center;
+    color: var(--muted);
+    margin: 0 0 24px;
+    font-size: 0.9rem;
+  }
+  .grid {
+    max-width: 640px;
+    margin: 0 auto;
+    display: grid;
+    gap: 10px;
+  }
+  a.topic-link {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 10px;
+    text-decoration: none;
+    color: var(--text);
+    transition: background 0.15s, transform 0.15s;
+  }
+  a.topic-link:hover {
+    background: var(--card-hover);
+    transform: translateX(2px);
+  }
+  .topic-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 50%;
+    background: var(--accent);
+    color: #0f1115;
+    font-weight: 700;
+    font-size: 0.85rem;
+    margin-right: 12px;
+    flex-shrink: 0;
+  }
+  .topic-label {
+    flex: 1;
+    font-size: 0.98rem;
+  }
+  .arrow {
+    color: var(--muted);
+    font-size: 1.1rem;
+  }
+  footer {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.78rem;
+    margin-top: 32px;
+  }
+</style>
+</head>
+<body>
+  <h1>Chemistry — Exam Predict</h1>
+  <p class="subtitle">All 19 topics · tap a topic to open its flashcard deck</p>
+  <div class="grid" id="topicGrid"></div>
+  <footer>9CH0 Exam Predict Series</footer>
+
+<script>
+  const topics = [
+    { n: 1, file: "chem-topic1-exam-predict.html" },
+    { n: 2, file: "chem-topic2-exam-predict.html" },
+    { n: 3, file: "chem-topic3-exam-predict.html" },
+    { n: 4, file: "chem-topic4-exam-predict.html" },
+    { n: 5, file: "chem-topic5-exam-predit.html" },
+    { n: 6, file: "chem-topic6-exam-predict.html" },
+    { n: 7, file: "chem-topic7-exam-predict.html" },
+    { n: 8, file: "chem-topic8-exam-predict.html" },
+    { n: 9, file: "chem-topic9-exam-predict.html" },
+    { n: 10, file: "chem-topic10-exam-predict.html" },
+    { n: 11, file: "chem-topic11-exam-predict.html" },
+    { n: 12, file: "chem-topic12-exam-predict.html" },
+    { n: 13, file: "chem-topic13-exam-predict.html" },
+    { n: 14, file: "chem-topic14-exam-predict.html" },
+    { n: 15, file: "chem-topic15-exam-predict.html" },
+    { n: 16, file: "chem-topic16-exam-predict.html" },
+    { n: 17, file: "chem-topic17-exam-predict.html" },
+    { n: 18, file: "chem-topic18-exam-predict.html" },
+    { n: 19, file: "chem-topic19-exam-predict.html" }
+  ];
+
+  const grid = document.getElementById("topicGrid");
+  topics.forEach(t => {
+    const a = document.createElement("a");
+    a.className = "topic-link";
+    a.href = t.file;
+    a.innerHTML = `
+      <span style="display:flex;align-items:center;">
+        <span class="topic-num">${t.n}</span>
+        <span class="topic-label">Topic ${t.n} — Exam Predict</span>
+      </span>
+      <span class="arrow">›</span>
+    `;
+    grid.appendChild(a);
+  });
+</script>
+</body>
+</html>
