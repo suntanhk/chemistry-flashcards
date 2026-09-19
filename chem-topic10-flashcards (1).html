@@ -1,0 +1,234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry — Topic 10: Equilibrium I</title>
+<style>
+  :root{
+    --bg:#0f1416; --panel:#171f22; --panel-2:#1d272b; --border:#2a373c;
+    --text:#e8eef0; --muted:#8fa3a9; --accent:#4f9cd1; --accent-dim:#2a5a6b;
+    --trap:#e8a23d; --trap-bg:#3a2c15; --know:#4f9cd1; --review:#e8626a;
+    --card-front:#1a2027; --card-back:#16202a; font-size:16px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+  header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);}
+  header h1{margin:0 0 4px;font-size:1.3rem;font-weight:700;letter-spacing:-0.01em;}
+  header p{margin:0;color:var(--muted);font-size:0.85rem;}
+  .deck-stats{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+  nav.tabs{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:20px;font-size:0.72rem;white-space:nowrap;cursor:pointer;transition:all .15s ease;}
+  .tab-btn .count{display:inline-block;margin-left:6px;font-size:0.66rem;color:var(--accent);opacity:0.85;}
+  .tab-btn.active{background:var(--accent-dim);border-color:var(--accent);color:#eaf5ff;}
+  .progress-wrap{padding:0 16px 4px;}
+  .progress-bar{height:6px;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--accent-dim), var(--accent));transition:width .3s ease;}
+  .progress-label{font-size:0.72rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;}
+  main{max-width:640px;margin:0 auto;padding:14px 16px 8px;}
+  .card{position:relative;background:var(--card-front);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;min-height:150px;cursor:pointer;transition:border-color .2s ease, transform .12s ease;overflow:hidden;}
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);} .card.review{border-color:var(--review);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px 0;}
+  .card-id{font-size:0.68rem;color:var(--muted);letter-spacing:0.03em;text-transform:uppercase;}
+  .status-chip{font-size:0.65rem;padding:2px 8px;border-radius:10px;background:var(--panel-2);color:var(--muted);}
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+  .trap-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--trap);background:var(--trap-bg);padding:2px 8px;border-radius:10px;margin:8px 16px 0;width:fit-content;font-weight:600;}
+  .card-body{padding:10px 16px 16px;font-size:0.95rem;line-height:1.5;}
+  .card-body.answer{color:#cfe3f0;}
+  .card-body .label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:4px;}
+  .hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:0 16px 12px;}
+  .self-test{display:flex;gap:8px;padding:0 16px 16px;}
+  .st-btn{flex:1;padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:0.82rem;cursor:pointer;font-weight:600;}
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+  footer{max-width:640px;margin:10px auto 0;padding:10px 16px 30px;text-align:center;}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:10px;font-size:0.75rem;cursor:pointer;}
+  .section-note{font-size:0.78rem;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;line-height:1.5;}
+  .section-note b{color:var(--accent);}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 10 — Equilibrium I</h1>
+  <p>Edexcel Chemistry A-level (9CH0) · AS Paper 2 · A Level Paper 1, 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+const DECK = [
+
+// ===================== DYNAMIC EQUILIBRIUM & Kc EXPRESSIONS =====================
+{t:"basics", id:"basics-01", front:"Give two characteristics of ALL reactions at dynamic equilibrium.", back:"1) The rate of the forward reaction EQUALS the rate of the reverse reaction. 2) The concentrations of reactants and products remain CONSTANT over time (though not necessarily equal to each other) — both only apply in a CLOSED system."},
+{t:"basics", id:"basics-02", front:"Write the Kc expression for the Haber process, N₂(g) + 3H₂(g) ⇌ 2NH₃(g).", back:"Kc = [NH₃]² ÷ ([N₂][H₂]³)"},
+{t:"basics", id:"basics-03", front:"Write the Kc expression, WITH UNITS, for the oxidation of ammonia: 4NH₃(g) + 5O₂(g) ⇌ 4NO(g) + 6H₂O(g).", back:"Kc = ([NO]⁴[H₂O]⁶) ÷ ([NH₃]⁴[O₂]⁵). Units: work out by substituting mol dm⁻³ for each concentration term and cancelling — count total powers of concentration on top (4+6=10) minus bottom (4+5=9), giving units of mol dm⁻³ raised to the power (10−9)=1, i.e. mol dm⁻³."},
+{t:"basics", id:"basics-04", front:"For the heterogeneous equilibrium involving hydrogen gas and an oxide of iron (e.g. Fe₃O₄(s) + 4H₂(g) ⇌ 3Fe(s) + 4H₂O(g)), write the Kc expression.", back:"Kc = [H₂O]⁴ ÷ [H₂]⁴ — SOLIDS (Fe₃O₄ and Fe) are OMITTED from the Kc expression entirely, since their 'concentration' (as a pure solid) is constant and is incorporated into the value of Kc itself; only gases and aqueous species are included."},
+{t:"basics", id:"basics-05", front:"Write the Kc expression for ethene reacting with steam to form ethanol: C₂H₄(g) + H₂O(g) ⇌ C₂H₅OH(g).", back:"Kc = [C₂H₅OH] ÷ ([C₂H₄][H₂O])"},
+{t:"basics", id:"basics-06", front:"⚠ EXAMINER TRAP: A student includes a solid or pure liquid in a Kc expression for a heterogeneous equilibrium. Why is this wrong, and what is the correct rule?", back:"The concentration of a pure SOLID or pure LIQUID is essentially CONSTANT (it doesn't meaningfully change as the reaction proceeds, since it isn't 'diluted' or 'concentrated' the way a gas or aqueous solution is) — this constant value is absorbed into (built into) the numerical value of Kc itself, so solids and pure liquids are OMITTED entirely from the written Kc expression. Only species that are gases (g) or aqueous (aq) appear in the expression — always check state symbols before writing out a Kc expression.", trap:true},
+
+// ===================== LE CHATELIER'S PRINCIPLE: TEMPERATURE & PRESSURE =====================
+{t:"lechat", id:"lechat-01", front:"Explain the effect of increasing temperature on the equilibrium yield of an EXOTHERMIC forward reaction.", back:"Increasing temperature shifts the position of equilibrium to favour the ENDOTHERMIC (reverse) reaction, since the system responds to the added heat by favouring the direction that ABSORBS heat, opposing the change (Le Chatelier's principle) — this DECREASES the equilibrium yield of the products of the (exothermic) forward reaction."},
+{t:"lechat", id:"lechat-02", front:"For PCl₅(g) ⇌ PCl₃(g) + Cl₂(g), ΔrH = +87.9 kJ mol⁻¹ (endothermic forward reaction), explain the effect of increasing temperature on the position of equilibrium at constant volume.", back:"Since the forward reaction is ENDOTHERMIC, increasing temperature shifts the position of equilibrium to the RIGHT (favouring the forward, endothermic direction), since the system responds by favouring the direction that absorbs the added heat, opposing the increase — this INCREASES the yield of PCl₃ and Cl₂ at equilibrium."},
+{t:"lechat", id:"lechat-03", front:"For methanol synthesis, CO(g) + 2H₂(g) ⇌ CH₃OH(g) (exothermic forward reaction), explain the effects of increasing PRESSURE on both the yield and the rate.", back:"YIELD: increasing pressure shifts the position of equilibrium towards the side with FEWER moles of gas — since 3 mol of gaseous reactant (1 CO + 2 H₂) become 1 mol of gaseous product (CH₃OH), the equilibrium shifts to favour the PRODUCT side, INCREASING the yield of methanol. RATE: increasing pressure increases the concentration of gas particles in the same volume, increasing the frequency of collisions between reactant particles, which INCREASES the rate of reaction."},
+{t:"lechat", id:"lechat-04", front:"Nitrogen monoxide and chlorine react to form nitrosyl chloride, NOCl. Below 100°C the yield of NOCl is almost 100%, but yield DECREASES as temperature rises, with ΔH = −75.6 kJ mol⁻¹ at 25°C. Give the reason why yield decreases as temperature rises from 25°C to 225°C.", back:"The forward reaction (formation of NOCl) is EXOTHERMIC (ΔH is negative). Increasing temperature shifts the position of equilibrium to favour the ENDOTHERMIC (reverse) reaction, which absorbs the added heat, opposing the increase (Le Chatelier's principle) — this DECREASES the equilibrium yield of NOCl as temperature rises."},
+{t:"lechat", id:"lechat-05", front:"State the effect on the yield of ethanol (from C₂H₄(g) + H₂O(g) ⇌ C₂H₅OH(g), an exothermic forward reaction) when the pressure is DECREASED.", back:"The yield of ethanol DECREASES. Decreasing pressure shifts the position of equilibrium towards the side with MORE moles of gas — since the reactant side has 2 moles of gas (C₂H₄ + H₂O) compared with 1 mole on the product side (C₂H₅OH), decreasing pressure favours the REACTANT side, reducing the equilibrium yield of ethanol."},
+{t:"lechat", id:"lechat-06", front:"An equilibrium exists between chromate(VI) ions and dichromate(VI) ions in aqueous solution. Explain the change in position of equilibrium when a few drops of sodium hydroxide solution are added.", back:"The equilibrium involves H⁺ ions (2CrO₄²⁻ + 2H⁺ ⇌ Cr₂O₇²⁻ + H₂O). Adding NaOH REMOVES H⁺ ions from the system (they react to form water), so by Le Chatelier's principle, the position of equilibrium shifts to REPLACE the removed H⁺ ions — this shifts the equilibrium towards the side that produces MORE H⁺ ions (towards the CHROMATE(VI) ion side), changing the solution's colour accordingly."},
+{t:"lechat", id:"lechat-07", front:"Explain why a temperature BELOW 50°C would not be used for the reaction of chlorine with ethene (stage 1 of chloroethene manufacture).", back:"At a temperature below 50°C, the RATE of reaction would be too slow to be economically viable/practical for an industrial process — the reaction would take too long to produce a useful quantity of product in a reasonable time."},
+{t:"lechat", id:"lechat-08", front:"Explain, apart from cost, why a temperature ABOVE 80°C would not be used for the reaction of chlorine with ethene.", back:"At a temperature above 80°C, unwanted SIDE REACTIONS may become more likely/favoured (e.g. further substitution reactions, or decomposition of the desired product), reducing the yield/purity/selectivity of the desired product — high temperatures can promote alternative reaction pathways that compete with the intended reaction."},
+{t:"lechat", id:"lechat-09", front:"⚠ EXAMINER TRAP: A student explains a temperature-yield question WITHOUT first identifying whether the FORWARD reaction is exothermic or endothermic. Why is this the essential first step, every time?", back:"The direction Le Chatelier's principle predicts (yield increasing or decreasing with temperature) depends ENTIRELY on whether the FORWARD reaction is exothermic or endothermic — the same 'increase temperature' action gives the OPPOSITE yield effect depending on this. Always identify the sign of ΔH for the FORWARD reaction as stated in the question FIRST, before reasoning about which direction the equilibrium will shift — skipping this check is the single most common way to get temperature/yield questions backwards.", trap:true},
+
+// ===================== INDUSTRIAL PROCESSES: RATE-YIELD-ECONOMICS EVALUATION =====================
+{t:"ind", id:"ind-01", front:"Explain why, in the industrial manufacture of methanol from carbon monoxide and hydrogen, a catalyst is used.", back:"A catalyst increases the RATE of reaction (by providing an alternative pathway with lower activation energy), allowing the process to proceed economically at a viable temperature/timescale, WITHOUT affecting the equilibrium position or yield of methanol — this improves the overall economic efficiency of the industrial process."},
+{t:"ind", id:"ind-02", front:"Give THREE reasons why, in an industrial reversible reaction (e.g. Haber process), the product may deliberately be removed BEFORE the maximum (equilibrium) concentration/yield is reached.", back:"1) Removing product continuously shifts the position of equilibrium further towards the product side (by Le Chatelier's principle, since removing a product favours the forward reaction to replace it), which can help drive the reaction on to produce even more product over time. 2) Waiting for the reaction to fully reach equilibrium may take an uneconomically LONG time, so removing product earlier (even at a lower concentration) allows a faster overall production rate/throughput. 3) The product needs to be continuously removed/processed for use in FURTHER stages of an industrial process (e.g. cooling and condensing ammonia so unreacted N₂/H₂ can be recycled), rather than allowing it to simply accumulate."},
+{t:"ind", id:"ind-03", front:"Evaluate the feasibility of changing conditions for 2SO₂(g)+O₂(g)⇌2SO₃(g), ΔrH=−197 kJ mol⁻¹, from 420°C/1.7 atm to 600°C/10 atm (same V₂O₅ catalyst).", back:"RATE: both higher temperature and higher pressure INCREASE the rate (more frequent, more energetic collisions). YIELD: since the forward reaction is EXOTHERMIC, increasing temperature to 600°C DECREASES yield (shifts equilibrium backward); since gas moles DECREASE left-to-right (3→2), increasing pressure to 10 atm INCREASES yield. ECONOMICS: both higher temperature and higher pressure increase running/plant costs (more energy input; stronger, more expensive equipment to withstand higher pressure). An overall evaluation must weigh the faster rate and pressure-driven yield increase against the temperature-driven yield decrease and higher costs, reaching a balanced, justified conclusion on whether the change is worthwhile."},
+{t:"ind", id:"ind-04", front:"Step 2 of methanol synthesis (from methane and steam) is carried out at a compromise temperature of 500 K. Explain why this is a compromise, considering higher and lower temperatures.", back:"At a HIGHER temperature, the RATE would be faster (more successful collisions), but since the forward reaction is exothermic, the equilibrium YIELD would DECREASE (Le Chatelier shifts backward). At a LOWER temperature, the equilibrium YIELD would be higher, but the RATE would be too slow to be economically practical. 500 K is chosen as a compromise giving an ACCEPTABLE balance between a reasonable rate and a reasonable yield, optimising overall economic efficiency."},
+{t:"ind", id:"ind-05", front:"Explain the effects of increasing pressure on BOTH the yield and the rate in Step 1 of methanol synthesis from methane and steam (CH₄(g)+H₂O(g)⇌CO(g)+3H₂(g), where gas moles INCREASE left to right).", back:"YIELD: since moles of gas INCREASE from reactants (2 mol) to products (4 mol) in this specific step, increasing pressure shifts the position of equilibrium towards the side with FEWER moles of gas — the REACTANT side — which DECREASES the equilibrium yield of CO and H₂ in this step. RATE: regardless of the yield effect, increasing pressure always increases the concentration of gas particles, increasing collision frequency, which INCREASES the rate of reaction — so pressure has OPPOSITE effects on yield (decrease) and rate (increase) for this particular step, an important nuance since this step has more product gas moles than reactant, unlike many other industrial examples."},
+{t:"ind", id:"ind-06", front:"State what is meant by the term 'heterogeneous' catalyst (e.g. platinum-rhodium in ammonia oxidation), and explain why it has no effect on the equilibrium yield of products.", back:"A heterogeneous catalyst is in a DIFFERENT physical state/phase from the reactants (e.g. a solid catalyst with gaseous reactants). It has no effect on yield because it lowers the activation energy EQUALLY for both the forward AND reverse reactions, so it only speeds up the RATE at which equilibrium is reached — the same equilibrium POSITION (and therefore yield) is reached either way, just faster with the catalyst present."},
+{t:"ind", id:"ind-07", front:"Calculate the percentage atom economy, by mass, for ammonia in the Haber process forward reaction: N₂(g) + 3H₂(g) → 2NH₃(g). [Mr: N₂=28, H₂=2, NH₃=17]", back:"Total Mr of reactants = 28 + (3×2) = 28+6 = 34. Mass of desired product = 2×17 = 34. Atom economy = (34÷34)×100% = 100%. (This makes sense: the Haber process is a simple combination reaction with no by-products, so atom economy is always 100% for this specific reaction.)"},
+{t:"ind", id:"ind-08", front:"⚠ EXAMINER TRAP: A student assumes 'increasing pressure always increases yield' as a blanket rule for every industrial gas-phase reaction. Why must the actual MOLE CHANGE be checked for each specific reaction/step?", back:"Whether increasing pressure increases OR decreases yield depends entirely on whether the FORWARD reaction has FEWER or MORE moles of gas on the product side compared with the reactant side — this varies by reaction (and even by STEP within a multi-step industrial process, as in methanol Step 1 vs Step 2). Applying a blanket 'more pressure = more yield' rule without checking the actual balanced equation's mole totals on each side is a common and easily-avoided error — always count gas moles on both sides before predicting the pressure effect on yield.", trap:true},
+
+// ===================== SEPARATION & PROCESS SELECTION =====================
+{t:"sep", id:"sep-01", front:"In the two-stage manufacture of chloroethene, chlorine reacts with ethene to form 1,2-dichloroethane, which is then cracked to give chloroethene AND hydrogen chloride. Both products are required. Which separation method would be most suitable, and why?", back:"Fractional distillation — since chloroethene and hydrogen chloride are both gases/volatile compounds with different (sufficiently separated) boiling points, fractional distillation can effectively separate the two useful products from each other based on this boiling point difference, allowing both to be collected and used separately."},
+{t:"sep", id:"sep-02", front:"Explain why 'bubble through dilute alkali' would NOT be a suitable method to separate chloroethene and hydrogen chloride if BOTH products are required for further use.", back:"Bubbling through dilute alkali would neutralise/react with and DESTROY the hydrogen chloride (converting it to a salt and water), meaning it could no longer be recovered and used as HCl itself — this method might be useful for simply REMOVING/disposing of unwanted HCl, but is unsuitable when BOTH products need to be kept and used separately."},
+{t:"sep", id:"sep-03", front:"⚠ EXAMINER TRAP: A student picks 'solvent extraction using a separating funnel' as the separation method for two gaseous/volatile products. Why is this the wrong choice of technique?", back:"Solvent extraction and separating funnels are used to separate two IMMISCIBLE LIQUIDS (based on differing solubility in two solvents) — they are not appropriate for separating two GASES or highly volatile compounds, which instead require a technique like fractional distillation (based on differing boiling points). Matching the separation TECHNIQUE to the actual physical states/properties of the substances involved (not just picking a familiar-sounding lab technique) is essential — a technique correct for liquids is not automatically transferable to gases.", trap:true},
+];
+
+const TABS = [
+  {key:"basics", label:"Dynamic Equilibrium & Kc"},
+  {key:"lechat", label:"Le Chatelier: Temp & Pressure"},
+  {key:"ind", label:"Industrial Rate/Yield/Economics"},
+  {key:"sep", label:"Separation & Process Selection"},
+];
+
+const STORAGE_KEY = "chemT10EquilibriumIProgress";
+let progress = {};
+let activeTab = TABS[0].key;
+let flippedIds = new Set();
+
+function loadProgress(){
+  try{ const raw = localStorage.getItem(STORAGE_KEY); progress = raw ? JSON.parse(raw) : {}; }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function renderTabs(){
+  const bar = document.getElementById("tabBar"); bar.innerHTML = "";
+  TABS.forEach(tab=>{
+    const cards = DECK.filter(c=>c.t===tab.key);
+    const known = cards.filter(c=>progress[c.id]==="know").length;
+    const btn = document.createElement("button");
+    btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+    btn.innerHTML = tab.label + `<span class="count">${known}/${cards.length}</span>`;
+    btn.onclick = ()=>{ activeTab = tab.key; flippedIds.clear(); renderAll(); };
+    bar.appendChild(btn);
+  });
+}
+function renderProgressBar(){
+  const cards = DECK.filter(c=>c.t===activeTab);
+  const known = cards.filter(c=>progress[c.id]==="know").length;
+  const pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = `${known} / ${cards.length} known in this tab`;
+  document.getElementById("tabTitle").textContent = TABS.find(t=>t.key===activeTab).label;
+}
+function renderStats(){
+  const total = DECK.length;
+  const known = DECK.filter(c=>progress[c.id]==="know").length;
+  const review = DECK.filter(c=>progress[c.id]==="review").length;
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+function renderCards(){
+  const container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+  if(activeTab==="lechat"){
+    const note = document.createElement("div");
+    note.className = "section-note";
+    note.innerHTML = "<b>Note:</b> Before answering ANY temperature question, first identify whether the FORWARD reaction is exothermic or endothermic from the given ΔH — this single check determines which direction the whole answer goes.";
+    container.appendChild(note);
+  }
+  const cards = DECK.filter(c=>c.t===activeTab);
+  cards.forEach(c=>{
+    const state = progress[c.id];
+    const isFlipped = flippedIds.has(c.id);
+    const el = document.createElement("div");
+    el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+    const top = document.createElement("div");
+    top.className = "card-top";
+    const idEl = document.createElement("span");
+    idEl.className = "card-id"; idEl.textContent = c.id;
+    top.appendChild(idEl);
+    if(state){
+      const chip = document.createElement("span");
+      chip.className = "status-chip " + state;
+      chip.textContent = state==="know" ? "✓ Known" : "↻ Review";
+      top.appendChild(chip);
+    }
+    el.appendChild(top);
+    if(c.trap){
+      const badge = document.createElement("div");
+      badge.className = "trap-badge"; badge.textContent = "⚠ Examiner Trap";
+      el.appendChild(badge);
+    }
+    const body = document.createElement("div");
+    body.className = "card-body" + (isFlipped ? " answer" : "");
+    body.innerHTML = isFlipped ? `<span class="label">Answer</span>${c.back}` : `<span class="label">Question</span>${c.front}`;
+    el.appendChild(body);
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+    el.appendChild(hint);
+    el.onclick = (e)=>{
+      if(e.target.closest(".st-btn")) return;
+      if(flippedIds.has(c.id)) flippedIds.delete(c.id); else flippedIds.add(c.id);
+      renderCards();
+    };
+    if(isFlipped){
+      const st = document.createElement("div");
+      st.className = "self-test";
+      const knowBtn = document.createElement("button");
+      knowBtn.className = "st-btn know-btn"; knowBtn.textContent = "✓ I know this";
+      knowBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+      const reviewBtn = document.createElement("button");
+      reviewBtn.className = "st-btn review-btn"; reviewBtn.textContent = "↻ Review again";
+      reviewBtn.onclick = (e)=>{ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+      st.appendChild(knowBtn); st.appendChild(reviewBtn);
+      el.appendChild(st);
+    }
+    container.appendChild(el);
+  });
+}
+function renderAll(){ renderTabs(); renderProgressBar(); renderStats(); renderCards(); }
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {}; saveProgress(); renderAll();
+  }
+}
+loadProgress();
+renderAll();
+</script>
+</body>
+</html>
