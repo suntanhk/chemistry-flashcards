@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>A Level Chemistry - Topic 19: Modern Analytical Techniques II</title>
+<style>
+  :root{
+    --bg:#0f1416; --panel:#171f22; --panel-2:#1d272b; --border:#2a373c;
+    --text:#e8eef0; --muted:#8fa3a9; --accent:#4f9cd1; --accent-dim:#2a5a6b;
+    --trap:#e8a23d; --trap-bg:#3a2c15; --know:#4f9cd1; --review:#e8626a;
+    --card-front:#1a2027; --card-back:#16202a; font-size:16px;
+  }
+  *{box-sizing:border-box;} html,body{margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased;padding-bottom:60px;}
+  header{padding:22px 16px 14px;text-align:center;border-bottom:1px solid var(--border);background:linear-gradient(180deg, #131b1e 0%, var(--bg) 100%);}
+  header h1{margin:0 0 4px;font-size:1.15rem;font-weight:700;letter-spacing:-0.01em;}
+  header p{margin:0;color:var(--muted);font-size:0.85rem;}
+  .deck-stats{display:flex;justify-content:center;gap:18px;margin-top:12px;font-size:0.78rem;color:var(--muted);}
+  .deck-stats b{color:var(--accent);font-size:0.95rem;}
+  nav.tabs{display:flex;overflow-x:auto;gap:6px;padding:12px 12px 8px;-webkit-overflow-scrolling:touch;scrollbar-width:none;}
+  nav.tabs::-webkit-scrollbar{display:none;}
+  .tab-btn{flex:0 0 auto;background:var(--panel);border:1px solid var(--border);color:var(--muted);padding:8px 12px;border-radius:20px;font-size:0.72rem;white-space:nowrap;cursor:pointer;transition:all .15s ease;}
+  .tab-btn .count{display:inline-block;margin-left:6px;font-size:0.66rem;color:var(--accent);opacity:0.85;}
+  .tab-btn.active{background:var(--accent-dim);border-color:var(--accent);color:#eaf5ff;}
+  .progress-wrap{padding:0 16px 4px;}
+  .progress-bar{height:6px;background:var(--panel);border-radius:4px;overflow:hidden;border:1px solid var(--border);}
+  .progress-fill{height:100%;background:linear-gradient(90deg, var(--accent-dim), var(--accent));transition:width .3s ease;}
+  .progress-label{font-size:0.72rem;color:var(--muted);margin-top:4px;display:flex;justify-content:space-between;}
+  main{max-width:640px;margin:0 auto;padding:14px 16px 8px;}
+  .card{position:relative;background:var(--card-front);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;min-height:150px;cursor:pointer;transition:border-color .2s ease, transform .12s ease;overflow:hidden;}
+  .card:active{transform:scale(0.99);}
+  .card.flipped{background:var(--card-back);border-color:var(--accent-dim);}
+  .card.known{border-color:var(--know);} .card.review{border-color:var(--review);}
+  .card-top{display:flex;justify-content:space-between;align-items:flex-start;padding:12px 16px 0;}
+  .card-id{font-size:0.68rem;color:var(--muted);letter-spacing:0.03em;text-transform:uppercase;}
+  .status-chip{font-size:0.65rem;padding:2px 8px;border-radius:10px;background:var(--panel-2);color:var(--muted);}
+  .status-chip.known{background:rgba(79,156,209,0.18);color:var(--know);}
+  .status-chip.review{background:rgba(232,98,106,0.15);color:var(--review);}
+  .trap-badge{display:inline-flex;align-items:center;gap:4px;font-size:0.68rem;color:var(--trap);background:var(--trap-bg);padding:2px 8px;border-radius:10px;margin:8px 16px 0;width:fit-content;font-weight:600;}
+  .card-body{padding:10px 16px 16px;font-size:0.95rem;line-height:1.5;}
+  .card-body.answer{color:#cfe3f0;}
+  .card-body .label{display:block;font-size:0.68rem;text-transform:uppercase;letter-spacing:0.05em;color:var(--muted);margin-bottom:4px;}
+  .hint{text-align:center;font-size:0.72rem;color:var(--muted);padding:0 16px 12px;}
+  .self-test{display:flex;gap:8px;padding:0 16px 16px;}
+  .st-btn{flex:1;padding:9px 0;border-radius:10px;border:1px solid var(--border);background:var(--panel);color:var(--text);font-size:0.82rem;cursor:pointer;font-weight:600;}
+  .st-btn.know-btn{color:var(--know);border-color:var(--accent-dim);}
+  .st-btn.review-btn{color:var(--review);border-color:#5a2c30;}
+  .st-btn:active{opacity:0.7;}
+  footer{max-width:640px;margin:10px auto 0;padding:10px 16px 30px;text-align:center;}
+  .reset-btn{background:none;border:1px solid var(--border);color:var(--muted);padding:8px 16px;border-radius:10px;font-size:0.75rem;cursor:pointer;}
+  .section-note{font-size:0.78rem;color:var(--muted);background:var(--panel);border:1px solid var(--border);border-radius:10px;padding:10px 14px;margin-bottom:14px;line-height:1.5;}
+  .section-note b{color:var(--accent);}
+  .diag{font-size:0.7rem;color:#e8a23d;text-align:center;padding:6px;display:none;}
+</style>
+</head>
+<body>
+
+<header>
+  <h1>Topic 19 - Modern Analytical Techniques II</h1>
+  <p>Edexcel Chemistry A-level (9CH0) - A Level Paper 2 and 3</p>
+  <div class="deck-stats">
+    <div><b id="statTotal">0</b> cards</div>
+    <div><b id="statKnown">0</b> known</div>
+    <div><b id="statReview">0</b> to review</div>
+  </div>
+</header>
+
+<div id="diagBox" class="diag"></div>
+
+<nav class="tabs" id="tabBar"></nav>
+<div class="progress-wrap">
+  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
+  <div class="progress-label"><span id="progressText">0 / 0 known in this tab</span><span id="tabTitle"></span></div>
+</div>
+
+<main id="cardContainer"></main>
+
+<footer>
+  <button class="reset-btn" onclick="resetProgress()">Reset all progress</button>
+</footer>
+
+<script>
+try{
+
+var DECK = [
+  {t:"c13", id:"c13-01", front:"State what information a 13C NMR spectrum gives about a molecule, in terms of the number of peaks observed.", back:"The NUMBER of peaks in a 13C NMR spectrum shows the number of CHEMICALLY DIFFERENT (non-equivalent) carbon environments in the molecule - carbon atoms in identical/equivalent environments (related by symmetry) give rise to just ONE peak, even if there are several such carbons in the molecule."},
+  {t:"c13", id:"c13-02", front:"State the reference standard used in NMR spectroscopy, and give two reasons why it is suitable for this purpose.", back:"Tetramethylsilane, TMS, Si(CH3)4. It is suitable because: 1) it gives a single, sharp peak (all twelve hydrogens/four carbons are in identical, equivalent environments). 2) Its peak appears at a chemical shift value that is different from (usually to the right of/upfield of) almost all other organic compounds, so it doesn't overlap with the region of interest. It is also chemically inert (unreactive) and volatile (easily removed from the sample afterwards)."},
+  {t:"c13", id:"c13-03", front:"Predict the number of peaks in the 13C NMR spectrum of propan-1-ol, CH3CH2CH2OH, and propan-2-ol, (CH3)2CHOH.", back:"Propan-1-ol: THREE peaks (three different carbon environments: the CH3 carbon, the middle CH2 carbon, and the CH2OH carbon are all chemically different from each other). Propan-2-ol: TWO peaks (the two CH3 groups are chemically EQUIVALENT to each other by symmetry, giving one peak; the central CH carbon gives a second, separate peak)."},
+  {t:"c13", id:"c13-04", front:"Explain how 13C NMR spectroscopy could be used to distinguish between the structural isomers propan-1-ol and propan-2-ol, based on the number of peaks observed.", back:"Propan-1-ol would show THREE distinct peaks in its 13C NMR spectrum (three non-equivalent carbon environments), while propan-2-ol would show only TWO peaks (since its two identical CH3 groups are equivalent by symmetry and give a single combined peak) - simply counting the number of peaks in each spectrum distinguishes the two isomers."},
+  {t:"c13", id:"c13-05", front:"Give the typical chemical shift range for a carbon atom in a C=O (carbonyl) environment in 13C NMR, and for a carbon in a C-O (single bond) environment.", back:"C=O (carbonyl) carbon: typically 160-220 ppm (a distinctively high chemical shift). C-O (single bond, e.g. in an alcohol or ether) carbon: typically 50-90 ppm (a lower, but still distinguishable, chemical shift from a plain C-C/C-H carbon environment, which is usually below 50 ppm)."},
+  {t:"c13", id:"c13-06", front:"EXAMINER TRAP: A student assumes every carbon atom drawn in a structural formula will give rise to its own separate peak in the 13C NMR spectrum. Why is this not always correct?", back:"Carbon atoms that are in CHEMICALLY EQUIVALENT environments (related to each other by symmetry within the molecule) will overlap and appear as a SINGLE peak, even though there is more than one such carbon atom physically present in the molecule. Always check the molecule's symmetry carefully (e.g. two identical CH3 groups on the same central carbon) before assuming the number of peaks simply equals the total number of carbon atoms drawn in the structure.", trap:true},
+
+  {t:"h1", id:"h1-01", front:"State what information the CHEMICAL SHIFT of a peak in a 1H (proton) NMR spectrum indicates about the hydrogen atoms responsible.", back:"The chemical shift value indicates the CHEMICAL ENVIRONMENT of the hydrogen atom(s) responsible for that peak - i.e. what type of carbon/functional group the hydrogen(s) are attached to or near (e.g. hydrogens on a carbon next to an -OH group, a C=O group, an aromatic ring, etc. each appear in characteristic, different chemical shift ranges, which can be looked up in a data table)."},
+  {t:"h1", id:"h1-02", front:"State what information the AREA (integration) under a peak in a 1H NMR spectrum indicates.", back:"The relative area under each peak (given by the integration trace or numerical integration values) is PROPORTIONAL to the relative NUMBER of hydrogen atoms (protons) responsible for that peak - comparing the areas of different peaks gives the ratio of the numbers of different types of hydrogen present in the molecule."},
+  {t:"h1", id:"h1-03", front:"State the n+1 rule used to interpret SPLITTING PATTERNS in high-resolution 1H NMR spectra.", back:"A peak is split into (n+1) smaller peaks (a multiplet), where n is the number of hydrogen atoms on the carbon atom(s) ADJACENT to (directly bonded to the same carbon as, or the neighbouring carbon of) the hydrogen(s) giving rise to that peak. For example, a hydrogen with 2 neighbouring hydrogens is split into a TRIPLET (2+1=3 peaks); a hydrogen with 3 neighbouring hydrogens is split into a QUARTET (3+1=4 peaks)."},
+  {t:"h1", id:"h1-04", front:"Predict the splitting pattern (multiplicity) and relative peak areas expected for each type of hydrogen in ethanol's ethyl group, CH3CH2-, ignoring the OH hydrogen.", back:"The CH3 protons are adjacent to the CH2 group's 2 hydrogens, so they are split into a TRIPLET (2+1=3 peaks), with relative area 3 (three equivalent hydrogens). The CH2 protons are adjacent to the CH3 group's 3 hydrogens, so they are split into a QUARTET (3+1=4 peaks), with relative area 2 (two equivalent hydrogens)."},
+  {t:"h1", id:"h1-05", front:"Explain why the hydrogen atom of an -OH or -NH group typically appears as a SINGLET in a 1H NMR spectrum (i.e. does not show the expected splitting from neighbouring carbon-bound hydrogens), and why its chemical shift can vary.", back:"The -OH (or -NH) proton undergoes rapid PROTON EXCHANGE with trace water or other -OH/-NH groups present (including in the solvent), which averages out/removes any coupling (splitting) interaction with neighbouring hydrogens on the same molecule - this is why it typically appears as a singlet, regardless of how many hydrogens are on the adjacent carbon. Its chemical shift can also vary (shift position is less fixed/predictable) depending on concentration, solvent, and temperature, due to the variable extent of hydrogen bonding involving this proton under different conditions."},
+  {t:"h1", id:"h1-06", front:"Describe how adding a small amount of deuterium oxide, D2O, to an NMR sample can help confirm which peak is due to an -OH or -NH proton.", back:"D2O exchanges rapidly with any exchangeable protons in the sample, such as -OH and -NH hydrogens (replacing them with deuterium, D, which is NOT detected in a standard 1H NMR spectrum). After adding D2O and re-running the spectrum, the peak that was due to the -OH or -NH proton will DISAPPEAR (or significantly reduce in size), confirming its identity, since it has been replaced by deuterium; peaks due to hydrogens attached to carbon are unaffected and remain unchanged."},
+  {t:"h1", id:"h1-07", front:"A compound with molecular formula C4H8O2 shows a 1H NMR spectrum with a singlet (3H), a quartet (2H), a triplet (3H), and no peak beyond 5 ppm (ruling out a carboxylic acid). Suggest a structure and justify using the splitting patterns.", back:"Ethyl ethanoate, CH3COOCH2CH3 (an ester). The singlet (3H) corresponds to the CH3CO- group (no adjacent hydrogens on either side to cause splitting, since it's next to the carbonyl carbon with no H, hence a singlet). The quartet (2H) corresponds to the -OCH2- group (split by the adjacent CH3 group's 3 hydrogens, 3+1=4). The triplet (3H) corresponds to the terminal -CH3 group of the ethyl part (split by the adjacent CH2 group's 2 hydrogens, 2+1=3)."},
+  {t:"h1", id:"h1-08", front:"Explain how 1H NMR spectroscopy, combined with mass spectrometry (giving the molecular formula/Mr), can distinguish between the structural isomers propan-1-ol and propan-2-ol.", back:"Propan-1-ol (CH3CH2CH2OH) would show FOUR different environments overall (CH3 triplet, middle CH2 multiplet, CH2 next to OH, and the OH singlet), with the CH2 groups NOT symmetrically equivalent. Propan-2-ol ((CH3)2CHOH) would show only THREE different environments (both CH3 groups equivalent, giving one doublet signal for 6H, one CH multiplet, and one OH singlet) - the different NUMBER of distinct 1H environments, and different splitting patterns/integration ratios (e.g. a 6H doublet is only possible in propan-2-ol, from the two equivalent methyl groups split by the single adjacent CH), allows the two isomers to be distinguished."},
+  {t:"h1", id:"h1-09", front:"EXAMINER TRAP: A student predicts the splitting pattern for a hydrogen atom by counting ALL other hydrogens in the molecule, not just those on directly adjacent carbons. Why is this a fundamental error in applying the n+1 rule?", back:"The n+1 rule only counts hydrogens on carbon atoms DIRECTLY ADJACENT (bonded to the same carbon, or on the immediately neighbouring carbon atom) to the hydrogen being considered - hydrogens further away (e.g. two or more carbons away) do NOT contribute to the observed splitting pattern under normal high-resolution conditions. Counting hydrogens beyond the immediately adjacent carbon(s) gives a completely incorrect predicted multiplicity - always identify only the hydrogens on the carbon(s) directly next door before applying n+1.", trap:true},
+
+  {t:"combo", id:"combo-01", front:"Outline a general strategy for using a combination of an infrared spectrum, a mass spectrum, and a 1H NMR spectrum together to identify an unknown organic compound.", back:"Use the MASS SPECTRUM's molecular ion peak to determine the relative molecular mass (Mr), and combine with any given elemental composition data to deduce the molecular formula. Use the INFRARED SPECTRUM to identify which functional group(s) are likely present (e.g. O-H, C=O, N-H, based on characteristic absorption wavenumber ranges). Use the 1H NMR SPECTRUM (number of peaks/environments, integration/relative peak areas, chemical shift values, and splitting patterns) to determine how the atoms/functional groups are arranged and connected within the molecule, piecing together the full structure consistent with all three sets of evidence simultaneously."},
+  {t:"combo", id:"combo-02", front:"A compound with Mr=74 (from mass spectrometry) shows an IR absorption at 1720 cm-1 (C=O stretch) and a 1H NMR spectrum with a singlet at 2.1 ppm (3H) and a quartet at 4.1 ppm (2H) plus a triplet at 1.3 ppm (3H). Deduce the structure.", back:"Methyl... actually ethyl ethanoate type structure fitting Mr=74 would need re-checking against exact formula, but following the SAME reasoning as before: a carbonyl (from IR) plus a CH3CO- singlet (no adjacent H) plus an ethyl-type quartet/triplet pattern (OCH2CH3) is consistent with an ester structure such as methyl propanoate or ethyl ethanoate, depending on which fits the given Mr and formula most precisely - the KEY SKILL is combining the confirmed presence of C=O (from IR) with the singlet/quartet/triplet coupling pattern (from NMR) to assemble the connectivity of the carbon skeleton around the confirmed functional group."},
+  {t:"combo", id:"combo-03", front:"Explain why a NEGATIVE test result from one analytical technique (e.g. no absorption in the carbonyl IR region) is still valuable evidence when identifying an unknown compound.", back:"A negative result RULES OUT certain functional groups/structural possibilities (e.g. ruling out any structure containing a C=O group if no absorption is seen in the 1720-1750 cm-1 IR region), narrowing down the range of possible structures that need to be considered, even though it does not by itself confirm which specific structure IS present - combining several negative and positive results from different techniques together progressively narrows down the possibilities until (ideally) only one consistent structure remains."},
+  {t:"combo", id:"combo-04", front:"EXAMINER TRAP: A student uses only ONE type of spectroscopic evidence (e.g. only the molecular ion mass) to conclude a compound's FULL structure with confidence. Why is this generally insufficient?", back:"A single molecular mass (or a single piece of evidence from just one technique) is usually consistent with MULTIPLE different possible structural isomers - for example, several different structures can share the same Mr and even the same molecular formula. A confident, fully-justified structure determination normally requires COMBINING evidence from multiple techniques (IR for functional groups, NMR for connectivity/environment, MS for Mr/fragmentation) together, cross-checking that a single proposed structure is consistent with ALL the given evidence simultaneously, not just one piece of data in isolation.", trap:true},
+
+  {t:"chrom", id:"chrom-01", front:"Describe how thin-layer chromatography (TLC) is carried out, and give the formula for calculating an Rf value.", back:"A small spot of the sample is applied near the base of a TLC plate (coated with a solid stationary phase, e.g. silica gel), which is then stood in a shallow layer of solvent (the mobile phase, kept below the level of the applied spot) inside a covered container. As the solvent rises up the plate by capillary action, different components of the sample separate based on their differing solubility in the mobile phase versus their affinity for the stationary phase, travelling different distances. Rf value = (distance travelled by the spot/component) divided by (distance travelled by the solvent front)."},
+  {t:"chrom", id:"chrom-02", front:"Explain, in terms of intermolecular forces/polarity, why a more POLAR component travels a SHORTER distance (has a lower Rf value) on a silica-based TLC plate using a non-polar solvent.", back:"Silica gel is a POLAR stationary phase. A more POLAR component will interact more strongly (via stronger intermolecular forces, e.g. hydrogen bonding or dipole-dipole interactions) with the polar silica surface, causing it to be adsorbed more strongly and RETAINED more on the stationary phase, spending less time dissolved in/carried by the (non-polar) mobile phase - this results in the more polar component travelling a SHORTER distance up the plate (a LOWER Rf value) compared with a less polar component, which interacts more weakly with the stationary phase and moves further with the mobile phase."},
+  {t:"chrom", id:"chrom-03", front:"Explain the purpose of running a chromatogram of KNOWN reference compounds ALONGSIDE an unknown sample on the same TLC plate.", back:"Comparing the Rf VALUES (and/or spot positions) of the unknown sample's spots directly against the known reference compounds run under IDENTICAL conditions (same plate, same solvent, same distance/time) allows tentative IDENTIFICATION of the components in the unknown sample, by matching spots that travel to the same position/have the same Rf value as a specific known reference compound."},
+  {t:"chrom", id:"chrom-04", front:"Describe the basic principle of gas chromatography (GC), including the mobile and stationary phases used.", back:"A small sample (vaporised, since GC requires the sample to be in the gas phase) is injected into a stream of an inert carrier GAS (the MOBILE phase, e.g. helium or nitrogen), which carries the sample components through a long, thin column coated internally with (or packed with a solid support coated in) a high-boiling-point LIQUID (the STATIONARY phase). Different components of the sample mixture separate based on their differing solubility/affinity for the stationary liquid phase versus how readily they remain in the gas (mobile) phase, causing them to travel through the column and reach the detector at different RETENTION TIMES."},
+  {t:"chrom", id:"chrom-05", front:"State what information the RETENTION TIME of a peak in a gas chromatogram provides, and how it can be used for identification.", back:"The retention time is the time taken for a particular component to travel through the GC column and reach the detector. Under IDENTICAL conditions (same column, temperature, flow rate), a specific compound will always show the SAME characteristic retention time - by comparing the retention time of a peak in an unknown sample's chromatogram against the retention time of a known reference compound run under the same conditions, tentative identification of components in the unknown mixture is possible."},
+  {t:"chrom", id:"chrom-06", front:"Explain how the relative AREA under each peak in a gas chromatogram can be used to determine the relative amount (or percentage composition) of each component in a mixture.", back:"The area under each peak in a gas chromatogram is PROPORTIONAL to the relative AMOUNT (concentration or quantity) of that particular component present in the original sample mixture - by measuring (e.g. using the chromatography software's automatic integration) the area of each peak and comparing it against the TOTAL area of all peaks combined, the percentage composition of each component in the mixture can be calculated: percentage of component X = (area of peak X divided by total area of all peaks) multiplied by 100%."},
+  {t:"chrom", id:"chrom-07", front:"Describe the basic principle of high-performance liquid chromatography (HPLC), including how it differs from simple column chromatography in terms of pressure.", back:"HPLC uses a LIQUID mobile phase, pumped under HIGH PRESSURE through a column packed with very small, tightly-packed stationary phase particles (giving a much larger surface area for interaction than a simple gravity-fed column). This high pressure is needed to force the liquid mobile phase through the very finely-packed column at a reasonable, practical flow rate, and results in much better (higher resolution) separation of components, with a detector measuring components as they elute from the column, again giving characteristic retention times for identification, similar in principle to GC but using a liquid, not gas, mobile phase."},
+  {t:"chrom", id:"chrom-08", front:"Give a reason why HPLC (rather than GC) would be chosen to analyse a mixture containing a compound that decomposes at high temperature.", back:"GC requires the sample to be VAPORISED (heated sufficiently to become a gas) before it can be carried through the column by the gas mobile phase - if a compound decomposes/breaks down at the temperature needed for vaporisation, GC would give inaccurate or misleading results (analysing decomposition products, not the original compound). HPLC operates at (or close to) ROOM TEMPERATURE using a LIQUID mobile phase, so it does not require heating/vaporising the sample, making it suitable for analysing thermally unstable or non-volatile compounds that would decompose under GC conditions."},
+  {t:"chrom", id:"chrom-09", front:"EXAMINER TRAP: A student assumes a chromatography method (TLC, GC or HPLC) can, by itself, definitively CONFIRM the exact identity of an unknown compound just from a single Rf value or retention time. Why is this an overstatement of what chromatography alone can show?", back:"A matching Rf value or retention time with a known reference compound (under identical conditions) provides good SUPPORTING evidence consistent with that identity, but does NOT provide absolute, definitive proof by itself - in principle, a different compound could coincidentally show the same Rf value or retention time under the same conditions (especially if only a limited range of reference compounds is compared). For the most confident identification, chromatographic evidence should ideally be combined with other independent techniques (e.g. mass spectrometry, NMR) that provide structural information, rather than relying on a chromatography match alone.", trap:true}
+];
+
+var TABS = [
+  {key:"c13", label:"13C NMR"},
+  {key:"h1", label:"1H NMR"},
+  {key:"combo", label:"Combined Spectral Analysis"},
+  {key:"chrom", label:"Chromatography"}
+];
+
+var STORAGE_KEY = "chemT19AnalyticalIIProgress";
+var progress = {};
+var activeTab = TABS[0].key;
+var flippedIds = {};
+
+function loadProgress(){
+  try{
+    var raw = localStorage.getItem(STORAGE_KEY);
+    progress = raw ? JSON.parse(raw) : {};
+  }catch(e){ progress = {}; }
+}
+function saveProgress(){
+  try{ localStorage.setItem(STORAGE_KEY, JSON.stringify(progress)); }catch(e){}
+}
+function cardsForTab(tabKey){
+  var out = [];
+  for(var i=0;i<DECK.length;i++){ if(DECK[i].t===tabKey) out.push(DECK[i]); }
+  return out;
+}
+function countKnown(cards){
+  var n=0;
+  for(var i=0;i<cards.length;i++){ if(progress[cards[i].id]==="know") n++; }
+  return n;
+}
+function renderTabs(){
+  var bar = document.getElementById("tabBar");
+  bar.innerHTML = "";
+  for(var i=0;i<TABS.length;i++){
+    (function(tab){
+      var cards = cardsForTab(tab.key);
+      var known = countKnown(cards);
+      var btn = document.createElement("button");
+      btn.className = "tab-btn" + (tab.key===activeTab ? " active" : "");
+      btn.innerHTML = tab.label + '<span class="count">' + known + "/" + cards.length + "</span>";
+      btn.onclick = function(){ activeTab = tab.key; flippedIds = {}; renderAll(); };
+      bar.appendChild(btn);
+    })(TABS[i]);
+  }
+}
+function renderProgressBar(){
+  var cards = cardsForTab(activeTab);
+  var known = countKnown(cards);
+  var pct = cards.length ? Math.round((known/cards.length)*100) : 0;
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressText").textContent = known + " / " + cards.length + " known in this tab";
+  var t = null;
+  for(var i=0;i<TABS.length;i++){ if(TABS[i].key===activeTab) t = TABS[i]; }
+  document.getElementById("tabTitle").textContent = t ? t.label : "";
+}
+function renderStats(){
+  var total = DECK.length;
+  var known = countKnown(DECK);
+  var review = 0;
+  for(var i=0;i<DECK.length;i++){ if(progress[DECK[i].id]==="review") review++; }
+  document.getElementById("statTotal").textContent = total;
+  document.getElementById("statKnown").textContent = known;
+  document.getElementById("statReview").textContent = review;
+}
+function renderCards(){
+  var container = document.getElementById("cardContainer");
+  container.innerHTML = "";
+  var cards = cardsForTab(activeTab);
+  for(var i=0;i<cards.length;i++){
+    (function(c){
+      var state = progress[c.id];
+      var isFlipped = !!flippedIds[c.id];
+      var el = document.createElement("div");
+      el.className = "card" + (isFlipped ? " flipped" : "") + (state==="know" ? " known" : "") + (state==="review" ? " review" : "");
+
+      var top = document.createElement("div");
+      top.className = "card-top";
+      var idEl = document.createElement("span");
+      idEl.className = "card-id";
+      idEl.textContent = c.id;
+      top.appendChild(idEl);
+      if(state){
+        var chip = document.createElement("span");
+        chip.className = "status-chip " + state;
+        chip.textContent = state==="know" ? "Known" : "Review";
+        top.appendChild(chip);
+      }
+      el.appendChild(top);
+
+      if(c.trap){
+        var badge = document.createElement("div");
+        badge.className = "trap-badge";
+        badge.textContent = "Examiner Trap";
+        el.appendChild(badge);
+      }
+
+      var body = document.createElement("div");
+      body.className = "card-body" + (isFlipped ? " answer" : "");
+      var label = document.createElement("span");
+      label.className = "label";
+      label.textContent = isFlipped ? "Answer" : "Question";
+      body.appendChild(label);
+      var txt = document.createElement("div");
+      txt.textContent = isFlipped ? c.back : c.front;
+      body.appendChild(txt);
+      el.appendChild(body);
+
+      var hint = document.createElement("div");
+      hint.className = "hint";
+      hint.textContent = isFlipped ? "Tap to flip back" : "Tap card to reveal answer";
+      el.appendChild(hint);
+
+      el.onclick = function(e){
+        if(e.target && e.target.closest && e.target.closest(".st-btn")) return;
+        flippedIds[c.id] = !flippedIds[c.id];
+        renderCards();
+      };
+
+      if(isFlipped){
+        var st = document.createElement("div");
+        st.className = "self-test";
+        var knowBtn = document.createElement("button");
+        knowBtn.className = "st-btn know-btn";
+        knowBtn.textContent = "I know this";
+        knowBtn.onclick = function(e){ e.stopPropagation(); progress[c.id]="know"; saveProgress(); renderAll(); };
+        var reviewBtn = document.createElement("button");
+        reviewBtn.className = "st-btn review-btn";
+        reviewBtn.textContent = "Review again";
+        reviewBtn.onclick = function(e){ e.stopPropagation(); progress[c.id]="review"; saveProgress(); renderAll(); };
+        st.appendChild(knowBtn);
+        st.appendChild(reviewBtn);
+        el.appendChild(st);
+      }
+
+      container.appendChild(el);
+    })(cards[i]);
+  }
+}
+function renderAll(){ renderTabs(); renderProgressBar(); renderStats(); renderCards(); }
+function resetProgress(){
+  if(confirm("Reset all self-test progress for this deck? This can't be undone.")){
+    progress = {}; saveProgress(); renderAll();
+  }
+}
+
+loadProgress();
+renderAll();
+
+}catch(err){
+  var d = document.getElementById("diagBox");
+  if(d){ d.style.display="block"; d.textContent = "Script error: " + err.message; }
+}
+</script>
+</body>
+</html>
