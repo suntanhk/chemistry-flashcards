@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Chirality & Carbonyls — Staged Practice (55 Questions)</title>
+<style>
+  :root {
+    --bg: #0d1117; --bg-card: #161b22; --bg-card-back: #1c2333; --border: #30363d;
+    --teal: #2dd4bf; --purple: #a78bfa; --text: #e6edf3; --text-dim: #8b949e;
+    --trap: #f87171; --tip: #fbbf24; --good: #4ade80;
+  }
+  * { box-sizing: border-box; margin:0; padding:0; }
+  body { background: var(--bg); color: var(--text); font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; min-height: 100vh; padding: env(safe-area-inset-top,0) 0 env(safe-area-inset-bottom,0) 0; }
+  .app { max-width: 640px; margin: 0 auto; padding: 16px 16px 40px; }
+  header { text-align:center; padding: 12px 0 18px; }
+  header h1 { font-size: 1.25rem; font-weight: 700; letter-spacing: -0.3px; }
+  header h1 span { color: var(--teal); }
+  header p { color: var(--text-dim); font-size: 0.85rem; margin-top: 4px; }
+
+  .tabs { display: flex; gap: 6px; overflow-x: auto; padding-bottom: 4px; margin-bottom: 14px; scrollbar-width: none; }
+  .tabs::-webkit-scrollbar { display:none; }
+  .tab { flex: 0 0 auto; padding: 8px 14px; border-radius: 20px; font-size: 0.78rem; font-weight: 600; background: var(--bg-card); border: 1px solid var(--border); color: var(--text-dim); white-space: nowrap; cursor: pointer; }
+  .tab.active { background: linear-gradient(135deg, var(--teal), var(--purple)); color: #0d1117; border-color: transparent; }
+
+  .stage-desc { text-align:center; color: var(--text-dim); font-size: 0.78rem; margin-bottom: 12px; padding: 0 8px; }
+
+  .progress-bar { display:flex; align-items:center; gap:10px; margin-bottom: 16px; background: var(--bg-card); border:1px solid var(--border); border-radius: 12px; padding: 10px 14px; }
+  .progress-track { flex:1; height:6px; background:#0d1117; border-radius: 3px; overflow:hidden; }
+  .progress-fill { height:100%; background: linear-gradient(90deg, var(--teal), var(--purple)); border-radius:3px; transition: width .3s; }
+  .progress-label { font-size:0.75rem; color: var(--text-dim); white-space:nowrap; }
+
+  .counter { text-align:center; color: var(--text-dim); font-size: 0.8rem; margin-bottom: 10px; }
+
+  .card-stage { perspective: 1400px; margin-bottom: 16px; }
+  .card { position: relative; min-height: 240px; border-radius: 16px; cursor: pointer; transform-style: preserve-3d; transition: transform .5s; }
+  .card.flipped { transform: rotateY(180deg); }
+  .face { position:absolute; inset:0; backface-visibility:hidden; border-radius:16px; padding: 22px; display:flex; flex-direction:column; border:1px solid var(--border); }
+  .front { background: var(--bg-card); }
+  .back { background: var(--bg-card-back); transform: rotateY(180deg); overflow-y:auto; }
+
+  .face-label { font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--purple); margin-bottom: 10px; font-weight:700; }
+  .front .face-label { color: var(--teal); }
+  .face-content { flex:1; display:flex; align-items:center; font-size: 1.0rem; line-height: 1.5; }
+  .back .face-content { display:block; font-size: 0.92rem; line-height: 1.55; align-items: unset; }
+  .tap-hint { text-align:center; color: var(--text-dim); font-size: 0.72rem; margin-top: 10px; }
+
+  .badge { display:inline-block; font-size: 0.66rem; font-weight:700; padding: 3px 9px; border-radius: 10px; margin-bottom:8px; }
+  .badge.marks { background: rgba(167,139,250,0.15); color: var(--purple); }
+  .badge.trap { background: rgba(248,113,113,0.15); color: var(--trap); }
+
+  .answer-line { margin-bottom: 7px; }
+  .answer-line b { color: var(--teal); }
+
+  .controls { display:flex; gap: 10px; margin-bottom: 10px; }
+  .nav-btn { flex:1; padding: 12px; border-radius: 12px; border:1px solid var(--border); background: var(--bg-card); color: var(--text); font-size: 0.85rem; font-weight:600; cursor:pointer; }
+  .nav-btn:active { transform: scale(0.97); }
+
+  .self-test { display:flex; gap:10px; }
+  .st-btn { flex:1; padding: 13px; border-radius: 12px; border:none; font-weight:700; font-size:0.85rem; cursor:pointer; }
+  .st-know { background: rgba(74,222,128,0.15); color: var(--good); border:1px solid rgba(74,222,128,0.35); }
+  .st-review { background: rgba(248,113,113,0.15); color: var(--trap); border:1px solid rgba(248,113,113,0.35); }
+  .st-btn.selected.st-know { background: var(--good); color: #06220f; }
+  .st-btn.selected.st-review { background: var(--trap); color: #2a0a0a; }
+
+  .stats { display:flex; gap:8px; margin-top: 18px; }
+  .stat { flex:1; background: var(--bg-card); border:1px solid var(--border); border-radius:12px; padding:12px; text-align:center; }
+  .stat .n { font-size:1.3rem; font-weight:800; }
+  .stat .l { font-size:0.68rem; color:var(--text-dim); text-transform:uppercase; letter-spacing:0.05em; margin-top:2px;}
+  .stat.know .n { color: var(--good); }
+  .stat.review .n { color: var(--trap); }
+  .stat.left .n { color: var(--text-dim); }
+
+  .reset-row { text-align:center; margin-top: 18px; }
+  .reset-btn { background:none; border:1px solid var(--border); color: var(--text-dim); font-size:0.75rem; padding:8px 16px; border-radius: 20px; cursor:pointer; }
+</style>
+</head>
+<body>
+<div class="app">
+  <header>
+    <h1>Chirality <span>&</span> Carbonyls</h1>
+    <p>Staged Practice — 55 Questions, 9 October Test</p>
+  </header>
+
+  <div class="tabs" id="tabs"></div>
+  <div class="stage-desc" id="stageDesc"></div>
+
+  <div class="progress-bar">
+    <div class="progress-track"><div class="progress-fill" id="progressFill"></div></div>
+    <div class="progress-label" id="progressLabel">0%</div>
+  </div>
+
+  <div class="counter" id="counter"></div>
+
+  <div class="card-stage">
+    <div class="card" id="card">
+      <div class="face front">
+        <div class="face-label">Question</div>
+        <div class="face-content" id="frontContent"></div>
+        <div class="tap-hint">Tap to reveal answer</div>
+      </div>
+      <div class="face back">
+        <div class="face-label">Answer</div>
+        <div class="face-content" id="backContent"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="self-test">
+    <button class="st-btn st-know" id="btnKnow">✓ Know it</button>
+    <button class="st-btn st-review" id="btnReview">↻ Review</button>
+  </div>
+
+  <div class="controls">
+    <button class="nav-btn" id="btnPrev">← Previous</button>
+    <button class="nav-btn" id="btnNext">Next →</button>
+  </div>
+
+  <div class="stats">
+    <div class="stat know"><div class="n" id="statKnow">0</div><div class="l">Know</div></div>
+    <div class="stat review"><div class="n" id="statReview">0</div><div class="l">Review</div></div>
+    <div class="stat left"><div class="n" id="statLeft">0</div><div class="l">Untested</div></div>
+  </div>
+
+  <div class="reset-row"><button class="reset-btn" id="resetBtn">Reset progress for this stage</button></div>
+</div>
+
+<script>
+const STAGE_INFO = {
+  "Stage 1": "Foundation Recall — definitions and quick-fire facts",
+  "Stage 2": "Structure, Naming & Tests — identification and application",
+  "Stage 3": "Mechanism & Curly Arrows — HCN addition in detail",
+  "Stage 4": "Synoptic & Exam-Style — multi-mark combined questions"
+};
+
+const CARDS = [
+// ===================== STAGE 1: FOUNDATION RECALL (15) =====================
+{s:"Stage 1", front:"Define a chiral centre.", back:"<div class='answer-line'>A carbon atom bonded to <b>four different groups</b>.</div>"},
+{s:"Stage 1", front:"Define enantiomers.", back:"<div class='answer-line'>Non-superimposable mirror-image stereoisomers.</div>"},
+{s:"Stage 1", front:"Define optical activity.", back:"<div class='answer-line'>The ability of a compound to rotate the plane of plane-polarised light.</div>"},
+{s:"Stage 1", front:"Define a racemic mixture.", back:"<div class='answer-line'>A 50:50 mixture of two enantiomers; optically inactive because the rotations cancel.</div>"},
+{s:"Stage 1", front:"What instrument measures optical rotation?", back:"<div class='answer-line'>A <b>polarimeter</b>.</div>"},
+{s:"Stage 1", front:"What symbol is used to mark a chiral centre in a structure?", back:"<div class='answer-line'>An asterisk, <b>C*</b>.</div>"},
+{s:"Stage 1", front:"What is the general formula difference: aldehyde vs ketone functional group position?", back:"<div class='answer-line'>Aldehyde: C=O at the <b>end</b> of the chain. Ketone: C=O <b>within</b> the chain.</div>"},
+{s:"Stage 1", front:"What suffix is used for aldehydes? Ketones?", back:"<div class='answer-line'>Aldehyde: <b>-al</b>. Ketone: <b>-one</b> (with a locant number).</div>"},
+{s:"Stage 1", front:"Why does an aldehyde never need a locant number in its name?", back:"<div class='answer-line'>The carbonyl carbon is always C1 by definition.</div>"},
+{s:"Stage 1", front:"What ion is reduced in Tollens' reagent?", back:"<div class='answer-line'>Ag&#8314; (silver ion) → Ag (silver metal, forms the mirror).</div>"},
+{s:"Stage 1", front:"What ion is reduced in Fehling's solution?", back:"<div class='answer-line'>Cu&sup2;&#8314; (blue) → Cu&#8314; (as Cu&#8322;O, brick-red precipitate).</div>"},
+{s:"Stage 1", front:"What reagent reduces carbonyls to alcohols?", back:"<div class='answer-line'>NaBH4 (sodium borohydride) — provides H&#8315; as the nucleophile.</div>"},
+{s:"Stage 1", front:"What is a nucleophile?", back:"<div class='answer-line'>An electron-pair donor — attracted to positive/δ+ centres.</div>"},
+{s:"Stage 1", front:"Why is the carbonyl carbon electrophilic?", back:"<div class='answer-line'>Oxygen is more electronegative, pulling electron density away and leaving the carbon δ+.</div>"},
+{s:"Stage 1", front:"What functional groups are present in the product of HCN addition to a carbonyl?", back:"<div class='answer-line'>–OH and –C≡N (a hydroxynitrile).</div>"},
+
+// ===================== STAGE 2: STRUCTURE, NAMING & TESTS (15) =====================
+{s:"Stage 2", front:"Name CH3CH2CHO.", back:"<div class='answer-line'>Propanal.</div>"},
+{s:"Stage 2", front:"Name CH3COCH2CH3.", back:"<div class='answer-line'>Butan-2-one.</div>"},
+{s:"Stage 2", front:"A student warms an unknown liquid with Tollens' reagent — no silver mirror forms. What can you conclude?", back:"<div class='answer-line'>The compound is <b>not an aldehyde</b> — it could be a ketone or have no carbonyl at all.</div>"},
+{s:"Stage 2", front:"Describe the positive result for the 2,4-DNPH test.", back:"<div class='answer-line'>An <b>orange/yellow precipitate</b> forms, confirming a carbonyl group (aldehyde OR ketone).</div>"},
+{s:"Stage 2", front:"How can you use the 2,4-DNPH derivative to identify the exact carbonyl compound?", back:"<div class='answer-line'>Recrystallise the precipitate and compare its <b>melting point</b> to a data table of known derivatives.</div>"},
+{s:"Stage 2", front:"What positive result indicates a CH3CO– group is present?", back:"<div class='answer-line'>A <b>pale yellow precipitate</b> (triiodomethane/CHI3) in the iodoform test, with an antiseptic smell.</div>"},
+{s:"Stage 2", front:"Would propanal give a positive iodoform test? Explain.", back:"<div class='answer-line'><b>No</b> — propanal is CH3CH2CHO, which has no CH3CO– group (the carbonyl carbon is bonded to CH2, not directly giving a methyl ketone/appropriate alcohol pattern).</div>"},
+{s:"Stage 2", front:"Would pentan-2-one give a positive iodoform test? Explain.", back:"<div class='answer-line'><b>Yes</b> — pentan-2-one is CH3COCH2CH2CH3, which contains a CH3CO– group.</div>"},
+{s:"Stage 2", front:"What IR absorption range confirms a C=O bond?", back:"<div class='answer-line'>~1680–1750 cm&#8315;&sup1;, a strong sharp peak.</div>"},
+{s:"Stage 2", front:"How would you distinguish a carboxylic acid from an aldehyde using IR alone?", back:"<div class='answer-line'>A carboxylic acid shows <b>both</b> the C=O peak AND a broad O–H peak (~2500–3300 cm&#8315;&sup1;); an aldehyde shows only the C=O peak.</div>"},
+{s:"Stage 2", front:"State the product when propanal is reduced with NaBH4.", back:"<div class='answer-line'>Propan-1-ol (a primary alcohol).</div>"},
+{s:"Stage 2", front:"State the product when butan-2-one is reduced with NaBH4.", back:"<div class='answer-line'>Butan-2-ol (a secondary alcohol).</div>"},
+{s:"Stage 2", front:"Is butan-2-ol (from the reduction above) chiral? Explain.", back:"<div class='answer-line'><b>Yes</b> — C2 is bonded to OH, H, CH3, and CH2CH3 — four different groups.</div>"},
+{s:"Stage 2", front:"List all three tests that could confirm 'this compound contains a carbonyl group' without telling you which type.", back:"<div class='answer-line'>2,4-DNPH (confirms carbonyl); IR spectroscopy (C=O peak). [Tollens'/Fehling's/iodoform all narrow down the TYPE, not just confirm presence.]</div>"},
+{s:"Stage 2", front:"A compound gives a positive Fehling's test and a positive iodoform test. What structural feature(s) must it have?", back:"<div class='answer-line'>It must be an <b>aldehyde</b> (positive Fehling's) that also contains a <b>CH3CO– type arrangement</b> — consistent with ethanal, CH3CHO.</div>"},
+
+// ===================== STAGE 3: MECHANISM & CURLY ARROWS (10) =====================
+{s:"Stage 3", front:"State the two steps of the HCN nucleophilic addition mechanism.", back:"<div class='answer-line'><b>Step 1:</b> CN&#8315; attacks the δ+ carbonyl C; C=O π bond breaks, forming an alkoxide (O&#8315;) intermediate.</div><div class='answer-line'><b>Step 2:</b> The O&#8315; picks up H&#8314; to form –OH.</div>"},
+{s:"Stage 3", front:"<span class='badge trap'>Trap</span> Where must the curly arrow from CN&#8315; start?", back:"<div class='answer-line'>From the <b>lone pair on the carbon</b> of CN&#8315; — never from the charge symbol or the nitrogen.</div>"},
+{s:"Stage 3", front:"Why is a mixture of KCN/NaCN with HCN often used rather than pure HCN?", back:"<div class='answer-line'>Pure HCN is a weak acid and barely dissociates, so there's little free CN&#8315;. NaCN/KCN provides a ready supply of the nucleophile; HCN still supplies H&#8314; for step 2.</div>"},
+{s:"Stage 3", front:"What type of mechanism is the addition of HCN to a carbonyl?", back:"<div class='answer-line'>Nucleophilic addition.</div>"},
+{s:"Stage 3", front:"What shape is the carbonyl carbon before nucleophilic attack?", back:"<div class='answer-line'>Trigonal planar (sp&sup2;).</div>"},
+{s:"Stage 3", front:"Why does this shape matter for the stereochemistry of the product?", back:"<div class='answer-line'>Being flat, it allows the nucleophile to attack from <b>either face with equal probability</b>, which is the basis of the racemic-mixture outcome.</div>"},
+{s:"Stage 3", front:"<span class='badge marks'>4 marks</span> Fully explain why HCN addition to an unsymmetrical ketone gives an optically inactive product.", back:"<div class='answer-line'>1) The carbonyl carbon is <b>planar</b>.</div><div class='answer-line'>2) CN&#8315; can attack from <b>either face with equal probability</b>.</div><div class='answer-line'>3) This produces <b>equal amounts of both enantiomers</b>.</div><div class='answer-line'>4) The result is a <b>racemic mixture</b>, which is optically inactive as the rotations cancel.</div>"},
+{s:"Stage 3", front:"Does HCN addition to propanone (CH3COCH3) give a racemic mixture? Explain.", back:"<div class='answer-line'><b>No</b> — propanone is symmetrical (two identical CH3 groups either side of C=O), so the product carbon has two identical substituents and is <b>not chiral</b> at all.</div>"},
+{s:"Stage 3", front:"NaBH4 reduction of an unsymmetrical ketone can also give a racemic mixture. Why does the same logic apply?", back:"<div class='answer-line'>H&#8315; from NaBH4 is also a nucleophile attacking a planar carbonyl carbon — it can attack from either face with equal probability, giving equal amounts of both enantiomers.</div>"},
+{s:"Stage 3", front:"What is the name of the intermediate formed after Step 1 of the HCN mechanism, before protonation?", back:"<div class='answer-line'>An <b>alkoxide ion</b> (O&#8315; intermediate).</div>"},
+
+// ===================== STAGE 4: SYNOPTIC & EXAM-STYLE (15) =====================
+{s:"Stage 4", front:"<span class='badge marks'>2 marks</span> Butanal reacts with HCN/NaCN. Draw/describe the product and state whether it is chiral.", back:"<div class='answer-line'>Product: 2-hydroxypentanenitrile, CH3CH2CH2CH(OH)CN.</div><div class='answer-line'>The new carbon is bonded to OH, CN, H, and C3H7 — four different groups — so it <b>is chiral</b>.</div>"},
+{s:"Stage 4", front:"<span class='badge marks'>3 marks</span> Explain why the product in the question above is formed as a racemic mixture.", back:"<div class='answer-line'>The carbonyl carbon in butanal is planar; CN&#8315; attacks from either face with equal probability, giving equal amounts of both enantiomers — a racemic (optically inactive) mixture.</div>"},
+{s:"Stage 4", front:"<span class='badge marks'>3 marks</span> Describe a chemical test to show that pentan-3-one (a symmetrical ketone) does NOT contain an aldehyde group, and predict the result.", back:"<div class='answer-line'>Warm with Tollens' reagent (or Fehling's). No silver mirror forms (or solution stays blue) because pentan-3-one has no H on the carbonyl carbon to be oxidised — it is a ketone, not an aldehyde.</div>"},
+{s:"Stage 4", front:"<span class='badge marks'>4 marks</span> Two unlabelled bottles contain propanal and propanone. Describe how to distinguish them using ONE test, including observations for each.", back:"<div class='answer-line'>Warm each with Fehling's solution.</div><div class='answer-line'>Propanal (aldehyde): blue solution → <b>brick-red precipitate</b>.</div><div class='answer-line'>Propanone (ketone): <b>no change</b>, stays blue.</div>"},
+{s:"Stage 4", front:"<span class='badge marks'>3 marks</span> A chiral compound shows zero optical rotation when tested in a polarimeter. Give two possible explanations.", back:"<div class='answer-line'>1) The sample is a racemic mixture (equal enantiomers, rotations cancel).</div><div class='answer-line'>2) Trick option to rule out: if truly achiral, it was never optically active in the first place — always check the compound really does have a chiral centre before assuming racemic.</div>"},
+{s:"Stage 4", front:"<span class='badge marks'>5 marks</span> Outline the full mechanism for HCN addition to ethanal, including curly arrows, and name the type of mechanism.", back:"<div class='answer-line'><b>Mechanism type:</b> nucleophilic addition.</div><div class='answer-line'><b>Step 1:</b> Lone pair on C of CN&#8315; attacks the δ+ carbonyl carbon; curly arrow from CN&#8315; lone pair to the carbon. A second curly arrow shows the C=O π electrons moving onto O, forming O&#8315;.</div><div class='answer-line'><b>Step 2:</b> A curly arrow from the H–CN (or H–OH) bond shows H&#8314; transferring to the O&#8315;, forming –OH.</div><div class='answer-line'>Product: 2-hydroxypropanenitrile.</div>"},
+{s:"Stage 4", front:"<span class='badge marks'>2 marks</span> Is the product of HCN addition to ethanal (question above) chiral? Justify.", back:"<div class='answer-line'><b>Yes</b> — the new carbon is bonded to OH, CN, H, and CH3 — four different groups.</div>"},
+{s:"Stage 4", front:"<span class='badge marks'>3 marks</span> Explain why NaBH4 reduction of pentan-2-one produces a chiral alcohol, and state whether the product is optically active.", back:"<div class='answer-line'>The carbonyl carbon becomes bonded to OH, H, CH3, and C3H7 — four different groups — so it is chiral.</div><div class='answer-line'>However, hydride attacks the planar carbon from either face equally, giving a <b>racemic mixture</b> — the sample overall is <b>optically inactive</b>.</div>"},
+{s:"Stage 4", front:"<span class='badge marks'>4 marks</span> Describe how you could use both a chemical test and a physical property to fully identify an unknown carbonyl compound as a specific aldehyde.", back:"<div class='answer-line'>1) 2,4-DNPH test: orange/yellow precipitate confirms a carbonyl.</div><div class='answer-line'>2) Tollens' or Fehling's: positive result confirms it is specifically an aldehyde.</div><div class='answer-line'>3) Recrystallise the 2,4-DNPH derivative and measure its <b>melting point</b>, then compare to a data table to identify the exact compound.</div>"},
+{s:"Stage 4", front:"<span class='badge marks'>3 marks</span> A molecule has two chiral centres. How many possible stereoisomers can it have at most, and why might the actual number be lower?", back:"<div class='answer-line'>Maximum 2&sup2; = <b>4 stereoisomers</b> (2&#8319; rule, n = number of chiral centres).</div><div class='answer-line'>The number can be lower if the molecule has internal symmetry (creating a meso compound, where two apparent stereoisomers are actually identical).</div>"},
+{s:"Stage 4", front:"<span class='badge marks'>2 marks</span> Give the IUPAC name of the ketone formed by mild oxidation being impossible for CH3CH(OH)CH2CH3.", back:"<div class='answer-line'>Trick check: CH3CH(OH)CH2CH3 is a <b>secondary alcohol</b> (butan-2-ol) — it CAN be oxidised (to a ketone), unlike a tertiary alcohol. Product: butan-2-one.</div>"},
+{s:"Stage 4", front:"<span class='badge marks'>3 marks</span> Explain, in terms of bonding, why tertiary alcohols cannot be oxidised to carbonyl compounds (synoptic link).", back:"<div class='answer-line'>Oxidation of an alcohol requires removing an H atom directly from the carbon bearing the OH group.</div><div class='answer-line'>A tertiary alcohol's carbon is bonded to <b>three carbon chains and OH</b> — no H is available on that carbon to remove, so oxidation to a carbonyl is not possible.</div>"},
+{s:"Stage 4", front:"<span class='badge marks'>4 marks</span> A student claims 'all chiral molecules rotate light clockwise.' Evaluate this statement.", back:"<div class='answer-line'>The statement is <b>incorrect</b>. One enantiomer rotates light clockwise (+, dextrorotatory) and the other rotates it anticlockwise (–, levorotatory) by an equal angle — the direction depends on which enantiomer, not on chirality alone.</div>"},
+{s:"Stage 4", front:"<span class='badge marks'>3 marks</span> Explain why the pharmaceutical industry often needs to produce a single enantiomer of a drug rather than a racemic mixture.", back:"<div class='answer-line'>Biological receptors/enzymes are chiral, so only one enantiomer may fit the active site correctly ('lock and key').</div><div class='answer-line'>The other enantiomer may be inactive, less effective, or in some cases harmful — so a racemic mixture can be less safe or effective than the pure active enantiomer.</div>"}
+];
+
+const SECTIONS = [...new Set(CARDS.map(c => c.s))];
+let currentSection = SECTIONS[0];
+let currentIndex = 0;
+let flipped = false;
+
+const STORAGE_KEY = "chiralityCarbonylsStagedProgress";
+function loadProgress() {
+  try { return JSON.parse(localStorage.getItem(STORAGE_KEY)) || {}; } catch(e) { return {}; }
+}
+function saveProgress(p) {
+  try { localStorage.setItem(STORAGE_KEY, JSON.stringify(p)); } catch(e) {}
+}
+let progress = loadProgress();
+
+function cardKey(sec, idx) { return sec + "::" + idx; }
+function sectionCards(sec) { return CARDS.map((c,i)=>({...c, globalIndex:i})).filter(c => c.s === sec); }
+
+function renderTabs() {
+  const tabsEl = document.getElementById("tabs");
+  tabsEl.innerHTML = "";
+  SECTIONS.forEach(sec => {
+    const btn = document.createElement("div");
+    btn.className = "tab" + (sec === currentSection ? " active" : "");
+    btn.textContent = sec;
+    btn.onclick = () => { currentSection = sec; currentIndex = 0; flipped = false; render(); };
+    tabsEl.appendChild(btn);
+  });
+}
+
+function render() {
+  renderTabs();
+  document.getElementById("stageDesc").textContent = STAGE_INFO[currentSection] || "";
+  const cards = sectionCards(currentSection);
+  const card = cards[currentIndex];
+  const key = cardKey(currentSection, currentIndex);
+  const state = progress[key];
+
+  document.getElementById("frontContent").innerHTML = card.front;
+  document.getElementById("backContent").innerHTML = card.back;
+  document.getElementById("card").classList.toggle("flipped", flipped);
+  document.getElementById("counter").textContent = `Question ${currentIndex+1} of ${cards.length} — ${currentSection}`;
+
+  document.getElementById("btnKnow").classList.toggle("selected", state === "know");
+  document.getElementById("btnReview").classList.toggle("selected", state === "review");
+
+  let know=0, review=0, left=0;
+  cards.forEach((c,i)=>{
+    const st = progress[cardKey(currentSection,i)];
+    if (st === "know") know++; else if (st === "review") review++; else left++;
+  });
+  document.getElementById("statKnow").textContent = know;
+  document.getElementById("statReview").textContent = review;
+  document.getElementById("statLeft").textContent = left;
+  const pct = Math.round(((know+review)/cards.length)*100);
+  document.getElementById("progressFill").style.width = pct + "%";
+  document.getElementById("progressLabel").textContent = pct + "% tested";
+}
+
+document.getElementById("card").addEventListener("click", () => {
+  flipped = !flipped;
+  document.getElementById("card").classList.toggle("flipped", flipped);
+});
+
+document.getElementById("btnNext").addEventListener("click", (e) => {
+  e.stopPropagation();
+  const cards = sectionCards(currentSection);
+  currentIndex = (currentIndex + 1) % cards.length;
+  flipped = false;
+  render();
+});
+document.getElementById("btnPrev").addEventListener("click", (e) => {
+  e.stopPropagation();
+  const cards = sectionCards(currentSection);
+  currentIndex = (currentIndex - 1 + cards.length) % cards.length;
+  flipped = false;
+  render();
+});
+
+document.getElementById("btnKnow").addEventListener("click", (e) => {
+  e.stopPropagation();
+  progress[cardKey(currentSection, currentIndex)] = "know";
+  saveProgress(progress);
+  render();
+});
+document.getElementById("btnReview").addEventListener("click", (e) => {
+  e.stopPropagation();
+  progress[cardKey(currentSection, currentIndex)] = "review";
+  saveProgress(progress);
+  render();
+});
+
+document.getElementById("resetBtn").addEventListener("click", (e) => {
+  e.stopPropagation();
+  const cards = sectionCards(currentSection);
+  cards.forEach((c,i) => delete progress[cardKey(currentSection,i)]);
+  saveProgress(progress);
+  render();
+});
+
+render();
+</script>
+</body>
+</html>
