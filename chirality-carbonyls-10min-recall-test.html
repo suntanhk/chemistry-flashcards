@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>10-Minute Recall Test — Chirality & Carbonyls</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2333; --border:#30363d;
+    --teal:#2dd4bf; --purple:#a78bfa; --text:#e6edf3; --dim:#8b949e;
+    --trap:#f87171; --tip:#fbbf24; --good:#4ade80;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55;}
+  .wrap{max-width:720px;margin:0 auto;padding:24px 18px 60px;}
+
+  header{text-align:center;padding-bottom:18px;}
+  .kicker{color:var(--teal);font-size:0.78rem;font-weight:700;letter-spacing:0.05em;}
+  h1{font-size:1.5rem;margin:8px 0 4px;}
+  header p{color:var(--dim);font-size:0.85rem;}
+
+  .timer-box{
+    display:flex;align-items:center;justify-content:center;gap:16px;
+    background:var(--panel);border:1px solid var(--border);border-radius:16px;
+    padding:16px;margin:18px 0 26px;
+  }
+  .timer-display{font-size:2.4rem;font-weight:800;letter-spacing:1px;color:var(--teal);font-variant-numeric:tabular-nums;}
+  .timer-display.warn{color:var(--trap);}
+  .timer-btns{display:flex;gap:8px;}
+  .tbtn{padding:9px 16px;border-radius:10px;border:1px solid var(--border);background:var(--panel2);color:var(--text);font-size:0.85rem;font-weight:600;cursor:pointer;}
+  .tbtn.primary{background:linear-gradient(135deg,var(--teal),var(--purple));color:#0d1117;border-color:transparent;}
+  .tbtn:active{transform:scale(0.96);}
+
+  .progress-summary{display:flex;justify-content:center;gap:10px;color:var(--dim);font-size:0.8rem;margin-bottom:20px;}
+
+  .q-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;margin-bottom:14px;overflow:hidden;}
+  .q-head{display:flex;align-items:center;gap:12px;padding:14px 16px;cursor:pointer;}
+  .q-num{flex:0 0 auto;width:28px;height:28px;border-radius:50%;background:var(--panel2);color:var(--purple);font-weight:800;font-size:0.85rem;display:flex;align-items:center;justify-content:center;}
+  .q-text{flex:1;font-size:0.95rem;}
+  .q-toggle{font-size:0.78rem;color:var(--teal);font-weight:700;white-space:nowrap;}
+  .q-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+  .q-body.open{max-height:900px;}
+  .q-body-inner{padding:0 16px 18px 16px;border-top:1px solid var(--border);padding-top:14px;}
+
+  .diagram{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:10px;text-align:center;}
+  .diagram svg{max-width:100%;height:auto;}
+
+  .answer-line{margin-bottom:6px;font-size:0.9rem;color:#dbe3ea;}
+  .answer-line b{color:var(--text);}
+  .badge{display:inline-block;font-size:0.65rem;font-weight:700;padding:2px 8px;border-radius:8px;margin-bottom:6px;}
+  .badge.tip{background:rgba(251,191,36,0.15);color:var(--tip);}
+
+  footer{text-align:center;color:var(--dim);font-size:0.78rem;margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">EDEXCEL 9CH0 &middot; COMBINED TOPIC TEST PREP</div>
+  <h1>10-Minute Recall Test</h1>
+  <p>Chirality &amp; Carbonyls &mdash; 12 questions, no notes</p>
+</header>
+
+<div class="timer-box">
+  <div class="timer-display" id="timerDisplay">10:00</div>
+  <div class="timer-btns">
+    <button class="tbtn primary" id="startBtn">Start</button>
+    <button class="tbtn" id="resetBtn">Reset</button>
+  </div>
+</div>
+
+<div class="progress-summary" id="progressSummary">0 of 12 answers revealed</div>
+
+<div id="questions"></div>
+
+<footer>Answer every question on paper first &mdash; only tap a card to check once you've written your answer.</footer>
+</div>
+
+<script>
+const QUESTIONS = [
+{
+  q: "Draw an aldehyde.",
+  a: `<div class="diagram"><svg viewBox="0 0 260 140" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+    <line x1="50" y1="90" x2="110" y2="60" stroke="#e6edf3" stroke-width="2"/>
+    <text x="38" y="95" fill="#e6edf3" font-size="16" text-anchor="middle">R</text>
+    <line x1="110" y1="60" x2="110" y2="100" stroke="#e6edf3" stroke-width="2"/>
+    <line x1="105" y1="60" x2="105" y2="100" stroke="#e6edf3" stroke-width="2"/>
+    <text x="110" y="122" fill="#a78bfa" font-size="16" text-anchor="middle">O</text>
+    <line x1="110" y1="60" x2="170" y2="90" stroke="#e6edf3" stroke-width="2"/>
+    <text x="185" y="95" fill="#fbbf24" font-size="16" text-anchor="middle">H</text>
+    <circle cx="110" cy="60" r="4" fill="#e6edf3"/>
+  </svg></div>
+  <div class="answer-line">Carbonyl carbon bonded to <b>one R group and one H</b>, C=O always at the <b>end</b> of the chain (C1).</div>`
+},
+{
+  q: "Draw a ketone.",
+  a: `<div class="diagram"><svg viewBox="0 0 260 140" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+    <line x1="50" y1="90" x2="110" y2="60" stroke="#e6edf3" stroke-width="2"/>
+    <text x="38" y="95" fill="#e6edf3" font-size="16" text-anchor="middle">R</text>
+    <line x1="110" y1="60" x2="110" y2="100" stroke="#e6edf3" stroke-width="2"/>
+    <line x1="105" y1="60" x2="105" y2="100" stroke="#e6edf3" stroke-width="2"/>
+    <text x="110" y="122" fill="#a78bfa" font-size="16" text-anchor="middle">O</text>
+    <line x1="110" y1="60" x2="170" y2="90" stroke="#e6edf3" stroke-width="2"/>
+    <text x="185" y="95" fill="#e6edf3" font-size="16" text-anchor="middle">R'</text>
+    <circle cx="110" cy="60" r="4" fill="#e6edf3"/>
+  </svg></div>
+  <div class="answer-line">Carbonyl carbon bonded to <b>two carbon chains</b> (R and R'), <b>never to H</b>, C=O sits <b>within</b> the chain.</div>`
+},
+{
+  q: "Identify a chiral centre.",
+  a: `<div class="diagram"><svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+    <circle cx="130" cy="80" r="5" fill="#2dd4bf"/>
+    <line x1="130" y1="80" x2="130" y2="30" stroke="#e6edf3" stroke-width="2"/>
+    <text x="130" y="20" fill="#a78bfa" font-size="15" text-anchor="middle">OH</text>
+    <line x1="130" y1="80" x2="75" y2="110" stroke="#e6edf3" stroke-width="2"/>
+    <text x="58" y="118" fill="#e6edf3" font-size="15" text-anchor="middle">H</text>
+    <polygon points="130,80 185,110 185,116" fill="#2dd4bf"/>
+    <text x="202" y="116" fill="#2dd4bf" font-size="15" text-anchor="start">CH3</text>
+    <line x1="130" y1="80" x2="130" y2="140" stroke="#e6edf3" stroke-width="2" stroke-dasharray="3,4"/>
+    <text x="130" y="158" fill="#e6edf3" font-size="15" text-anchor="middle">C2H5</text>
+  </svg></div>
+  <div class="answer-line">A carbon bonded to <b>four different groups</b> (here: OH, H, CH3, C2H5). Mark it with an asterisk C*.</div>`
+},
+{
+  q: "Draw its enantiomer.",
+  a: `<div class="diagram"><svg viewBox="0 0 260 160" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+    <circle cx="130" cy="80" r="5" fill="#2dd4bf"/>
+    <line x1="130" y1="80" x2="130" y2="30" stroke="#e6edf3" stroke-width="2"/>
+    <text x="130" y="20" fill="#a78bfa" font-size="15" text-anchor="middle">OH</text>
+    <line x1="130" y1="80" x2="185" y2="110" stroke="#e6edf3" stroke-width="2"/>
+    <text x="202" y="118" fill="#e6edf3" font-size="15" text-anchor="middle">H</text>
+    <polygon points="130,80 75,110 75,116" fill="#2dd4bf"/>
+    <text x="58" y="116" fill="#2dd4bf" font-size="15" text-anchor="end">CH3</text>
+    <line x1="130" y1="80" x2="130" y2="140" stroke="#e6edf3" stroke-width="2" stroke-dasharray="3,4"/>
+    <text x="130" y="158" fill="#e6edf3" font-size="15" text-anchor="middle">C2H5</text>
+  </svg></div>
+  <div class="answer-line">The <b>exact mirror image</b> &mdash; swap the positions of just two groups (here: H and CH3 swap wedge/plain sides) to generate the non-superimposable mirror image.</div>`
+},
+{
+  q: "Define racemic mixture.",
+  a: `<div class="answer-line">A <b>50:50 mixture of two enantiomers</b>.</div>
+  <div class="answer-line">The (+) rotation from one enantiomer is exactly cancelled by the (&ndash;) rotation of the other, so the mixture is <b>optically inactive</b> overall.</div>`
+},
+{
+  q: "Draw C=O polarity.",
+  a: `<div class="diagram"><svg viewBox="0 0 260 120" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+    <text x="90" y="60" fill="#2dd4bf" font-size="20" text-anchor="middle">C</text>
+    <text x="90" y="35" fill="#2dd4bf" font-size="13" text-anchor="middle">&delta;+</text>
+    <line x1="105" y1="55" x2="150" y2="55" stroke="#e6edf3" stroke-width="2"/>
+    <line x1="105" y1="65" x2="150" y2="65" stroke="#e6edf3" stroke-width="2"/>
+    <text x="170" y="60" fill="#a78bfa" font-size="20" text-anchor="middle">O</text>
+    <text x="170" y="35" fill="#a78bfa" font-size="13" text-anchor="middle">&delta;&ndash;</text>
+    <line x1="195" y1="60" x2="230" y2="60" stroke="#fbbf24" stroke-width="2" marker-end="url(#arr)"/>
+    <text x="212" y="80" fill="#fbbf24" font-size="11" text-anchor="middle">dipole</text>
+    <defs><marker id="arr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#fbbf24"/></marker></defs>
+  </svg></div>
+  <div class="answer-line">O is more electronegative than C &rarr; pulls electron density towards itself &rarr; C is <b>&delta;+ (electrophilic)</b>, O is <b>&delta;&ndash;</b>.</div>`
+},
+{
+  q: "Draw HCN nucleophilic addition mechanism.",
+  a: `<div class="diagram"><svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+    <text x="30" y="30" fill="#2dd4bf" font-size="15">CN</text>
+    <text x="48" y="24" fill="#2dd4bf" font-size="11">&#8315;</text>
+    <path d="M 45 35 Q 90 55 130 78" fill="none" stroke="#2dd4bf" stroke-width="2" marker-end="url(#arr2)"/>
+    <text x="160" y="70" fill="#e6edf3" font-size="15">C</text>
+    <text x="160" y="45" fill="#a78bfa" font-size="15">O</text>
+    <line x1="160" y1="52" x2="160" y2="63" stroke="#e6edf3" stroke-width="2"/>
+    <line x1="155" y1="52" x2="155" y2="63" stroke="#e6edf3" stroke-width="2"/>
+    <path d="M 158 55 Q 175 35 190 25" fill="none" stroke="#fbbf24" stroke-width="2" marker-end="url(#arr2)"/>
+    <text x="200" y="20" fill="#fbbf24" font-size="11">e&#8315; to O</text>
+    <line x1="190" y1="70" x2="230" y2="70" stroke="#8b949e" stroke-width="1.5" stroke-dasharray="2,3"/>
+    <text x="245" y="75" fill="#e6edf3" font-size="14">C&mdash;CN</text>
+    <text x="245" y="95" fill="#a78bfa" font-size="14">O&#8315;</text>
+    <text x="150" y="140" fill="#8b949e" font-size="11" text-anchor="middle">Step 1: CN&#8315; attacks &delta;+ carbon, C=O &pi; breaks, O&#8315; forms</text>
+    <text x="150" y="158" fill="#8b949e" font-size="11" text-anchor="middle">Step 2: O&#8315; + H&#8314; &rarr; &ndash;OH (product: hydroxynitrile)</text>
+    <defs><marker id="arr2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="context-fill"/></marker></defs>
+  </svg></div>
+  <div class="answer-line">Curly arrow starts from the <b>lone pair on the C of CN&#8315;</b>, not from the charge symbol. Product: a <b>hydroxynitrile</b>.</div>`
+},
+{
+  q: "Explain formation of optical isomers.",
+  a: `<div class="answer-line">When a nucleophile (e.g. CN&#8315; or H&#8315;) adds to a <b>planar</b> carbonyl carbon, it can attack from <b>either face with equal probability</b>.</div>
+  <div class="answer-line">This produces <b>equal amounts of both enantiomers</b> &mdash; i.e. a <b>racemic mixture</b>, optically inactive overall (only if the product carbon ends up with 4 different groups).</div>`
+},
+{
+  q: "Give test for aldehyde.",
+  a: `<div class="answer-line"><b>Tollens' reagent</b> (warm): silver mirror forms (Ag&#8314; &rarr; Ag). Ketone: no reaction.</div>
+  <div class="answer-line">OR <b>Fehling's solution</b> (warm): blue &rarr; brick-red precipitate (Cu&sup2;&#8314; &rarr; Cu&#8314;). Ketone: stays blue.</div>`
+},
+{
+  q: "Give test for carbonyl.",
+  a: `<div class="answer-line"><b>2,4-DNPH</b>: orange/yellow precipitate confirms a C=O group is present (aldehyde OR ketone — doesn't distinguish which).</div>
+  <div class="answer-line">The precipitate's melting point can be compared against a data table to identify the exact compound.</div>`
+},
+{
+  q: "State product of aldehyde reduction.",
+  a: `<div class="answer-line">Aldehyde + <b>NaBH4</b> &rarr; <b>primary alcohol</b>.</div>
+  <div class="answer-line">Mechanism type: nucleophilic addition, with H&#8315; (hydride) as the nucleophile.</div>`
+},
+{
+  q: "State product of ketone reduction.",
+  a: `<div class="answer-line">Ketone + <b>NaBH4</b> &rarr; <b>secondary alcohol</b>.</div>
+  <div class="answer-line">If the ketone is unsymmetrical and the product is chiral, it forms as a <b>racemic mixture</b> (same either-face-attack logic as HCN addition).</div>`
+}
+];
+
+const container = document.getElementById("questions");
+QUESTIONS.forEach((item, i) => {
+  const card = document.createElement("div");
+  card.className = "q-card";
+  card.innerHTML = `
+    <div class="q-head" data-idx="${i}">
+      <div class="q-num">${i+1}</div>
+      <div class="q-text">${item.q}</div>
+      <div class="q-toggle">Show answer</div>
+    </div>
+    <div class="q-body" id="body-${i}">
+      <div class="q-body-inner">${item.a}</div>
+    </div>
+  `;
+  container.appendChild(card);
+});
+
+let revealed = new Set();
+function updateProgress() {
+  document.getElementById("progressSummary").textContent = `${revealed.size} of ${QUESTIONS.length} answers revealed`;
+}
+
+document.querySelectorAll(".q-head").forEach(head => {
+  head.addEventListener("click", () => {
+    const idx = head.getAttribute("data-idx");
+    const body = document.getElementById("body-" + idx);
+    const toggle = head.querySelector(".q-toggle");
+    const isOpen = body.classList.toggle("open");
+    toggle.textContent = isOpen ? "Hide answer" : "Show answer";
+    if (isOpen) revealed.add(idx); else revealed.delete(idx);
+    updateProgress();
+  });
+});
+
+// Timer
+let totalSeconds = 600;
+let remaining = totalSeconds;
+let timerInterval = null;
+const display = document.getElementById("timerDisplay");
+const startBtn = document.getElementById("startBtn");
+const resetBtn = document.getElementById("resetBtn");
+
+function renderTime() {
+  const m = Math.floor(remaining / 60);
+  const s = remaining % 60;
+  display.textContent = `${m}:${s.toString().padStart(2,"0")}`;
+  display.classList.toggle("warn", remaining <= 60);
+}
+
+startBtn.addEventListener("click", () => {
+  if (timerInterval) return;
+  startBtn.textContent = "Running…";
+  timerInterval = setInterval(() => {
+    remaining--;
+    renderTime();
+    if (remaining <= 0) {
+      clearInterval(timerInterval);
+      timerInterval = null;
+      startBtn.textContent = "Time's up";
+    }
+  }, 1000);
+});
+
+resetBtn.addEventListener("click", () => {
+  clearInterval(timerInterval);
+  timerInterval = null;
+  remaining = totalSeconds;
+  renderTime();
+  startBtn.textContent = "Start";
+  document.querySelectorAll(".q-body").forEach(b => b.classList.remove("open"));
+  document.querySelectorAll(".q-toggle").forEach(t => t.textContent = "Show answer");
+  revealed.clear();
+  updateProgress();
+});
+
+renderTime();
+updateProgress();
+</script>
+</body>
+</html>
