@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Chirality & Carbonyls — 3 Timed Mock Papers</title>
+<style>
+  :root{
+    --bg:#0d1117; --panel:#161b22; --panel2:#1c2333; --border:#30363d;
+    --teal:#2dd4bf; --purple:#a78bfa; --text:#e6edf3; --dim:#8b949e;
+    --trap:#f87171; --tip:#fbbf24; --good:#4ade80;
+  }
+  *{box-sizing:border-box;margin:0;padding:0;}
+  body{background:var(--bg);color:var(--text);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,sans-serif;line-height:1.55;}
+  .wrap{max-width:760px;margin:0 auto;padding:22px 16px 60px;}
+
+  header{text-align:center;padding-bottom:14px;}
+  .kicker{color:var(--teal);font-size:0.78rem;font-weight:700;letter-spacing:0.05em;}
+  h1{font-size:1.45rem;margin:8px 0 4px;}
+  header p{color:var(--dim);font-size:0.85rem;}
+
+  .tabs{display:flex;gap:8px;justify-content:center;margin:18px 0;}
+  .tab{padding:9px 18px;border-radius:18px;font-size:0.85rem;font-weight:700;background:var(--panel);border:1px solid var(--border);color:var(--dim);cursor:pointer;}
+  .tab.active{background:linear-gradient(135deg,var(--teal),var(--purple));color:#0d1117;border-color:transparent;}
+
+  .paper-meta{display:flex;justify-content:center;gap:18px;color:var(--dim);font-size:0.8rem;margin-bottom:14px;flex-wrap:wrap;}
+  .paper-meta b{color:var(--text);}
+
+  .timer-box{display:flex;align-items:center;justify-content:center;gap:14px;background:var(--panel);border:1px solid var(--border);border-radius:16px;padding:14px;margin-bottom:22px;}
+  .timer-display{font-size:2.1rem;font-weight:800;color:var(--teal);font-variant-numeric:tabular-nums;}
+  .timer-display.warn{color:var(--trap);}
+  .tbtn{padding:8px 14px;border-radius:10px;border:1px solid var(--border);background:var(--panel2);color:var(--text);font-size:0.8rem;font-weight:600;cursor:pointer;}
+  .tbtn.primary{background:linear-gradient(135deg,var(--teal),var(--purple));color:#0d1117;border-color:transparent;}
+
+  .section-head{margin:26px 0 10px;padding-bottom:6px;border-bottom:1px solid var(--border);}
+  .section-head h2{font-size:1.05rem;color:var(--purple);}
+  .section-head p{color:var(--dim);font-size:0.78rem;margin-top:2px;}
+
+  .q-card{background:var(--panel);border:1px solid var(--border);border-radius:14px;margin-bottom:12px;overflow:hidden;}
+  .q-head{display:flex;align-items:flex-start;gap:10px;padding:14px 16px;cursor:pointer;}
+  .q-num{flex:0 0 auto;width:26px;height:26px;border-radius:50%;background:var(--panel2);color:var(--teal);font-weight:800;font-size:0.8rem;display:flex;align-items:center;justify-content:center;margin-top:1px;}
+  .q-main{flex:1;}
+  .q-text{font-size:0.92rem;}
+  .q-marks{font-size:0.72rem;color:var(--tip);font-weight:700;margin-top:4px;}
+  .q-toggle{flex:0 0 auto;font-size:0.75rem;color:var(--teal);font-weight:700;white-space:nowrap;align-self:center;}
+  .q-body{max-height:0;overflow:hidden;transition:max-height .3s ease;}
+  .q-body.open{max-height:1400px;}
+  .q-body-inner{padding:0 16px 16px 16px;border-top:1px solid var(--border);padding-top:12px;margin-top:2px;}
+
+  .diagram{background:var(--panel2);border:1px solid var(--border);border-radius:10px;padding:10px;margin-bottom:10px;text-align:center;}
+  .diagram svg{max-width:100%;height:auto;}
+
+  .ms-label{font-size:0.68rem;text-transform:uppercase;letter-spacing:0.06em;color:var(--purple);font-weight:800;margin-bottom:6px;}
+  .ms-point{font-size:0.88rem;color:#dbe3ea;margin-bottom:5px;padding-left:14px;position:relative;}
+  .ms-point::before{content:"•";position:absolute;left:0;color:var(--teal);}
+  .ms-point b{color:var(--text);}
+
+  footer{text-align:center;color:var(--dim);font-size:0.78rem;margin-top:30px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">EDEXCEL 9CH0 &middot; COMBINED TOPIC TEST PREP</div>
+  <h1>3 Timed Mock Papers</h1>
+  <p>Chirality &amp; Carbonyls &mdash; full mark schemes, examiner-style</p>
+</header>
+
+<div class="tabs" id="tabs"></div>
+<div class="paper-meta" id="paperMeta"></div>
+
+<div class="timer-box">
+  <div class="timer-display" id="timerDisplay">30:00</div>
+  <div style="display:flex;gap:8px;">
+    <button class="tbtn primary" id="startBtn">Start</button>
+    <button class="tbtn" id="resetBtn">Reset</button>
+  </div>
+</div>
+
+<div id="paperContent"></div>
+
+<footer>Sit each paper closed-book and timed. Mark yourself strictly against the scheme, then log any dropped marks before moving to the next paper.</footer>
+</div>
+
+<script>
+// ---------- Reusable diagram snippets ----------
+function svgAldehydeKetone(alR, alH, alO, ktR1, ktR2, ktO, alLabel, ktLabel){
+  return `<div class="diagram"><svg viewBox="0 0 320 130" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+    <text x="70" y="18" fill="#2dd4bf" font-size="12" text-anchor="middle" font-weight="700">${alLabel}</text>
+    <line x1="35" y1="70" x2="75" y2="45" stroke="#e6edf3" stroke-width="2"/>
+    <text x="24" y="75" fill="#e6edf3" font-size="14" text-anchor="middle">${alR}</text>
+    <line x1="75" y1="45" x2="75" y2="78" stroke="#e6edf3" stroke-width="2"/>
+    <line x1="71" y1="45" x2="71" y2="78" stroke="#e6edf3" stroke-width="2"/>
+    <text x="75" y="98" fill="#a78bfa" font-size="13" text-anchor="middle">${alO}</text>
+    <line x1="75" y1="45" x2="115" y2="70" stroke="#e6edf3" stroke-width="2"/>
+    <text x="128" y="75" fill="#fbbf24" font-size="14" text-anchor="middle">${alH}</text>
+
+    <text x="245" y="18" fill="#a78bfa" font-size="12" text-anchor="middle" font-weight="700">${ktLabel}</text>
+    <line x1="205" y1="70" x2="245" y2="45" stroke="#e6edf3" stroke-width="2"/>
+    <text x="192" y="75" fill="#e6edf3" font-size="14" text-anchor="middle">${ktR1}</text>
+    <line x1="245" y1="45" x2="245" y2="78" stroke="#e6edf3" stroke-width="2"/>
+    <line x1="241" y1="45" x2="241" y2="78" stroke="#e6edf3" stroke-width="2"/>
+    <text x="245" y="98" fill="#a78bfa" font-size="13" text-anchor="middle">${ktO}</text>
+    <line x1="245" y1="45" x2="285" y2="70" stroke="#e6edf3" stroke-width="2"/>
+    <text x="300" y="75" fill="#e6edf3" font-size="14" text-anchor="middle">${ktR2}</text>
+  </svg></div>`;
+}
+
+function svgChiralPair(g1,g2,g3,g4){
+  return `<div class="diagram"><svg viewBox="0 0 300 150" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+    <circle cx="80" cy="75" r="4" fill="#2dd4bf"/>
+    <line x1="80" y1="75" x2="80" y2="30" stroke="#e6edf3" stroke-width="2"/>
+    <text x="80" y="20" fill="#a78bfa" font-size="13" text-anchor="middle">${g1}</text>
+    <line x1="80" y1="75" x2="35" y2="100" stroke="#e6edf3" stroke-width="2"/>
+    <text x="20" y="108" fill="#e6edf3" font-size="13" text-anchor="middle">${g2}</text>
+    <polygon points="80,75 125,100 125,105" fill="#2dd4bf"/>
+    <text x="140" y="105" fill="#2dd4bf" font-size="13" text-anchor="start">${g3}</text>
+    <line x1="80" y1="75" x2="80" y2="130" stroke="#e6edf3" stroke-width="2" stroke-dasharray="3,4"/>
+    <text x="80" y="146" fill="#e6edf3" font-size="13" text-anchor="middle">${g4}</text>
+
+    <circle cx="220" cy="75" r="4" fill="#2dd4bf"/>
+    <line x1="220" y1="75" x2="220" y2="30" stroke="#e6edf3" stroke-width="2"/>
+    <text x="220" y="20" fill="#a78bfa" font-size="13" text-anchor="middle">${g1}</text>
+    <line x1="220" y1="75" x2="265" y2="100" stroke="#e6edf3" stroke-width="2"/>
+    <text x="282" y="108" fill="#e6edf3" font-size="13" text-anchor="middle">${g2}</text>
+    <polygon points="220,75 175,100 175,105" fill="#2dd4bf"/>
+    <text x="160" y="105" fill="#2dd4bf" font-size="13" text-anchor="end">${g3}</text>
+    <line x1="220" y1="75" x2="220" y2="130" stroke="#e6edf3" stroke-width="2" stroke-dasharray="3,4"/>
+    <text x="220" y="146" fill="#e6edf3" font-size="13" text-anchor="middle">${g4}</text>
+  </svg></div>`;
+}
+
+function svgMechanism(){
+  return `<div class="diagram"><svg viewBox="0 0 300 170" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+    <text x="30" y="30" fill="#2dd4bf" font-size="15">CN</text>
+    <text x="48" y="24" fill="#2dd4bf" font-size="11">&#8315;</text>
+    <path d="M 45 35 Q 90 55 130 78" fill="none" stroke="#2dd4bf" stroke-width="2" marker-end="url(#a1)"/>
+    <text x="160" y="70" fill="#e6edf3" font-size="15">C</text>
+    <text x="160" y="45" fill="#a78bfa" font-size="15">O</text>
+    <line x1="160" y1="52" x2="160" y2="63" stroke="#e6edf3" stroke-width="2"/>
+    <line x1="155" y1="52" x2="155" y2="63" stroke="#e6edf3" stroke-width="2"/>
+    <path d="M 158 55 Q 175 35 190 25" fill="none" stroke="#fbbf24" stroke-width="2" marker-end="url(#a2)"/>
+    <line x1="190" y1="70" x2="230" y2="70" stroke="#8b949e" stroke-width="1.5" stroke-dasharray="2,3"/>
+    <text x="245" y="75" fill="#e6edf3" font-size="14">C&mdash;CN</text>
+    <text x="245" y="95" fill="#a78bfa" font-size="14">O&#8315;</text>
+    <text x="150" y="140" fill="#8b949e" font-size="11" text-anchor="middle">Step 1: CN&#8315; attacks &delta;+ C, C=O &pi; breaks, O&#8315; forms</text>
+    <text x="150" y="158" fill="#8b949e" font-size="11" text-anchor="middle">Step 2: O&#8315; + H&#8314; &rarr; &ndash;OH (hydroxynitrile product)</text>
+    <defs><marker id="a1" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#2dd4bf"/></marker>
+    <marker id="a2" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#fbbf24"/></marker></defs>
+  </svg></div>`;
+}
+
+// ---------- Paper data ----------
+const PAPERS = [
+{
+  title: "Paper 1",
+  duration: "30 min",
+  marks: "30 marks",
+  sections: [
+    { name: "Section A — Multiple Choice", note: "5 × 1 mark", questions: [
+      { q: "1. Which functional group is present in BOTH aldehydes and ketones?", marks:1,
+        a: `<div class="ms-point"><b>C=O (carbonyl group)</b> — 1 mark.</div>` },
+      { q: "2. A positive Tollens' test produces:", marks:1,
+        a: `<div class="ms-point">A <b>silver mirror</b> on the inside of the test tube — 1 mark.</div>` },
+      { q: "3. For a carbon to be a chiral centre it must be bonded to:", marks:1,
+        a: `<div class="ms-point"><b>Four different groups/atoms</b> — 1 mark.</div>` },
+      { q: "4. A racemic mixture is best described as:", marks:1,
+        a: `<div class="ms-point">A <b>50:50 mixture of two enantiomers</b>, optically inactive — 1 mark.</div>` },
+      { q: "5. NaBH4 reduces a ketone to:", marks:1,
+        a: `<div class="ms-point">A <b>secondary alcohol</b> — 1 mark.</div>` }
+    ]},
+    { name: "Section B — Structured", note: "15 marks", questions: [
+      { q: "6. Draw the structure of propanal and of propanone, clearly showing the position of the C=O group in each.", marks:2,
+        a: svgAldehydeKetone("CH3CH2","H","O","CH3","CH3","O","PROPANAL","PROPANONE") +
+           `<div class="ms-point">Propanal: C=O at end of chain, bonded to H — 1 mark.</div><div class="ms-point">Propanone: C=O within chain, bonded to two CH3 groups — 1 mark.</div>` },
+      { q: "7. Describe a chemical test, including observations for both compounds, that would distinguish propanal from propanone.", marks:3,
+        a: `<div class="ms-point">Warm each with <b>Fehling's solution</b> — 1 mark.</div><div class="ms-point">Propanal (aldehyde): blue solution turns to a <b>brick-red precipitate</b> — 1 mark.</div><div class="ms-point">Propanone (ketone): <b>no change</b>, remains blue — 1 mark.</div>` },
+      { q: "8. The compound 3-chloropentan-2-ol contains one chiral centre. Identify the four different groups attached to this carbon and draw both enantiomers.", marks:3,
+        a: svgChiralPair("OH","H","CH3","CHClCH2CH3") +
+           `<div class="ms-point">Correctly identifies the four different groups: OH, H, CH3, and the CHClCH2CH3 chain — 1 mark.</div><div class="ms-point">First enantiomer drawn with correct wedge/dash 3D representation — 1 mark.</div><div class="ms-point">Second enantiomer drawn as the exact non-superimposable mirror image — 1 mark.</div>` },
+      { q: "9. Define 'racemic mixture' and state its optical activity.", marks:2,
+        a: `<div class="ms-point">A 50:50 mixture of two enantiomers — 1 mark.</div><div class="ms-point"><b>Optically inactive</b> — the equal and opposite rotations cancel — 1 mark.</div>` },
+      { q: "10. Butan-2-one is reduced using NaBH4. State the organic product and its class of alcohol.", marks:2,
+        a: `<div class="ms-point">Product: <b>butan-2-ol</b> — 1 mark.</div><div class="ms-point">Class: <b>secondary alcohol</b> — 1 mark.</div>` },
+      { q: "11. Using a labelled diagram, explain the polarity of the C=O bond in a carbonyl compound.", marks:3,
+        a: `<div class="diagram"><svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+              <text x="80" y="55" fill="#2dd4bf" font-size="20" text-anchor="middle">C</text>
+              <text x="80" y="30" fill="#2dd4bf" font-size="13" text-anchor="middle">&delta;+</text>
+              <line x1="95" y1="50" x2="140" y2="50" stroke="#e6edf3" stroke-width="2"/>
+              <line x1="95" y1="60" x2="140" y2="60" stroke="#e6edf3" stroke-width="2"/>
+              <text x="160" y="55" fill="#a78bfa" font-size="20" text-anchor="middle">O</text>
+              <text x="160" y="30" fill="#a78bfa" font-size="13" text-anchor="middle">&delta;&ndash;</text>
+            </svg></div>
+            <div class="ms-point">Oxygen is more electronegative than carbon — 1 mark.</div>
+            <div class="ms-point">O pulls the bonding electron density towards itself — 1 mark.</div>
+            <div class="ms-point">Carbon becomes &delta;+ (electrophilic), oxygen becomes &delta;&ndash; — 1 mark.</div>` }
+    ]},
+    { name: "Section C — Synoptic (Mechanism)", note: "10 marks", questions: [
+      { q: "12. Butanone reacts with a mixture of HCN and KCN. Outline the full mechanism, including curly arrows, and name the mechanism type.", marks:5,
+        a: svgMechanism() +
+           `<div class="ms-point">Mechanism type: <b>nucleophilic addition</b> — 1 mark.</div><div class="ms-point">Curly arrow from the lone pair on the carbon of CN&#8315; to the &delta;+ carbonyl carbon — 1 mark.</div><div class="ms-point">Curly arrow from the C=O &pi; bond onto the oxygen, forming an alkoxide (O&#8315;) intermediate — 1 mark.</div><div class="ms-point">Second step: curly arrow showing H&#8314; (from HCN) transferring to the O&#8315; — 1 mark.</div><div class="ms-point">Correct product: 2-hydroxy-2-methylbutanenitrile — 1 mark.</div>` },
+      { q: "13. Explain fully why the product of this reaction is formed as a racemic mixture.", marks:4,
+        a: `<div class="ms-point">The carbonyl carbon in butanone is <b>planar (trigonal planar/sp&sup2;)</b> — 1 mark.</div><div class="ms-point">CN&#8315; can attack from <b>either face with equal probability</b> — 1 mark.</div><div class="ms-point">This produces <b>equal amounts of both enantiomers</b> — 1 mark.</div><div class="ms-point">The mixture is therefore a <b>racemate</b>, which is optically inactive — 1 mark.</div>` },
+      { q: "14. State a test that would confirm the product contains a carbonyl-derived functional group signature (i.e. confirm the reaction has occurred).", marks:1,
+        a: `<div class="ms-point">IR spectroscopy: loss of the strong C=O peak (~1680–1750 cm&#8315;&sup1;) confirms the carbonyl has reacted — 1 mark. (2,4-DNPH would now give a negative result, which also confirms this.)</div>` }
+    ]}
+  ]
+},
+{
+  title: "Paper 2",
+  duration: "30 min",
+  marks: "30 marks",
+  sections: [
+    { name: "Section A — Multiple Choice", note: "5 × 1 mark", questions: [
+      { q: "1. Which reagent is used to reduce a carbonyl compound to an alcohol?", marks:1,
+        a: `<div class="ms-point"><b>NaBH4 (sodium borohydride)</b> — 1 mark.</div>` },
+      { q: "2. A positive iodoform test gives a precipitate that is:", marks:1,
+        a: `<div class="ms-point"><b>Pale yellow</b> (triiodomethane, CHI3) — 1 mark.</div>` },
+      { q: "3. Enantiomers differ in their effect on:", marks:1,
+        a: `<div class="ms-point"><b>Plane-polarised light</b> (direction of rotation) — 1 mark.</div>` },
+      { q: "4. In the mechanism of HCN addition to a carbonyl, the nucleophile is:", marks:1,
+        a: `<div class="ms-point"><b>CN&#8315;</b> — 1 mark.</div>` },
+      { q: "5. 2,4-DNPH gives a positive result with:", marks:1,
+        a: `<div class="ms-point"><b>Both aldehydes and ketones</b> (any carbonyl) — 1 mark.</div>` }
+    ]},
+    { name: "Section B — Structured", note: "15 marks", questions: [
+      { q: "6. Draw the structure of butanal and of pentan-3-one, clearly showing the position of the C=O group in each.", marks:2,
+        a: svgAldehydeKetone("CH3CH2CH2","H","O","CH3CH2","CH2CH3","O","BUTANAL","PENTAN-3-ONE") +
+           `<div class="ms-point">Butanal: C=O at C1, bonded to H — 1 mark.</div><div class="ms-point">Pentan-3-one: C=O at C3, bonded to two ethyl groups — 1 mark.</div>` },
+      { q: "7. Describe a test, with observations, that would distinguish butanal from pentan-3-one.", marks:3,
+        a: `<div class="ms-point">Warm each with <b>Tollens' reagent</b> — 1 mark.</div><div class="ms-point">Butanal (aldehyde): forms a <b>silver mirror</b> — 1 mark.</div><div class="ms-point">Pentan-3-one (ketone): <b>no reaction/no silver mirror</b> — 1 mark.</div>` },
+      { q: "8. The compound 2-bromobutane contains one chiral centre. Identify the four different groups attached to this carbon and draw both enantiomers.", marks:3,
+        a: svgChiralPair("Br","H","CH3","CH2CH3") +
+           `<div class="ms-point">Correctly identifies the four different groups: Br, H, CH3, CH2CH3 — 1 mark.</div><div class="ms-point">First enantiomer drawn with correct wedge/dash notation — 1 mark.</div><div class="ms-point">Mirror-image enantiomer correctly drawn — 1 mark.</div>` },
+      { q: "9. State two properties that are identical between a pair of enantiomers, and one that differs.", marks:2,
+        a: `<div class="ms-point">Identical: e.g. boiling point, melting point, density, general chemical reactivity with achiral reagents (any two) — 1 mark.</div><div class="ms-point">Differs: <b>direction of rotation of plane-polarised light</b> — 1 mark.</div>` },
+      { q: "10. Pentan-2-one is reduced using NaBH4. State the organic product and explain whether it is chiral.", marks:2,
+        a: `<div class="ms-point">Product: <b>pentan-2-ol</b> — 1 mark.</div><div class="ms-point">It is chiral: C2 is bonded to OH, H, CH3, and CH2CH2CH3 — four different groups — 1 mark.</div>` },
+      { q: "11. Using a labelled diagram, explain why the carbon of a carbonyl group is described as electrophilic.", marks:3,
+        a: `<div class="diagram"><svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+              <text x="80" y="55" fill="#2dd4bf" font-size="20" text-anchor="middle">C</text>
+              <text x="80" y="30" fill="#2dd4bf" font-size="13" text-anchor="middle">&delta;+</text>
+              <line x1="95" y1="50" x2="140" y2="50" stroke="#e6edf3" stroke-width="2"/>
+              <line x1="95" y1="60" x2="140" y2="60" stroke="#e6edf3" stroke-width="2"/>
+              <text x="160" y="55" fill="#a78bfa" font-size="20" text-anchor="middle">O</text>
+              <text x="160" y="30" fill="#a78bfa" font-size="13" text-anchor="middle">&delta;&ndash;</text>
+            </svg></div>
+            <div class="ms-point">Oxygen is more electronegative than carbon — 1 mark.</div>
+            <div class="ms-point">Bonding electrons are pulled towards oxygen — 1 mark.</div>
+            <div class="ms-point">Carbon is left electron-deficient (&delta;+), attracting nucleophiles — 1 mark.</div>` }
+    ]},
+    { name: "Section C — Synoptic (Mechanism)", note: "10 marks", questions: [
+      { q: "12. Pentan-2-one reacts with a mixture of HCN and NaCN. Outline the full mechanism, including curly arrows, and name the mechanism type.", marks:5,
+        a: svgMechanism() +
+           `<div class="ms-point">Mechanism type: <b>nucleophilic addition</b> — 1 mark.</div><div class="ms-point">Curly arrow from the lone pair on the C of CN&#8315; to the &delta;+ carbonyl carbon — 1 mark.</div><div class="ms-point">Curly arrow from the C=O &pi; bond onto O, forming an alkoxide intermediate — 1 mark.</div><div class="ms-point">Curly arrow showing H&#8314; transfer to O&#8315; in step 2 — 1 mark.</div><div class="ms-point">Correct product named: 2-hydroxy-2-methylpentanenitrile — 1 mark.</div>` },
+      { q: "13. Explain fully why the product of this reaction is optically inactive overall.", marks:4,
+        a: `<div class="ms-point">The carbonyl carbon in pentan-2-one is <b>planar</b> — 1 mark.</div><div class="ms-point">CN&#8315; attacks with <b>equal probability from either face</b> — 1 mark.</div><div class="ms-point"><b>Equal amounts of both enantiomers</b> are formed — 1 mark.</div><div class="ms-point">The racemic mixture's rotations cancel, giving <b>no net optical activity</b> — 1 mark.</div>` },
+      { q: "14. Suggest why NaCN is added alongside HCN in this reaction, rather than using HCN alone.", marks:1,
+        a: `<div class="ms-point">HCN is a weak acid and barely dissociates; NaCN provides a ready supply of free CN&#8315; nucleophile, speeding up the reaction — 1 mark.</div>` }
+    ]}
+  ]
+},
+{
+  title: "Paper 3",
+  duration: "30 min",
+  marks: "30 marks",
+  sections: [
+    { name: "Section A — Multiple Choice", note: "5 × 1 mark", questions: [
+      { q: "1. Which of the following is a secondary alcohol formed by reduction of a ketone?", marks:1,
+        a: `<div class="ms-point">Any alcohol where the carbon bearing OH is attached to <b>two other carbon chains</b>, e.g. <b>butan-2-ol</b> — 1 mark.</div>` },
+      { q: "2. Which observation indicates a positive Fehling's test?", marks:1,
+        a: `<div class="ms-point">Blue solution forms a <b>brick-red precipitate</b> — 1 mark.</div>` },
+      { q: "3. What shape is the carbonyl carbon before nucleophilic attack?", marks:1,
+        a: `<div class="ms-point"><b>Trigonal planar</b> — 1 mark.</div>` },
+      { q: "4. A compound and its enantiomer will have rotations of plane-polarised light that are:", marks:1,
+        a: `<div class="ms-point"><b>Equal in size, opposite in direction</b> — 1 mark.</div>` },
+      { q: "5. Which test would NOT distinguish an aldehyde from a ketone?", marks:1,
+        a: `<div class="ms-point"><b>2,4-DNPH</b> (positive for both) — 1 mark.</div>` }
+    ]},
+    { name: "Section B — Structured", note: "15 marks", questions: [
+      { q: "6. Draw the structure of 2-methylpropanal and of hexan-3-one, clearly showing the position of the C=O group in each.", marks:2,
+        a: svgAldehydeKetone("(CH3)2CH","H","O","CH3CH2","CH2CH2CH3","O","2-METHYLPROPANAL","HEXAN-3-ONE") +
+           `<div class="ms-point">2-methylpropanal: C=O at C1, bonded to H — 1 mark.</div><div class="ms-point">Hexan-3-one: C=O at C3, bonded to two different carbon chains — 1 mark.</div>` },
+      { q: "7. Describe a test, with observations, that would show hexan-3-one contains a carbonyl group without identifying whether it is an aldehyde or ketone.", marks:3,
+        a: `<div class="ms-point">Add <b>2,4-DNPH</b> reagent — 1 mark.</div><div class="ms-point">An <b>orange/yellow precipitate</b> forms — 1 mark.</div><div class="ms-point">This confirms a carbonyl group is present, but does not distinguish aldehyde from ketone — 1 mark.</div>` },
+      { q: "8. The compound 2-hydroxybutanoic acid (CH3CH2CH(OH)COOH) contains one chiral centre. Identify the four different groups attached to this carbon and draw both enantiomers.", marks:3,
+        a: svgChiralPair("OH","H","COOH","CH2CH3") +
+           `<div class="ms-point">Correctly identifies the four different groups: OH, H, COOH, CH2CH3 — 1 mark.</div><div class="ms-point">First enantiomer drawn with correct 3D wedge/dash notation — 1 mark.</div><div class="ms-point">Mirror-image enantiomer correctly drawn — 1 mark.</div>` },
+      { q: "9. A student tests a sample in a polarimeter and observes no rotation of plane-polarised light. Give two possible explanations.", marks:2,
+        a: `<div class="ms-point">The compound is <b>achiral</b> (no chiral centre) — 1 mark.</div><div class="ms-point">OR the compound is chiral but present as a <b>racemic mixture</b> — 1 mark.</div>` },
+      { q: "10. 2-methylpropanal is reduced using NaBH4. State the organic product and explain whether it is chiral.", marks:2,
+        a: `<div class="ms-point">Product: <b>2-methylpropan-1-ol</b> — 1 mark.</div><div class="ms-point">Not chiral: the carbon bearing OH is bonded to H, H, and two identical routes back to the same CH(CH3)2 group — no four different groups — 1 mark.</div>` },
+      { q: "11. Using a labelled diagram, show how the C=O bond dipole in a carbonyl relates to its reactivity towards nucleophiles.", marks:3,
+        a: `<div class="diagram"><svg viewBox="0 0 260 100" xmlns="http://www.w3.org/2000/svg" font-family="-apple-system,Segoe UI,Roboto,sans-serif">
+              <text x="80" y="55" fill="#2dd4bf" font-size="20" text-anchor="middle">C</text>
+              <text x="80" y="30" fill="#2dd4bf" font-size="13" text-anchor="middle">&delta;+</text>
+              <line x1="95" y1="50" x2="140" y2="50" stroke="#e6edf3" stroke-width="2"/>
+              <line x1="95" y1="60" x2="140" y2="60" stroke="#e6edf3" stroke-width="2"/>
+              <text x="160" y="55" fill="#a78bfa" font-size="20" text-anchor="middle">O</text>
+              <text x="160" y="30" fill="#a78bfa" font-size="13" text-anchor="middle">&delta;&ndash;</text>
+              <path d="M 190 55 L 230 55" stroke="#fbbf24" stroke-width="2" marker-end="url(#nuArr)"/>
+              <text x="245" y="45" fill="#fbbf24" font-size="12">Nu&#8315;</text>
+              <defs><marker id="nuArr" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 Z" fill="#fbbf24"/></marker></defs>
+            </svg></div>
+            <div class="ms-point">O is more electronegative, so C is &delta;+ and O is &delta;&ndash; — 1 mark.</div>
+            <div class="ms-point">The &delta;+ carbon is electron-deficient — 1 mark.</div>
+            <div class="ms-point">This attracts electron-rich nucleophiles (Nu&#8315;), e.g. CN&#8315; or H&#8315;, enabling nucleophilic addition — 1 mark.</div>` }
+    ]},
+    { name: "Section C — Synoptic (Mechanism)", note: "10 marks", questions: [
+      { q: "12. Hexan-3-one reacts with a mixture of HCN and KCN. Outline the full mechanism, including curly arrows, and name the mechanism type.", marks:5,
+        a: svgMechanism() +
+           `<div class="ms-point">Mechanism type: <b>nucleophilic addition</b> — 1 mark.</div><div class="ms-point">Curly arrow from the CN&#8315; lone pair (on C) to the &delta;+ carbonyl carbon — 1 mark.</div><div class="ms-point">Curly arrow from the C=O &pi; bond onto O, forming an alkoxide (O&#8315;) intermediate — 1 mark.</div><div class="ms-point">Curly arrow showing H&#8314; transferring to O&#8315; in step 2 — 1 mark.</div><div class="ms-point">Correct product named: 3-hydroxy-3-ethylhexanenitrile (accept equivalent systematic naming) — 1 mark.</div>` },
+      { q: "13. Explain fully why the product of this reaction is a racemic mixture, and state its overall optical activity.", marks:4,
+        a: `<div class="ms-point">Hexan-3-one's carbonyl carbon is <b>planar (sp&sup2;)</b> — 1 mark.</div><div class="ms-point">CN&#8315; can attack from <b>either face with equal probability</b> — 1 mark.</div><div class="ms-point">This gives <b>equal amounts of both enantiomers</b> — 1 mark.</div><div class="ms-point">Overall optical activity: <b>optically inactive</b> (rotations cancel) — 1 mark.</div>` },
+      { q: "14. State one difference you would expect if hexan-3-one were replaced with a symmetrical ketone such as pentan-3-one, in terms of the chirality of the product.", marks:1,
+        a: `<div class="ms-point">With a symmetrical ketone, the product carbon would end up with two identical groups, so it would <b>not be chiral</b> at all — no racemic mixture would form — 1 mark.</div>` }
+    ]}
+  ]
+}
+];
+
+// ---------- Render logic ----------
+let currentPaper = 0;
+let totalSeconds = 30*60;
+let remaining = totalSeconds;
+let timerInterval = null;
+
+function renderTabs(){
+  const tabsEl = document.getElementById("tabs");
+  tabsEl.innerHTML = "";
+  PAPERS.forEach((p, i) => {
+    const t = document.createElement("div");
+    t.className = "tab" + (i===currentPaper ? " active" : "");
+    t.textContent = p.title;
+    t.onclick = () => { currentPaper = i; resetTimer(); renderPaper(); };
+    tabsEl.appendChild(t);
+  });
+}
+
+function renderPaper(){
+  renderTabs();
+  const p = PAPERS[currentPaper];
+  document.getElementById("paperMeta").innerHTML = `<span><b>${p.duration}</b> recommended</span><span><b>${p.marks}</b> total</span>`;
+  const contentEl = document.getElementById("paperContent");
+  contentEl.innerHTML = "";
+  let qCounter = 0;
+  p.sections.forEach(sec => {
+    const secHead = document.createElement("div");
+    secHead.className = "section-head";
+    secHead.innerHTML = `<h2>${sec.name}</h2><p>${sec.note}</p>`;
+    contentEl.appendChild(secHead);
+    sec.questions.forEach(item => {
+      qCounter++;
+      const card = document.createElement("div");
+      card.className = "q-card";
+      card.innerHTML = `
+        <div class="q-head" data-qid="p${currentPaper}-${qCounter}">
+          <div class="q-num">${qCounter}</div>
+          <div class="q-main">
+            <div class="q-text">${item.q}</div>
+            <div class="q-marks">[${item.marks} mark${item.marks>1?'s':''}]</div>
+          </div>
+          <div class="q-toggle">Mark scheme</div>
+        </div>
+        <div class="q-body" id="body-p${currentPaper}-${qCounter}">
+          <div class="q-body-inner"><div class="ms-label">Mark scheme</div>${item.a}</div>
+        </div>
+      `;
+      contentEl.appendChild(card);
+    });
+  });
+
+  document.querySelectorAll(".q-head").forEach(head => {
+    head.addEventListener("click", () => {
+      const qid = head.getAttribute("data-qid");
+      const body = document.getElementById("body-" + qid);
+      const toggle = head.querySelector(".q-toggle");
+      const isOpen = body.classList.toggle("open");
+      toggle.textContent = isOpen ? "Hide" : "Mark scheme";
+    });
+  });
+}
+
+function resetTimer(){
+  clearInterval(timerInterval);
+  timerInterval = null;
+  remaining = totalSeconds;
+  renderTime();
+  document.getElementById("startBtn").textContent = "Start";
+}
+
+function renderTime(){
+  const m = Math.floor(remaining/60);
+  const s = remaining % 60;
+  const d = document.getElementById("timerDisplay");
+  d.textContent = `${m}:${s.toString().padStart(2,"0")}`;
+  d.classList.toggle("warn", remaining <= 60);
+}
+
+document.getElementById("startBtn").addEventListener("click", () => {
+  if (timerInterval) return;
+  document.getElementById("startBtn").textContent = "Running…";
+  timerInterval = setInterval(() => {
+    remaining--;
+    renderTime();
+    if (remaining <= 0){
+      clearInterval(timerInterval);
+      timerInterval = null;
+      document.getElementById("startBtn").textContent = "Time's up";
+    }
+  }, 1000);
+});
+document.getElementById("resetBtn").addEventListener("click", resetTimer);
+
+renderTime();
+renderPaper();
+</script>
+</body>
+</html>
