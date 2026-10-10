@@ -1,0 +1,186 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-Level Chemistry Flashcards</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            margin: 0;
+            color: #333;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .flashcard-container {
+            width: 90%;
+            max-width: 600px;
+            height: 350px;
+            perspective: 1000px;
+            margin-bottom: 30px;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 15px;
+        }
+        .flashcard.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            box-sizing: border-box;
+            border-radius: 15px;
+            text-align: center;
+            background-color: white;
+            font-size: 1.2rem;
+            line-height: 1.5;
+        }
+        .flashcard-front {
+            background-color: #ffffff;
+            color: #2c3e50;
+            border-top: 8px solid #3498db;
+        }
+        .flashcard-back {
+            background-color: #fdfdfd;
+            color: #16a085;
+            transform: rotateY(180deg);
+            border-top: 8px solid #16a085;
+        }
+        .tag {
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+        }
+        .controls {
+            display: flex;
+            gap: 20px;
+        }
+        button {
+            padding: 10px 25px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .progress {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: #7f8c8d;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>A-Level Chemistry Review</h1>
+
+    <div class="flashcard-container" onclick="flipCard()">
+        <div class="flashcard" id="flashcard">
+            <div class="flashcard-face flashcard-front">
+                <div class="tag" id="q-category">Section A</div>
+                <div id="question">Loading...</div>
+            </div>
+            <div class="flashcard-face flashcard-back">
+                <div class="tag">Answer</div>
+                <div id="answer">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn" onclick="prevCard()">Previous</button>
+        <button id="nextBtn" onclick="nextCard()">Next</button>
+    </div>
+    
+    <div class="progress" id="progress">1 / 10</div>
+
+    <script>
+        const cards = [
+            { category: "Lattice Enthalpy", q: "Define the lattice enthalpy of formation.", a: "The enthalpy change when one mole of a solid ionic compound is formed from its constituent gaseous ions under standard conditions." },
+            { category: "Lattice Enthalpy", q: "Explain why the lattice enthalpy of formation of MgO is much more negative than that of NaCl.", a: "Mg²⁺ has a higher charge and smaller radius than Na⁺; O²⁻ has a higher charge than Cl⁻. This results in greater electrostatic attraction between the ions in MgO." },
+            { category: "Born-Haber Cycle", q: "Write the equation representing the lattice enthalpy of formation of MgCl₂.", a: "Mg²⁺(g) + 2Cl⁻(g) → MgCl₂(s)" },
+            { category: "Born-Haber Cycle", q: "Calculate the lattice enthalpy of formation of MgCl₂. <br>(ΔHf = -642, Atomisation Mg = +148, Cl2 = +242, IE1+IE2 Mg = +2189, EA Cl = -349)", a: "ΔHf = ΔH_atom(Mg) + IE1 + IE2 + ΔH_atom(Cl2) + 2(EA) + LE.<br>-642 = 148 + 2189 + 242 + 2(-349) + LE<br>LE = -642 - 1881 = -2523 kJ mol⁻¹" },
+            { category: "Ionisation Energy", q: "Explain why the second ionisation energy of magnesium is greater than the first.", a: "The second electron is being removed from a positive ion (Mg⁺), which requires more energy due to greater electrostatic attraction from the nucleus and less electron-electron repulsion." },
+            { category: "Electron Affinity", q: "Explain why the second electron affinity of oxygen is endothermic.", a: "The incoming electron is being added to a negative ion (O⁻). Energy is required to overcome the electrostatic repulsion between the negative ion and the negative electron." },
+            { category: "Born-Haber Cycle", q: "A student calculates a Born–Haber cycle for an ionic oxide but includes only the first electron affinity of oxygen. Explain why this is incorrect.", a: "The oxide ion in the lattice is O²⁻. The formation of O²⁻(g) from O(g) requires two electrons, so both the first and second electron affinities must be included." },
+            { category: "Polarisation", q: "Explain why Aluminium chloride exhibits more covalent character than sodium chloride in terms of charge density, polarising power, and distortion.", a: "Al³⁺ has a higher charge density than Na⁺ (higher charge, smaller radius). Therefore, Al³⁺ has greater polarising power and distorts the electron cloud of the Cl⁻ anion more strongly, leading to covalent character." },
+            { category: "Enthalpy of Solution", q: "Calculate the enthalpy change of solution. <br>(Lattice dissoc = +790, Hyd M⁺ = -406, Hyd X⁻ = -364)", a: "ΔH_solution = Lattice Dissociation + Σ(Hydration enthalpies)<br>= +790 + (-406) + (-364) = +20 kJ mol⁻¹" },
+            { category: "Enthalpy of Solution", q: "Explain why a large lattice enthalpy alone cannot determine whether an ionic compound dissolves readily in water.", a: "Solubility depends on the balance between lattice enthalpy and the hydration enthalpies of the ions (as well as entropy changes). Highly exothermic hydration enthalpies can compensate for a large lattice enthalpy." },
+            { category: "Entropy", q: "Calculate ΔS° for N₂(g) + 3H₂(g) → 2NH₃(g).<br>(S°: N₂=192, H₂=131, NH₃=193)", a: "ΔS° = ΣS°(products) - ΣS°(reactants)<br>= (2 × 193) - (192 + 3 × 131)<br>= 386 - 585 = -199 J K⁻¹ mol⁻¹" },
+            { category: "Entropy", q: "Explain why the sign of ΔS° for N₂ + 3H₂ → 2NH₃ is consistent with the change in the number of gaseous molecules.", a: "The sign is negative, which indicates a decrease in entropy (disorder). This is consistent because 4 moles of gaseous reactants form 2 moles of gaseous products, reducing the number of ways particles and energy can be arranged." }
+        ];
+
+        let currentIndex = 0;
+
+        function loadCard() {
+            const card = cards[currentIndex];
+            document.getElementById("q-category").innerHTML = card.category;
+            document.getElementById("question").innerHTML = card.q;
+            document.getElementById("answer").innerHTML = card.a;
+            document.getElementById("progress").innerHTML = `${currentIndex + 1} / ${cards.length}`;
+            
+            // Reset flip
+            document.getElementById("flashcard").classList.remove("is-flipped");
+
+            // Update button states
+            document.getElementById("prevBtn").disabled = currentIndex === 0;
+            document.getElementById("nextBtn").disabled = currentIndex === cards.length - 1;
+        }
+
+        function flipCard() {
+            document.getElementById("flashcard").classList.toggle("is-flipped");
+        }
+
+        function nextCard() {
+            if (currentIndex < cards.length - 1) {
+                currentIndex++;
+                loadCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadCard();
+            }
+        }
+
+        // Initialize
+        loadCard();
+    </script>
+</body>
+</html>
