@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>A-Level Chemistry Mastery Flashcards</title>
+    <!-- MathJax for LaTeX rendering -->
+    <script src="https://polyfill.io/v3/polyfill.min.js?features=es6"></script>
+    <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f4f7f6;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            margin: 0;
+            color: #333;
+            padding: 20px;
+            box-sizing: border-box;
+        }
+        h1 {
+            color: #2c3e50;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .flashcard-container {
+            width: 100%;
+            max-width: 700px;
+            height: 500px;
+            perspective: 1000px;
+            margin-bottom: 30px;
+        }
+        .flashcard {
+            width: 100%;
+            height: 100%;
+            position: relative;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+            cursor: pointer;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            border-radius: 15px;
+        }
+        .flashcard.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .flashcard-face {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 30px;
+            box-sizing: border-box;
+            border-radius: 15px;
+            text-align: left; /* Better for long text */
+            background-color: white;
+            font-size: 1.1rem;
+            line-height: 1.6;
+            overflow-y: auto; /* In case of very long content */
+        }
+        .flashcard-front {
+            background-color: #ffffff;
+            color: #2c3e50;
+            border-top: 8px solid #3498db;
+            text-align: center;
+        }
+        .flashcard-back {
+            background-color: #fdfdfd;
+            color: #2c3e50;
+            transform: rotateY(180deg);
+            border-top: 8px solid #16a085;
+            justify-content: flex-start; /* Align top for back */
+        }
+        .tag {
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            color: #7f8c8d;
+            margin-bottom: 15px;
+            text-align: center;
+            width: 100%;
+        }
+        .question-text {
+            font-size: 1.4rem;
+            font-weight: 600;
+        }
+        .answer-text {
+            font-size: 1.2rem;
+            font-weight: bold;
+            color: #16a085;
+            margin-bottom: 15px;
+        }
+        .explanation {
+            font-size: 1rem;
+            margin-bottom: 15px;
+        }
+        .hint {
+            font-size: 0.9rem;
+            background-color: #fcf3cf;
+            padding: 10px;
+            border-left: 4px solid #f1c40f;
+            border-radius: 4px;
+            margin-top: auto;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        .controls {
+            display: flex;
+            gap: 20px;
+        }
+        button {
+            padding: 12px 30px;
+            font-size: 1rem;
+            border: none;
+            border-radius: 25px;
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+            transition: background-color 0.3s;
+            font-weight: bold;
+        }
+        button:hover {
+            background-color: #2980b9;
+        }
+        button:disabled {
+            background-color: #bdc3c7;
+            cursor: not-allowed;
+        }
+        .progress {
+            margin-top: 15px;
+            font-size: 1rem;
+            color: #7f8c8d;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>A-Level Chemistry Mastery (Advanced)</h1>
+
+    <div class="flashcard-container" onclick="flipCard()">
+        <div class="flashcard" id="flashcard">
+            <div class="flashcard-face flashcard-front">
+                <div class="tag" id="q-category">Category</div>
+                <div class="question-text" id="question">Loading...</div>
+            </div>
+            <div class="flashcard-face flashcard-back">
+                <div class="tag">Answer & Explanation</div>
+                <div class="answer-text" id="answer">Loading...</div>
+                <div class="explanation" id="explanation">Loading...</div>
+                <div class="hint" id="hint">Loading...</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="controls">
+        <button id="prevBtn" onclick="prevCard()">Previous</button>
+        <button id="nextBtn" onclick="nextCard()">Next</button>
+    </div>
+    
+    <div class="progress" id="progress">1 / 13</div>
+
+    <script>
+        const cards = [
+            {
+              "category": "Section A: Lattice Energy",
+              "question": "Define the **lattice enthalpy of formation**.",
+              "answer": "The enthalpy change when **one mole of a solid ionic compound** is formed from its **constituent gaseous ions** under standard conditions.",
+              "detailed_explanation": "Lattice enthalpy (\\(\Delta H_{LE}\\)) is a key indicator of ionic bond strength. A more negative (exothermic) value indicates a more stable lattice with stronger electrostatic attractions. The general equation is: \\(M^{n+}(g) + X^{n-}(g) \\rightarrow MX(s)\\)",
+              "hint": "Examiners look for three mandatory components: 'one mole', 'solid ionic compound', and 'gaseous ions'."
+            },
+            {
+              "category": "Section A: Lattice Energy",
+              "question": "Explain why the lattice enthalpy of formation of MgO is much more negative than that of NaCl.",
+              "answer": "\\(Mg^{2+}\\) has a higher charge and smaller ionic radius than \\(Na^+\\). \\(O^{2-}\\) has a higher charge than \\(Cl^-\\). This results in stronger electrostatic attraction in MgO.",
+              "detailed_explanation": "Lattice energy is directly proportional to the product of the ionic charges (\\(q_1 \\times q_2\\)) and inversely proportional to the sum of the ionic radii (\\(r_+ + r_-\\)). Because both ions in MgO are doubly charged and smaller, their charge density is significantly higher, leading to a much more exothermic lattice formation.",
+              "hint": "Always compare **both** the cations and the anions. State the difference in charge first, then the difference in radius."
+            },
+            {
+              "category": "Section A: Born-Haber Cycles",
+              "question": "Write the standard equation representing the lattice enthalpy of formation of \\(MgCl_2\\).",
+              "answer": "\\(Mg^{2+}(g) + 2Cl^-(g) \\rightarrow MgCl_2(s)\\)",
+              "detailed_explanation": "Lattice enthalpy always starts with the separated gaseous ions and ends with the solid ionic lattice. Because the empirical formula of magnesium chloride is \\(MgCl_2\\), two moles of gaseous chloride ions are required to balance the single mole of magnesium ions.",
+              "hint": "State symbols are critical here. Missing the (g) or (s) will cost you the mark."
+            },
+            {
+              "category": "Section A: Born-Haber Cycles",
+              "question": "Explain why the second ionisation energy of magnesium is greater than the first.",
+              "answer": "The second electron is being removed from a positive ion (\\(Mg^+\\)) rather than a neutral atom, which requires more energy due to greater nuclear attraction.",
+              "detailed_explanation": "Once the first electron is removed, the remaining electrons experience less electron-electron repulsion, causing the electron cloud to contract closer to the nucleus. The effective nuclear charge increases, meaning stronger electrostatic attraction must be overcome to remove the second electron.",
+              "hint": "Mention the specific starting species: you are removing an electron from a positive ion, not a neutral atom."
+            },
+            {
+              "category": "Section A: Electron Affinity",
+              "question": "Explain why the second electron affinity of oxygen is endothermic.",
+              "answer": "The incoming negative electron is being added to a negative ion (\\(O^-\\)). Energy must be supplied to overcome the electrostatic repulsion between them.",
+              "detailed_explanation": "The first electron affinity (\\(O(g) + e^- \\rightarrow O^-(g)\\)) is exothermic because the electron is attracted to the nucleus of a neutral atom. However, adding another electron to an already negative species (\\(O^-(g) + e^- \\rightarrow O^{2-}(g)\\)) encounters strong inter-electron repulsion, making the process highly endothermic (\\(\Delta H > 0\\)).",
+              "hint": "Focus on the word **repulsion**. Negative repels negative."
+            },
+            {
+              "category": "Section A: Polarisation",
+              "question": "Aluminium chloride exhibits more covalent character than sodium chloride. Explain this in terms of Fajans' rules.",
+              "answer": "\\(Al^{3+}\\) has a higher charge and smaller radius than \\(Na^+\\), giving it a much higher charge density and polarising power. It heavily distorts the electron cloud of the \\(Cl^-\\) anion.",
+              "detailed_explanation": "When an anion's electron cloud is highly distorted (polarised) by a cation, the electrons are pulled into the space between the nuclei, creating orbital overlap and sharing of electrons (covalent character). Because \\(Al^{3+}\\) is highly charged and small, its polarising power is immense compared to the larger, singly charged \\(Na^+\\) ion.",
+              "hint": "Structure your answer sequentially: 1. Cation charge density -> 2. Polarising power -> 3. Distortion of anion electron cloud."
+            },
+            {
+              "category": "Section B: Hydration & Solution",
+              "question": "Calculate the enthalpy change of solution for an ionic compound MX given: <br>Lattice dissociation = +790 kJ mol⁻¹<br>Hydration M⁺ = -406 kJ mol⁻¹<br>Hydration X⁻ = -364 kJ mol⁻¹",
+              "answer": "\\(\Delta H_{solution} = +20\\ kJ\\ mol^{-1}\\) (Endothermic)",
+              "detailed_explanation": "The formula is: \\(\Delta H_{solution} = \\Delta H_{lattice\\ dissociation} + \\Sigma \\Delta H_{hydration}\\). <br>Calculation: \\(+790 + (-406) + (-364) = +20\\ kJ\\ mol^{-1}\\). <br>Because the value is positive, the overall dissolution process absorbs heat from the surroundings.",
+              "hint": "Check whether the question gives lattice *formation* (negative) or lattice *dissociation* (positive). If formation is given, you must reverse the sign before adding hydration enthalpies."
+            },
+            {
+              "category": "Section B: Hydration & Solution",
+              "question": "Explain why a large lattice enthalpy alone cannot determine whether an ionic compound dissolves readily in water.",
+              "answer": "Solubility depends on the balance between the endothermic lattice dissociation enthalpy and the exothermic hydration enthalpies, as well as the entropy change.",
+              "detailed_explanation": "Even if separating the lattice requires a huge amount of energy (large lattice enthalpy), if the ions form extremely strong interactions with water molecules (highly exothermic hydration enthalpies), enough energy can be released to compensate for the lattice breaking. Furthermore, an increase in standard entropy (\\(\Delta S > 0\\)) often drives dissolution.",
+              "hint": "Always link lattice enthalpy to hydration enthalpy as opposing forces in the dissolution cycle."
+            },
+            {
+              "category": "Section B: Entropy",
+              "question": "For the reaction \\(N_2(g) + 3H_2(g) \\rightarrow 2NH_3(g)\\), explain why the sign of \\(\Delta S^\\circ\\) is negative.",
+              "answer": "There is a decrease in the number of gaseous molecules (from 4 moles of reactants to 2 moles of products), leading to a decrease in disorder.",
+              "detailed_explanation": "Entropy (\\(S\\)) is a measure of the dispersal of energy and matter in a system. Gases have high entropy. Since 4 total moles of gas react to form only 2 moles of gas, there are fewer ways for the particles and their energy to be arranged, hence \\(\Delta S\\) is negative.",
+              "hint": "Count the moles of gas on both sides of the equation. Solid and liquid changes are negligible if gas moles change significantly."
+            },
+            {
+              "category": "Section B: Entropy",
+              "question": "Explain why the entropy change for \\(CaCO_3(s) \\rightarrow CaO(s) + CO_2(g)\\) is positive, even though one solid is converted into another solid.",
+              "answer": "The reaction produces a gas (\\(CO_2\\)) from a solid reactant. Gases have significantly higher entropy than solids.",
+              "detailed_explanation": "While a solid (\\(CaO\\)) is produced, the concurrent production of a gas (\\(CO_2\\)) dominates the entropy change. Gas molecules are highly disordered and move freely, resulting in a large increase in the system's overall entropy.",
+              "hint": "Whenever a gas is produced from solids or liquids, expect a large, positive \\(\Delta S\\)."
+            },
+            {
+              "category": "Section C: Gibbs Free Energy",
+              "question": "Write the Gibbs Free Energy equation and state the condition for a reaction to be thermodynamically feasible.",
+              "answer": "\\(\Delta G = \\Delta H - T\\Delta S\\). The reaction is feasible when \\(\Delta G \\le 0\\).",
+              "detailed_explanation": "\\(\Delta G\\) determines whether a reaction can occur spontaneously. <br>- \\(\Delta H\\) is the enthalpy change.<br>- \\(T\\) is the temperature in Kelvin (\\(K\\)).<br>- \\(\Delta S\\) is the entropy change.<br>Ensure \\(\Delta H\\) and \\(\Delta S\\) are converted to the same energy units (usually Joules) before calculating.",
+              "hint": "The most common mistake is forgetting to divide \\(\Delta S\\) by 1000 to convert from J to kJ when calculating \\(\Delta G\\) in kJ mol⁻¹."
+            },
+            {
+              "category": "Section C: Gibbs Free Energy",
+              "question": "A reaction has \\(\Delta H^\\circ = +92\\ kJ\\ mol^{-1}\\) and \\(\Delta S^\\circ = +198\\ J\\ K^{-1}\\ mol^{-1}\\). How do you calculate the boundary temperature where it becomes feasible?",
+              "answer": "Set \\(\Delta G = 0\\). The formula rearranges to \\(T = \\frac{\Delta H}{\Delta S}\\). <br>\\(T = \\frac{92000}{198} \\approx 464.6\\ K\\).",
+              "detailed_explanation": "At the boundary of feasibility, \\(\Delta G = 0\\). Therefore, \\(0 = \\Delta H - T\\Delta S\\), which gives \\(T\\Delta S = \\Delta H\\). Because \\(\Delta H\\) is positive and \\(\Delta S\\) is positive, the reaction becomes feasible (\\(\Delta G < 0\\)) at temperatures *above* 464.6 K.",
+              "hint": "Always convert \\(\Delta H\\) from kJ to J (multiply by 1000) so it matches the units of \\(\Delta S\\) before dividing."
+            },
+            {
+              "category": "Section C: Gibbs Free Energy",
+              "question": "Explain why an endothermic dissolution (where \\(\Delta H > 0\\)) can still be thermodynamically feasible at room temperature.",
+              "answer": "If the dissolution causes a large enough increase in entropy (\\(\Delta S > 0\\)), the term \\(-T\\Delta S\\) will be negative enough to overcome the positive \\(\Delta H\\), making \\(\Delta G \\le 0\\).",
+              "detailed_explanation": "Dissolving an ionic solid breaks down a highly ordered lattice into freely moving aqueous ions, usually resulting in a large positive \\(\Delta S\\). As long as the temperature \\(T\\) is high enough so that \\(T\\Delta S > \\Delta H\\), the overall Gibbs Free Energy change (\\(\Delta G\\)) will be negative, and the salt will dissolve spontaneously despite absorbing heat.",
+              "hint": "This is the classic explanation for why cooling packs work—ammonium nitrate dissolving is endothermic but driven entirely by the massive entropy increase."
+            }
+        ];
+
+        let currentIndex = 0;
+
+        function loadCard() {
+            const card = cards[currentIndex];
+            
+            // Format bold text markdown to HTML
+            const formatText = (text) => text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+
+            document.getElementById("q-category").innerHTML = card.category;
+            document.getElementById("question").innerHTML = formatText(card.question);
+            document.getElementById("answer").innerHTML = formatText(card.answer);
+            document.getElementById("explanation").innerHTML = formatText(card.detailed_explanation);
+            document.getElementById("hint").innerHTML = "<strong>💡 Hint:</strong> " + formatText(card.hint);
+            
+            document.getElementById("progress").innerHTML = `${currentIndex + 1} / ${cards.length}`;
+            
+            // Reset flip
+            document.getElementById("flashcard").classList.remove("is-flipped");
+
+            // Update button states
+            document.getElementById("prevBtn").disabled = currentIndex === 0;
+            document.getElementById("nextBtn").disabled = currentIndex === cards.length - 1;
+            
+            // Re-render MathJax
+            if (window.MathJax) {
+                MathJax.typesetPromise([document.getElementById('flashcard')]).catch(function (err) {
+                    console.log('MathJax error: ' + err.message);
+                });
+            }
+        }
+
+        function flipCard() {
+            document.getElementById("flashcard").classList.toggle("is-flipped");
+        }
+
+        function nextCard() {
+            if (currentIndex < cards.length - 1) {
+                currentIndex++;
+                loadCard();
+            }
+        }
+
+        function prevCard() {
+            if (currentIndex > 0) {
+                currentIndex--;
+                loadCard();
+            }
+        }
+
+        // Initialize
+        window.onload = () => {
+            loadCard();
+        };
+    </script>
+</body>
+</html>
