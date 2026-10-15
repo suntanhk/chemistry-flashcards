@@ -1,0 +1,293 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Chemistry Exam Language Bank - Flashcards</title>
+<style>
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;padding:0;background:#0d1117;color:#e6edf3;font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;line-height:1.5}
+body{padding:env(safe-area-inset-top) 14px calc(env(safe-area-inset-bottom) + 24px) 14px;max-width:720px;margin:0 auto}
+h1{font-size:20px;margin:18px 0 2px;color:#2dd4bf}
+.sub{font-size:13px;color:#8b949e;margin:0 0 12px}
+.bar{height:8px;background:#161b22;border-radius:6px;overflow:hidden;margin:8px 0 4px}
+.bar>div{height:100%;width:0;background:linear-gradient(90deg,#2dd4bf,#a78bfa);transition:width .3s}
+.stats{font-size:12px;color:#8b949e;display:flex;justify-content:space-between;margin-bottom:10px}
+.tabs{display:flex;gap:6px;overflow-x:auto;padding:4px 0 10px;-webkit-overflow-scrolling:touch}
+.tab{flex:0 0 auto;background:#161b22;border:1px solid #30363d;color:#c9d1d9;padding:7px 12px;border-radius:18px;font-size:13px;cursor:pointer}
+.tab.on{background:#2dd4bf;color:#0d1117;border-color:#2dd4bf;font-weight:600}
+.tools{display:flex;gap:8px;margin-bottom:10px}
+.tools button{flex:1;background:#161b22;border:1px solid #30363d;color:#c9d1d9;padding:9px;border-radius:10px;font-size:13px;cursor:pointer}
+.card{background:#161b22;border:1px solid #30363d;border-radius:16px;padding:18px;min-height:330px;cursor:pointer;position:relative}
+.chip{display:inline-block;font-size:11px;letter-spacing:.04em;text-transform:uppercase;color:#a78bfa;border:1px solid #a78bfa;border-radius:10px;padding:2px 9px;margin-bottom:12px}
+.q{font-size:20px;font-weight:600;color:#f0f6fc;margin:6px 0 14px}
+.hint{font-size:13px;color:#8b949e;margin-top:18px}
+.lab{font-size:11px;text-transform:uppercase;letter-spacing:.06em;margin:14px 0 4px}
+.weak .lab{color:#f85149}
+.good .lab{color:#2dd4bf}
+.weak p{margin:0;color:#8b949e;text-decoration:line-through;text-decoration-color:#f8514988;font-size:15px}
+.good p{margin:0;color:#e6edf3;font-size:15.5px;background:#0f2a2a;border-left:3px solid #2dd4bf;padding:10px 12px;border-radius:6px}
+.nav{display:flex;gap:8px;margin-top:12px}
+.nav button{flex:1;padding:13px 6px;border-radius:12px;border:1px solid #30363d;background:#161b22;color:#e6edf3;font-size:14px;cursor:pointer}
+.nav .know{background:#12261e;border-color:#238636;color:#56d364}
+.nav .rev{background:#2b1a1a;border-color:#da3633;color:#ff7b72}
+.count{text-align:center;font-size:12px;color:#8b949e;margin-top:10px}
+.mark{position:absolute;top:14px;right:14px;font-size:12px}
+.mark.k{color:#56d364}
+.mark.r{color:#ff7b72}
+.empty{padding:40px 10px;text-align:center;color:#8b949e}
+</style>
+</head>
+<body>
+<h1>Chemistry Exam Language Bank</h1>
+<p class="sub">Edexcel 9CH0 &middot; Topics 1-10, 13, 17 (A, B), 19 &middot; Say it like the mark scheme</p>
+<div class="bar"><div id="fill"></div></div>
+<div class="stats"><span id="known">Known 0</span><span id="review">To review 0</span><span id="total">0 cards</span></div>
+<div class="tabs" id="tabs"></div>
+<div class="tools"><button id="shuf">Shuffle</button><button id="reset">Reset progress</button></div>
+<div id="stage"></div>
+<div class="nav" id="nav">
+<button id="prev">Prev</button>
+<button class="rev" id="rev">Review</button>
+<button class="know" id="knw">Got it</button>
+<button id="next">Next</button>
+</div>
+<div class="count" id="count"></div>
+
+<script>
+var T={T1:"T1 Atomic structure",T2:"T2 Bonding",T3:"T3 Redox I",T4:"T4 Inorganic",T5:"T5 Amount of substance",T6:"T6 Organic I",T7:"T7 Analytical I",T8:"T8 Energetics I",T9:"T9 Kinetics I",T10:"T10 Equilibrium I",T13:"T13 Energetics II",T17:"T17 Chirality and carbonyls",T19:"T19 Analytical II",SK:"Skills"};
+var C=[
+["T1","Isotopes","Same element, different weight.","Atoms of the same element with the same number of protons but different numbers of neutrons."],
+["T1","Relative atomic mass","The average mass of an atom.","The weighted mean mass of an atom of an element compared with one twelfth of the mass of an atom of carbon-12."],
+["T1","Calculating Ar from mass spectrum data","Add the masses and divide.","Ar = the sum of (isotope mass multiplied by its abundance) divided by the total abundance."],
+["T1","Electron configuration","Electrons go in shells.","Electrons fill the lowest energy subshells first. Each orbital holds a maximum of two electrons with opposite spins, and orbitals of the same subshell are filled singly before they are paired (Hund's rule)."],
+["T1","Chromium and copper","Chromium is an exception.","Chromium is [Ar] 3d5 4s1 and copper is [Ar] 3d10 4s1, because a half-filled or completely filled 3d subshell is more stable."],
+["T1","First ionisation energy","The energy to remove an electron.","The energy required to remove one electron from each atom in one mole of gaseous atoms to form one mole of gaseous 1+ ions."],
+["T1","Ionisation energy trend down a group","It gets easier to remove an electron.","Down a group the outer electron is further from the nucleus and there is more shielding, so the attraction is weaker and the first ionisation energy decreases."],
+["T1","Ionisation energy trend across a period","It gets harder to remove an electron.","Across a period the nuclear charge increases with similar shielding, so the atomic radius decreases and the outer electron is held more strongly, so the first ionisation energy generally increases."],
+["T1","Dip from Mg to Al","Aluminium is different.","The outer electron of aluminium is in a 3p subshell, which is higher in energy than the 3s subshell and shielded by the 3s electrons, so less energy is needed to remove it."],
+["T1","Dip from P to S","Sulfur has paired electrons.","In sulfur the outer 3p electron is paired with another in the same orbital, so electron-electron repulsion makes it easier to remove than the unpaired electron in phosphorus."],
+["T1","Large jump in successive ionisation energies","There is a big jump.","A large increase shows the next electron is being removed from an inner shell, which is closer to the nucleus and less shielded. The number of electrons removed before the jump equals the number of outer electrons, which gives the group."],
+["T1","Melting points across Period 3","Metals melt high and gases melt low.","Sodium to aluminium have metallic bonding that strengthens as ion charge increases and ion size decreases. Silicon is giant covalent, so many strong covalent bonds must be broken. P4, S8 and Cl2 are simple molecules with weak London forces between them, so they have low melting points."],
+
+["T2","Ionic bonding","A metal gives electrons to a non-metal.","The electrostatic attraction between oppositely charged ions in a giant ionic lattice."],
+["T2","Properties of ionic compounds","They conduct when dissolved.","They have high melting points because a lot of energy is needed to overcome the strong electrostatic attraction. They do not conduct when solid because the ions are fixed in position, but conduct when molten or aqueous because the ions are free to move."],
+["T2","Covalent bond","Atoms share electrons.","The electrostatic attraction between a shared pair of electrons and the nuclei of the two bonded atoms."],
+["T2","Dative covalent bond","Both electrons come from one atom.","A shared pair of electrons in which both electrons are supplied by one atom, which donates a lone pair to an electron-deficient atom or ion, for example in NH4+."],
+["T2","Metallic bonding","A sea of electrons.","The electrostatic attraction between positive metal ions and delocalised electrons. Metals conduct because the delocalised electrons carry charge, and are malleable because the layers of ions slide while the bonding is maintained."],
+["T2","VSEPR and lone pairs","The pairs push each other away.","Electron pairs repel to be as far apart as possible. A lone pair repels more than a bonding pair, so bond angles are reduced: CH4 109.5 degrees, NH3 107 degrees, H2O 104.5 degrees."],
+["T2","Molecular shapes","It's a pyramid.","Four bonding pairs: tetrahedral, 109.5 degrees. Three bonding pairs and one lone pair: trigonal pyramidal, 107 degrees. Two bonding pairs and two lone pairs: bent, 104.5 degrees. Three bonding pairs: trigonal planar, 120 degrees. Five: trigonal bipyramidal, 90 and 120 degrees. Six: octahedral, 90 degrees."],
+["T2","Polar bonds and polar molecules","Unequal sharing makes it polar.","A difference in electronegativity gives a polar bond with delta-plus and delta-minus ends. A molecule is polar only if the dipoles do not cancel by symmetry, so CO2 is non-polar although its C=O bonds are polar."],
+["T2","London forces","Weak forces between molecules.","Instantaneous dipole-induced dipole forces. Larger molecules with more electrons have stronger London forces, so more energy is needed to overcome them and the boiling point is higher."],
+["T2","Hydrogen bonding","A strong special bond.","An intermolecular force between a lone pair on N, O or F and a delta-plus hydrogen atom bonded to N, O or F. It explains the high boiling point of water, and ice is less dense because hydrogen bonds hold the molecules in an open lattice."],
+["T2","Giant covalent structures","Diamond is hard and graphite conducts.","In diamond each carbon is bonded to four others by strong covalent bonds, so it is hard and has no free electrons. In graphite each carbon is bonded to three others in layers with delocalised electrons that carry charge, and weak London forces between the layers let them slide."],
+["T2","Simple molecular substances","They have low melting points.","Weak intermolecular forces are overcome, which needs little energy; the covalent bonds within the molecules are not broken. They do not conduct because there are no charged particles that are free to move."],
+
+["T3","Oxidation and reduction","Oxidation is adding oxygen.","Oxidation is the loss of electrons, or an increase in oxidation number. Reduction is the gain of electrons, or a decrease in oxidation number."],
+["T3","Oxidation number rules","Work out the numbers.","An uncombined element is 0. A simple ion has its charge. Oxygen is -2 (except in peroxides, -1) and hydrogen is +1 (except in metal hydrides, -1). The sum equals the overall charge."],
+["T3","Oxidising and reducing agents","The one that is oxidised.","An oxidising agent accepts electrons and is itself reduced. A reducing agent donates electrons and is itself oxidised."],
+["T3","Disproportionation","A substance reacts with itself.","The same element is both oxidised and reduced in one reaction. In Cl2 + 2NaOH giving NaCl + NaClO + H2O, chlorine goes from 0 to -1 (reduced) and to +1 (oxidised)."],
+["T3","Balancing a half-equation","Balance the equation.","Balance the atoms, then balance oxygen with H2O, hydrogen with H+, and charge with electrons. Combine two half-equations so the electrons cancel."],
+["T3","Dichromate and permanganate","It changes colour.","Cr2O7 2- + 14H+ + 6e- giving 2Cr3+ + 7H2O: orange to green. MnO4- + 8H+ + 5e- giving Mn2+ + 4H2O: purple to colourless (or very pale pink)."],
+
+["T4","Reactivity down Group 2","They get more reactive.","Down the group the atomic radius and shielding increase, so the outer two electrons are lost more easily, the ionisation energies are lower, and reactivity increases."],
+["T4","Solubility of Group 2 hydroxides and sulfates","Some dissolve and some don't.","Hydroxide solubility increases down the group, so Mg(OH)2 is the least soluble. Sulfate solubility decreases down the group, so BaSO4 is the least soluble; a white precipitate with barium chloride in acid shows sulfate ions are present."],
+["T4","Thermal stability of carbonates","They break down more easily at the top.","Down the group the cations get larger, so the charge density decreases. The carbonate ion is polarised less, so more energy is needed to decompose it and thermal stability increases."],
+["T4","Trends in Group 7","They get less reactive.","Down the group the boiling point increases because of stronger London forces. The oxidising power decreases because the atoms are larger with more shielding, so an incoming electron is attracted less strongly."],
+["T4","Halogen displacement","Chlorine pushes out bromine.","Chlorine is a stronger oxidising agent than bromine, so it oxidises bromide ions: Cl2 + 2Br- giving 2Cl- + Br2. The solution turns orange."],
+["T4","Halide ion test","Add silver nitrate.","Add dilute nitric acid, then silver nitrate solution. Chloride gives a white precipitate, bromide a cream precipitate and iodide a yellow precipitate. AgCl dissolves in dilute ammonia, AgBr in concentrated ammonia, and AgI does not dissolve."],
+["T4","Halides with concentrated sulfuric acid","Fumes come off.","Chloride gives steamy white fumes of HCl only. Bromide gives HBr, then some is oxidised to orange-brown Br2 and SO2. Iodide is a stronger reducing agent, so it reduces the acid to SO2, sulfur and hydrogen sulfide, which smells of bad eggs."],
+["T4","Chlorine in water and with alkali","Chlorine kills bacteria.","Chlorine disproportionates in water to give HCl and chloric(I) acid, HClO, which kills bacteria. With cold dilute sodium hydroxide it forms NaCl and NaClO (bleach)."],
+["T4","Other anion and cation tests","Test for a gas.","Carbonate: add acid, CO2 turns limewater milky. Sulfate: barium chloride and HCl, white precipitate. Ammonium: warm with NaOH, ammonia turns damp red litmus blue."],
+
+["T5","The mole","An amount of stuff.","The amount of substance that contains 6.02 x 10^23 particles of the stated type (the Avogadro constant)."],
+["T5","Mole formulae","Use the right equation.","n = mass divided by Mr; n = concentration (mol dm-3) x volume (dm3); n = gas volume divided by 24 dm3 mol-1 at room temperature and pressure. Convert cm3 to dm3 by dividing by 1000."],
+["T5","Ideal gas equation","pV = nRT.","pV = nRT with p in Pa, V in m3, T in kelvin and R = 8.31 J K-1 mol-1. Convert cm3 to m3 by dividing by 10^6 and kPa to Pa by multiplying by 1000."],
+["T5","Empirical and molecular formula","The simplest formula.","Divide each mass by its Ar to get moles, divide by the smallest to get the ratio, and scale to whole numbers. The molecular formula is the empirical formula multiplied by Mr divided by the empirical formula mass."],
+["T5","Percentage yield","How much I made.","Percentage yield = actual yield divided by theoretical yield, multiplied by 100. The theoretical yield is from the limiting reagent."],
+["T5","Atom economy","The waste.","Atom economy = Mr of the desired product divided by the sum of the Mr of all products (or reactants), multiplied by 100."],
+["T5","Limiting reagent","The one that runs out.","Calculate the moles of each reactant, divide each by its coefficient in the equation, and the smallest value is the limiting reagent."],
+["T5","Titration calculation","Use the titre to work it out.","Use the mean of concordant titres (within 0.10 cm3). Calculate the moles of the known solution, use the mole ratio from the equation to get the moles of the unknown, then divide by its volume (and scale up for any dilution)."],
+["T5","Significant figures","Round the answer.","Give the final answer to the same number of significant figures as the least precise data, and do not round intermediate values."],
+
+["T6","Homologous series","A family of compounds.","A series of compounds with the same functional group and the same general formula, each member differing from the next by CH2, with similar chemical properties and gradually changing physical properties."],
+["T6","Structural isomers and stereoisomers","Same atoms in a different order.","Structural isomers have the same molecular formula but different structural formulae. Stereoisomers have the same structural formula but a different arrangement of atoms in space."],
+["T6","E/Z isomerism","The groups are on the same or different sides.","It occurs because rotation about the C=C double bond is restricted, and each carbon of the double bond is bonded to two different groups. Z has the higher-priority groups on the same side; E has them on opposite sides."],
+["T6","Cracking","Big molecules are broken up.","Cracking breaks long-chain alkanes into shorter alkanes and alkenes, either thermally (high temperature and pressure) or catalytically (a zeolite catalyst at about 450 degrees C)."],
+["T6","Free radical substitution","Chlorine reacts with methane.","Initiation: UV light breaks Cl2 into two chlorine radicals. Propagation: Cl radical + CH4 gives HCl + methyl radical, then methyl radical + Cl2 gives CH3Cl + Cl radical. Termination: two radicals combine. Further substitution gives a mixture of products."],
+["T6","Electrophilic addition","HBr adds across the double bond.","The pi electrons of the C=C attack the delta-plus hydrogen of HBr (arrow from the double bond to H, and from the H-Br bond to Br), forming a carbocation. A lone pair on Br- then attacks the C+ to form the product."],
+["T6","Major product of addition","The right-hand side gets the bromine.","The more substituted carbocation (secondary rather than primary) is more stable, because alkyl groups push electron density towards the positive carbon, so it forms preferentially and gives the major product."],
+["T6","Test for an alkene","The colour goes away.","Shake with orange bromine water; an alkene decolourises it (orange to colourless)."],
+["T6","Nucleophilic substitution","Hydroxide replaces bromine.","A lone pair on the hydroxide ion (a nucleophile) attacks the delta-plus carbon; the C-Br bond breaks and both electrons go to bromine. Use aqueous NaOH and warm under reflux."],
+["T6","Elimination","Hydrogen bromide is taken out.","Heat with ethanolic potassium hydroxide; the hydroxide ion acts as a base, removing a hydrogen from the carbon next to the C-Br, and the alkene is formed."],
+["T6","Rate of hydrolysis of halogenoalkanes","Iodine reacts fastest.","The C-I bond is the weakest, so it is broken most easily and the iodoalkane reacts fastest. Warm with aqueous silver nitrate in ethanol and time the precipitate: AgI is yellow, AgBr cream, AgCl white."],
+["T6","Oxidation of alcohols","Alcohols turn into other things.","Primary alcohols are oxidised to aldehydes (distil off as they form) then to carboxylic acids (reflux with excess oxidising agent). Secondary alcohols give ketones. Tertiary alcohols are not oxidised. Acidified potassium dichromate changes from orange to green."],
+["T6","Reflux and distillation","Heat the mixture.","Reflux: the vapour condenses and returns to the flask, so volatile reactants and products are not lost and heating can continue. Distillation: the product is removed as it forms, to prevent further oxidation."],
+["T6","Dehydration of an alcohol","Water comes off the alcohol.","Heat the alcohol with concentrated sulfuric acid or phosphoric acid (or pass the vapour over hot aluminium oxide) to form an alkene and water."],
+
+["T7","Molecular ion peak","The tallest peak.","The peak with the highest m/z is the molecular ion, M+, and its m/z equals the relative molecular mass. The tallest peak is the base peak, which is the most abundant ion."],
+["T7","Fragmentation","The molecule breaks up.","The molecular ion fragments into a positive ion, which is detected, and a radical, which is not. Common fragments are 15 (CH3+), 29 (C2H5+), 43 (C3H7+ or CH3CO+) and 57 (C4H9+)."],
+["T7","Infrared spectroscopy","Different bonds show different peaks.","Bonds absorb infrared radiation at characteristic wavenumbers, which makes the bonds vibrate. O-H in an alcohol is broad at 3200 to 3550 cm-1; O-H in a carboxylic acid is very broad at 2500 to 3300; C=O is a strong sharp peak at 1680 to 1750; C-H is at about 2850 to 3100."],
+["T7","Fingerprint region","The bottom part.","The region below about 1500 cm-1, unique to each compound, so it can be matched to a database to identify a compound."],
+["T7","Combining techniques","Use them all.","Use the mass spectrum for Mr and fragments, the infrared spectrum for functional groups, and the molecular formula and fragments to propose a structure; check that every piece of data fits it."],
+
+["T8","Exothermic and endothermic","One gives out heat and one takes it in.","In an exothermic reaction energy is transferred to the surroundings, the enthalpy change is negative and the temperature of the surroundings rises. In an endothermic reaction energy is taken in from the surroundings, the enthalpy change is positive and the temperature falls."],
+["T8","Standard conditions","Normal conditions.","A pressure of 100 kPa, a stated temperature (usually 298 K), and every substance in its standard state."],
+["T8","Enthalpy of formation","Making a compound.","The enthalpy change when one mole of a compound is formed from its elements in their standard states under standard conditions."],
+["T8","Enthalpy of combustion","Burning something.","The enthalpy change when one mole of a substance is completely burned in oxygen under standard conditions."],
+["T8","Hess's law","The route doesn't matter.","The enthalpy change of a reaction is independent of the route taken, provided the initial and final conditions are the same."],
+["T8","Calorimetry calculation","Use the temperature rise.","q = m x c x change in temperature, where m is the mass of water in grams and c = 4.18 J g-1 K-1. Convert q to kJ, divide by the moles reacted, and add the sign: negative if the temperature rose."],
+["T8","Reasons for a calorimetry error","Heat gets lost.","Energy is transferred to the surroundings, combustion is incomplete, the specific heat capacity of the solution is assumed to equal that of water, and the standard conditions are not met. Use a lid and insulation to reduce heat loss."],
+["T8","Mean bond enthalpy","The energy in a bond.","The average energy needed to break one mole of a given bond in the gaseous state, averaged over a range of compounds. Enthalpy change = bonds broken minus bonds formed. The values are means, so the answer is only approximate."],
+
+["T9","Collision theory","They have to collide.","A reaction occurs only when particles collide with energy greater than or equal to the activation energy and with the correct orientation."],
+["T9","Activation energy","The energy to start the reaction.","The minimum energy that colliding particles must have in order to react."],
+["T9","Concentration and pressure","More particles means more reactions.","More particles in the same volume give more frequent collisions, so more successful collisions per unit time and a higher rate."],
+["T9","Surface area","Powder reacts faster.","A larger surface area exposes more particles to collision, so there are more frequent collisions and the rate increases."],
+["T9","Temperature and rate","Heat makes the particles faster.","A higher temperature increases the mean kinetic energy, so a greater proportion of molecules have energy greater than or equal to the activation energy, and collisions are more frequent. The first effect has the greater influence."],
+["T9","Maxwell-Boltzmann distribution","The curve shifts.","The area under the curve is the total number of molecules and stays the same. At a higher temperature the peak is lower and moves to the right, so a greater proportion of molecules are to the right of the activation energy."],
+["T9","Catalyst","It speeds it up and isn't used up.","A catalyst provides an alternative reaction route with a lower activation energy, so at the same temperature a greater proportion of collisions are successful. It is not used up, and it does not change the enthalpy change or the position of equilibrium."],
+
+["T10","Dynamic equilibrium","Both reactions happen equally.","In a closed system the rate of the forward reaction equals the rate of the reverse reaction, so the concentrations of reactants and products stay constant."],
+["T10","Le Chatelier's principle","The equilibrium fights back.","If a change is made to a system at equilibrium, the position of equilibrium shifts in the direction that opposes the change."],
+["T10","Effect of concentration","It moves to the other side.","Adding a reactant shifts the position to the right, using up some of the added reactant; removing a product also shifts it to the right."],
+["T10","Effect of pressure","High pressure favours the product.","Increasing the pressure shifts the position towards the side with fewer moles of gas, which reduces the pressure. If the moles of gas are equal on both sides there is no shift."],
+["T10","Effect of temperature","Heat favours one side.","Increasing the temperature shifts the position in the endothermic direction, which absorbs heat. For an exothermic forward reaction the yield falls."],
+["T10","Effect of a catalyst on equilibrium","It improves the yield.","A catalyst increases the rate of both the forward and reverse reactions equally, so equilibrium is reached faster but the position and the value of Kc do not change."],
+["T10","Kc expression and units","Products over reactants.","Kc is the equilibrium concentration of the products, each raised to the power of its coefficient, divided by that of the reactants. Work out the units by cancelling the concentration units in the expression."],
+["T10","Kc and temperature","Kc changes with conditions.","Kc changes only when the temperature changes. Concentration, pressure and a catalyst do not change Kc."],
+["T10","Industrial compromise","They use a medium temperature.","A lower temperature increases the equilibrium yield of an exothermic reaction, but the rate is too slow. A compromise temperature gives an acceptable rate and yield, for example 450 degrees C for the Haber process with an iron catalyst and 200 atm."],
+
+["T13","Lattice enthalpy of formation","The energy released when a lattice forms.","The enthalpy change when one mole of an ionic solid is formed from its gaseous ions under standard conditions. It is always exothermic."],
+["T13","Lattice enthalpy of dissociation","The energy to break up a lattice.","The enthalpy change when one mole of an ionic solid is broken up into its gaseous ions. It is endothermic and has the same magnitude as the lattice enthalpy of formation."],
+["T13","Born-Haber cycle","Add up all the steps.","Hess's law applied to ionic compounds: enthalpy of formation = atomisation of the metal + ionisation energies + atomisation of the non-metal + electron affinities + lattice enthalpy of formation. Multiply the non-metal steps by the number of atoms in the formula."],
+["T13","Electron affinity","The energy when an electron is added.","The enthalpy change when one mole of gaseous atoms gains one mole of electrons to form one mole of gaseous 1- ions. The first is exothermic; the second, for example O- to O2-, is endothermic because the electron is added to a negative ion."],
+["T13","Factors affecting lattice enthalpy","Bigger ions are weaker.","The lattice enthalpy of formation is more exothermic when the ionic charge is greater and the ionic radius is smaller, because the electrostatic attraction between the ions is stronger. MgO is more exothermic than NaCl."],
+["T13","Theoretical and experimental lattice enthalpy","The values are different.","The theoretical value assumes a purely ionic model with spherical ions. The experimental value is more exothermic because of covalent character, where a small, highly charged cation polarises the anion and adds extra bonding."],
+["T13","Enthalpy of hydration and solution","Dissolving a salt.","Enthalpy of hydration: the enthalpy change when one mole of gaseous ions forms aqueous ions. Enthalpy of solution = lattice enthalpy of dissociation + the enthalpies of hydration of the ions."],
+["T13","Entropy","Disorder.","A measure of the number of ways that particles and energy can be arranged. Gases have a higher entropy than liquids, and liquids higher than solids. Entropy increases when a gas is produced or a solid dissolves."],
+["T13","Entropy change of a reaction","Products minus reactants.","The entropy change of the system = the sum of the entropies of the products minus the sum of the entropies of the reactants. The entropy change of the surroundings = minus the enthalpy change divided by the temperature (in kelvin)."],
+["T13","Free energy and feasibility","It will happen.","The Gibbs free energy change = enthalpy change minus (temperature x entropy change). A reaction is feasible when it is zero or negative. The minimum temperature is found by setting it equal to zero: T = enthalpy change divided by entropy change. Convert kJ to J first."],
+["T13","Feasible but not happening","The reaction is slow.","A reaction can be feasible but not occur because the activation energy is too high, so the rate is too slow. Feasibility says nothing about the rate."],
+
+["T17","Chiral centre","A carbon with four different things.","A carbon atom bonded to four different atoms or groups. The molecule has a non-superimposable mirror image, which gives a pair of enantiomers."],
+["T17","Optical activity","It rotates the light.","Enantiomers rotate the plane of plane-polarised light in opposite directions by equal amounts. One is dextrorotatory (+) and the other is laevorotatory (-)."],
+["T17","Racemic mixture","A mixture of both.","An equimolar mixture of two enantiomers. It is optically inactive because the rotations of the two enantiomers cancel out."],
+["T17","Polarity of the carbonyl group","The oxygen is greedy.","Oxygen is more electronegative than carbon, so the C=O bond is polar with a delta-plus carbon and a delta-minus oxygen. The delta-plus carbon is attacked by nucleophiles."],
+["T17","Nucleophilic addition with HCN","Cyanide adds to the carbonyl.","A lone pair on the carbon of CN- attacks the delta-plus carbon (arrow from the lone pair to C). The C=O bond breaks, with the electrons going to oxygen (arrow from the bond to O). A lone pair on O- then takes H+ from HCN (or water) to give the hydroxynitrile."],
+["T17","Why the product is racemic","It forms a mixture.","The carbonyl group is planar, so the nucleophile can attack from either side with equal probability. This forms equal amounts of both enantiomers, and the mixture does not rotate polarised light."],
+["T17","Reduction of carbonyls","Add hydrogen.","NaBH4 in aqueous solution (or LiAlH4 in dry ether) acts as a source of hydride ions, H-, which are nucleophiles. Aldehydes are reduced to primary alcohols and ketones to secondary alcohols."],
+["T17","Distinguishing an aldehyde from a ketone","Do a test.","Warm with Tollens' reagent: an aldehyde forms a silver mirror and a ketone does not. Alternatively, warm with acidified potassium dichromate: an aldehyde turns it from orange to green and a ketone does not change."],
+["T17","Test for a carbonyl group","The solution changes colour.","Add 2,4-dinitrophenylhydrazine (2,4-DNPH): an orange or yellow precipitate shows an aldehyde or ketone. Filter, recrystallise and measure the melting point, then compare it with a database to identify the compound."],
+["T17","Why chirality matters in medicines","It's important in drugs.","Enantiomers can have different biological effects, because enzymes and receptors are chiral and one enantiomer fits better. A single enantiomer is often needed, which makes it important to make or separate pure enantiomers."],
+
+["T19","What NMR shows","It tells you about the hydrogens.","NMR uses radio waves to detect nuclei in a magnetic field. Each peak is a different environment of hydrogen (or carbon) atoms in the molecule."],
+["T19","Chemical shift","Where the peak is.","The position of a peak in ppm relative to TMS, which is at 0 ppm. It depends on the chemical environment: nearby electronegative atoms or groups move the peak to a higher shift."],
+["T19","Number of peaks","How many hydrogens.","The number of peaks equals the number of different environments, not the number of hydrogens. In 13C NMR it equals the number of different carbon environments."],
+["T19","Integration","The size of the peak.","The area under each peak is proportional to the number of hydrogen atoms in that environment, which gives the ratio of hydrogens."],
+["T19","Splitting pattern","The peak splits.","The n + 1 rule: a signal is split into n + 1 peaks by n hydrogens on the adjacent carbon. A quartet means three hydrogens on the adjacent carbon, a triplet two, a doublet one, and a singlet none."],
+["T19","OH and exchange with D2O","The OH peak goes away.","Shaking with D2O replaces the OH hydrogen with deuterium, which does not appear in the spectrum, so the OH peak disappears. This identifies the OH peak."],
+["T19","Why TMS is used","It is the standard.","TMS gives a single, sharp peak because its 12 hydrogens are all equivalent. It is inert, volatile (easily removed), and its peak is at a shift away from most others."],
+["T19","Solvents in proton NMR","The solvent is a liquid.","A deuterated solvent such as CDCl3 or D2O is used, or a solvent with no hydrogen such as CCl4, so the solvent gives no proton signals that would mask the sample's peaks."],
+["T19","Thin-layer chromatography","The spots separate.","Rf = distance moved by the spot divided by distance moved by the solvent front. Components that are more soluble in the mobile phase, or adsorbed less strongly on the stationary phase, move further."],
+["T19","Gas chromatography and GC-MS","It separates a mixture.","Components are separated by their different retention times, depending on how strongly each interacts with the stationary phase. In GC-MS, each separated component is then passed into a mass spectrometer, which gives its molecular ion and fragments for identification."],
+["T19","Deducing a structure","Look at everything.","Use the mass spectrum for Mr, the infrared spectrum for functional groups, the carbon-13 NMR for the number of carbon environments, and the proton NMR for the environments, ratio and neighbours. Check that the proposed structure matches every piece of data."],
+
+["SK","Showing working in calculations","Write the answer.","Write the formula, substitute the values with units, then give the answer with units and to the correct significant figures. A wrong answer with correct working still earns the method marks."],
+["SK","Units","Forget the unit or use the wrong one.","Give units on every final answer: mol, g, mol dm-3, kJ mol-1, J K-1 mol-1. Convert J and kJ before combining them in a free energy calculation."],
+["SK","Percentage uncertainty","The error as a percentage.","Percentage uncertainty = (uncertainty divided by the measured value) x 100. A burette reading has an uncertainty of +/-0.05 cm3, and a titre uses two readings, so the total is +/-0.10 cm3."],
+["SK","Combining uncertainties","Add them up.","When quantities are added or subtracted, add the absolute uncertainties. When they are multiplied or divided, add the percentage uncertainties."],
+["SK","Titration technique","Add the acid slowly and see when it changes.","Rinse the burette with the solution it will contain, remove the funnel, read the bottom of the meniscus at eye level, swirl, add dropwise near the end point, and use a white tile. Repeat until two titres are concordant (within 0.10 cm3)."],
+["SK","Why do a rough titration","To practise.","A rough titre gives the approximate volume of the end point, so the accurate titrations can add the solution dropwise as the end point is approached."],
+["SK","Making a standard solution","Mix the solid with water.","Weigh by difference, dissolve the solid in a beaker with distilled water, transfer it to a volumetric flask rinsing the beaker and funnel into the flask, make up to the mark with the bottom of the meniscus on the line, and invert to mix."],
+["SK","Random and systematic errors","Mistakes in the experiment.","Random errors vary from reading to reading and are reduced by repeating and averaging. A systematic error shifts all the results in the same direction and is reduced by improving the method or the instrument."],
+["SK","Accuracy and precision","They mean the same.","Accuracy is how close a result is to the true value; precision is how close repeated results are to each other."],
+["SK","Mechanism arrows","Draw arrows to show electrons moving.","A curly arrow starts from a lone pair or a bond (or a negative charge), never from an atom, and its head points to the atom or bond that receives the electron pair. Show delta-plus and delta-minus on polar bonds and lone pairs on nucleophiles."],
+["SK","Structuring a six-mark answer","Write everything I know about the topic.","List six or more separate points first. Open with a direct answer, write one point per sentence using key terms and links such as so or which means, do not repeat a point, and for a structure question check the structure against all the data."]
+];
+
+var KEY="chemLangProgress";
+var prog={};
+try{prog=JSON.parse(localStorage.getItem(KEY)||"{}")}catch(e){prog={}}
+function save(){try{localStorage.setItem(KEY,JSON.stringify(prog))}catch(e){}}
+function cid(i){return C[i][0]+":"+C[i][1]}
+
+var tabKey="ALL",order=[],pos=0,flipped=false;
+var tabsEl=document.getElementById("tabs"),stage=document.getElementById("stage"),countEl=document.getElementById("count");
+
+function tabList(){
+  var l=[["ALL","All"],["REV","To review"]];
+  for(var k in T)l.push([k,T[k]]);
+  return l;
+}
+function buildTabs(){
+  tabsEl.innerHTML="";
+  tabList().forEach(function(t){
+    var b=document.createElement("div");b.className="tab"+(t[0]===tabKey?" on":"");b.textContent=t[1];
+    b.onclick=function(){tabKey=t[0];pos=0;flipped=false;makeOrder();buildTabs();render()};
+    tabsEl.appendChild(b);
+  });
+}
+function makeOrder(){
+  order=[];
+  for(var i=0;i<C.length;i++){
+    if(tabKey==="ALL"||C[i][0]===tabKey||(tabKey==="REV"&&prog[cid(i)]==="r"))order.push(i);
+  }
+}
+function stats(){
+  var k=0,r=0;
+  for(var i=0;i<C.length;i++){var s=prog[cid(i)];if(s==="k")k++;else if(s==="r")r++}
+  document.getElementById("known").textContent="Known "+k;
+  document.getElementById("review").textContent="To review "+r;
+  document.getElementById("total").textContent=C.length+" cards";
+  document.getElementById("fill").style.width=(C.length?Math.round(k/C.length*100):0)+"%";
+}
+function el(tag,cls,text){var e=document.createElement(tag);if(cls)e.className=cls;if(text!==undefined)e.textContent=text;return e}
+function render(){
+  stats();stage.innerHTML="";
+  if(!order.length){stage.appendChild(el("div","empty","No cards here yet. Mark some cards as Review to see them in this tab."));countEl.textContent="";return}
+  if(pos>=order.length)pos=0;if(pos<0)pos=order.length-1;
+  var i=order[pos],c=C[i];
+  var card=el("div","card");
+  card.appendChild(el("div","chip",T[c[0]]));
+  var s=prog[cid(i)];
+  if(s==="k")card.appendChild(el("div","mark k","Known"));
+  if(s==="r")card.appendChild(el("div","mark r","Review"));
+  card.appendChild(el("div","q",c[1]));
+  if(!flipped){
+    card.appendChild(el("div","hint","Write your answer in full sentences, then tap the card to see the exam-language answer."));
+  }else{
+    var w=el("div","weak");w.appendChild(el("div","lab","Own words - loses marks"));w.appendChild(el("p","",c[2]));card.appendChild(w);
+    var g=el("div","good");g.appendChild(el("div","lab","Exam language - scores"));g.appendChild(el("p","",c[3]));card.appendChild(g);
+  }
+  card.onclick=function(){flipped=!flipped;render()};
+  stage.appendChild(card);
+  countEl.textContent=(pos+1)+" / "+order.length;
+}
+function go(d){pos+=d;flipped=false;render()}
+function mark(v){
+  if(!order.length)return;
+  prog[cid(order[pos])]=v;save();
+  if(tabKey==="REV"&&v==="k"){makeOrder();flipped=false;render();return}
+  go(1);
+}
+document.getElementById("prev").onclick=function(){go(-1)};
+document.getElementById("next").onclick=function(){go(1)};
+document.getElementById("knw").onclick=function(){mark("k")};
+document.getElementById("rev").onclick=function(){mark("r")};
+document.getElementById("shuf").onclick=function(){
+  for(var i=order.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=order[i];order[i]=order[j];order[j]=t}
+  pos=0;flipped=false;render();
+};
+document.getElementById("reset").onclick=function(){
+  if(confirm("Reset all progress?")){prog={};save();makeOrder();pos=0;flipped=false;render()}
+};
+document.addEventListener("keydown",function(e){
+  if(e.key==="ArrowRight")go(1);
+  else if(e.key==="ArrowLeft")go(-1);
+  else if(e.key===" "){e.preventDefault();flipped=!flipped;render()}
+});
+buildTabs();makeOrder();render();
+</script>
+</body>
+</html>
